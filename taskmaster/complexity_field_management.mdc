@@ -1,0 +1,855 @@
+---
+description: Enhanced complexity field management for context-driven development with hierarchical task and subtask complexity analysis
+globs: .taskmaster/tasks/tasks.json
+alwaysApply: false
+---
+
+# Complexity Field Management
+
+This rule defines the comprehensive system for managing complexity fields in Taskmaster tasks and subtasks, ensuring context-driven development with proper risk mitigation and implementation readiness validation.
+
+## Core Principles
+
+- **Context-Driven Development**: Every task and subtask must have complete context before implementation
+- **Hierarchical Complexity**: Both parent tasks and subtasks have independent complexity analysis
+- **Risk Mitigation**: Identify and mitigate risks before implementation begins
+- **Implementation Gates**: Prevent premature development through context completeness validation
+- **Audit Trail**: Maintain complete timestamped history of context gathering and decisions
+
+## Complexity Field Structure
+
+### Complete Schema Definition
+
+```yaml
+complexity:
+  score: 1-10 # Current analysis score (1=trivial, 10=extremely complex)
+  context_requirements:
+    questions: [] # Questions that need answers before implementation
+    inputs: [] # Required input information and documentation
+    dependencies: [] # External dependencies and prerequisites
+    risks: [] # Potential risks and blockers
+  context_answers: # Developer-populated context (initially empty)
+    questions_answered: [] # Q&A pairs with timestamps and sources
+    inputs_provided: [] # Input information gathered with status
+    dependencies_resolved: [] # Dependency status and resolution details
+    risks_mitigated: [] # Risk mitigation strategies and outcomes
+    research_findings: [] # Research results with sources and timestamps
+    stakeholder_input: [] # Stakeholder feedback and decisions
+    technical_decisions: [] # Technical choices made with rationale
+  gathering_strategy:
+    research_needed: boolean # Requires research using research tool
+    stakeholder_input: boolean # Requires stakeholder consultation
+    technical_validation: boolean # Requires technical review/validation
+    context_complete: boolean # Gate for implementation (must be true)
+  metadata:
+    last_analyzed: timestamp # When complexity was last analyzed
+    context_gathered: timestamp # When context was last updated
+    implementation_ready: boolean # Ready for development (derived from context_complete)
+```
+
+### Context Answers Structure
+
+```yaml
+context_answers:
+  questions_answered:
+    - question: 'What is the question?'
+      answer: 'The answer with details'
+      source: 'research|stakeholder|technical_analysis'
+      timestamp: '2025-01-15T10:30:00Z'
+      confidence: 'high|medium|low'
+
+  inputs_provided:
+    - input: 'Description of input needed'
+      status: 'gathered|analyzed|documented|validated'
+      source: 'documentation|code_review|stakeholder'
+      timestamp: '2025-01-15T10:30:00Z'
+      notes: 'Additional context or findings'
+
+  dependencies_resolved:
+    - dependency: 'Description of dependency'
+      status: 'resolved|in_progress|blocked|not_applicable'
+      resolution: 'How it was resolved or current status'
+      timestamp: '2025-01-15T10:30:00Z'
+      blocker: 'If blocked, what is blocking it'
+
+  risks_mitigated:
+    - risk: 'Description of risk'
+      severity: 'high|medium|low'
+      mitigation: 'Mitigation strategy implemented'
+      status: 'mitigated|monitored|accepted'
+      timestamp: '2025-01-15T10:30:00Z'
+      residual_risk: 'Any remaining risk after mitigation'
+
+  research_findings:
+    - topic: 'Research topic or question'
+      finding: 'Key finding or conclusion'
+      source: 'URL, documentation, or reference'
+      confidence: 'high|medium|low'
+      timestamp: '2025-01-15T10:30:00Z'
+      relevance: 'How this applies to the task'
+
+  stakeholder_input:
+    - stakeholder: 'Who provided input'
+      input_type: 'requirement|constraint|decision|feedback'
+      content: 'What they said or decided'
+      timestamp: '2025-01-15T10:30:00Z'
+      impact: 'How this affects implementation'
+
+  technical_decisions:
+    - decision: 'Technical choice made'
+      rationale: 'Why this decision was made'
+      alternatives: 'Other options considered'
+      implications: 'What this means for implementation'
+      timestamp: '2025-01-15T10:30:00Z'
+      confidence: 'high|medium|low'
+```
+
+## Role Responsibilities
+
+### Scrum Master (AI Agent) Responsibilities
+
+#### Task Creation and Initial Analysis
+
+- **Populate Initial Complexity**: When creating or updating tasks, always include complete complexity field structure
+- **Complexity Scoring**: Use `analyze_project_complexity` tool to generate accurate complexity scores (1-10)
+- **Context Requirements**: Generate comprehensive `context_requirements` based on task scope and dependencies
+- **Gathering Strategy**: Set appropriate flags for `research_needed`, `stakeholder_input`, and `technical_validation`
+
+#### Task Expansion and Subtask Management
+
+- **Subtask Complexity Inheritance**: Ensure all subtasks inherit complexity field structure from parent
+- **Subtask-Specific Analysis**: Generate subtask-specific complexity requirements based on their scope
+- **Dependency Mapping**: Update complexity dependencies to reflect subtask relationships
+- **Risk Propagation**: Ensure risks are properly identified at both parent and subtask levels
+
+#### Quality Assurance and Validation
+
+- **Context Completeness Check**: Validate that `context_complete: true` before allowing implementation
+- **Complexity Updates**: Update complexity when task scope changes or new information emerges
+- **Implementation Gates**: Prevent development on tasks with incomplete context
+- **Progress Monitoring**: Track context gathering progress across tasks and subtasks
+
+### Developer Responsibilities
+
+#### Context Gathering and Documentation
+
+- **Answer Questions**: Populate `questions_answered` with detailed, timestamped responses
+- **Provide Inputs**: Document all required inputs in `inputs_provided` with status and sources
+- **Resolve Dependencies**: Update `dependencies_resolved` with current status and blockers
+- **Mitigate Risks**: Document risk mitigation strategies in `risks_mitigated`
+
+#### Research and Technical Analysis
+
+- **Research Integration**: Use `research` tool to populate `research_findings` with current best practices
+- **Codebase Analysis**: Analyze actual codebase to understand current implementation patterns
+- **Technical Decisions**: Record all technical choices in `technical_decisions` with rationale
+- **Stakeholder Consultation**: Document stakeholder input when `stakeholder_input: true`
+- **Validation**: Perform technical validation when `technical_validation: true`
+
+#### Codebase Analysis Approach
+
+When `research_needed: true` or `technical_validation: true`, consider supplementing external research with codebase analysis:
+
+- **Analyze Current Patterns**: Use codebase search tools to understand existing implementation patterns
+- **Review Existing Code**: Examine current controllers, services, and error handling to identify inconsistencies
+- **Identify Integration Points**: Find specific areas that need standardization or updates
+- **Document Current State**: Capture actual implementation details before making changes
+
+**Codebase Analysis Tools Available:**
+
+- `codebase_search`: Semantic search for patterns and implementations
+- `grep`: Exact string/regex searches for specific code patterns
+- `read_file`: Direct file analysis for detailed code review
+- `list_dir`: Directory structure analysis for understanding organization
+
+**Note:** Codebase analysis should be performed using Cursor tools (codebase_search, grep, read_file, list_dir) to ensure comprehensive understanding of the actual implementation patterns and current state of the codebase.
+
+#### **CRITICAL: Manual Context Answer Population**
+
+**⚠️ IMPORTANT: Context answers must be populated MANUALLY by editing tasks.json directly.**
+
+**Why Manual Editing is Required:**
+
+- Task Master tools (`update_task`, `update_subtask`) have limitations and may fail
+- Manual editing ensures complete control over context answer structure
+- Direct JSON editing provides better error handling and validation
+- Manual approach is more reliable for complex context answer structures
+
+**Manual Context Answer Population Process:**
+
+1. **Gather Context Information**:
+
+   - Use research tools, codebase analysis, and stakeholder input
+   - Document findings with timestamps and sources
+   - Record technical decisions with rationale
+
+2. **Edit tasks.json Directly**:
+
+   ```json
+   {
+     "id": 28,
+     "complexity": {
+       "context_answers": {
+         "questions_answered": [
+           {
+             "question": "What are all the API endpoints that need documentation coverage?",
+             "answer": "17 main route categories with 50+ individual endpoints...",
+             "source": "codebase_analysis",
+             "timestamp": "2025-09-11T15:20:39.457Z",
+             "confidence": "high"
+           }
+         ],
+         "inputs_provided": [
+           {
+             "input": "Current API endpoint implementations and routes",
+             "status": "analyzed",
+             "source": "codebase_analysis",
+             "timestamp": "2025-09-11T15:20:39.457Z",
+             "notes": "Identified 17 main routes with 50+ endpoints"
+           }
+         ],
+         "dependencies_resolved": [
+           {
+             "dependency": "Task 27: Standardize API Response Formats",
+             "status": "resolved",
+             "resolution": "Completed and provides foundation",
+             "timestamp": "2025-09-11T15:24:36.819Z",
+             "blocker": "None"
+           }
+         ],
+         "risks_mitigated": [
+           {
+             "risk": "Documentation becoming outdated",
+             "severity": "medium",
+             "mitigation": "Automated validation pipeline",
+             "status": "mitigated",
+             "timestamp": "2025-09-11T15:24:36.819Z",
+             "residual_risk": "Low - automated validation prevents outdated documentation"
+           }
+         ],
+         "research_findings": [
+           {
+             "topic": "API Endpoint Coverage Analysis",
+             "finding": "17 main route categories with 50+ individual endpoints identified",
+             "source": "codebase_analysis",
+             "confidence": "high",
+             "timestamp": "2025-09-11T15:20:39.457Z",
+             "relevance": "Complete endpoint inventory for documentation coverage"
+           }
+         ],
+         "stakeholder_input": [
+           {
+             "stakeholder": "Development Team",
+             "input_type": "technical_decision",
+             "content": "Approved comprehensive API documentation update",
+             "timestamp": "2025-09-11T15:24:36.819Z",
+             "impact": "Implementation approach confirmed"
+           }
+         ],
+         "technical_decisions": [
+           {
+             "decision": "Use existing error response format from Task 27",
+             "rationale": "Leverage completed standardization work",
+             "alternatives": "Create new error response format",
+             "implications": "Consistent error response documentation",
+             "timestamp": "2025-09-11T15:24:36.819Z",
+             "confidence": "high"
+           }
+         ]
+       }
+     }
+   }
+   ```
+
+3. **Set Context Complete**:
+
+   ```json
+   {
+     "complexity": {
+       "gathering_strategy": {
+         "context_complete": true
+       },
+       "metadata": {
+         "context_gathered": "2025-09-11T15:24:36.819Z",
+         "implementation_ready": true
+       }
+     }
+   }
+   ```
+
+4. **Validate JSON Structure**:
+   ```bash
+   # Validate JSON syntax
+   python -m json.tool .taskmaster/tasks/tasks.json > /dev/null
+   ```
+
+**Benefits of Manual Context Answer Population:**
+
+- **Reliability**: No dependency on tool call success/failure
+- **Control**: Complete control over context answer structure and formatting
+- **Validation**: Direct JSON validation ensures proper structure
+- **Flexibility**: Can handle complex context answer structures
+- **Audit Trail**: Complete timestamped history of all context gathering
+
+**Fallback Strategy:**
+
+- **Primary**: Use Task Master tools when they work
+- **Fallback**: Manual editing of tasks.json when tools fail
+- **Validation**: Always validate JSON structure after manual edits
+- **Backup**: Keep backup of tasks.json before major edits
+
+#### Implementation Readiness
+
+- **Context Completion**: Mark `context_complete: true` only when all requirements are met
+- **Implementation Gates**: Do not start coding until `implementation_ready: true`
+- **Progress Updates**: Use manual editing to log context gathering progress
+- **Decision Documentation**: Maintain complete audit trail of all decisions and findings
+
+## Workflow Integration
+
+### Task Creation Workflow
+
+1. **Create Task**: Use `add_task` with comprehensive description
+2. **Analyze Complexity**: Run `analyze_project_complexity` to get initial score
+3. **Manually Add Complexity Structure**: **CRITICAL** - Task Master tools do NOT automatically add complete complexity field structure. Must manually edit tasks.json file to add the complete complexity schema
+4. **Set Gathering Strategy**: Configure research, stakeholder, and validation requirements
+5. **Validate Structure**: Ensure all required fields are present and properly formatted
+
+### Task Expansion Workflow
+
+1. **Expand Task**: Use `expand_task` to create subtasks
+2. **Manually Add Complexity to Subtasks**: **CRITICAL** - Subtasks created by `expand_task` do NOT automatically inherit complexity field structure. Must manually edit tasks.json file to add complete complexity schema to each subtask
+3. **Subtask Analysis**: Generate subtask-specific complexity requirements
+4. **Dependency Updates**: Update complexity dependencies to reflect subtask relationships
+5. **Risk Assessment**: Identify and document risks at both parent and subtask levels
+
+### Context Gathering Workflow
+
+1. **Review Requirements**: Examine `context_requirements` for the task/subtask
+2. **Research Phase**: Use `research` tool if `research_needed: true`
+3. **Stakeholder Consultation**: Gather input if `stakeholder_input: true`
+4. **Technical Validation**: Perform validation if `technical_validation: true`
+5. **Document Findings**: **MANUALLY EDIT tasks.json** to populate all relevant `context_answers` fields
+6. **Mark Complete**: **MANUALLY SET** `context_complete: true` when all requirements met
+
+**⚠️ CRITICAL: Steps 5 and 6 must be done by manually editing tasks.json file directly.**
+
+### Implementation Workflow
+
+1. **Context Check**: Verify `context_complete: true` and `implementation_ready: true`
+2. **Reference Context**: Use populated `context_answers` during development
+3. **Update Progress**: Use `update_subtask` to log implementation progress
+4. **Document Decisions**: Record any new technical decisions made during implementation
+5. **Mark Complete**: Use `set_task_status` when implementation is finished
+
+## Complexity Scoring Guidelines
+
+### Score Definitions
+
+- **1-2 (Trivial)**: Simple, well-defined tasks with clear requirements
+- **3-4 (Low)**: Straightforward tasks with minimal dependencies
+- **5-6 (Medium)**: Moderate complexity with some dependencies and risks
+- **7-8 (High)**: Complex tasks requiring significant analysis and coordination
+- **9-10 (Extreme)**: Highly complex tasks with multiple dependencies and high risk
+
+### Scoring Factors
+
+- **Technical Complexity**: Architecture, algorithms, integration complexity
+- **Dependency Count**: Number of external dependencies and prerequisites
+- **Risk Level**: Potential for failure, security issues, or performance problems
+- **Stakeholder Involvement**: Level of stakeholder input and coordination required
+- **Research Requirements**: Amount of research and analysis needed
+- **Implementation Scope**: Size and scope of implementation effort
+
+## Context Requirements Generation
+
+### Question Generation Guidelines
+
+- **Technical Questions**: Architecture, implementation approach, technology choices
+- **Business Questions**: Requirements, constraints, success criteria
+- **Integration Questions**: Dependencies, interfaces, compatibility
+- **Risk Questions**: Potential issues, mitigation strategies, fallback plans
+
+### Input Requirements
+
+- **Documentation**: Specifications, requirements, design documents
+- **Code Analysis**: Existing code, patterns, standards
+- **Research**: Best practices, examples, benchmarks
+- **Stakeholder Input**: Requirements, constraints, decisions
+
+### Dependency Identification
+
+- **Technical Dependencies**: Libraries, frameworks, services
+- **Task Dependencies**: Other tasks that must be completed first
+- **Resource Dependencies**: People, tools, environments
+- **External Dependencies**: Third-party services, APIs, data
+
+### Risk Assessment
+
+- **Technical Risks**: Implementation challenges, performance issues
+- **Business Risks**: Requirements changes, stakeholder conflicts
+- **Integration Risks**: Compatibility issues, dependency failures
+- **Security Risks**: Vulnerabilities, data exposure, access control
+
+## Quality Gates and Validation
+
+### Context Completeness Validation
+
+- **All Questions Answered**: Every question in `context_requirements.questions` must have a corresponding answer
+- **All Inputs Provided**: Every input in `context_requirements.inputs` must be documented
+- **Dependencies Resolved**: All dependencies must have clear status and resolution
+- **Risks Mitigated**: All risks must have mitigation strategies or acceptance rationale
+- **Research Complete**: If `research_needed: true`, research findings must be documented
+- **Stakeholder Input**: If `stakeholder_input: true`, stakeholder input must be recorded
+- **Technical Validation**: If `technical_validation: true`, validation must be completed
+
+### Implementation Readiness Criteria
+
+- **Context Complete**: `context_complete: true` must be set
+- **Dependencies Met**: All task dependencies must be marked as `done`
+- **Risks Addressed**: All high-severity risks must be mitigated
+- **Technical Decisions**: All major technical decisions must be documented
+- **Implementation Plan**: Clear understanding of how to implement the task
+
+## Error Handling and Edge Cases
+
+### Missing Complexity Fields
+
+- **Detection**: Check for presence of complexity field in all tasks and subtasks
+- **Remediation**: **MANUAL PROCESS REQUIRED** - Task Master tools do NOT automatically add complexity fields. Must manually edit tasks.json file to add complete complexity field structure with default values
+- **Validation**: Ensure all required fields are present and properly formatted
+
+### Incomplete Context
+
+- **Detection**: Check `context_complete: false` for tasks marked as `in-progress`
+- **Remediation**: Guide developer to complete context gathering
+- **Prevention**: Block task status changes to `in-progress` until context complete
+
+### Complexity Score Mismatch
+
+- **Detection**: Compare complexity score with actual task scope and requirements
+- **Remediation**: Re-run complexity analysis and update score if needed
+- **Validation**: Ensure score reflects actual implementation complexity
+
+### Dependency Conflicts
+
+- **Detection**: Check for circular dependencies or missing prerequisites
+- **Remediation**: Resolve dependency conflicts before allowing implementation
+- **Prevention**: Validate dependencies during task creation and updates
+
+### Subtask Dependency Format Issues
+
+- **Detection**: Subtask dependencies must use integer format, not strings or floats
+- **Common Error**: Using `"27.1"` or `27.1` (float) instead of `27` (integer) for subtask dependencies
+- **Correct Format**: Subtasks should reference other subtasks by their numeric ID within the same parent task
+  - ✅ Correct: `"dependencies": [1, 2, 3]` (references subtasks 1, 2, 3 within same parent)
+  - ❌ Incorrect: `"dependencies": ["27.1", "27.2"]` (string format)
+  - ❌ Incorrect: `"dependencies": [27.1, 27.2]` (float format)
+- **Remediation**: Convert all subtask dependencies to integer format
+- **Validation**: Ensure JSON schema validation passes with integer dependency arrays
+- **Example**: For task 27 subtasks:
+  - Subtask 27.2 depends on 27.1 → `"dependencies": [1]`
+  - Subtask 27.3 depends on 27.1, 27.2 → `"dependencies": [1, 2]`
+  - Subtask 27.4 depends on 27.1, 27.2, 27.3 → `"dependencies": [1, 2, 3]`
+
+## Manual Complexity Field Addition Process
+
+### Critical Implementation Note
+
+**Task Master tools do NOT automatically add complete complexity field structures.** This is a critical limitation that requires manual intervention:
+
+#### What Task Master Tools Do:
+
+- `add_task`: Creates basic task structure with `complexityScore` field only
+- `expand_task`: Creates subtasks with basic structure, no complexity fields
+- `update_task`: Updates task content but does not add complexity structure
+- `analyze_project_complexity`: Generates complexity scores but does not add structure
+
+#### What Must Be Done Manually:
+
+- **Edit tasks.json file directly** to add complete complexity field structure
+- **Add complexity fields to all tasks and subtasks** that lack them
+- **Ensure proper JSON formatting** and schema compliance
+- **Validate structure** after manual additions
+
+#### Manual Addition Process:
+
+1. **Identify Missing Complexity Fields**:
+
+   ```bash
+   # Check for tasks without complexity field
+   grep -L '"complexity"' .taskmaster/tasks/tasks.json
+   ```
+
+2. **Add Complete Complexity Structure**:
+
+   ```json
+   {
+     "id": 28,
+     "title": "Task Title",
+     "status": "pending",
+     "complexity": {
+       "score": 6,
+       "context_requirements": {
+         "questions": [],
+         "inputs": [],
+         "dependencies": [],
+         "risks": []
+       },
+       "context_answers": {
+         "questions_answered": [],
+         "inputs_provided": [],
+         "dependencies_resolved": [],
+         "risks_mitigated": [],
+         "research_findings": [],
+         "stakeholder_input": [],
+         "technical_decisions": []
+       },
+       "gathering_strategy": {
+         "research_needed": true,
+         "stakeholder_input": true,
+         "technical_validation": true,
+         "context_complete": false
+       },
+       "metadata": {
+         "last_analyzed": "2025-01-15T10:30:00Z",
+         "context_gathered": null,
+         "implementation_ready": false
+       }
+     }
+   }
+   ```
+
+3. **Validate JSON Structure**:
+
+   ```bash
+   # Validate JSON syntax
+   python -m json.tool .taskmaster/tasks/tasks.json > /dev/null
+   ```
+
+4. **Verify Complexity Fields**:
+   ```bash
+   # Check all tasks have complexity field
+   jq '.master.tasks[] | select(has("complexity") | not)' .taskmaster/tasks/tasks.json
+   ```
+
+#### Tools Integration Limitations:
+
+- **No Automatic Population**: Task Master tools cannot automatically populate complexity fields
+- **Manual Schema Addition**: Complete complexity schema must be manually added to each task/subtask
+- **No Inheritance**: Subtasks do not automatically inherit complexity structure from parent tasks
+- **No Validation**: Task Master tools do not validate complexity field completeness
+
+#### Recommended Workflow:
+
+1. Use Task Master tools for task creation and management
+2. **Immediately after** using any Task Master tool, manually edit tasks.json to add complexity fields
+3. Validate JSON structure and complexity field presence
+4. Continue with context gathering and implementation workflows
+
+#### Successful Implementation Example:
+
+The Scrum Master prompt execution (2025-09-11) successfully demonstrated this manual process:
+
+- **3 pending tasks** (28, 29, 30) were identified without complete complexity structures
+- **5 subtasks** of Task 28 were identified without complexity structures
+- **Manual editing** of tasks.json file was required to add complete complexity schemas
+- **All tasks and subtasks** now have proper complexity field structures enabling context-driven development
+- **Quality gates** were met: context_complete: false, implementation_ready: false for all tasks initially
+
+## Integration with Existing Tools
+
+### Research Tool Integration
+
+- **Automatic Population**: Research findings automatically populate `research_findings`
+- **Context Enhancement**: Research results enhance `context_answers` with current information
+- **Validation**: Research findings validate or update existing context requirements
+
+### Update Tools Integration
+
+- **Context Updates**: `update_subtask` and `update_task` can populate context answers
+- **Progress Tracking**: Updates maintain timestamped history of context gathering
+- **Status Integration**: Context completeness affects task status transitions
+
+### Analysis Tools Integration
+
+- **Complexity Analysis**: `analyze_project_complexity` generates initial complexity scores (but does NOT add complexity structure)
+- **Expansion Integration**: `expand_task` creates subtasks but does NOT automatically add complexity structure - manual addition required
+- **Reporting**: Complexity reports include context completeness status
+
+## Best Practices
+
+### For Scrum Masters (AI Agents)
+
+- **Always Include Complexity**: Never create tasks without complete complexity field structure
+- **Manual Complexity Addition Required**: **CRITICAL** - Task Master tools (`add_task`, `expand_task`, `update_task`) do NOT automatically add complete complexity field structure. Must manually edit tasks.json file to add the complete complexity schema to all tasks and subtasks
+- **Validate Before Implementation**: Check context completeness before allowing development
+- **Update When Scope Changes**: Modify complexity when task requirements change
+- **Guide Context Gathering**: Help developers understand what context is needed
+
+### For Developers
+
+- **Complete Context First**: Never start coding without complete context
+- **Document Everything**: Record all decisions, findings, and rationale
+- **Use Research Tool**: Leverage research capabilities for current best practices
+- **Maintain Audit Trail**: Keep complete timestamped history of all activities
+- **Manual Context Population**: **CRITICAL** - Always manually edit tasks.json to populate context answers
+
+### For Teams
+
+- **Regular Reviews**: Periodically review complexity scores and context completeness
+- **Knowledge Sharing**: Share context findings across related tasks
+- **Continuous Improvement**: Refine complexity analysis based on implementation experience
+- **Quality Focus**: Prioritize context completeness over speed of implementation
+
+## Developer Context Gathering Best Practices
+
+### **Manual Context Answer Population Workflow**
+
+**Step 1: Gather Context Information**
+
+```bash
+# Use research tools and codebase analysis
+task-master research "your research query" --save-to=28.1
+codebase_search "your codebase query"
+grep "pattern" packages/backend/src/
+read_file packages/backend/src/api/routers/conversation.ts
+```
+
+**Step 2: Document Findings**
+
+- Record all research findings with timestamps
+- Document technical decisions with rationale
+- Capture stakeholder input when required
+- Note any risks and mitigation strategies
+
+**Step 3: Manual JSON Editing**
+
+```bash
+# Backup tasks.json before editing
+cp .taskmaster/tasks/tasks.json .taskmaster/tasks/tasks.json.backup
+
+# Edit tasks.json directly using your preferred editor
+# Add context answers to the appropriate task/subtask
+```
+
+**Step 4: Validate and Test**
+
+```bash
+# Validate JSON syntax
+python -m json.tool .taskmaster/tasks/tasks.json > /dev/null
+
+# Check for missing complexity fields
+jq '.master.tasks[] | select(has("complexity") | not)' .taskmaster/tasks/tasks.json
+
+# Verify context completeness
+jq '.master.tasks[].complexity.gathering_strategy.context_complete' .taskmaster/tasks/tasks.json
+```
+
+### **Context Answer Template**
+
+Use this template when manually editing tasks.json:
+
+```json
+{
+  "complexity": {
+    "context_answers": {
+      "questions_answered": [
+        {
+          "question": "Your question here",
+          "answer": "Your detailed answer with findings",
+          "source": "codebase_analysis|research|stakeholder|technical_analysis",
+          "timestamp": "2025-09-11T15:20:39.457Z",
+          "confidence": "high|medium|low"
+        }
+      ],
+      "inputs_provided": [
+        {
+          "input": "Description of input needed",
+          "status": "gathered|analyzed|documented|validated",
+          "source": "documentation|code_review|stakeholder|research",
+          "timestamp": "2025-09-11T15:20:39.457Z",
+          "notes": "Additional context or findings"
+        }
+      ],
+      "dependencies_resolved": [
+        {
+          "dependency": "Description of dependency",
+          "status": "resolved|in_progress|blocked|not_applicable",
+          "resolution": "How it was resolved or current status",
+          "timestamp": "2025-09-11T15:20:39.457Z",
+          "blocker": "If blocked, what is blocking it"
+        }
+      ],
+      "risks_mitigated": [
+        {
+          "risk": "Description of risk",
+          "severity": "high|medium|low",
+          "mitigation": "Mitigation strategy implemented",
+          "status": "mitigated|monitored|accepted",
+          "timestamp": "2025-09-11T15:20:39.457Z",
+          "residual_risk": "Any remaining risk after mitigation"
+        }
+      ],
+      "research_findings": [
+        {
+          "topic": "Research topic or question",
+          "finding": "Key finding or conclusion",
+          "source": "URL, documentation, or reference",
+          "confidence": "high|medium|low",
+          "timestamp": "2025-09-11T15:20:39.457Z",
+          "relevance": "How this applies to the task"
+        }
+      ],
+      "stakeholder_input": [
+        {
+          "stakeholder": "Who provided input",
+          "input_type": "requirement|constraint|decision|feedback",
+          "content": "What they said or decided",
+          "timestamp": "2025-09-11T15:20:39.457Z",
+          "impact": "How this affects implementation"
+        }
+      ],
+      "technical_decisions": [
+        {
+          "decision": "Technical choice made",
+          "rationale": "Why this decision was made",
+          "alternatives": "Other options considered",
+          "implications": "What this means for implementation",
+          "timestamp": "2025-09-11T15:20:39.457Z",
+          "confidence": "high|medium|low"
+        }
+      ]
+    },
+    "gathering_strategy": {
+      "context_complete": true
+    },
+    "metadata": {
+      "context_gathered": "2025-09-11T15:20:39.457Z",
+      "implementation_ready": true
+    }
+  }
+}
+```
+
+### **Quality Checklist for Manual Context Population**
+
+**Before Marking Context Complete:**
+
+- [ ] All questions in `context_requirements.questions` have answers
+- [ ] All inputs in `context_requirements.inputs` are documented
+- [ ] All dependencies in `context_requirements.dependencies` are resolved
+- [ ] All risks in `context_requirements.risks` have mitigation strategies
+- [ ] Research findings are documented if `research_needed: true`
+- [ ] Stakeholder input is recorded if `stakeholder_input: true`
+- [ ] Technical validation is completed if `technical_validation: true`
+- [ ] All timestamps are accurate and consistent
+- [ ] JSON syntax is valid
+- [ ] `context_complete: true` is set
+- [ ] `implementation_ready: true` is set
+
+### **Common Manual Editing Patterns**
+
+**Adding a New Question Answer:**
+
+```json
+"questions_answered": [
+  {
+    "question": "What framework should be used?",
+    "answer": "Express.js middleware pattern based on codebase analysis",
+    "source": "codebase_analysis",
+    "timestamp": "2025-09-11T15:20:39.457Z",
+    "confidence": "high"
+  }
+]
+```
+
+**Adding a Research Finding:**
+
+```json
+"research_findings": [
+  {
+    "topic": "Express.js middleware patterns",
+    "finding": "Response interceptor middleware is best approach",
+    "source": "https://expressjs.com/en/guide/using-middleware.html",
+    "confidence": "high",
+    "timestamp": "2025-09-11T15:20:39.457Z",
+    "relevance": "Direct implementation guidance for response standardization"
+  }
+]
+```
+
+**Adding a Technical Decision:**
+
+```json
+"technical_decisions": [
+  {
+    "decision": "Use Express.js response interceptor middleware",
+    "rationale": "Standard pattern, well-documented, minimal overhead",
+    "alternatives": "Custom wrapper, third-party library",
+    "implications": "Consistent response format across all endpoints",
+    "timestamp": "2025-09-11T15:20:39.457Z",
+    "confidence": "high"
+  }
+]
+```
+
+### **Error Prevention in Manual Editing**
+
+**Common Mistakes to Avoid:**
+
+- ❌ Missing timestamps or using incorrect format
+- ❌ Inconsistent confidence levels (use only high/medium/low)
+- ❌ Missing source information for findings
+- ❌ Incomplete risk mitigation strategies
+- ❌ Forgetting to set `context_complete: true`
+- ❌ JSON syntax errors (missing commas, brackets, quotes)
+- ❌ Inconsistent timestamp formats
+
+**Validation Commands:**
+
+```bash
+# Check JSON syntax
+python -m json.tool .taskmaster/tasks/tasks.json
+
+# Validate timestamp format
+jq -r '.master.tasks[].complexity.context_answers.questions_answered[].timestamp' .taskmaster/tasks/tasks.json | grep -v '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$'
+
+# Check for missing context_complete flags
+jq '.master.tasks[] | select(.complexity.gathering_strategy.context_complete != true)' .taskmaster/tasks/tasks.json
+```
+
+## Monitoring and Metrics
+
+### Context Completeness Metrics
+
+- **Percentage of tasks with complete context**: Track overall context gathering progress
+- **Average time to context completion**: Measure efficiency of context gathering process
+- **Context quality score**: Assess quality and completeness of context answers
+
+### Implementation Readiness Metrics
+
+- **Tasks ready for implementation**: Count of tasks with `implementation_ready: true`
+- **Blocked tasks**: Tasks waiting for context completion or dependency resolution
+- **Implementation success rate**: Success rate of tasks with complete context vs incomplete
+
+### Complexity Analysis Metrics
+
+- **Complexity distribution**: Distribution of complexity scores across tasks
+- **Complexity accuracy**: How well complexity scores predict actual implementation effort
+- **Risk mitigation effectiveness**: Success rate of risk mitigation strategies
+
+This comprehensive complexity field management system ensures that all development work is context-driven, well-planned, and properly documented, leading to higher quality implementations and reduced risk of project failures.
+
+## Critical Implementation Note
+
+**⚠️ IMPORTANT: Task Master tools do NOT automatically add complexity field structures.**
+
+This rule has been updated based on real-world implementation experience (2025-09-11) where it was discovered that:
+
+1. **Task Master tools only add basic `complexityScore` fields**
+2. **Complete complexity schemas must be manually added to tasks.json**
+3. **Subtasks do not inherit complexity structures from parent tasks**
+4. **Manual editing of tasks.json is required after every Task Master tool usage**
+
+This limitation requires Scrum Masters and developers to manually edit the tasks.json file to add complete complexity field structures to all tasks and subtasks. The manual process outlined in this rule is essential for proper context-driven development implementation.

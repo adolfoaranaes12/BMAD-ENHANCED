@@ -1,0 +1,11 @@
+# Task ID: 26
+# Title: Implement Authentication Middleware
+# Status: pending
+# Dependencies: 25
+# Priority: high
+# Description: Ensure all endpoints include proper authentication and authorization using Clerk JWT
+# Details:
+Implement Clerk JWT authentication middleware for all API endpoints. Ensure proper authorization checks based on user roles and hotel context. Implement middleware for context propagation.
+
+# Test Strategy:
+Authentication flow testing, authorization validation, JWT token validation tests

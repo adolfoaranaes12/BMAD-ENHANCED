@@ -1,0 +1,11 @@
+# Task ID: 21
+# Title: Replace Message API Mock Data
+# Status: pending
+# Dependencies: 20
+# Priority: high
+# Description: Replace mock hotel ID in message API with real hotel lookup by widget key and implement hotel service integration
+# Details:
+Modify packages/backend/src/api/message.ts to replace mock hotel ID with real hotel lookup functionality. Integrate HotelService for proper hotel lookups by widget key. Implement error handling for invalid widget keys.
+
+# Test Strategy:
+Unit tests for message endpoints, integration tests for HotelService, validation tests for widget key lookups

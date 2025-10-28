@@ -1,0 +1,11 @@
+# Task ID: 20
+# Title: Replace Conversation Router Mock Data
+# Status: pending
+# Dependencies: 19
+# Priority: high
+# Description: Replace placeholder responses in conversation router with real command execution and implement reply functionality
+# Details:
+Update packages/backend/src/api/routers/conversation.ts to remove mock responses and integrate ConversationService. Implement ReplyToConversationCommand for real reply functionality. Ensure proper error handling and validation with Zod schemas.
+
+# Test Strategy:
+Unit tests for conversation endpoints, integration tests for ConversationService, command execution tests

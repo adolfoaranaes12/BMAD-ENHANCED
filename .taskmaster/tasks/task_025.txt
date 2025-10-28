@@ -1,0 +1,11 @@
+# Task ID: 25
+# Title: Implement Real-time Events
+# Status: pending
+# Dependencies: 24
+# Priority: medium
+# Description: Wire up real-time events (broadcasts) in relevant endpoints
+# Details:
+Implement real-time event broadcasting in conversation and notification endpoints. Use appropriate WebSocket or server-sent events implementation. Ensure events are properly scoped to hotel context for multi-tenancy.
+
+# Test Strategy:
+Real-time event testing, WebSocket connection tests, multi-tenancy validation for events

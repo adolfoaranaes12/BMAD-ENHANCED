@@ -1,0 +1,259 @@
+---
+description: Quick reference guide for complexity field management in Taskmaster
+globs: .taskmaster/tasks/tasks.json
+alwaysApply: false
+---
+
+# Complexity Field Quick Reference
+
+## 🎯 **What is the Complexity Field System?**
+
+The complexity field system ensures **context-driven development** by requiring complete context gathering before implementation. Every task and subtask has a complexity analysis that guides development.
+
+## 📋 **Complexity Field Structure**
+
+```yaml
+complexity:
+  score: 1-10 # How complex is this task?
+  context_requirements: # What do I need to know?
+    questions: [] # Questions to answer
+    inputs: [] # Information to gather
+    dependencies: [] # What must be done first
+    risks: [] # Potential problems
+  context_answers: # What I've learned (you fill this)
+    questions_answered: [] # Your answers to questions
+    inputs_provided: [] # Information you've gathered
+    dependencies_resolved: [] # Status of dependencies
+    risks_mitigated: [] # How you'll handle risks
+    research_findings: [] # What you've researched
+    stakeholder_input: [] # Input from stakeholders
+    technical_decisions: [] # Technical choices made
+  gathering_strategy:
+    research_needed: boolean # Do I need to research?
+    stakeholder_input: boolean # Do I need stakeholder input?
+    technical_validation: boolean # Do I need technical review?
+    context_complete: boolean # Am I ready to code? (YOU SET THIS)
+  metadata:
+    implementation_ready: boolean # Can I start coding? (derived from context_complete)
+```
+
+## 🚀 **Developer Workflow**
+
+### 1. **Check Task Complexity**
+
+```bash
+# View task details including complexity
+task-master show 27.1
+```
+
+### 2. **Review Context Requirements**
+
+Look at `context_requirements` to understand what you need to gather:
+
+- **Questions**: What questions need answers?
+- **Inputs**: What information do you need?
+- **Dependencies**: What must be completed first?
+- **Risks**: What could go wrong?
+
+### 3. **Gather Context**
+
+Use the research tool and documentation to answer questions:
+
+```bash
+# Research current best practices
+task-master research "Express.js middleware patterns for response wrapping" --save-to=27.1
+```
+
+### 4. **Document Your Findings**
+
+Use `update_subtask` to populate context answers:
+
+```bash
+# Update subtask with your findings
+task-master update-subtask --id=27.1 --prompt="
+RESEARCH FINDINGS:
+- Express.js middleware is best for response wrapping
+- Standard format: { data, metadata: { timestamp, requestId }, status }
+
+TECHNICAL DECISIONS:
+- Use Express.js response interceptor middleware
+- Implement response wrapper class
+
+QUESTIONS ANSWERED:
+- Response wrapper structure: Standardized format with data, metadata, status
+- Middleware framework: Express.js response interceptor
+"
+```
+
+### 5. **Mark Context Complete**
+
+When you have all the information needed, mark the task ready:
+
+```bash
+# Mark context as complete (this sets implementation_ready: true)
+task-master update-subtask --id=27.1 --prompt="Context gathering complete. All questions answered, inputs provided, dependencies resolved, risks mitigated. Ready for implementation."
+```
+
+### 6. **Start Implementation**
+
+Only start coding when `context_complete: true` and `implementation_ready: true`
+
+## ⚠️ **Critical Rules**
+
+### **NEVER Start Coding Without:**
+
+- ✅ `context_complete: true`
+- ✅ `implementation_ready: true`
+- ✅ All questions answered
+- ✅ All inputs provided
+- ✅ Dependencies resolved
+- ✅ Risks mitigated
+
+### **Always Document:**
+
+- 🔍 Research findings with sources
+- 🤔 Technical decisions with rationale
+- 👥 Stakeholder input when required
+- ⚠️ Risk mitigation strategies
+- 📝 Implementation progress
+
+## 🛠️ **Common Commands**
+
+### **View Task Complexity**
+
+```bash
+task-master show 27.1  # View full task with complexity
+task-master list       # List all tasks
+task-master next       # Find next task to work on
+```
+
+### **Research and Context Gathering**
+
+```bash
+task-master research "your research query" --save-to=27.1
+task-master update-subtask --id=27.1 --prompt="your findings"
+```
+
+### **Check Implementation Readiness**
+
+```bash
+task-master show 27.1 | grep -A 5 "context_complete"
+task-master show 27.1 | grep -A 5 "implementation_ready"
+```
+
+## 📊 **Complexity Scores Guide**
+
+- **1-2 (Trivial)**: Simple, well-defined tasks
+- **3-4 (Low)**: Straightforward with minimal dependencies
+- **5-6 (Medium)**: Moderate complexity, some risks
+- **7-8 (High)**: Complex, requires significant analysis
+- **9-10 (Extreme)**: Highly complex, multiple dependencies, high risk
+
+## 🎯 **Context Requirements Types**
+
+### **Questions** (What do I need to answer?)
+
+- Technical: "What framework should I use?"
+- Business: "What are the requirements?"
+- Integration: "How does this connect to other systems?"
+
+### **Inputs** (What information do I need?)
+
+- Documentation: Specifications, requirements
+- Code: Existing patterns, examples
+- Research: Best practices, benchmarks
+
+### **Dependencies** (What must be done first?)
+
+- Technical: Libraries, frameworks, services
+- Task: Other tasks that must be completed
+- Resource: People, tools, environments
+
+### **Risks** (What could go wrong?)
+
+- Technical: Implementation challenges
+- Business: Requirements changes
+- Integration: Compatibility issues
+
+## 🔄 **Context Answers Structure**
+
+### **Questions Answered**
+
+```yaml
+- question: 'What framework should I use?'
+  answer: 'Express.js for middleware'
+  source: 'research'
+  timestamp: '2025-01-15T10:30:00Z'
+  confidence: 'high'
+```
+
+### **Research Findings**
+
+```yaml
+- topic: 'Express.js middleware patterns'
+  finding: 'Response interceptor is best approach'
+  source: 'https://expressjs.com/en/guide/using-middleware.html'
+  confidence: 'high'
+  timestamp: '2025-01-15T10:30:00Z'
+```
+
+### **Technical Decisions**
+
+```yaml
+- decision: 'Use Express.js response interceptor'
+  rationale: 'Standard pattern, well-documented, minimal overhead'
+  alternatives: 'Custom wrapper, third-party library'
+  implications: 'Consistent response format across all endpoints'
+  timestamp: '2025-01-15T10:30:00Z'
+```
+
+## 🚨 **Troubleshooting**
+
+### **Task Missing Complexity Field**
+
+- Contact Scrum Master to add complexity structure
+- Don't start implementation without it
+
+### **Context Incomplete**
+
+- Review `context_requirements` to see what's missing
+- Use research tool to gather missing information
+- Document findings in `context_answers`
+
+### **Dependencies Not Resolved**
+
+- Check status of dependent tasks
+- Update dependency status in `dependencies_resolved`
+- Don't start until dependencies are `done`
+
+### **Risks Not Mitigated**
+
+- Identify mitigation strategies for each risk
+- Document in `risks_mitigated`
+- Consider if risks are acceptable
+
+## 📈 **Success Metrics**
+
+### **Context Quality**
+
+- All questions answered with confidence
+- Research findings from reliable sources
+- Technical decisions with clear rationale
+- Risks properly assessed and mitigated
+
+### **Implementation Readiness**
+
+- `context_complete: true`
+- `implementation_ready: true`
+- All dependencies resolved
+- Clear implementation path
+
+## 🎉 **Benefits**
+
+- **Reduced Rework**: Complete context prevents implementation mistakes
+- **Better Quality**: Research and analysis lead to better solutions
+- **Risk Mitigation**: Identify and address problems early
+- **Knowledge Sharing**: Documented context helps team members
+- **Audit Trail**: Complete history of decisions and rationale
+
+Remember: **Context-driven development leads to better outcomes!** 🚀
