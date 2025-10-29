@@ -1,0 +1,141 @@
+# BMAD Enhanced Configuration
+# Inspired by BMAD-METHOD v4 architecture patterns
+# Version: 1.0
+
+project:
+  name: BMAD Enhanced
+  type: greenfield  # greenfield | brownfield
+  description: Enhanced Claude Code workflow with BMAD-inspired patterns
+
+# Brownfield-specific settings (only used if project.type = brownfield)
+brownfield:
+  codebasePath: src/  # Path to analyze
+  existingDocs: []    # Existing docs to preserve
+  includeTests: true  # Include test analysis
+  maxFilesToAnalyze: 1000
+  documented: false   # Set to true after running document-project skill
+  indexed: false      # Set to true after running index-docs skill
+  indexLocation: .claude/index/  # Where to store search index
+
+documentation:
+  # Main architecture and standards documents
+  architecture: docs/architecture.md
+  standards: docs/standards.md
+  patterns: docs/patterns.md
+
+  # Additional technical documentation
+  custom_docs: []
+    # Example:
+    # - docs/api-design.md
+    # - docs/data-models.md
+
+development:
+  # Files that implementation skills should ALWAYS load for context
+  # Keep this list minimal and focused on essential standards
+  alwaysLoadFiles:
+    - docs/standards.md
+    # Add more as your project evolves:
+    # - docs/architecture/coding-standards.md
+    # - docs/architecture/tech-stack.md
+    # - docs/architecture/project-structure.md
+
+  # Where task specification files are stored
+  taskLocation: .claude/tasks
+
+  # Debug log location for implementation notes
+  debugLog: .claude/debug-log.md
+
+quality:
+  # Where quality assessment outputs are stored
+  qualityLocation: .claude/quality
+
+  # Quality gate decision threshold
+  # PASS: All criteria met, no blocking issues
+  # CONCERNS: Non-critical issues identified
+  # FAIL: Critical issues require addressing
+  gateThreshold: CONCERNS  # Minimum acceptable gate status
+
+  # Require quality review before marking tasks complete
+  requireReview: true
+
+  # Risk score threshold for automatic CONCERNS/FAIL
+  # Risk score = Probability (1-3) × Impact (1-3) = 1-9
+  # ≥9: Critical risk (auto FAIL)
+  # ≥6: High risk (auto CONCERNS)
+  # <6: Medium/low risk
+  riskScoreThreshold: 6
+
+  # Enable specific quality checks
+  checks:
+    requirementsTraceability: true  # Map AC to tests
+    testCoverage: true              # Analyze test coverage
+    nfrValidation: true             # Check non-functional requirements
+    riskAssessment: true            # Pre-implementation risk profiling
+
+workflow:
+  # Enable/disable workflow phases
+  phases:
+    planning: true       # Task specification creation
+    implementation: true # Sequential task execution
+    review: true        # Quality assessment
+
+  # Halt conditions during implementation
+  haltOn:
+    consecutiveFailures: 3  # Stop after N failed attempts
+    ambiguousRequirements: true
+    missingDependencies: true
+    regressionFailures: true
+
+# Skill behavior customization
+skills:
+  planning:
+    # Context embedding depth
+    embedFullContext: true
+    includeSourceReferences: true
+    includePreviousLearnings: true
+
+    # Task breakdown granularity
+    minTasksPerSpec: 3
+    maxTasksPerSpec: 15
+
+  implementation:
+    # Execution behavior
+    sequentialOnly: true      # Enforce sequential task execution
+    validateBeforeCheckbox: true  # Run validations before marking complete
+    updateOnlyRecordSection: true # Only modify Implementation Record
+
+    # Testing requirements
+    requireTestsPerTask: true
+    runAllTestsAtEnd: true
+
+  review:
+    # Quality assessment depth
+    performRiskProfiling: true
+    performTestDesign: true
+    performTraceability: true
+    performNFRAssessment: true
+
+    # Gate decision strictness
+    autoFailOnCriticalRisk: true  # Risk score ≥9
+    autoConcernsOnHighRisk: true  # Risk score ≥6
+
+    # Automated refactoring (NEW - Phase 2)
+    allowRefactoring: true  # Enable automated refactoring
+    refactoringAggressiveness: moderate  # conservative | moderate | aggressive
+    requireTestsPass: true  # Must have passing tests to refactor
+    refactoringLog: .claude/quality/refactoring-log.md
+
+# Templates
+templates:
+  taskSpec: .claude/templates/task-spec.md
+  qualityGate: .claude/templates/quality-gate.yaml
+  riskProfile: .claude/templates/risk-profile.md
+  testDesign: .claude/templates/test-design.md
+
+# Version and compatibility
+meta:
+  configVersion: 1.1  # Updated for Phase 2 features
+  bmadInspired: true
+  claudeCodeVersion: ">=1.0"
+  lastUpdated: "2025-10-28"
+  phase: 2  # Phase 2: Critical Gaps - Refactoring & Brownfield support added

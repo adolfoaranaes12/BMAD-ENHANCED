@@ -1,0 +1,322 @@
+# Quality Gate
+# BMAD Enhanced - Inspired by BMAD-METHOD QA pattern
+# Version: 1.0
+
+metadata:
+  task_id: "{{TASK_ID}}"
+  task_title: "{{TASK_TITLE}}"
+  task_file: "{{TASK_FILE}}"
+  gate_id: "{{GATE_ID}}"
+  date: "{{DATE}}"
+  reviewer: "{{REVIEWER}}"  # e.g., quality-skill-v1.0
+  review_model: "{{MODEL}}"  # e.g., claude-sonnet-4-5
+
+decision:
+  status: "{{STATUS}}"  # PASS | CONCERNS | FAIL | WAIVED
+  rationale: |
+    {{RATIONALE}}
+
+    # Example rationale:
+    # Implementation meets all functional requirements with comprehensive test
+    # coverage. Non-critical performance issue identified (N+1 query pattern)
+    # that should be addressed before production deployment but does not block
+    # merge to development branch.
+
+# Requirements Traceability
+# Maps each acceptance criterion to implementation and tests
+requirements_traceability:
+  - ac_number: {{AC_NUM}}
+    description: "{{AC_DESCRIPTION}}"
+    status: "{{STATUS}}"  # covered | partial | gap | missing
+    implementation:
+      files: []
+        # - "{{FILE_PATH}}:{{LINE_RANGE}}"
+      logic_description: "{{LOGIC_DESC}}"
+    tests:
+      unit: []
+        # - test: "{{TEST_NAME}}"
+        #   file: "{{TEST_FILE}}:{{LINE_RANGE}}"
+        #   status: "{{STATUS}}"  # passing | failing
+      integration: []
+      e2e: []
+    coverage_assessment: "{{ASSESSMENT}}"
+      # full | adequate | partial | insufficient
+    gaps:
+      - severity: "{{SEVERITY}}"  # critical | high | medium | low
+        description: "{{GAP_DESCRIPTION}}"
+        recommendation: "{{RECOMMENDATION}}"
+
+# Test Coverage Analysis
+test_coverage:
+  summary:
+    total_tests: {{TOTAL_TESTS}}
+    unit_tests: {{UNIT_COUNT}}
+    integration_tests: {{INTEGRATION_COUNT}}
+    e2e_tests: {{E2E_COUNT}}
+
+  metrics:
+    statements: {{STATEMENTS_PCT}}  # percentage
+    branches: {{BRANCHES_PCT}}
+    functions: {{FUNCTIONS_PCT}}
+    lines: {{LINES_PCT}}
+
+  by_priority:
+    p0_critical: {{P0_COUNT}}  # Must have - critical functionality
+    p1_high: {{P1_COUNT}}      # Should have - important features
+    p2_medium: {{P2_COUNT}}    # Nice to have - edge cases
+
+  gaps:
+    - area: "{{AREA}}"
+      severity: "{{SEVERITY}}"  # critical | high | medium | low
+      description: "{{GAP_DESCRIPTION}}"
+      missing_scenarios: []
+        # - "{{SCENARIO}}"
+      recommendation: "{{RECOMMENDATION}}"
+
+  quality_assessment:
+    test_reliability: "{{ASSESSMENT}}"  # excellent | good | concerning | poor
+    test_maintainability: "{{ASSESSMENT}}"
+    test_performance: "{{ASSESSMENT}}"
+    notes: |
+      {{NOTES}}
+
+# Non-Functional Requirements Assessment
+nfr_assessment:
+  security:
+    status: "{{STATUS}}"  # pass | concerns | fail
+    checks:
+      - check: "Input validation present"
+        result: "{{RESULT}}"  # pass | fail | n/a
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Authentication/authorization implemented"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Sensitive data encrypted"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "SQL injection prevented"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "XSS vulnerabilities addressed"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+    issues:
+      - severity: "{{SEVERITY}}"  # critical | high | medium | low
+        description: "{{ISSUE_DESC}}"
+        recommendation: "{{RECOMMENDATION}}"
+    overall_notes: |
+      {{SECURITY_NOTES}}
+
+  performance:
+    status: "{{STATUS}}"  # pass | concerns | fail
+    checks:
+      - check: "API response time acceptable (<200ms p95)"
+        result: "{{RESULT}}"
+        measured: "{{MEASURED_VALUE}}"
+        target: "{{TARGET_VALUE}}"
+        notes: "{{NOTES}}"
+      - check: "Database queries optimized (no N+1)"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Caching implemented where appropriate"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Resource usage reasonable"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+    issues:
+      - severity: "{{SEVERITY}}"
+        description: "{{ISSUE_DESC}}"
+        impact: "{{IMPACT_DESC}}"
+        recommendation: "{{RECOMMENDATION}}"
+    overall_notes: |
+      {{PERFORMANCE_NOTES}}
+
+  reliability:
+    status: "{{STATUS}}"  # pass | concerns | fail
+    checks:
+      - check: "Error handling comprehensive"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Graceful degradation for failures"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Retry logic for transient errors"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Logging sufficient for debugging"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+    issues:
+      - severity: "{{SEVERITY}}"
+        description: "{{ISSUE_DESC}}"
+        recommendation: "{{RECOMMENDATION}}"
+    overall_notes: |
+      {{RELIABILITY_NOTES}}
+
+  maintainability:
+    status: "{{STATUS}}"  # pass | concerns | fail
+    checks:
+      - check: "Code follows project standards"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Adequate comments for complex logic"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+      - check: "Test coverage sufficient (>80%)"
+        result: "{{RESULT}}"
+        measured: "{{MEASURED_VALUE}}"
+        target: "80%"
+        notes: "{{NOTES}}"
+      - check: "Documentation updated"
+        result: "{{RESULT}}"
+        evidence: "{{EVIDENCE}}"
+        notes: "{{NOTES}}"
+    issues:
+      - severity: "{{SEVERITY}}"
+        description: "{{ISSUE_DESC}}"
+        recommendation: "{{RECOMMENDATION}}"
+    overall_notes: |
+      {{MAINTAINABILITY_NOTES}}
+
+# Code Quality Findings
+code_quality:
+  standards_compliance:
+    status: "{{STATUS}}"  # pass | issues_found
+    violations: []
+      # - file: "{{FILE_PATH}}"
+      #   line: {{LINE_NUM}}
+      #   rule: "{{RULE_NAME}}"
+      #   severity: "{{SEVERITY}}"
+      #   description: "{{DESCRIPTION}}"
+
+  anti_patterns:
+    - pattern: "{{PATTERN_NAME}}"
+      location: "{{FILE_PATH}}:{{LINE_RANGE}}"
+      severity: "{{SEVERITY}}"
+      description: "{{DESCRIPTION}}"
+      recommendation: "{{RECOMMENDATION}}"
+
+  technical_debt:
+    - item: "{{DEBT_ITEM}}"
+      location: "{{LOCATION}}"
+      severity: "{{SEVERITY}}"
+      impact: "{{IMPACT}}"
+      recommendation: "{{RECOMMENDATION}}"
+      estimated_effort: "{{EFFORT}}"  # e.g., "2 hours", "1 day"
+
+# Action Items
+action_items:
+  critical: []
+    # - description: "{{DESCRIPTION}}"
+    #   rationale: "{{RATIONALE}}"
+    #   affects_gate: true  # Does this block merge?
+
+  high_priority: []
+    # - description: "{{DESCRIPTION}}"
+    #   rationale: "{{RATIONALE}}"
+    #   affects_gate: false
+
+  medium_priority: []
+    # - description: "{{DESCRIPTION}}"
+    #   rationale: "{{RATIONALE}}"
+    #   affects_gate: false
+
+  low_priority: []
+    # - description: "{{DESCRIPTION}}"
+    #   rationale: "{{RATIONALE}}"
+    #   affects_gate: false
+
+# Recommendations
+recommendations:
+  immediate: []
+    # - "{{RECOMMENDATION}}"  # Must be addressed before merge
+
+  before_production: []
+    # - "{{RECOMMENDATION}}"  # Should be addressed before production deploy
+
+  future_improvements: []
+    # - "{{RECOMMENDATION}}"  # Nice to have, not blocking
+
+# Waiver (if status is WAIVED)
+waiver:
+  reason: null  # "{{WAIVER_REASON}}"
+  approver: null  # "{{APPROVER_NAME}}"
+  approved_date: null  # "{{DATE}}"
+  expiry_date: null  # "{{EXPIRY_DATE}}"
+  conditions: []
+    # - "{{CONDITION}}"
+
+# Gate Decision Rules Applied
+decision_rules:
+  - rule: "Critical security issues result in FAIL"
+    applied: {{BOOLEAN}}
+    triggered: {{BOOLEAN}}
+
+  - rule: "Risk score ≥9 results in FAIL"
+    applied: {{BOOLEAN}}
+    triggered: {{BOOLEAN}}
+
+  - rule: "Risk score ≥6 results in CONCERNS"
+    applied: {{BOOLEAN}}
+    triggered: {{BOOLEAN}}
+
+  - rule: "Missing P0 test coverage results in CONCERNS"
+    applied: {{BOOLEAN}}
+    triggered: {{BOOLEAN}}
+
+  - rule: "Performance issues result in CONCERNS"
+    applied: {{BOOLEAN}}
+    triggered: {{BOOLEAN}}
+
+  - rule: "Standards violations result in CONCERNS"
+    applied: {{BOOLEAN}}
+    triggered: {{BOOLEAN}}
+
+# Summary
+summary:
+  strengths: []
+    # - "{{STRENGTH}}"
+
+  weaknesses: []
+    # - "{{WEAKNESS}}"
+
+  overall_assessment: |
+    {{OVERALL_ASSESSMENT}}
+
+    # Example:
+    # Implementation successfully delivers all functional requirements with
+    # comprehensive test coverage (94%) and strong adherence to coding standards.
+    # One non-critical performance issue identified (N+1 query) that should be
+    # optimized before production but does not block development merge.
+    # Security requirements fully satisfied. Recommended for approval with
+    # performance optimization tracked as follow-up work.
+
+# Audit Trail
+audit:
+  task_file_sha: "{{SHA}}"  # For version tracking
+  implementation_files: []
+    # - file: "{{FILE_PATH}}"
+    #   sha: "{{SHA}}"
+  test_files: []
+    # - file: "{{FILE_PATH}}"
+    #   sha: "{{SHA}}"
+  review_duration: "{{DURATION}}"  # e.g., "15 minutes"
+
+# Version
+gate_version: 1.0
+bmad_inspired: true
