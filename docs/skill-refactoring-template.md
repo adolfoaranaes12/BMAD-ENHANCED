@@ -39,9 +39,9 @@ For each skill, complete these steps in order:
 
 **Skills remain portable, self-contained packages.** Whether a skill plays a "Layer 1" or "Layer 2" role, it's still a skill that can be packaged (via `package_skill.py`), distributed (.zip), and used anywhere.
 
-### Layer 1: Primitive Skills
+### Layer 1: Primitives
 
-**What they are:** Skills that bundle executable scripts for deterministic operations.
+**What they are:** Skills that bundle executable scripts for atomic, deterministic operations.
 
 **Example:** `bmad-commands`
 

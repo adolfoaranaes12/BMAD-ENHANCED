@@ -81,29 +81,9 @@ Execute tests, generate coverage reports, analyze coverage gaps, and suggest mis
 
 **Action:** Parse input and identify which tests to run.
 
-**Scope Types:**
+**Scope Types:** Task-based (extract keywords → pattern → find tests), File-based (find corresponding test file), All tests (run all **/*.test.*)
 
-**Task-based:**
-```bash
-# Input: task-auth-002-login
-→ Extract keywords: "auth", "login"
-→ Pattern: (auth|login)
-→ Find matching test files
-```
-
-**File-based:**
-```bash
-# Input: src/controllers/auth.controller.ts
-→ Find test: src/__tests__/**/auth.controller.test.ts
-```
-
-**All tests:**
-```bash
-# Input: --all
-→ Run all test files matching **/*.test.ts
-```
-
-**See:** `references/test-execution-guide.md` for detailed scope determination
+**See:** `references/templates.md#step-0-scope-determination-templates` for complete examples
 
 ---
 
@@ -111,46 +91,13 @@ Execute tests, generate coverage reports, analyze coverage gaps, and suggest mis
 
 **Action:** Use bmad-commands to run tests.
 
-Execute:
-```bash
-python .claude/skills/bmad-commands/scripts/run_tests.py \
-  --path . \
-  --framework jest \
-  --output json
-```
+**Execute:** `python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework jest --output json`
 
-**Parse Response:**
-```json
-{
-  "success": true,
-  "outputs": {
-    "passed": true,
-    "total_tests": 12,
-    "passed_tests": 12,
-    "failed_tests": 0,
-    "coverage_percent": 87,
-    "duration_ms": 2456,
-    "failures": []
-  },
-  "telemetry": {
-    "command": "run_tests",
-    "framework": "jest"
-  },
-  "errors": []
-}
-```
+**Parse Response:** Extract success, outputs (passed, total_tests, coverage_percent, failures), telemetry, errors
 
-**Verify:**
-- Check `success == true`
-- Extract test results from `outputs`
-- Check for failures in `outputs.failures`
+**If tests fail:** Report failed tests with details, suggest fixes, do not proceed with coverage analysis
 
-**If tests fail:**
-- Report failed tests from `outputs.failures`
-- Provide failure details
-- Suggest fixes or reruns
-
-**See:** `references/test-execution-guide.md` for execution details
+**See:** `references/templates.md#step-1-test-execution-templates` for complete response formats and error handling
 
 ---
 
@@ -158,42 +105,11 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 
 **Action:** Parse coverage data and generate reports.
 
-**Coverage Metrics:**
-- Statements coverage
-- Branch coverage
-- Function coverage
-- Line coverage
+**Coverage Metrics:** Statements, Branches, Functions, Lines (each with covered/total/percent)
 
-**Parse Coverage:**
-```json
-{
-  "coverage_percent": 87,
-  "statements": { "covered": 210, "total": 240, "percent": 87.5 },
-  "branches": { "covered": 45, "total": 52, "percent": 86.5 },
-  "functions": { "covered": 28, "total": 28, "percent": 100 },
-  "lines": { "covered": 208, "total": 238, "percent": 87.4 }
-}
-```
+**Generate Report:** Parse coverage JSON, create text table, check thresholds (≥80% for each metric)
 
-**Generate Text Report:**
-```
-File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered
-----------------------|---------|----------|---------|---------|----------
-auth.controller.ts    |   92.31 |    87.50 |     100 |   92.31 | 45-48,67
-auth.service.ts       |   90.48 |    83.33 |     100 |   90.48 | 78,112-115
-rate-limit.ts         |   88.89 |      100 |     100 |   88.89 | 23-25
-jwt.ts                |     100 |      100 |     100 |     100 |
-----------------------|---------|----------|---------|---------|----------
-Overall               |   91.25 |    88.42 |     100 |   91.25 |
-```
-
-**Check Thresholds:**
-- Statements: ≥80% required
-- Branches: ≥80% required
-- Functions: ≥80% required
-- Lines: ≥80% required
-
-**See:** `references/coverage-analysis-guide.md` for detailed coverage parsing
+**See:** `references/templates.md#step-2-coverage-report-templates` for complete formats and threshold checking
 
 ---
 
@@ -201,57 +117,15 @@ Overall               |   91.25 |    88.42 |     100 |   91.25 |
 
 **Action:** Identify uncovered code and categorize by criticality.
 
-**Gap Categories:**
+**Gap Categories:** Error Handling (High), Edge Cases (Medium), Rare Branches (Low)
 
-**1. Error Handling (High Priority)**
-```typescript
-// Uncovered error handling
-catch (error) {
-  console.error('Database error:', error);  // ❌ Uncovered
-  return res.status(500).json({ error: 'Internal error' });
-}
-```
+**Criticality Levels:**
+- **Critical:** Security, payments, data deletion, auth (Must Test)
+- **High:** Error handling, business logic, state transitions (Should Test)
+- **Medium:** Logging, non-critical errors, minor edge cases (Nice to Test)
+- **Low:** Debug code, dev-only code, trivial getters (Optional)
 
-**2. Edge Cases (Medium Priority)**
-```typescript
-// Uncovered edge case
-if (user.lastLogin && Date.now() - user.lastLogin > MAX_SESSION_AGE) {
-  return res.status(401).json({ error: 'Session expired' }); // ❌ Uncovered
-}
-```
-
-**3. Rare Branches (Low Priority)**
-```typescript
-// Uncovered rare branch
-if (process.env.NODE_ENV === 'development') {  // ❌ Uncovered
-  console.log('Debug mode');
-}
-```
-
-**Criticality Assessment:**
-
-**Critical (Must Test):**
-- Security-related code
-- Payment processing
-- Data deletion/modification
-- Authentication/authorization
-
-**High (Should Test):**
-- Error handling for expected errors
-- Business logic edge cases
-- State transitions
-
-**Medium (Nice to Test):**
-- Logging statements
-- Non-critical error handling
-- Minor edge cases
-
-**Low (Optional):**
-- Debug code
-- Development-only code
-- Trivial getters/setters
-
-**See:** `references/gap-analysis-guide.md` for detailed gap analysis
+**See:** `references/templates.md#step-3-gap-analysis-templates` for complete examples and assessment criteria
 
 ---
 
@@ -259,38 +133,11 @@ if (process.env.NODE_ENV === 'development') {  // ❌ Uncovered
 
 **Action:** Generate concrete test suggestions for coverage gaps.
 
-**For each gap, provide:**
-1. File and line numbers
-2. Criticality level
-3. Why it should be tested
-4. Concrete test example
+**For each gap:** File/line, criticality, reason, concrete test example
 
-**Suggestion Format:**
-```markdown
-### Gap 1: Database Connection Failure
-**File:** `src/controllers/auth.controller.ts:48-50`
-**Criticality:** HIGH
-**Why:** Production database failures are expected
-**Test:**
-```typescript
-it('should return 503 when database is unavailable', async () => {
-  jest.spyOn(db, 'isConnected').mockReturnValue(false);
+**Prioritization:** Focus on HIGH (3-5 suggestions), then MEDIUM (2-3), LOW optional
 
-  const response = await request(app)
-    .post('/api/auth/login')
-    .send({ email: 'test@example.com', password: 'pass' });
-
-  expect(response.status).toBe(503);
-});
-```
-```
-
-**Prioritization:**
-1. HIGH priority gaps (3-5 suggestions)
-2. MEDIUM priority gaps (2-3 suggestions)
-3. LOW priority gaps (optional)
-
-**See:** `references/test-suggestions.md` for suggestion templates
+**See:** `references/templates.md#step-4-test-suggestion-templates` for complete suggestion formats with test code
 
 ---
 
@@ -298,157 +145,42 @@ it('should return 503 when database is unavailable', async () => {
 
 **Action:** Provide comprehensive test execution summary.
 
-**Summary Format:**
-```markdown
-✅ Tests Executed Successfully
+**Summary Includes:**
+- Scope, framework, duration, test results (passed/failed/total)
+- Coverage report with thresholds (statements, branches, functions, lines)
+- Coverage gaps categorized by priority (CRITICAL/HIGH/MEDIUM/LOW)
+- Test suggestions with estimated time and coverage gain
+- Next steps and recommendations
 
-**Scope:** task-auth-002-login
-**Framework:** jest
-**Duration:** 13.7s
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-**🧪 Test Results**
-
-Test Suites: 2 passed, 2 total
-Tests:       12 passed, 12 total
-Status:      ✅ ALL TESTS PASSING
-
-**📊 Coverage Report**
-
-Overall Coverage: 91.25%
-
-| Metric     | Coverage | Threshold | Status |
-|------------|----------|-----------|--------|
-| Statements | 91.25%   | ≥80%      | ✅ Pass |
-| Branches   | 88.42%   | ≥80%      | ✅ Pass |
-| Functions  | 100%     | ≥80%      | ✅ Pass |
-| Lines      | 91.25%   | ≥80%      | ✅ Pass |
-
-**Status:** ✅ ALL THRESHOLDS MET
-
-**🔍 Coverage Gaps (5 identified)**
-
-High Priority (3):
-1. Database connection error handling
-2. Session expiration check
-3. Unexpected error catch block
-
-Medium Priority (2):
-4. Rate limiter error handling
-5. Audit logging failure handling
-
-**💡 Suggested Tests**
-
-I can write 5 additional tests to improve coverage to ~96%:
-1. Database failure handling (HIGH)
-2. Session expiration (HIGH)
-3. Unexpected error handling (HIGH)
-4. Rate limiter resilience (MEDIUM)
-5. Audit log resilience (MEDIUM)
-
-Would you like me to add these tests?
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-**Next Steps:**
-- ✅ Tests passing
-- ⚠️ Consider adding 3 HIGH priority tests (optional)
-- ✅ Ready for review
-```
+**See:** `references/templates.md#step-5-complete-summary-templates` for formatted output examples
 
 ---
 
 ## Output
 
-Return structured output with telemetry:
+Return structured JSON with test results, coverage data, gaps array (file, lines, criticality, category), test suggestions, and telemetry
 
-```json
-{
-  "tests_passed": true,
-  "total_tests": 12,
-  "passed_tests": 12,
-  "failed_tests": 0,
-  "coverage_percent": 91.25,
-  "coverage_gaps": [
-    {
-      "file": "src/controllers/auth.controller.ts",
-      "lines": "48-50",
-      "criticality": "HIGH",
-      "category": "error_handling"
-    }
-  ],
-  "telemetry": {
-    "skill": "run-tests",
-    "scope": "task-auth-002",
-    "framework": "jest",
-    "total_tests": 12,
-    "passed_tests": 12,
-    "failed_tests": 0,
-    "coverage_percent": 91.25,
-    "duration_ms": 13685,
-    "gaps_count": 5
-  }
-}
-```
+**See:** `references/templates.md#complete-json-output-format` for full structure
 
 ---
 
 ## Error Handling
 
-If any step fails:
+**No tests found:** Verify test files exist, check scope pattern | **Tests failing:** Report failures with details, suggest fixes | **Coverage below threshold:** Identify gaps, suggest missing tests | **Framework not configured:** Verify installation and configuration
 
-**1. No Tests Found:**
-- Error: "No tests found matching scope"
-- Action: Verify test files exist, check scope pattern
-
-**2. Tests Failing:**
-- Error: "X tests failing"
-- Action: Report failures with details, suggest fixes
-
-**3. Coverage Below Threshold:**
-- Error: "Coverage X% below threshold Y%"
-- Action: Identify gaps, suggest missing tests
-
-**4. Test Framework Not Configured:**
-- Error: "Test framework not detected"
-- Action: Verify framework installation and configuration
+**See:** `references/templates.md#error-templates` for complete error messages and solutions
 
 ---
 
 ## Common Scenarios
 
-### Scenario 1: All Tests Passing, Good Coverage
-
-If tests pass and coverage ≥80%:
-- Report success
-- Highlight any remaining gaps (optional improvements)
-- Proceed with confidence
-
-### Scenario 2: Tests Passing, Low Coverage
-
-If tests pass but coverage <80%:
-- Identify critical uncovered code
-- Suggest HIGH priority tests first
-- Offer to write missing tests
-
-### Scenario 3: Tests Failing
-
-If tests fail:
-- Report which tests failed
-- Show failure messages
-- Suggest reviewing implementation
-- Do not proceed with coverage analysis until tests pass
+**Tests passing + good coverage (≥80%):** Report success, highlight optional improvements | **Tests passing + low coverage (<80%):** Identify critical gaps, suggest HIGH priority tests | **Tests failing:** Report failures, suggest fixes, do not proceed with coverage analysis
 
 ---
 
 ## Best Practices
 
-1. **Run Tests Frequently** - After every significant change
-2. **Prioritize Quality Over Coverage %** - Meaningful tests > 100% coverage
-3. **Test What Matters** - Focus on business logic, error handling, edge cases
-4. **Keep Tests Fast** - Mock external dependencies, use in-memory DBs
-5. **Use Meaningful Test Names** - Describe expected behavior
+Run tests frequently | Prioritize quality over coverage % | Test what matters (business logic, errors, edge cases) | Keep tests fast (mock dependencies) | Use meaningful test names
 
 **See:** `references/best-practices.md` for detailed testing best practices
 
@@ -478,41 +210,12 @@ If tests fail:
 
 Detailed documentation in `references/`:
 
+- **templates.md**: All output formats, complete examples, JSON structures, CI/CD integration
 - **test-execution-guide.md**: Test configuration and execution details
 - **coverage-analysis-guide.md**: Coverage parsing and threshold checking
 - **gap-analysis-guide.md**: Analyzing uncovered code and categorization
 - **test-suggestions.md**: Missing test suggestion templates
 - **best-practices.md**: Testing and coverage best practices
-
----
-
-## Using This Skill
-
-**From James subagent:**
-```bash
-@james *test task-auth-002
-```
-
-**Directly:**
-```bash
-Use .claude/skills/development/run-tests/SKILL.md with input {scope: "task-auth-002", coverage: true}
-```
-
----
-
-## Philosophy
-
-This skill embodies BMAD's 3-layer architecture:
-
-- **Uses Commands** (Layer 1): bmad-commands for run_tests
-- **Provides Composition** (Layer 2): Test execution + analysis workflow
-- **Enables Orchestration** (Layer 3): Called by James after implementation
-
-By using commands, this skill is:
-- **Observable**: Telemetry tracks test metrics
-- **Testable**: Commands have known contracts
-- **Composable**: Fits into implementation workflow
-- **Reliable**: Deterministic test execution
 
 ---
 

@@ -136,26 +136,9 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
 - Identify current task (first unchecked)
 - Understand task dependencies
 
-**Present Plan:**
-```markdown
-## Execution Plan
+**Present Plan:** Display execution plan with task name, file, context loaded (task spec + coding standards), execution sequence (numbered tasks with subtask counts), total counts, confirmation prompt
 
-**Task:** [Task Name]
-**File:** [task_file]
-
-**Context Loaded:**
-- ✓ Task specification (all context embedded)
-- ✓ Coding standards from [always-load files]
-
-**Execution Sequence:**
-1. Task 1: [Name] (X subtasks)
-2. Task 2: [Name] (Y subtasks)
-...
-
-**Total:** N tasks, M subtasks
-
-**Ready to begin implementation? (yes/no)**
-```
+**See:** `references/templates.md#execution-plan-template` for complete format
 
 **Wait for confirmation** unless `auto_confirm=true`
 
@@ -174,55 +157,9 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
 
 **For each task in sequence:**
 
-1. **Announce current task:**
-   ```markdown
-   ## Executing Task N: [Name] (AC: X, Y)
-
-   **Subtasks:**
-   - [ ] Subtask N.1...
-   - [ ] Subtask N.2...
-   ...
-   ```
-
-2. **For each subtask:**
-
-   a. **Implement subtask:**
-      - Read context from task spec
-      - Create/modify files as specified
-      - Follow coding standards from always-load files
-
-   b. **If subtask is "Write tests":**
-      - Write unit/integration/E2E tests
-      - Tests must pass before marking complete
-
-   c. **If subtask is "Validate":**
-      - Run relevant tests
-      - Run linter/formatter
-      - Verify output matches acceptance criteria
-
-   d. **Update subtask checkbox:**
-      - Mark subtask complete: `- [x]`
-      - ONLY if fully complete and validated
-
-   e. **Record implementation notes:**
-      - Update "Completion Notes" in Implementation Record
-      - Document deviations, decisions, learnings
-
-3. **After all subtasks:**
-
-   a. **Run task validation:**
-      - Execute all tests related to task
-      - Run lint check
-      - Verify acceptance criteria coverage
-
-   b. **Update task checkbox:**
-      - Mark task complete: `- [x]`
-      - ONLY if all subtasks complete and validated
-
-   c. **Update Implementation Record:**
-      - Add files created/modified
-      - Add completion notes
-
+1. **Announce task:** Display task name with acceptance criteria and subtask list
+2. **For each subtask:** Implement (read context, create/modify files per coding standards) | If "Write tests": create and run tests (must pass) | If "Validate": run tests, linter, verify AC | Update checkbox to [x] only when complete | Record notes in Implementation Record (deviations, decisions, learnings)
+3. **After all subtasks:** Run task validation (all tests, lint, AC coverage) | Update task checkbox [x] only when validated | Update Implementation Record (files, notes)
 4. **Move to next task**
 
 **Halt Conditions:**
@@ -259,63 +196,17 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
    - Scan task spec for unchecked [ ] boxes
    - Ensure all tasks and subtasks complete
 
-**Documentation:**
+**Documentation:** Update Implementation Record with agent model, completion notes (details, decisions, learnings), files modified (created/modified lists), testing results (unit/integration/regression test counts, coverage %, execution time)
 
-Update Implementation Record:
-
-```markdown
-### Agent Model Used
-[model_id]
-
-### Completion Notes
-[Implementation details, decisions, learnings]
-
-### Files Modified
-
-**Created:**
-- [list of new files]
-
-**Modified:**
-- [list of modified files]
-
-### Testing Results
-
-**Unit Tests:** X passed, Y failed
-**Integration Tests:** X passed, Y failed
-**Coverage:** X% statements, Y% branches
-**Regression Tests:** X tests, all passing
-**Total Execution Time:** Xs
-```
+**See:** `references/templates.md#implementation-record-complete-template` for complete format
 
 **Status Update:**
 - Change status from "InProgress" to "Review"
 - DO NOT mark as "Done" (quality skill does that)
 
-**Present Summary:**
-```markdown
-## Implementation Complete - Ready for Review
+**Present Summary:** Display completion summary with task name, status (Review), what was implemented, all ACs met (with checkmarks), test results (counts, coverage, regression), files created/modified counts, quality review prompt
 
-**Task:** [Name]
-**Status:** Review
-
-**What Was Implemented:**
-✓ [Summary of tasks]
-
-**All Acceptance Criteria Met:**
-✓ AC1: [description]
-✓ AC2: [description]
-...
-
-**Test Results:**
-✓ X tests, X passed, 0 failed
-✓ Y% code coverage
-✓ All regression tests passing
-
-**Files Created:** X new files
-**Files Modified:** Y existing files
-
-**Quality review needed? (yes/no)**
-```
+**See:** `references/templates.md#completion-summary-template` for complete format
 
 **See:** `references/validation-guide.md` for validation details
 
@@ -325,26 +216,11 @@ Update Implementation Record:
 
 **Action:** Provide next steps based on user decision.
 
-**If user requests quality review:**
-```markdown
-Task marked "Review" and ready for quality assessment.
+**If user requests quality review:** Confirm task marked "Review", provide next step (use quality review skill with task file)
 
-Next: Use quality review skill with this task file.
-```
+**If user approves without review:** Confirm approval, provide next steps (commit changes, mark "Done", move to next task)
 
-**If user approves without review:**
-```markdown
-User approved implementation without formal quality review.
-
-Next steps:
-1. Commit changes
-2. Mark task status as "Done"
-3. Move to next task
-```
-
-**Output:**
-- User decision recorded
-- Clear next steps provided
+**See:** `references/templates.md#step-4-handle-quality-review` for complete messages
 
 ---
 
@@ -399,17 +275,9 @@ Next steps:
    - User requests halt
    - User asks question mid-execution
 
-**Halt Message Format:**
-```markdown
-⚠️ EXECUTION HALTED
+**Halt Message Format:** Display halt warning with reason (category), context (what was attempted), issue (specific problem), need from user (required info/decision), current progress (tasks/subtasks complete vs remaining), ready to resume condition
 
-**Reason:** [category]
-**Context:** [what was being attempted]
-**Issue:** [specific problem]
-**Need from User:** [what information/decision needed]
-**Current Progress:** [tasks complete, tasks remaining]
-**Ready to Resume:** Once [issue] is resolved
-```
+**See:** `references/templates.md#halt-message-templates` for all halt types
 
 **See:** `references/permissions-halts.md` for halt handling details
 
@@ -417,34 +285,9 @@ Next steps:
 
 ## Output
 
-Return structured output with telemetry:
+Return structured JSON output with implementation_complete (boolean), tasks_completed, subtasks_completed, tests_passed, total_tests, files_modified (array), status, telemetry (skill, task_file, metrics, duration_ms, halt_count)
 
-```json
-{
-  "implementation_complete": true,
-  "tasks_completed": 5,
-  "subtasks_completed": 18,
-  "tests_passed": true,
-  "total_tests": 19,
-  "files_modified": [
-    "src/types/user.ts",
-    "src/services/auth/signup.service.ts",
-    ...
-  ],
-  "status": "Review",
-  "telemetry": {
-    "skill": "execute-task",
-    "task_file": ".claude/tasks/task-006.md",
-    "tasks_completed": 5,
-    "subtasks_completed": 18,
-    "tests_passed": true,
-    "total_tests": 19,
-    "files_modified_count": 11,
-    "duration_ms": 245680,
-    "halt_count": 0
-  }
-}
-```
+**See:** `references/templates.md#complete-json-output-format` for full structure and examples (success, with halts, failed)
 
 ---
 
@@ -472,14 +315,9 @@ If any step fails:
 
 ## Best Practices
 
-1. **Trust the Task Spec** - Context is already embedded, don't search for more
-2. **Sequential Execution** - Complete current subtask before next
-3. **Test Before Checking** - Write and run tests before marking complete
-4. **Document As You Go** - Update completion notes after each task
-5. **Respect Permissions** - Only edit Implementation Record and checkboxes
-6. **Halt When Appropriate** - Don't guess if requirements unclear
+Trust the task spec (context embedded, don't search) | Sequential execution (complete current before next) | Test before checking (run tests before marking [x]) | Document as you go (update notes after each task) | Respect permissions (only Implementation Record + checkboxes) | Halt when appropriate (don't guess unclear requirements)
 
-**See:** `references/best-practices.md` for detailed best practices
+**See:** `references/best-practices.md` and `references/templates.md#best-practices-with-examples` for detailed guidance and examples
 
 ---
 
@@ -505,42 +343,13 @@ If any step fails:
 
 Detailed documentation in `references/`:
 
+- **templates.md**: All output formats, examples, file templates, integration workflows, JSON structures, error templates, command-line usage, best practices with examples
 - **configuration-guide.md**: Loading config, always-load files, status management
 - **task-execution-guide.md**: Executing tasks/subtasks, validation gates, examples
 - **validation-guide.md**: Final validation, documentation, completion summary
 - **implementation-record.md**: Templates for Implementation Record section
 - **permissions-halts.md**: Permission boundaries, halt conditions, error handling
 - **best-practices.md**: Best practices, pitfalls to avoid, integration patterns
-
----
-
-## Using This Skill
-
-**From command line:**
-```bash
-Use .claude/skills/implementation/execute-task/SKILL.md with input {task_file: ".claude/tasks/task-006.md"}
-```
-
-**Example:**
-```bash
-Execute task: .claude/tasks/task-006-user-signup.md
-```
-
----
-
-## Philosophy
-
-This skill embodies BMAD's 3-layer architecture:
-
-- **Uses Commands** (Layer 1): bmad-commands for read_file, run_tests
-- **Provides Composition** (Layer 2): Task execution + validation workflow
-- **Enables Orchestration** (Layer 3): Used by James/developer subagents
-
-By using commands, this skill is:
-- **Observable**: Telemetry tracks execution metrics
-- **Testable**: Commands have known contracts
-- **Composable**: Fits into development workflow
-- **Reliable**: Deterministic task execution
 
 ---
 

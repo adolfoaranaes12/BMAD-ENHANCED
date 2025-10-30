@@ -57,7 +57,7 @@ Your immediate task is to **refactor the remaining 16 BMAD skills** to be fully 
 └─────────────────────────────────────────────────────────┘
                           ↓
 ┌─────────────────────────────────────────────────────────┐
-│ Layer 1: PRIMITIVE SKILLS (Atomic Operations)           │
+│ Layer 1: PRIMITIVES (Atomic Operations)                 │
 │ Location: .claude/skills/bmad-commands/                 │
 │                                                          │
 │ • bmad-commands/SKILL.md   ← Skill with bundled scripts │
@@ -122,7 +122,7 @@ Your immediate task is to **refactor the remaining 16 BMAD skills** to be fully 
 
 **Remaining:** 16 skills need refactoring
 
-### 5. Primitive Skills Layer Built ✅
+### 5. Primitives Built ✅
 
 **Created:**
 - `bmad-commands` skill with Python scripts

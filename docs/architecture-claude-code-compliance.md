@@ -34,7 +34,7 @@ Our 3-layer architecture implementation is **fully compliant** with official Cla
 
 ## Layer-by-Layer Analysis
 
-### Layer 1: Primitive Skills (bmad-commands)
+### Layer 1: Primitives (bmad-commands)
 
 #### Our Implementation
 
@@ -49,7 +49,7 @@ Our 3-layer architecture implementation is **fully compliant** with official Cla
     └── command-contracts.yaml
 ```
 
-**What we call it:** "Primitive Skills Layer" / "Layer 1: Primitive Skills"
+**What we call it:** "Primitives" / "Layer 1: Primitives"
 
 **How it works:** Skills invoke Python scripts from this skill
 
@@ -78,15 +78,15 @@ Our 3-layer architecture implementation is **fully compliant** with official Cla
 - ✅ YAML frontmatter correct
 - ✅ References/ usage correct
 
-**What's confusing:**
-- ⚠️ Calling it "Primitive Skills Layer" when they're not slash commands
-- ⚠️ We're not using actual `/` commands at all
-- ⚠️ Terminology might confuse users
+**What's clear now:**
+- ✅ Calling it "Primitives" avoids confusion with slash commands
+- ✅ We're not using actual `/` commands (those are optional)
+- ✅ Clear terminology for atomic operations
 
-**Recommendation:**
-- Option A: Rename to "Primitives Layer" or "Utilities Layer"
-- Option B: Keep "Commands" but clarify it means "atomic operations" not "slash commands"
-- Option C: Actually use slash commands for some operations
+**Resolution:**
+- ✅ Adopted: Renamed to "Primitives" (simplest, clearest term)
+- ✅ Keeps skill name as "bmad-commands" (no breaking changes)
+- ✅ Slash commands remain optional future enhancement
 
 ---
 
@@ -340,15 +340,16 @@ Consolidate all content (routing logic, guardrails) into single .md file.
 
 **3. Clarify "Commands" Terminology**
 
-**Option A: Rename Layer 1**
-- Change "Primitive Skills Layer" → "Primitives Layer" or "Utilities Layer"
-- Update all documentation
+**✅ Resolution: Adopted Option A**
+- Changed "Primitive Skills Layer" → "Primitives"
+- Updated all documentation
 - Avoids confusion with slash commands
+- Simplest, clearest terminology
 
-**Option B: Clarify Definition**
-- Keep "Primitive Skills Layer"
-- Add note: "We use 'commands' to mean 'atomic operations', not slash commands"
-- Update architecture docs
+**Note:**
+- Skill name remains "bmad-commands" (matches directory in `.claude/skills/`)
+- Layer name is now simply "Primitives" for clarity
+- No breaking changes, only documentation terminology updates
 
 **Option C: Add Actual Slash Commands**
 - Create `.claude/commands/` directory
@@ -564,8 +565,7 @@ rm -rf .claude/agents/james-developer-v2/
 
 # Change:
 # "Layer 1: Primitive Skills" → "Layer 1: Primitives"
-# "Primitive Skills" → "Primitive Skills"
-# "bmad-commands" → "bmad-primitives" (optional)
+# Keep "bmad-commands" as skill name (matches actual .claude/skills/ directory)
 ```
 
 ### Step 4: Add Slash Commands (Optional)

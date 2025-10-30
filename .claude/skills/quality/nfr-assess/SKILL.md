@@ -124,18 +124,9 @@ This skill executes through 9 sequential steps. Each step must complete successf
 - Task file not found
 - Cannot create output directory
 
-**Output:**
-```
-✓ Configuration loaded from .claude/config.yaml
-✓ Task specification loaded: {task-id} - {title}
-✓ Related assessments: Risk [{found/not found}], Trace [{found/not found}]
-✓ Implementation files: {count} files identified
-✓ Relevant NFR categories: Security (HIGH), Performance (HIGH), Reliability (MEDIUM), ...
-✓ Automated checks: {checks available}
-✓ Output: {output-file}
-```
+**Output:** Configuration loaded, task spec loaded, related assessments checked, implementation files identified, NFR categories prioritized, automated checks prepared, output path set
 
-**Reference:** See [nfr-categories.md](references/nfr-categories.md) for detailed category descriptions and relevance criteria.
+**See:** `references/templates.md#step-0-configuration-loading-output` for complete format and [nfr-categories.md](references/nfr-categories.md) for category descriptions
 
 ---
 
@@ -160,16 +151,9 @@ This skill executes through 9 sequential steps. Each step must complete successf
 6. Calculate overall security score (weighted average: PASS=100, CONCERNS=50, FAIL=0)
 7. Identify security gaps with severity ratings (CRITICAL/HIGH/MEDIUM)
 
-**Output:**
-```
-✓ Security assessment complete
-✓ Overall Security Score: {score}% ({status})
-✓ Criteria Evaluated: {count} (PASS: {n}, CONCERNS: {n}, FAIL: {n})
-✓ Automated Checks: Vulnerabilities [{critical}/{high}/{moderate}/{low}], Secrets [{found}]
-✓ Critical Gaps: {count}
-```
+**Output:** Overall security score, criteria breakdown (PASS/CONCERNS/FAIL), automated check results (vulnerabilities, secrets), critical gaps count
 
-**Reference:** See [nfr-categories.md](references/nfr-categories.md#security-assessment) for detailed security criteria and [nfr-examples.md](references/nfr-examples.md#security-evidence) for evidence format examples.
+**See:** `references/templates.md#step-1-security-assessment-output` for complete format, [nfr-categories.md](references/nfr-categories.md#security-assessment) for criteria, [nfr-examples.md](references/nfr-examples.md#security-evidence) for evidence examples
 
 ---
 
@@ -195,17 +179,9 @@ This skill executes through 9 sequential steps. Each step must complete successf
 6. Calculate overall performance score
 7. Identify performance gaps (e.g., missing caching, N+1 queries, no load testing)
 
-**Output:**
-```
-✓ Performance assessment complete
-✓ Overall Performance Score: {score}% ({status})
-✓ Response Time (p95): {avg_p95}ms (threshold: {threshold}ms)
-✓ Throughput: {req_per_sec} req/s (threshold: {threshold} req/s)
-✓ Load Test: {success_rate}% success at {load} req/s
-✓ Performance Gaps: {count}
-```
+**Output:** Overall performance score, response time metrics (p50/p95/p99), throughput, load test results, performance gaps
 
-**Reference:** See [nfr-categories.md](references/nfr-categories.md#performance-assessment) for performance criteria and thresholds, [nfr-examples.md](references/nfr-examples.md#performance-benchmarks) for benchmark examples.
+**See:** `references/templates.md#step-2-performance-assessment-output` for complete format with benchmark tables
 
 ---
 
@@ -227,17 +203,9 @@ This skill executes through 9 sequential steps. Each step must complete successf
 5. Calculate overall reliability score
 6. Identify reliability gaps (e.g., no monitoring, no log aggregation, missing health checks)
 
-**Output:**
-```
-✓ Reliability assessment complete
-✓ Overall Reliability Score: {score}% ({status})
-✓ Error Handling: {status}
-✓ Logging: {status} (structured: {yes/no}, aggregation: {yes/no})
-✓ Monitoring: {status} (health checks: {yes/no}, metrics: {yes/no})
-✓ Reliability Gaps: {count}
-```
+**Output:** Overall reliability score, error handling status, logging status (structured/aggregation), monitoring status (health checks/metrics), reliability gaps
 
-**Reference:** See [nfr-categories.md](references/nfr-categories.md#reliability-assessment) for reliability criteria and [nfr-examples.md](references/nfr-examples.md#reliability-evidence) for evidence examples.
+**See:** `references/templates.md#step-3-reliability-assessment-output` for complete format
 
 ---
 
@@ -264,18 +232,9 @@ This skill executes through 9 sequential steps. Each step must complete successf
 6. Calculate overall maintainability score
 7. Identify maintainability gaps (e.g., missing documentation, high complexity, low coverage)
 
-**Output:**
-```
-✓ Maintainability assessment complete
-✓ Overall Maintainability Score: {score}% ({status})
-✓ Test Coverage: {coverage}% (threshold: {threshold}%)
-✓ Avg Complexity: {avg_complexity} (max: {max_complexity})
-✓ Linting: {pass/fail} ({error_count} errors)
-✓ Documentation: {status} (README: {yes/no}, API docs: {yes/no})
-✓ Maintainability Gaps: {count}
-```
+**Output:** Overall maintainability score, test coverage %, avg/max complexity, linting results, documentation status, maintainability gaps
 
-**Reference:** See [nfr-categories.md](references/nfr-categories.md#maintainability-assessment) for maintainability criteria and thresholds, [nfr-scoring.md](references/nfr-scoring.md#maintainability-scoring) for scoring methodology.
+**See:** `references/templates.md#step-4-maintainability-assessment-output` for complete format with metrics breakdown
 
 ---
 
@@ -296,18 +255,9 @@ This skill executes through 9 sequential steps. Each step must complete successf
 5. Calculate overall scalability score
 6. Identify scalability gaps (e.g., stateful design, missing indexes, no async processing)
 
-**Output:**
-```
-✓ Scalability assessment complete
-✓ Overall Scalability Score: {score}% ({status})
-✓ Stateless Design: {status}
-✓ Database Indexing: {status} (indexes: {count}, missing: {count})
-✓ Async Processing: {status} (queue: {yes/no})
-✓ Horizontal Scaling: {ready/not ready}
-✓ Scalability Gaps: {count}
-```
+**Output:** Overall scalability score, stateless design status, database indexing (count/missing), async processing status, horizontal scaling readiness, scalability gaps
 
-**Reference:** See [nfr-categories.md](references/nfr-categories.md#scalability-assessment) for scalability criteria and [nfr-examples.md](references/nfr-examples.md#scalability-evidence) for architecture examples.
+**See:** `references/templates.md#step-5-scalability-assessment-output` for complete format with DB analysis
 
 ---
 
@@ -330,18 +280,9 @@ This skill executes through 9 sequential steps. Each step must complete successf
 5. Calculate overall usability score
 6. Identify usability gaps (e.g., missing API docs, generic error messages, accessibility issues)
 
-**Output:**
-```
-✓ Usability assessment complete
-✓ Overall Usability Score: {score}% ({status})
-✓ API Design: {status} (RESTful: {yes/no})
-✓ Error Messages: {status} (detailed: {yes/no})
-✓ Documentation: {status} (API docs: {yes/no})
-✓ Accessibility: {status} (WCAG 2.1 AA: {compliant/non-compliant}, if UI)
-✓ Usability Gaps: {count}
-```
+**Output:** Overall usability score, API/UI design status, error messages quality, documentation status, accessibility status (if UI), usability gaps
 
-**Reference:** See [nfr-categories.md](references/nfr-categories.md#usability-assessment) for usability criteria (API vs UI), [nfr-examples.md](references/nfr-examples.md#usability-evidence) for examples.
+**See:** `references/templates.md#step-6-usability-assessment-output` for API and UI formats
 
 ---
 
@@ -350,40 +291,17 @@ This skill executes through 9 sequential steps. Each step must complete successf
 **Purpose:** Create comprehensive NFR assessment report using template with all category assessments, overall score calculation, gap summary, and recommendations.
 
 **Actions:**
-1. Load NFR assessment template (`.claude/templates/nfr-assessment.md`)
-2. Compute overall NFR score using weighted formula:
-   ```
-   Overall NFR Score = (
-     Security Score × 0.25 +
-     Performance Score × 0.20 +
-     Reliability Score × 0.20 +
-     Maintainability Score × 0.15 +
-     Scalability Score × 0.10 +
-     Usability Score × 0.10
-   )
-   ```
-3. Determine overall NFR status:
-   - ≥90%: PASS (Excellent)
-   - 75-89%: PASS (Good)
-   - 60-74%: CONCERNS (Needs improvement)
-   - <60%: FAIL (Critical issues)
-4. Aggregate all gaps across categories with priorities (P0/P1/P2)
-5. Generate recommendations prioritized by severity and impact
-6. Predict quality gate impact based on NFR score and critical gaps
-7. Populate template with all assessment data from Steps 1-6
-8. Write complete report to output file
+1. Load NFR assessment template
+2. Compute overall NFR score using weighted formula (Security 25%, Performance 20%, Reliability 20%, Maintainability 15%, Scalability 10%, Usability 10%)
+3. Determine overall status (≥90%: Excellent, 75-89%: Good, 60-74%: CONCERNS, <60%: FAIL)
+4. Aggregate gaps with priorities (P0/P1/P2)
+5. Generate prioritized recommendations
+6. Predict quality gate impact
+7. Populate template and write report
 
-**Output:**
-```
-✓ NFR assessment report generated
-✓ Output: .claude/quality/assessments/{task-id}-nfr-{date}.md
-✓ Overall NFR Score: {score}% ({status})
-✓ Category Scores: Security {s}%, Performance {p}%, Reliability {r}%, Maintainability {m}%, Scalability {sc}%, Usability {u}%
-✓ Total Gaps: {count} (Critical: {c}, High: {h}, Medium: {m})
-✓ Report size: {lines} lines
-```
+**Output:** Report path, overall NFR score/status, category scores, total gaps breakdown (P0/P1/P2), report size
 
-**Reference:** See [nfr-scoring.md](references/nfr-scoring.md) for detailed scoring methodology and thresholds, [nfr-gaps.md](references/nfr-gaps.md) for gap categorization.
+**See:** `references/templates.md#step-7-overall-nfr-scoring-formula` for complete formula and examples, [nfr-scoring.md](references/nfr-scoring.md) for methodology, [nfr-gaps.md](references/nfr-gaps.md) for gap categorization
 
 ---
 
@@ -392,171 +310,47 @@ This skill executes through 9 sequential steps. Each step must complete successf
 **Purpose:** Provide concise summary with key metrics, critical gaps, quality gate impact, and recommended next steps.
 
 **Actions:**
-1. Display formatted summary with:
-   - Task metadata (ID, title, date)
-   - Overall NFR score and status
-   - Category scores (6 categories with individual status)
-   - Critical gaps (P0 - must fix before merge)
-   - High gaps (P1 - should fix before release)
-   - Quality gate impact prediction (PASS/CONCERNS/FAIL)
-   - Reasoning for quality gate impact
-   - Actionable recommendations to achieve PASS status
-   - Estimated effort to close critical gaps
-   - Path to full report
-2. Suggest next steps:
-   - Review detailed assessment in report
-   - Prioritize P0 gaps (security, reliability blockers)
-   - Create tickets for P1 gaps
-   - Re-run nfr-assess after closing gaps
-   - Proceed to quality-gate when NFR score ≥75%
-3. Emit telemetry event with all metrics
+1. Display formatted summary: Task metadata, overall NFR score/status, category scores (6), critical gaps (P0), high gaps (P1), quality gate impact + reasoning, actionable recommendations with time estimates, report path
+2. Suggest next steps: Review report, prioritize P0 gaps, create tickets for P1 gaps, re-run after fixes, proceed to quality-gate when ≥75%
+3. Emit telemetry
 
-**Output:**
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Non-Functional Requirements Assessment Complete
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Output:** Complete formatted summary with scores, gaps, quality gate prediction, recommendations, next steps
 
-Task: {task-id} - {title}
-Date: {date}
-
-📊 Overall NFR Score: {score}% ({status})
-
-Category Scores:
-├─ Security: {score}% ({status}) - {critical_gaps} critical gaps
-├─ Performance: {score}% ({status}) - {high_gaps} high gaps
-├─ Reliability: {score}% ({status}) - {critical_gaps} critical gaps
-├─ Maintainability: {score}% ({status}) - {high_gaps} high gaps
-├─ Scalability: {score}% ({status}) - {high_gaps} high gaps
-└─ Usability: {score}% ({status}) - {high_gaps} high gaps
-
-⚠️  Critical Gaps (P0 - Must Fix):
-{list of P0 gaps with severity and action}
-
-🔴 High Gaps (P1 - Should Fix):
-{list of P1 gaps with severity and action}
-
-🎯 Quality Gate Impact: {PASS/CONCERNS/FAIL}
-
-Reasoning: {why this impacts quality gate}
-
-✅ To Achieve PASS:
-{prioritized action plan with time estimates}
-
-📄 Full Report: {report_path}
-
-💡 Next Steps:
-1. Review detailed NFR assessment in report
-2. Prioritize P0 gaps (before merge)
-3. Create tickets for P1 gaps
-4. Re-run nfr-assess after closing gaps
-5. Proceed to quality-gate when NFR score ≥75%
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**Execution Complete.**
-
-**Reference:** See [nfr-examples.md](references/nfr-examples.md#summary-formats) for summary format examples and [nfr-gaps.md](references/nfr-gaps.md#gap-prioritization) for gap prioritization logic.
+**See:** `references/templates.md#step-8-complete-user-summary-format` for full formatted output, [nfr-examples.md](references/nfr-examples.md#summary-formats) for examples
 
 ---
 
 ## Integration with Other Skills
 
-### Integration with risk-profile
+**Integration with risk-profile:** Security/performance/reliability risks from risk profile inform NFR assessment priorities and amplify gap severity (e.g., HIGH gap + HIGH risk = CRITICAL P0)
 
-**Input from risk-profile:**
-- Security risks identified in risk profile inform security assessment severity
-- Performance risks inform performance assessment priorities
-- Reliability risks inform reliability criteria weighting
+**Integration with trace-requirements:** Implementation evidence validates NFR implementation; NFR gaps feed back as coverage gaps in traceability matrix
 
-**How nfr-assess uses risk profile:**
-When a risk is identified in risk profile (e.g., "SQL injection - Score 6, HIGH"), and the NFR assessment finds a related gap (e.g., "Input Validation: CONCERNS - No sanitization"), the gap severity is amplified. A HIGH security gap that matches a HIGH risk becomes CRITICAL (must fix before merge).
+**Integration with test-design:** Performance/load/security test specifications inform corresponding NFR category assessments
 
-**Example:**
-```
-Risk Profile: Risk #2 - SQL injection (Score: 6, HIGH)
-NFR Security: Input Validation (CONCERNS) - No SQL injection protection
-→ Gap Severity: CRITICAL (base: HIGH + risk amplification: +1)
-→ Priority: P0 (blocks merge)
-```
+**Integration with quality-gate:** Overall NFR score + category scores + critical gaps feed into quality gate decision (≥90%: PASS-excellent, 75-89%: PASS-good, 60-74%: CONCERNS, <60%: FAIL; Security/Reliability <50%: production blocker)
 
-### Integration with trace-requirements
-
-**Input from traceability:**
-- Implementation evidence validates NFR implementation (e.g., security controls, error handlers)
-- Test coverage metrics inform reliability and maintainability assessments
-
-**Output to traceability:**
-- NFR gaps become additional coverage gaps in traceability matrix
-- Missing NFR implementations flagged as uncovered requirements
-
-### Integration with test-design
-
-**Input from test-design:**
-- Performance test specifications inform performance assessment
-- Load test requirements validate scalability assessment
-- Security test cases inform security assessment
-
-### Integration with quality-gate
-
-**Output to quality-gate:**
-- Overall NFR score contributes to quality gate decision
-- Category scores (especially Security and Reliability) influence gate status
-- Critical NFR gaps may block quality gate (FAIL)
-- NFR evidence feeds into quality gate report
-
-**How quality-gate uses NFR assessment:**
-```
-Quality Gate Decision Logic:
-1. Check overall NFR score:
-   - ≥90%: PASS (excellent)
-   - 75-89%: PASS (good)
-   - 60-74%: CONCERNS (needs improvement)
-   - <60%: FAIL (critical issues)
-
-2. Check critical NFR gaps:
-   - 0 critical: Continue evaluation
-   - 1+ critical in Security/Reliability: FAIL (production blocker)
-   - 1+ critical in other categories: CONCERNS
-
-3. Check category minimums:
-   - Security <50%: FAIL (not production-ready)
-   - Reliability <50%: FAIL (not production-ready)
-   - Performance <50%: CONCERNS (may need optimization)
-```
+**See:** `references/templates.md#integration-examples` for detailed integration workflows and decision logic
 
 ---
 
 ## Best Practices
 
-1. **Run NFR assessment before quality gate** - Identifies quality issues early in the review process, allowing time for remediation before merge decision.
-
-2. **Integrate automated checks** - Leverage tools (security scans, linting, test coverage) for objective, reproducible metrics. Automated checks reduce manual effort and increase assessment reliability.
-
-3. **Document evidence thoroughly** - Include file paths, line numbers, and code snippets for all assessments. Evidence makes findings actionable and defensible.
-
-4. **Prioritize Security and Reliability** - These categories directly impact production readiness. Security vulnerabilities and reliability issues are production blockers (P0 priority).
-
-5. **Set measurable thresholds** - Define clear pass/fail criteria in project configuration (e.g., "max critical vulnerabilities: 0", "min test coverage: 80%"). Measurable thresholds enable objective assessment.
-
-6. **Re-run after fixes** - After closing NFR gaps, re-run nfr-assess to validate gap closure and update NFR score. Track score improvement over time.
-
-7. **Customize category weights** - Adjust category weights in scoring formula based on project priorities (e.g., increase Security weight for security-critical systems).
-
-8. **Review with stakeholders** - Share NFR assessment reports with technical leads, security teams, and product owners. NFR gaps often require cross-functional decisions.
+Run NFR assessment before quality gate | Integrate automated checks (security, linting, coverage) | Document evidence thoroughly (file paths, line numbers, snippets) | Prioritize Security and Reliability (production blockers) | Set measurable thresholds in config | Re-run after fixes to validate | Customize category weights per project | Review with stakeholders (cross-functional decisions)
 
 ---
 
 ## References
 
-- **[nfr-categories.md](references/nfr-categories.md)** - Detailed assessment criteria for all 6 NFR categories (Security, Performance, Reliability, Maintainability, Scalability, Usability) with examples and thresholds
+- **[templates.md](references/templates.md)** - All output formats, complete examples, scoring formulas, integration workflows, JSON structures
 
-- **[nfr-scoring.md](references/nfr-scoring.md)** - Scoring methodology, weighting formulas, status determination thresholds, and automated check integration
+- **[nfr-categories.md](references/nfr-categories.md)** - Detailed assessment criteria for all 6 NFR categories with examples and thresholds
 
-- **[nfr-gaps.md](references/nfr-gaps.md)** - Gap identification methodology, severity levels (CRITICAL/HIGH/MEDIUM), prioritization logic (P0/P1/P2), and remediation guidance
+- **[nfr-scoring.md](references/nfr-scoring.md)** - Scoring methodology, weighting formulas, status thresholds, automated check integration
 
-- **[nfr-examples.md](references/nfr-examples.md)** - Complete example assessments, evidence formats, benchmark results, and summary outputs for all 6 categories
+- **[nfr-gaps.md](references/nfr-gaps.md)** - Gap identification, severity levels (CRITICAL/HIGH/MEDIUM), prioritization (P0/P1/P2), remediation guidance
+
+- **[nfr-examples.md](references/nfr-examples.md)** - Complete example assessments, evidence formats, benchmarks, summary outputs
 
 ---
 

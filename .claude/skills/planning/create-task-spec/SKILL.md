@@ -81,23 +81,13 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
   --output json
 ```
 
-**Extract Settings:**
-- `documentation.architecture`: Architecture doc paths
-- `development.alwaysLoadFiles`: Coding standards files
-- `development.taskLocation`: Where to save task files
-- `templates.taskSpec`: Task template location
+**Extract:** documentation.architecture, development.alwaysLoadFiles, development.taskLocation, templates.taskSpec
 
-**Verify:**
-- Task location directory exists (create if needed)
-- Template file exists
-- Determine next task ID (highest existing + 1)
+**Verify:** Task location exists, template exists, determine next task ID
 
-**Halt if:**
-- Configuration file missing
-- Template file missing
-- Unable to determine next task ID
+**Halt if:** Config missing, template missing, cannot determine task ID
 
-**See:** `references/requirements-gathering-guide.md` for detailed requirement clarification
+**See:** `references/templates.md` for configuration format and `references/requirements-gathering-guide.md` for requirement clarification
 
 ---
 
@@ -156,35 +146,11 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
    - Read most recent task file from `taskLocation`
    - Extract: Completion notes, lessons learned, patterns
 
-**Context categories:**
+**Context categories:** Tech stack, project structure, coding standards, testing strategy, data models, API specs, component specs, patterns
 
-**For ALL Tasks:**
-- Tech stack (languages, frameworks, versions)
-- Project structure (file organization)
-- Coding standards (formatting, patterns)
-- Testing strategy (frameworks, coverage)
+**CRITICAL RULES:** ONLY use information from source documents, NEVER invent details, ALWAYS cite sources, note when info missing
 
-**For Backend/API Tasks:**
-- Data models and schemas
-- Database design and relationships
-- API endpoint specifications
-- External service integrations
-- Authentication/authorization patterns
-
-**For Frontend/UI Tasks:**
-- Component specifications
-- State management patterns
-- Routing structure
-- UI/UX guidelines
-- Accessibility requirements
-
-**CRITICAL RULES:**
-- ONLY extract information present in source documents
-- NEVER invent technical details
-- ALWAYS cite source file and section
-- If info missing, note "No guidance found in architecture docs"
-
-**See:** `references/context-extraction-guide.md` for detailed extraction strategies
+**See:** `references/context-extraction-guide.md` for detailed extraction strategies and `references/templates.md` for context format examples
 
 ---
 
@@ -198,41 +164,11 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
 - What UI components are affected?
 - What external services are used?
 
-**Extract details:**
+**Extract details:** Data models (schemas, validation, relationships), API specs (endpoints, request/response, auth, errors), component specs (location, props, state, styling), file locations (exact paths), constraints (performance, security, reliability, testing)
 
-**Data Models:**
-- Schema definitions with types
-- Validation rules
-- Relationships and constraints
-- [Source: architecture doc reference]
+**All extractions must cite:** [Source: filename#section]
 
-**API Specifications:**
-- Endpoint paths and methods
-- Request/response formats
-- Authentication requirements
-- Error handling patterns
-- [Source: architecture doc reference]
-
-**Component Specifications:**
-- Component location and name
-- Props and state shape
-- Event handlers
-- Styling approach
-- [Source: architecture doc reference]
-
-**File Locations:**
-- Exact paths for new files
-- Existing files to modify
-- Test file locations
-- [Source: project structure doc reference]
-
-**Constraints:**
-- **Performance:** Response time targets, query limits
-- **Security:** Validation rules, authentication, authorization
-- **Reliability:** Error handling, retry logic, fallbacks
-- **Testing:** Test types required, coverage targets, mock strategies
-
-**See:** `references/context-extraction-guide.md` for component analysis patterns
+**See:** `references/context-extraction-guide.md` for analysis patterns and `references/templates.md` for extraction format examples
 
 ---
 
@@ -259,32 +195,11 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
    - UI layer fourth (components, pages)
    - Integration last (E2E tests, documentation)
 
-4. **Link to acceptance criteria:**
-   - Example: "Task 1: Create user model (AC: 1, 2)"
+4. **Link to acceptance criteria:** Example: "Task 1: Create user model (AC: 1, 2)"
 
-**Task structure example:**
-```markdown
-- [ ] Task 1: Create user data model (AC: 1, 2)
-  - [ ] Define User interface in src/types/user.ts
-  - [ ] Create user schema with Zod validation
-  - [ ] Add database migration for users table
-  - [ ] Write unit tests for validation logic
-  - [ ] Validate: Model matches architecture spec
+**Halt if:** Cannot break down coherently, >15 tasks (too complex), <3 tasks (too simple)
 
-- [ ] Task 2: Implement signup service logic (AC: 1, 3)
-  - [ ] Create signup.service.ts with user creation logic
-  - [ ] Implement password hashing with bcrypt
-  - [ ] Add duplicate email check
-  - [ ] Write unit tests for service methods
-  - [ ] Validate: All edge cases covered
-```
-
-**Halt if:**
-- Unable to break down into coherent tasks
-- Task count exceeds 15 (too complex, needs splitting)
-- Task count less than 3 (too simple, doesn't need task spec)
-
-**See:** `references/task-breakdown-guide.md` for detailed breakdown strategies
+**See:** `references/task-breakdown-guide.md` for detailed strategies and `references/templates.md` for task structure examples
 
 ---
 
@@ -299,27 +214,11 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
   --output json
 ```
 
-**Replace placeholders:**
-- `{{TASK_ID}}`: Generated task ID (e.g., task-006)
-- `{{TASK_TITLE}}`: Brief, descriptive title
-- `{{DATE}}`: Current date (YYYY-MM-DD)
-- `{{PRIORITY}}`: P0/P1/P2/P3
-- `{{STATUS}}`: "Draft" (always starts as draft)
-- `{{USER_STORY}}`: As a [role], I want [action], so that [benefit]
-- `{{ACCEPTANCE_CRITERIA}}`: List of 2-5 ACs
-- `{{CONTEXT}}`: Embedded technical context with source references
-- `{{TASKS}}`: Sequential task breakdown
-- `{{VALIDATION}}`: Validation requirements
+**Replace placeholders:** task_id, title, date, priority, status, user_story, acceptance_criteria, context, tasks, validation
 
-**Ensure context includes:**
-- Previous task insights (patterns, learnings)
-- Data models (with schemas)
-- API specifications (with examples)
-- Component specifications (with structure)
-- File locations (exact paths)
-- Testing requirements (types, coverage)
-- Technical constraints (performance, security)
-- ALL with [Source: filename#section] references
+**Context must include:** Previous insights, data models, API specs, component specs, file locations, testing requirements, constraints - ALL with [Source: filename#section] references
+
+**See:** `references/templates.md` for placeholder examples and formats
 
 ---
 
@@ -375,85 +274,30 @@ python .claude/skills/bmad-commands/scripts/write_file.py \
   --output json
 ```
 
-**Present summary:**
-```markdown
-## Task Specification Created
+**Present summary:** Show task ID, objective, acceptance criteria, task breakdown, embedded context sources, and request approval.
 
-**Task ID:** task-006-user-signup
-**File:** .claude/tasks/task-006-user-signup.md
-**Status:** Draft
+**Update status if approved:** Change from "Draft" to "Approved"
 
-**Objective:**
-As a new user, I want to create an account with email and password,
-so that I can access personalized features.
-
-**Acceptance Criteria:**
-1. User can signup with valid email/password
-2. Password security requirements enforced
-3. Duplicate emails prevented
-4. Confirmation email sent
-
-**Task Breakdown:**
-- Task 1: Create user model (AC: 1, 2)
-- Task 2: Implement signup service (AC: 1, 3)
-- Task 3: Create API endpoint (AC: 1, 4)
-- Task 4: Add email verification (AC: 4)
-- Task 5: Write comprehensive tests (AC: all)
-
-**Total:** 5 tasks, 20 subtasks
-
-**Context Embedded:**
-- User model schema [Source: docs/architecture/data-models.md#user]
-- Auth API spec [Source: docs/architecture/rest-api-spec.md#auth]
-- Testing strategy [Source: docs/standards.md#testing]
-- Previous auth patterns [Source: task-003 completion notes]
-
-**Ready for implementation? (yes/no)**
-```
-
-**Update status if approved:**
-- Change status from "Draft" to "Approved"
-- Task ready for execute-task skill
-
-**See:** `references/validation-approval-guide.md` for approval workflow
+**See:** `references/templates.md` for complete summary format and `references/validation-approval-guide.md` for approval workflow
 
 ---
 
 ## Output
 
-Return structured output with telemetry:
+Return structured output with task file path, task ID, task count, status, and telemetry metrics.
 
-```json
-{
-  "task_file": ".claude/tasks/task-006-user-signup.md",
-  "task_id": "task-006",
-  "task_count": 5,
-  "status": "Approved",
-  "telemetry": {
-    "skill": "create-task-spec",
-    "task_id": "task-006",
-    "task_count": 5,
-    "subtask_count": 20,
-    "priority": "P1",
-    "status": "Approved",
-    "duration_ms": 325000
-  }
-}
-```
+**See:** `references/templates.md` for complete output format
 
 ---
 
 ## Best Practices
 
-1. **Context Embedding is Critical** - Implementation skill should NEVER need to read architecture docs
-2. **Be Specific, Not Generic** - Include exact file paths, schemas, API specs
-3. **Source Everything** - Every technical claim needs [Source: filename#section]
-4. **Learn from Previous Tasks** - Read most recent task completion notes
-5. **Validation Checkpoints** - Every task needs tests and validation steps
-6. **Task Granularity** - 3-15 tasks (if >15, too complex; if <3, too simple)
-7. **Halt When Uncertain** - Missing critical info: halt and ask user
+1. **Context Embedding is Critical** - Implementation should never need architecture docs
+2. **Be Specific, Not Generic** - Exact file paths, schemas, API specs
+3. **Source Everything** - Cite [Source: filename#section] for all technical details
+4. **Task Granularity** - 3-15 tasks (>15 too complex, <3 too simple)
 
-**See:** `references/task-breakdown-guide.md` for detailed best practices
+**See:** `references/task-breakdown-guide.md` for detailed practices
 
 ---
 
@@ -478,37 +322,17 @@ Return structured output with telemetry:
 
 ## Reference Files
 
-Detailed documentation in `references/`:
-
-- **requirements-gathering-guide.md**: Clarifying requirements, acceptance criteria, user stories
-- **context-extraction-guide.md**: Loading architecture, extracting technical details, sourcing
-- **task-breakdown-guide.md**: Creating sequential tasks, granularity, validation checkpoints
-- **validation-approval-guide.md**: Completeness validation, saving, approval workflow
+- `references/requirements-gathering-guide.md` - Clarifying requirements, acceptance criteria, user stories
+- `references/context-extraction-guide.md` - Loading architecture, extracting technical details, sourcing
+- `references/task-breakdown-guide.md` - Creating sequential tasks, granularity, validation checkpoints
+- `references/validation-approval-guide.md` - Completeness validation, saving, approval workflow
+- `references/templates.md` - Task spec template, output format, placeholder examples, configuration format
 
 ---
 
 ## Using This Skill
 
-**From command line:**
-```bash
-Use .claude/skills/planning/create-task-spec/SKILL.md with input {requirement: "User signup with email/password"}
-```
-
----
-
-## Philosophy
-
-This skill embodies BMAD's 3-layer architecture:
-
-- **Uses Commands** (Layer 1): bmad-commands for read_file, write_file
-- **Provides Composition** (Layer 2): Planning + context extraction workflow
-- **Enables Orchestration** (Layer 3): Used by planning agents/subagents
-
-By embedding context, this skill is:
-- **Observable**: Telemetry tracks task creation metrics
-- **Testable**: Output format is predictable
-- **Composable**: Feeds into execute-task skill
-- **Reliable**: Context embedded at planning time
+Invoked with `requirement` input (feature description) and optional `priority` (P0-P3)
 
 ---
 

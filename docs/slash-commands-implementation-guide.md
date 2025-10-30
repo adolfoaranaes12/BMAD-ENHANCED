@@ -165,12 +165,12 @@ The command can invoke the skill, providing quick manual access.
 
 **1. `/read-task <task-id>`**
 - **Purpose:** Quickly read and summarize a task specification
-- **Uses:** `bmad-primitives` skill's `read_file.py`
+- **Uses:** `bmad-commands` skill's `read_file.py`
 - **Example:** `/read-task auth-002`
 
 **2. `/run-tests [path]`**
 - **Purpose:** Execute tests and show results
-- **Uses:** `bmad-primitives` skill's `run_tests.py`
+- **Uses:** `bmad-commands` skill's `run_tests.py`
 - **Example:** `/run-tests src/auth/`
 
 **3. `/implement <task-id>`**
@@ -263,7 +263,7 @@ allowed-tools: Bash(python:*)
 
 Reading task: task-$1
 
-!python .claude/skills/bmad-primitives/scripts/read_file.py \
+!python .claude/skills/bmad-commands/scripts/read_file.py \
   --path workspace/tasks/task-$1.md \
   --output json
 
@@ -302,7 +302,7 @@ allowed-tools: Bash(python:*)
 
 Executing tests for: ${1:-all}
 
-!python .claude/skills/bmad-primitives/scripts/run_tests.py \
+!python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path ${1:-.} \
   --framework ${2:-jest} \
   --output json
@@ -344,7 +344,7 @@ Starting implementation for task-$1...
 
 First, let me read the task specification:
 
-!python .claude/skills/bmad-primitives/scripts/read_file.py \
+!python .claude/skills/bmad-commands/scripts/read_file.py \
   --path workspace/tasks/task-$1.md \
   --output json
 
@@ -397,7 +397,7 @@ Tasks found. Let me analyze them:
 
 ## Test Status (if requested)
 
-!python .claude/skills/bmad-primitives/scripts/run_tests.py \
+!python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
   --framework jest \
   --output json 2>/dev/null || echo "Tests not configured"
@@ -651,21 +651,21 @@ All arguments: $ARGUMENTS
 ┌──────────────────────────────────────────┐
 │ Layer 0: SLASH COMMAND                   │
 │ /implement command executes              │
-│ - Reads task spec (uses bmad-primitives) │
+│ - Reads task spec (uses bmad-commands) │
 │ - Invokes implement-v2 skill             │
 └──────────────────────────────────────────┘
                    ↓
 ┌──────────────────────────────────────────┐
 │ Layer 2: WORKFLOW SKILL                  │
 │ implement-v2 skill executes              │
-│ - Uses bmad-primitives for operations    │
+│ - Uses bmad-commands for operations    │
 │ - Follows TDD workflow                   │
 │ - Returns results                        │
 └──────────────────────────────────────────┘
                    ↓
 ┌──────────────────────────────────────────┐
-│ Layer 1: PRIMITIVE SKILLS                │
-│ bmad-primitives scripts execute          │
+│ Layer 1: PRIMITIVES                      │
+│ bmad-commands scripts execute          │
 │ - read_file.py                           │
 │ - run_tests.py                           │
 └──────────────────────────────────────────┘

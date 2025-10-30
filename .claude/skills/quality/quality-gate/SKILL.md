@@ -128,21 +128,10 @@ This skill executes through 9 sequential steps (Step 0 + Steps 1-8). Each step m
 - Minimum assessments not available (require at least 1 of: traceability or NFR)
 - Cannot create output directory
 
-**Output:**
-```
-✓ Configuration loaded from .claude/config.yaml
-✓ Task specification loaded: {task-id} - {title}
-✓ Quality assessments loaded:
-  ├─ Risk Profile: {available} (Score: {score}, {risks_count} risks)
-  ├─ Test Design: {available} ({tests_count} tests)
-  ├─ Traceability: {available} (Score: {score}%)
-  └─ NFR Assessment: {available} (Score: {score}%)
-✓ Minimum requirements: {met/not met}
-✓ Waiver requests: {count}
-✓ Output: {yaml_path}, {markdown_path}
-```
+**Output:** Configuration summary, task details, assessments available, minimum requirements check
 
-**Reference:** See [gate-dimensions.md](references/gate-dimensions.md) for detailed dimension definitions and scoring methodology.
+**See:** `references/templates.md#step-0-configuration-loading-output` for complete format
+**See:** `references/gate-dimensions.md` for dimension definitions
 
 ---
 
@@ -169,16 +158,9 @@ This skill executes through 9 sequential steps (Step 0 + Steps 1-8). Each step m
 - Redistribute weight to other dimensions
 - Note assumption of acceptable risk management
 
-**Output:**
-```
-✓ Risk Management dimension synthesized
-✓ Score: {score}% ({status})
-✓ Critical Risks: {count} ({mitigated_count} mitigated)
-✓ High Risks: {count} ({tested_count} tested)
-✓ Contribution to Gate: {weighted_score} points (25% weight)
-```
+**Output:** Risk management score, status, risk counts, mitigation/test coverage, weighted contribution
 
-**Reference:** See [gate-dimensions.md](references/gate-dimensions.md#risk-management-dimension) for detailed risk scoring formula.
+**See:** `references/templates.md#step-1-risk-management-dimension-output` and `gate-dimensions.md#risk-management`
 
 ---
 
@@ -365,17 +347,9 @@ This skill executes through 9 sequential steps (Step 0 + Steps 1-8). Each step m
 5. Check waiver requests: If any gaps waived with justification, remove from critical count and re-evaluate decision
 6. Finalize decision with reasoning: Document status, overall score, criteria met/not met, blockers, action items
 
-**Output:**
-```
-✓ Overall Quality Score calculated: {score}%
-✓ Gate Decision: {PASS/CONCERNS/FAIL/WAIVED}
-✓ Criteria Met: {count}/{total}
-✓ Critical Issues: {count}
-✓ Waivers Granted: {count}
-✓ Action Items: {count}
-```
+**Output:** Overall score, gate decision (PASS/CONCERNS/FAIL/WAIVED), criteria met, critical issues, waivers, action items
 
-**Reference:** See [gate-decision-logic.md](references/gate-decision-logic.md) for complete decision matrix and criteria.
+**See:** `references/templates.md#step-7-overall-quality-score-and-decision` and `gate-decision-logic.md`
 
 ---
 
@@ -405,48 +379,10 @@ This skill executes through 9 sequential steps (Step 0 + Steps 1-8). Each step m
    - Next steps (complete action items, proceed with merge, etc.)
 4. Emit telemetry event with all metrics
 
-**Output:**
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Quality Gate Assessment Complete
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Output:** Assessment complete summary with overall score, dimension scores, gate decision, reasoning, reports generated (YAML/Markdown), next steps
 
-Task: {task-id} - {title}
-Date: {date}
-
-📊 Overall Quality Score: {score}% ({status})
-
-Dimension Scores:
-├─ Risk Management: {score}% ({status}, {weighted} pts)
-├─ Test Coverage: {score}% ({status}, {weighted} pts)
-├─ Traceability: {score}% ({status}, {weighted} pts)
-├─ NFR: {score}% ({status}, {weighted} pts)
-├─ Implementation Quality: {score}% ({status}, {weighted} pts)
-└─ Compliance: {score}% ({status}, {weighted} pts)
-
-🎯 Gate Decision: {PASS/CONCERNS/FAIL/WAIVED}
-
-Reasoning: {decision rationale}
-
-Can Proceed: {YES/NO}
-
-{Blockers section if FAIL}
-{Action Items section if CONCERNS}
-{Waivers section if granted}
-
-📄 Reports Generated:
-├─ YAML: {yaml_path}
-└─ Markdown: {markdown_path}
-
-💡 Next Steps:
-{recommended next steps based on decision}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**Execution Complete.**
-
-**Reference:** See [gate-examples.md](references/gate-examples.md) for example reports and summaries.
+**See:** `references/templates.md#step-8-report-formats` for complete YAML and Markdown report structures
+**See:** `gate-examples.md` for example reports and summaries
 
 ---
 
@@ -481,50 +417,30 @@ Can Proceed: {YES/NO}
 - PASS → Allow merge, proceed
 - WAIVED → Log waiver, allow merge with tracking
 
-**Example GitHub Actions integration:**
-```yaml
-- name: Check quality gate
-  run: |
-    GATE_STATUS=$(yq '.gate.decision.status' .claude/quality/gates/*.yaml)
-    if [ "$GATE_STATUS" = "FAIL" ]; then
-      echo "Quality gate FAILED"
-      exit 1
-    fi
-```
-
-**Reference:** See [gate-integration.md](references/gate-integration.md) for CI/CD integration examples and waiver handling.
+**See:** `references/templates.md#integration-examples` and `gate-integration.md` for CI/CD integration patterns
 
 ---
 
 ## Best Practices
 
-1. **Run all assessments before gate** - Comprehensive evaluation requires all 4 assessments for best results. Minimum is 1 (traceability or NFR), but all 4 recommended.
-
-2. **Set clear thresholds upfront** - Define pass/fail criteria in `.claude/config.yaml` before running gate. Consistent criteria enable objective decisions.
-
-3. **Use waivers judiciously** - Only waive gaps with clear justification and approval. Track all waivers for audit trail and future remediation.
-
-4. **Automate in CI/CD** - Integrate gate checks into PR workflow using YAML output. Automated gates ensure consistent quality standards.
-
-5. **Track action items** - For CONCERNS decisions, create tickets for action items to ensure follow-up. Don't let action items get lost.
-
-6. **Document decisions clearly** - Provide detailed reasoning for gate decisions, especially FAIL or WAIVED. Clear rationale supports audit requirements.
-
-7. **Re-run after fixes** - After addressing gaps, re-run quality-gate to validate improvements and update gate status. Track score improvements over time.
-
-8. **Configure weights appropriately** - Adjust dimension weights based on project type (e.g., security-critical projects increase Security weight in NFR dimension).
+1. **Run all 4 assessments** for comprehensive evaluation (minimum: 1 of traceability or NFR)
+2. **Set clear thresholds upfront** in config before running gate
+3. **Use waivers judiciously** with clear justification and approval
+4. **Automate in CI/CD** using YAML output for consistent standards
+5. **Track action items** from CONCERNS decisions to ensure follow-up
+6. **Document decisions clearly** with detailed reasoning (especially FAIL/WAIVED)
+7. **Re-run after fixes** to validate improvements and track score history
+8. **Configure weights appropriately** based on project type (e.g., increase Security weight for critical projects)
 
 ---
 
 ## References
 
-- **[gate-dimensions.md](references/gate-dimensions.md)** - Detailed scoring methodology for all 6 quality dimensions (Risk Management, Test Coverage, Traceability, NFR, Implementation Quality, Compliance) with formulas and examples
-
-- **[gate-decision-logic.md](references/gate-decision-logic.md)** - Complete decision matrix, criteria evaluation rules, critical gap rules, waiver logic, and decision reasoning templates
-
-- **[gate-integration.md](references/gate-integration.md)** - CI/CD integration examples (GitHub Actions, GitLab CI), waiver request process, audit trail generation, and YAML schema
-
-- **[gate-examples.md](references/gate-examples.md)** - Complete example gate reports (PASS, CONCERNS, FAIL, WAIVED scenarios), YAML and Markdown outputs, and summary formats
+- **templates.md** - All output formats, config examples, dimension synthesis outputs, decision templates, report structures
+- **gate-dimensions.md** - Scoring methodology for 6 dimensions with formulas and examples
+- **gate-decision-logic.md** - Decision matrix, criteria evaluation, critical gap rules, waiver logic
+- **gate-integration.md** - CI/CD integration, waiver process, audit trail, YAML schema
+- **gate-examples.md** - Example reports (PASS/CONCERNS/FAIL/WAIVED), outputs, summaries
 
 ---
 

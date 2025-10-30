@@ -60,7 +60,7 @@ Layer 3: Subagents Layer
 ```
 ✅ "3-Layer Skills & Subagents Architecture"
 
-Layer 1: Primitive Skills (bmad-primitives skill)
+Layer 1: Primitives (bmad-commands skill)
 Layer 2: Workflow Skills
 Layer 3: Subagents
 ```
@@ -68,7 +68,7 @@ Layer 3: Subagents
 **Benefits:**
 - Uses official Claude Code terms
 - Accurately describes what each layer IS
-- Makes clear bmad-primitives is a skill
+- Makes clear bmad-commands is a skill
 - No confusion with slash commands
 
 ---
@@ -200,7 +200,7 @@ Layer 3: Subagents Layer
 
 Layer 1: Primitive Skills Layer
   - Primitive skills provide atomic operations
-  - Example: bmad-primitives skill
+  - Example: bmad-commands skill
 
 Layer 2: Workflow Skills Layer
   - Workflow skills compose operations
@@ -224,11 +224,11 @@ The bmad-commands skill provides commands for file operations.
 
 **After:**
 ```markdown
-### Layer 1: Primitive Skills (bmad-primitives skill)
+### Layer 1: Primitives (bmad-commands skill)
 
 **What they ARE:** Skills that bundle executable scripts for atomic operations.
 
-The bmad-primitives skill provides primitive operations for file handling.
+The bmad-commands skill provides primitive operations for file handling.
 ```
 
 ---
@@ -251,7 +251,7 @@ The bmad-primitives skill provides primitive operations for file handling.
 ```
 ┌──────────────────────────────────────┐
 │ Layer 1: PRIMITIVE SKILLS            │
-│ (bmad-primitives skill)              │
+│ (bmad-commands skill)              │
 └──────────────────────────────────────┘
            ↓
 ┌──────────────────────────────────────┐
@@ -283,7 +283,7 @@ grep -r "Primitive Skills" docs/ --include="*.md" | wc -l
 **All documents now use:**
 - ✅ "Primitive Skills" (not "Command Skills")
 - ✅ "Primitive Skills Layer" (not "Commands Layer")
-- ✅ "bmad-primitives skill" (describing the skill accurately)
+- ✅ "bmad-commands skill" (describing the skill accurately)
 - ✅ "provides primitive operations" (not "provides commands")
 
 ---

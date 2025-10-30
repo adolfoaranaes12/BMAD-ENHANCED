@@ -1,0 +1,47 @@
+# QUICK START - Copy this entire message to start your next session:
+
+---
+
+I'm working on BMAD Enhanced - refactoring skills from BMAD v4 to Claude Code architecture.
+
+CURRENT STATUS:
+- ✅ Week 0: Terminology standardization complete
+- ✅ Architecture: 100% Claude Code compliant
+- ✅ Skills refactored: 2/18 (11% complete)
+  - fix-issue: Grade A, 67% token reduction
+  - estimate-stories: Grade A, 75% token reduction
+
+MY MISSION:
+Refactor 3 high-priority skills to Grade A compliance:
+1. implement-feature (development)
+2. review-task (quality)
+3. create-task-spec (planning)
+
+SUCCESS CRITERIA PER SKILL:
+- Grade A validation (skill-creator)
+- 70%+ token reduction
+- 300-400 lines in SKILL.md
+- 3-5 reference files (1,500-2,500 total lines)
+- Proper YAML frontmatter
+- 100% portable
+
+PROCESS (per skill, 4-5 hours):
+1. Read & analyze current skill (15 min)
+2. Create directory structure (5 min)
+3. Add YAML frontmatter (20 min)
+4. Streamline SKILL.md to 300-400 lines (60 min)
+5. Create 3-5 reference files (90-120 min)
+6. Remove old file (2 min)
+7. Validate with skill-creator → Grade A (20 min)
+8. Document metrics (10 min)
+
+PLEASE START BY:
+1. Reading: docs/skill-refactoring-template.md
+2. Studying: .claude/skills/development/fix-issue/SKILL.md (Grade A example)
+3. Studying: .claude/skills/planning/estimate-stories/SKILL.md (Grade A example)
+
+Then analyze implement-feature and create a refactoring plan.
+
+For complete details, see: docs/START-NEXT-SESSION.md
+
+Ready to begin! 🚀

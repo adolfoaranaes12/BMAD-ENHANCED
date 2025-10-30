@@ -57,22 +57,11 @@ This skill coordinates execution of 5 specialized quality skills to provide comp
 
 ## When to Use
 
-Use this skill when:
-- Performing comprehensive quality review of completed task
-- Task status is "Review" (implementation complete)
-- Preparing for merge/deploy/release decision
+**Use when:** Comprehensive quality review of completed task (status "Review"), preparing for merge/deploy decision
 
-For individual assessments, invoke specific skills directly:
-- Need only risk assessment? → Use `risk-profile` directly
-- Need only test strategy? → Use `test-design` directly
-- Need only traceability? → Use `trace-requirements` directly
-- Need only NFR assessment? → Use `nfr-assess` directly
-- Need only gate decision? → Use `quality-gate` directly (requires other assessments)
+**Individual assessments:** Invoke specific skills directly (risk-profile, test-design, trace-requirements, nfr-assess, quality-gate)
 
-Do NOT use when:
-- Task still in progress (wait for "Review" status)
-- Reviewing draft specifications (use planning skill)
-- Performing quick spot checks (use individual skills)
+**Do NOT use when:** Task in progress, reviewing drafts, quick spot checks
 
 ## Architecture
 
@@ -100,18 +89,9 @@ Each skill builds on previous results. Execution order is critical.
 
 ## File Modification Permissions
 
-**AUTHORIZED:**
-- ✅ Read task specification and implementation files
-- ✅ Execute the 5 quality skills in sequence
-- ✅ Generate quality assessment reports
-- ✅ Update "Quality Review" section of task file with summary
-- ✅ Create quality gate files in .claude/quality/gates/
+**AUTHORIZED:** Read task/implementation files, execute quality skills, generate reports, update task "Quality Review" section only
 
-**NOT AUTHORIZED:**
-- ❌ Modify any other section of task file (Objective, AC, Context, Tasks, Implementation Record)
-- ❌ Modify implementation or test code
-- ❌ Change task status to "Done"
-- ❌ Bypass individual skills
+**NOT AUTHORIZED:** Modify task Objective/AC/Context/Tasks/Implementation, modify code, change status to "Done", bypass skills
 
 ## Sequential Orchestration Execution
 
@@ -120,53 +100,14 @@ Each skill builds on previous results. Execution order is critical.
 **Purpose:** Load configuration, verify task readiness, determine execution mode.
 
 **Actions:**
+1. Load configuration from `.claude/config.yaml`
+2. Verify task file exists, status is "Review", implementation complete
+3. Determine execution mode (Full/Individual/Resume)
+4. Check existing assessments (for resume mode)
 
-1. Load configuration from `.claude/config.yaml`:
-   ```yaml
-   quality:
-     qualityLocation: .claude/quality
-     gateThreshold: CONCERNS
-     riskScoreThreshold: 6
-     requireAllAssessments: false
-   ```
+**Halt if:** Config missing, task not ready, status not "Review"
 
-2. Get and verify task file:
-   - Prompt user for task file path (e.g., `.claude/tasks/task-007-user-auth.md`)
-   - Verify file exists and is readable
-   - Check status is "Review"
-   - Verify implementation complete (all tasks checked [x])
-   - Verify Implementation Record populated
-
-3. Determine execution mode:
-   ```
-   Quality Review Options:
-
-   A) Full Review (Recommended) - Run all 5 skills
-   B) Individual Skills - Run specific skills only
-   C) Resume Partial Review - Continue from where previous review left off
-   ```
-
-4. Check existing assessments (for resume option):
-   ```bash
-   ls .claude/quality/assessments/{task-id}-*
-   ```
-
-**Halt if:**
-- Config file missing or invalid
-- Task file not found or unreadable
-- Task status not "Review"
-- Implementation appears incomplete
-
-**Output:**
-```
-✓ Configuration loaded
-✓ Task: {task-id} - {title}
-✓ Task status: Review (ready for quality assessment)
-✓ Implementation complete: {tasks_complete}/{total_tasks}
-✓ Execution mode: {Full Review | Individual Skills | Resume}
-```
-
-**Reference:** See [execution-paths.md](references/execution-paths.md) for detailed flow logic.
+**See:** `references/execution-modes-guide.md` for detailed flow and `references/templates.md` for configuration format
 
 ---
 
@@ -189,27 +130,11 @@ Each skill builds on previous results. Execution order is critical.
    - Prioritize test scenarios
    - Generate risk profile report
 
-3. Capture results:
-   ```yaml
-   riskProfile:
-     status: complete
-     file: .claude/quality/assessments/{task-id}-risk-{date}.md
-     summary:
-       totalRisks: 12
-       criticalRisks: 1
-       highRisks: 3
-       highRisksMitigated: 2/4
-   ```
-
-**Output:**
-```
-✓ Risk Profile complete
-✓ Total Risks: {total} ({critical} critical, {high} high)
-✓ Mitigation Coverage: {mitigated}/{high_risk_items}
-✓ Report: {file_path}
-```
+3. Capture results: risk count, critical/high risks, mitigation coverage, report path
 
 **Error Handling:** If skill fails, ask user to fix and re-run, or skip and continue (impacts gate confidence).
+
+**See:** `references/templates.md` for output format and captured data structure
 
 ---
 
@@ -233,25 +158,9 @@ Each skill builds on previous results. Execution order is critical.
    - Plan CI/CD integration
    - Generate test design document
 
-3. Capture results:
-   ```yaml
-   testDesign:
-     status: complete
-     file: .claude/quality/assessments/{task-id}-test-design-{date}.md
-     summary:
-       totalTests: 24
-       p0Tests: 8
-       p1Tests: 12
-       p2Tests: 4
-   ```
+3. Capture results: total tests, P0/P1/P2 counts, test levels, report path
 
-**Output:**
-```
-✓ Test Design complete
-✓ Total Tests: {total} ({p0} P0, {p1} P1, {p2} P2)
-✓ Test Levels: {unit} unit, {integration} integration, {e2e} E2E
-✓ Report: {file_path}
-```
+**See:** `references/templates.md` for output format
 
 ---
 
@@ -276,31 +185,11 @@ Each skill builds on previous results. Execution order is critical.
    - Create traceability matrix
    - Generate recommendations
 
-3. Capture results:
-   ```yaml
-   traceability:
-     status: complete
-     file: .claude/quality/assessments/{task-id}-trace-{date}.md
-     summary:
-       totalAC: 6
-       implemented: 5
-       tested: 6
-       implementationCoverage: 83%
-       testCoverage: 100%
-       traceabilityScore: 87.5%
-   ```
+3. Capture results: traceability score, implementation/test coverage, gaps, report path
 
-**Output:**
-```
-✓ Requirements Traceability complete
-✓ Traceability Score: {score}%
-✓ Implementation Coverage: {impl_coverage}%
-✓ Test Coverage: {test_coverage}%
-✓ Gaps: {total_gaps} ({critical} critical, {high} high)
-✓ Report: {file_path}
-```
+**Error Handling:** Traceability is CRITICAL for quality gate. Must fix and re-run if fails.
 
-**Error Handling:** Traceability is CRITICAL for quality gate. Must fix and re-run if fails - cannot proceed without traceability.
+**See:** `references/templates.md` for output format
 
 ---
 
@@ -327,30 +216,9 @@ Each skill builds on previous results. Execution order is critical.
    - Scalability assessment (stateless, indexing, async processing)
    - Usability assessment (API design, error messages, docs)
 
-3. Capture results:
-   ```yaml
-   nfr:
-     status: complete
-     file: .claude/quality/assessments/{task-id}-nfr-{date}.md
-     summary:
-       overallScore: 72%
-       categories:
-         security: 70%
-         performance: 80%
-         reliability: 65%
-         maintainability: 75%
-         scalability: 70%
-         usability: 70%
-   ```
+3. Capture results: overall NFR score, category scores (security/performance/reliability/maintainability/scalability/usability), critical gaps, report path
 
-**Output:**
-```
-✓ NFR Assessment complete
-✓ Overall NFR Score: {score}%
-✓ Security: {security}%, Reliability: {reliability}%
-✓ Critical NFR Gaps: {critical_gaps}
-✓ Report: {file_path}
-```
+**See:** `references/templates.md` for output format
 
 ---
 
@@ -380,32 +248,11 @@ Each skill builds on previous results. Execution order is critical.
    - Calculate overall quality score
    - Make gate decision (PASS/CONCERNS/FAIL/WAIVED)
 
-3. Capture results:
-   ```yaml
-   qualityGate:
-     status: complete
-     yamlFile: .claude/quality/gates/{task-id}-gate-{date}.yaml
-     mdFile: .claude/quality/gates/{task-id}-gate-{date}.md
-     decision:
-       status: CONCERNS
-       overallScore: 75.5%
-       canProceed: true
-       blockers: []
-       actionItems: 3
-   ```
+3. Capture results: gate decision (PASS/CONCERNS/FAIL/WAIVED), overall score, can proceed status, blockers, action items, report paths (YAML + MD)
 
-**Output:**
-```
-✓ Quality Gate complete
-✓ Gate Decision: {PASS/CONCERNS/FAIL/WAIVED}
-✓ Overall Quality Score: {score}%
-✓ Can Proceed: {YES/NO}
-✓ Blockers: {count}
-✓ Action Items: {count} ({p0} P0, {p1} P1)
-✓ Reports: {yaml-file}, {md-file}
-```
+**Error Handling:** Gate decision is CRITICAL. Must fix and re-run if fails.
 
-**Error Handling:** Gate decision is CRITICAL. Must fix and re-run if fails - this is the required final output.
+**See:** `references/templates.md` for output format
 
 ---
 
@@ -414,140 +261,25 @@ Each skill builds on previous results. Execution order is critical.
 **Purpose:** Update task file Quality Review section with synthesized summary.
 
 **Actions:**
+1. Generate quality review summary from gate decision
+2. Update task file Quality Review section (preserve all other sections)
 
-1. Generate summary from gate decision:
-   ```markdown
-   ## Quality Review
-
-   ### Review Date
-   {YYYYMMDD}
-
-   ### Reviewer
-   review-task-v2.0 (claude-sonnet-4-5)
-
-   ### Quality Gate Decision
-   {PASS | CONCERNS | FAIL | WAIVED}
-
-   ### Overall Quality Score
-   {score}%
-
-   ### Assessment Reports
-   - Risk Profile: `.claude/quality/assessments/{task-id}-risk-{date}.md`
-   - Test Design: `.claude/quality/assessments/{task-id}-test-design-{date}.md`
-   - Traceability: `.claude/quality/assessments/{task-id}-trace-{date}.md`
-   - NFR Assessment: `.claude/quality/assessments/{task-id}-nfr-{date}.md`
-   - Quality Gate: `.claude/quality/gates/{task-id}-gate-{date}.md` (⭐ Start here)
-
-   ### Summary
-   {Brief 2-3 sentence summary from gate decision}
-
-   ### Key Findings
-   {Top 3-5 findings from gate report}
-
-   ### Action Items
-   {P0 action items, if any}
-
-   ### Recommendation
-   {Recommendation from gate decision: approve/fix/waive}
-   ```
-
-2. Update task file using Edit tool (preserve all other sections unchanged)
-
-**Output:**
-```
-✓ Task file Quality Review section updated
-✓ Task file: {task-file-path}
-```
+**See:** `references/templates.md` for task file update template
 
 ---
 
 ### Step 7: Present Unified Quality Review Summary
 
-**Purpose:** Present comprehensive summary synthesizing all 5 skill results.
+**Purpose:** Present comprehensive summary synthesizing all 5 skill results with gate decision, dimension scores, findings, action items, and next steps.
 
 **Actions:**
+- Display gate decision and overall score
+- Show quality dimension scores (risk, test, trace, NFR, implementation, compliance)
+- List critical findings and action items (P0/P1)
+- Present generated report links
+- Collect user decision (accept/review/address/waive/rerun)
 
-Present unified summary:
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Comprehensive Quality Review Complete
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Task: {task-id} - {title}
-Date: {YYYYMMDD}
-Duration: {duration}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-## 🎯 Quality Gate Decision: {STATUS}
-
-**Overall Quality Score:** {score}%
-**Can Proceed:** {YES/NO/CONDITIONAL}
-**Blockers:** {count}
-**Action Items:** {count} ({p0} P0, {p1} P1, {p2} P2)
-
-{Brief rationale from gate decision}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-## 📊 Quality Dimension Scores
-
-1. Risk Management: {risk_score}%
-2. Test Coverage: {test_score}%
-3. Requirements Traceability: {trace_score}%
-4. Non-Functional Requirements: {nfr_score}%
-5. Implementation Quality: {impl_score}%
-6. Compliance: {compliance_score}%
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-## 🚨 Critical Findings
-
-{List of critical/high findings from all assessments}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-## ✅ Action Items
-
-### P0 (Must Complete Before Merge):
-{P0 action items from gate}
-
-### P1 (Should Complete Before Release):
-{P1 action items from gate}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-## 📄 Generated Reports
-
-1. ⭐ Quality Gate (START HERE): {gate-md-file}
-2. Risk Profile: {risk-file}
-3. Test Design: {test-file}
-4. Traceability: {trace-file}
-5. NFR Assessment: {nfr-file}
-6. Gate YAML (CI/CD): {gate-yaml-file}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-## 💡 Next Steps
-
-What would you like to do?
-
-A) Accept decision and proceed with merge
-B) Review detailed reports first
-C) Address action items now
-D) Request waiver for specific gaps
-E) Re-run specific assessment
-```
-
-**Reference:** See [summary-templates.md](references/summary-templates.md) for complete output templates.
-
-**User Decision Handling:**
-
-- **A) Accept and proceed:** Confirm decision recorded, remind to mark task "Done" after merge, create tickets for action items
-- **B) Review reports:** Provide guidance on which report to start with (gate report), explain interconnections
-- **C) Address action items:** Hand to implementation skill with action items as subtasks, schedule re-review
-- **D) Request waiver:** Collect details (gap, justification, approver, timeline), update gate file with waiver
-- **E) Re-run assessment:** Execute selected skill(s), re-run quality-gate, present updated summary
+**See:** `references/templates.md` for complete summary template and user decision handling
 
 ---
 
@@ -574,7 +306,8 @@ Quality review orchestration complete when:
 
 ## References
 
-- [execution-paths.md](references/execution-paths.md) - Detailed execution flow for full/individual/resume modes
-- [error-handling.md](references/error-handling.md) - Error scenarios, graceful degradation, fallback strategies
-- [summary-templates.md](references/summary-templates.md) - Output templates and formatting examples
-- [integration-guide.md](references/integration-guide.md) - CI/CD integration, subagent coordination, automation patterns
+- `references/execution-modes-guide.md` - Execution flow for full/individual/resume modes
+- `references/error-handling-guide.md` - Error scenarios, graceful degradation, fallback strategies
+- `references/orchestration-guide.md` - Skill coordination and sequencing details
+- `references/synthesis-summary-guide.md` - Summary generation and presentation
+- `references/templates.md` - Output templates, task file updates, user decision handling

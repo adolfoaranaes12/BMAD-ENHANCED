@@ -78,15 +78,9 @@ Safety-first approach ensures refactorings never break functionality. Each chang
 
 **Action:** Verify refactoring is allowed and safe to proceed.
 
-**Load configuration:**
-```yaml
-# Read .claude/config.yaml
-quality:
-  allowRefactoring: true|false
-  refactoringAggressiveness: conservative|moderate|aggressive
-  requireTestsPass: true
-  refactoringLog: .claude/quality/refactoring-log.md
-```
+**Load configuration:** Read `.claude/config.yaml` for refactoring settings
+
+**See:** `references/templates.md#configuration-format` for complete config structure
 
 **Check prerequisites:**
 1. Verify `allowRefactoring: true` in config (or input override)
@@ -94,16 +88,9 @@ quality:
 3. Verify quality assessment exists (`.claude/quality/gates/{task-id}-gate.yaml`)
 4. Verify tests exist and are passing
 
-**Get refactoring scope:**
-```
-Automated refactoring is available. Choose scope:
-A) Skip refactoring (proceed to final quality gate)
-B) Conservative (low-risk improvements only, P0 refactorings)
-C) Moderate (recommended improvements, P0 + P1 refactorings)
-D) Aggressive (all identified opportunities, P0 + P1 + P2)
+**Get refactoring scope:** Ask user to choose Conservative/Moderate/Aggressive or Skip
 
-Which option would you like? [Default: B]
-```
+**See:** `references/templates.md#user-decision-refactoring-scope` for prompt format
 
 **Halt if:**
 - Configuration disables refactoring and no input override
@@ -112,14 +99,9 @@ Which option would you like? [Default: B]
 - Quality assessment not yet run
 - User chooses to skip
 
-**Output:**
-```
-✓ Refactoring enabled in configuration
-✓ Tests exist and passing (45 tests, 100% pass rate)
-✓ Quality assessment complete
-✓ Refactoring scope: Moderate (P0 + P1)
-✓ Ready to proceed
-```
+**Output:** Prerequisites validation summary (config, tests, scope)
+
+**See:** `references/templates.md#step-0-output-template` for format
 
 **See:** `references/risk-assessment-guide.md` for aggressiveness levels
 
@@ -162,29 +144,9 @@ Read all files from task Implementation Record and identify patterns:
 - **Moderate:** P0 + P1, low-to-medium risk refactorings
 - **Aggressive:** P0 + P1 + P2, all risk levels
 
-**Example output:**
-```
-Refactoring Opportunities Identified:
+**Output:** List of refactoring opportunities with priority, risk, file location, rationale, and impact
 
-P0 (Critical):
-1. Extract validation logic from signup route (Medium Risk)
-   - File: src/routes/auth/signup.ts:15-30
-   - Reason: High severity issue "Validation in route handler"
-   - Impact: Improves testability and separation of concerns
-
-P1 (High):
-2. Extract method: hashPassword from signup service (Low Risk)
-   - File: src/services/auth/signup.service.ts:34-35
-   - Reason: Reduces technical debt "Password hashing inline"
-   - Impact: Improves reusability
-
-3. Rename: existingUser → existingUserWithEmail (Low Risk)
-   - File: src/services/auth/signup.service.ts:25
-   - Reason: Improves code clarity
-   - Impact: Better self-documenting code
-
-Selected for Moderate Refactoring: 1, 2, 3 (P0 + P1)
-```
+**See:** `references/templates.md#step-1-output-template` for complete format
 
 **Halt if:**
 - No refactoring opportunities identified (already clean code)
@@ -201,58 +163,14 @@ Selected for Moderate Refactoring: 1, 2, 3 (P0 + P1)
 
 **For each selected refactoring (in priority order):**
 
-**1. Announce refactoring:**
-```
-Applying refactoring 1/3: Extract validation logic
-- File: src/routes/auth/signup.ts
-- Type: Extract Method
-- Risk: Medium
-- Expected: Validation logic moved to separate module
-```
-
-**2. Apply single refactoring:**
-- Read current file content
-- Apply refactoring transformation
-- Write refactored content
-- Create backup of original (for rollback)
-
-**3. Run tests immediately:**
-```bash
-npm test  # or appropriate test command from config
-```
-- Capture test output
-- Check exit code (0 = pass, non-zero = fail)
-
-**4. Evaluate test results:**
-
-**If tests pass:**
-```
-✓ Refactoring successful
-✓ All tests passing (45/45)
-✓ Proceeding to next refactoring
-```
-- Log refactoring in refactoring log
-- Keep changes
-- Proceed to next refactoring
-
-**If tests fail:**
-```
-✗ Tests failed after refactoring
-✗ Failed tests: 2/45
-✗ Rolling back changes
-```
-- Restore original file from backup
-- Log failed refactoring attempt with error details
-- Skip this refactoring
-- Proceed to next refactoring (or halt if critical P0 failure)
-
-**5. Update progress:**
-```
-Refactoring Progress: 1/3 complete
-- Applied: 1
-- Skipped: 0
-- Failed: 0
-```
+**For each refactoring:**
+1. Announce what's being refactored (file, type, risk)
+2. Apply single refactoring (read, transform, write, backup)
+3. Run tests immediately (`npm test`)
+4. Evaluate results:
+   - If pass: Log success, keep changes, proceed
+   - If fail: Rollback, log failure, skip to next
+5. Update progress count (applied/skipped/failed)
 
 **Safety rules:**
 - Never apply multiple refactorings simultaneously
@@ -261,14 +179,9 @@ Refactoring Progress: 1/3 complete
 - Never modify tests to make them pass
 - Always preserve backups until tests pass
 
-**Example output:**
-```
-Refactoring Complete: 3/3 applied successfully
-- Extract validation logic: ✓ Success
-- Extract hashPassword method: ✓ Success
-- Rename existingUser variable: ✓ Success
-- All tests passing: 45/45 (100%)
-```
+**Output:** Refactoring completion summary with success/failure counts and test status
+
+**See:** `references/templates.md#step-2-output-templates` for all step outputs
 
 **Halt if:**
 - Multiple consecutive failures (>3)
@@ -288,61 +201,24 @@ Refactoring Complete: 3/3 applied successfully
 - Path: `.claude/quality/refactoring-log.md`
 - Append new entry (preserve existing logs)
 
-**Log structure:**
-```markdown
-## Refactoring Session: {task-id} - {date}
+**Log structure:** Append session entry to `.claude/quality/refactoring-log.md` with:
+- Session metadata (task, scope, duration, success rate)
+- Each refactoring applied (file, type, risk, rationale, before/after, impact, tests)
+- Refactorings failed (if any)
+- Files modified with line count changes
+- Test results (before/after)
+- Quality impact metrics
 
-**Task:** {task-title}
-**Scope:** {conservative|moderate|aggressive}
-**Duration:** {minutes}
-**Success Rate:** {applied}/{attempted} refactorings
-
-### Refactorings Applied
-
-#### 1. Extract Validation Logic
-- **File:** src/routes/auth/signup.ts:15-30
-- **Type:** Extract Method
-- **Risk:** Medium
-- **Rationale:** Validation in route handler (high severity issue)
-- **Before:** 30 lines of validation in route handler
-- **After:** 3 lines calling validateSignupRequest()
-- **Impact:** Improved testability, separation of concerns
-- **Tests:** ✓ All passing (45/45)
-
-### Refactorings Failed
-
-None
-
-### Files Modified
-
-- src/routes/auth/signup.ts (30 lines → 15 lines, -50%)
-- src/utils/validation.ts (0 lines → 35 lines, new file)
-
-### Test Results
-
-- Before: 45 tests, 45 passing, 0 failing
-- After: 45 tests, 45 passing, 0 failing
-- Execution time: 4.2s → 4.1s (-0.1s)
-
-### Quality Impact
-
-- Code duplication: Reduced
-- Separation of concerns: Improved
-- Testability: Improved
-- Maintainability: Improved
-```
+**See:** `references/templates.md#step-3-refactoring-log-template` for complete structure
 
 **Update quality gate file:**
 - Add refactoring summary to gate file
 - Update code quality metrics
 - Note improvements in maintainability
 
-**Output:**
-```
-✓ Refactoring log created: .claude/quality/refactoring-log.md
-✓ Quality gate updated with refactoring results
-✓ 3 refactorings applied, 0 failed, 0 skipped
-```
+**Output:** Log creation confirmation with file path and refactoring counts
+
+**See:** `references/templates.md#step-3-output-template`
 
 **See:** `references/refactoring-log-template.md` for complete structure
 
@@ -364,60 +240,13 @@ npm run test:e2e          # if exists
 npm run test:coverage  # if configured
 ```
 
-**Compare before/after metrics:**
-```
-Code Quality Metrics:
+**Compare before/after metrics:** Calculate improvements in lines, complexity, duplication, coverage
 
-Lines of Code:
-- Before: 120 lines
-- After: 110 lines
-- Change: -8% (improved)
+**See:** `references/templates.md#step-4-metrics-comparison-template` for complete format
 
-Cyclomatic Complexity:
-- Before: Average 8.5
-- After: Average 6.2
-- Change: -27% (improved)
+**Provide final summary:** Present comprehensive summary with status, counts, quality improvements, files modified, next steps
 
-Code Duplication:
-- Before: 15% duplicated
-- After: 3% duplicated
-- Change: -80% (improved)
-
-Test Coverage:
-- Before: 85%
-- After: 87%
-- Change: +2% (improved)
-```
-
-**Provide final summary:**
-```markdown
-## Automated Refactoring Complete
-
-**Status:** ✓ Successful
-**Refactorings Applied:** 3/3 (100% success rate)
-**Duration:** 15 minutes
-**Tests:** All passing (45/45)
-
-**Quality Improvements:**
-- ✅ Code complexity reduced 27%
-- ✅ Duplication reduced 80%
-- ✅ Test coverage increased 2%
-- ✅ Maintainability improved
-
-**Files Modified:**
-- Modified: src/routes/auth/signup.ts
-- Modified: src/services/auth/signup.service.ts
-- Created: src/utils/validation.ts
-- Created: src/utils/password.ts
-
-**Next Steps:**
-1. Review refactored code (git diff)
-2. Verify refactorings align with coding style
-3. Commit: "refactor: improve code quality (automated)"
-4. Proceed with quality gate decision
-
-**Detailed Log:** .claude/quality/refactoring-log.md
-```
+**See:** `references/templates.md#step-4-final-summary-template` for complete format
 
 **Update task file:**
 Append refactoring summary to task's Quality Review section with:
@@ -451,34 +280,13 @@ Refactoring is complete when:
 
 ## Safety Guarantees
 
-This skill guarantees:
-
-1. **Behavioral Preservation:** No functionality changes, only structure
-2. **Test Validation:** Tests run after each refactoring
-3. **Automatic Rollback:** Failed refactorings immediately reverted
-4. **Full Traceability:** All changes logged with rationale
-5. **Incremental Changes:** One refactoring at a time
-6. **User Control:** User chooses aggressiveness level
+**Behavioral preservation** (no functionality changes) | **Test validation** (after each change) | **Automatic rollback** (on failures) | **Full traceability** (logged) | **Incremental** (one at a time) | **User control** (choose scope)
 
 ---
 
 ## Integration with Quality Review
 
-This skill integrates with the quality review workflow:
-
-**Quality Review Workflow:**
-1. risk-profile → Identify risks
-2. test-design → Validate test strategy
-3. trace-requirements → Map ACs to tests
-4. nfr-assess → Assess security, performance, maintainability
-5. **refactor-code → Improve code quality (optional)**
-6. quality-gate → Final decision (reflects improvements)
-
-**When to run:**
-- After NFR assessment (when issues identified)
-- Before quality gate (so improvements reflected in decision)
-- Only if user opts in
-- Only if tests exist and pass
+Runs **after nfr-assess, before quality-gate** in quality workflow. Optional - only if user opts in and tests exist/pass. Improvements reflected in final gate decision.
 
 ---
 
@@ -525,56 +333,15 @@ This skill integrates with the quality review workflow:
 
 ---
 
-## Limitations
-
-**This skill cannot:**
-- ❌ Fix bugs (changes behavior)
-- ❌ Add features (changes scope)
-- ❌ Refactor without tests (can't validate safety)
-- ❌ Change architectural patterns (too risky)
-- ❌ Refactor external libraries (not under control)
-
-**This skill requires:**
-- ✅ Existing tests that pass
-- ✅ Clear separation between test and implementation
-- ✅ Permission in configuration
-- ✅ Quality assessment already run
-
----
-
 ## Reference Files
 
 Detailed documentation in `references/`:
 
+- **templates.md**: All output formats, config examples, log templates
 - **refactoring-patterns.md**: Common refactoring patterns with examples
 - **risk-assessment-guide.md**: Risk levels, assessment, filtering by aggressiveness
 - **incremental-application-guide.md**: Step-by-step application, test validation, rollback
 - **refactoring-log-template.md**: Log structure and documentation format
-
----
-
-## Using This Skill
-
-**From command line:**
-```bash
-Use .claude/skills/quality/refactor-code/SKILL.md with input {task_file: ".claude/tasks/task-001.md", aggressiveness: "moderate"}
-```
-
----
-
-## Philosophy
-
-This skill embodies BMAD's 3-layer architecture:
-
-- **Uses Commands** (Layer 1): bmad-commands for read_file, write_file, run_tests
-- **Provides Composition** (Layer 2): Test-driven refactoring workflow
-- **Enables Orchestration** (Layer 3): Used by quality subagents
-
-By refactoring safely and incrementally, this skill is:
-- **Observable**: Telemetry tracks refactoring success rates
-- **Testable**: Test validation after each change
-- **Composable**: Integrates with quality review workflow
-- **Reliable**: Automatic rollback on failures
 
 ---
 

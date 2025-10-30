@@ -73,33 +73,16 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
 ```
 
 **Parse Response:**
-- Extract `outputs.content` for task specification
 - Verify `success == true`
-- Parse task spec sections:
-  - Objective (what to build)
-  - Acceptance Criteria (testable requirements)
-  - Context (technical details, data models, APIs)
-  - Tasks/Subtasks (sequential steps)
+- Extract `outputs.content` for task specification
+- Parse sections: Objective, Acceptance Criteria, Context, Tasks
 
-**Required Task Spec Format:**
-```markdown
-## Objective
-[What to build]
-
-## Acceptance Criteria
-1. AC-1: [Testable requirement]
-2. AC-2: [Testable requirement]
-
-## Context
-**Technology Stack:** [Languages, frameworks, libraries]
-**Data Models:** [Database schema, entities]
-**API Specification:** [Endpoints, request/response formats]
-```
-
-**If task spec not found or invalid:**
-- Return error: `file_not_found` in `errors` array
+**If task spec not found:**
+- Error: `file_not_found` in `errors` array
 - Action: Create task spec first using `create-task-spec` skill
 - Halt implementation
+
+**See:** `references/templates.md` for required task spec format
 
 ---
 
@@ -138,29 +121,7 @@ Test Cases:
 
 **Action:** Write failing tests that cover all acceptance criteria.
 
-**Test Structure Pattern:**
-```typescript
-describe('Feature Name', () => {
-  // Happy path tests
-  it('should [expected behavior] when [condition]', () => {
-    // Arrange
-    // Act
-    // Assert
-  });
-
-  // Error cases
-  it('should [error response] when [error condition]', () => {
-    // ...
-  });
-
-  // Edge cases
-  it('should handle [edge case]', () => {
-    // ...
-  });
-});
-```
-
-**Run Tests with bmad-commands:**
+**Run Tests:**
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
@@ -170,15 +131,13 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 
 **Verify RED Phase:**
 - Parse response: `outputs.passed == false`
-- Failures should be for the right reason (NOT syntax errors)
-- Tests fail because implementation doesn't exist yet
+- Tests fail because implementation doesn't exist (not syntax errors)
 
 **If tests pass in RED phase:**
-- Tests are not valid (code already exists)
+- Tests are invalid (code already exists)
 - Refine tests to be more specific
-- Verify testing the right functionality
 
-**See:** `references/test-examples.md` for comprehensive test patterns
+**See:** `references/test-examples.md` for comprehensive test patterns and structure
 
 ---
 
@@ -310,29 +269,9 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 
 ## Output
 
-Return structured output with telemetry:
+Return structured output with implementation status, test results, and telemetry.
 
-```json
-{
-  "implementation_complete": true,
-  "test_coverage_percent": 87,
-  "files_modified": [
-    "src/auth/login.ts",
-    "tests/auth/login.test.ts"
-  ],
-  "tests_passed": true,
-  "telemetry": {
-    "skill": "implement-feature",
-    "task_id": "task-auth-002-login",
-    "duration_ms": 45000,
-    "files_modified_count": 2,
-    "tests_total": 12,
-    "tests_passed": 12,
-    "tests_failed": 0,
-    "coverage_percent": 87
-  }
-}
-```
+**See:** `references/templates.md` for complete output format and examples
 
 ---
 
@@ -340,23 +279,12 @@ Return structured output with telemetry:
 
 If any step fails:
 
-**1. Task Spec Not Found:**
-- Error: "Task specification not found at workspace/tasks/{task_id}.md"
-- Action: Create task spec first using `create-task-spec` skill
+- **Task Spec Not Found:** Create task spec first using `create-task-spec` skill
+- **Tests Failing:** Review failures in outputs, fix code, re-run
+- **Coverage Below Threshold:** Add more tests to reach 80%
+- **Syntax Errors:** Fix syntax errors, re-run tests
 
-**2. Tests Failing:**
-- Error: "Tests failing after implementation"
-- Action: Review test failures in outputs, fix code, re-run
-
-**3. Coverage Below Threshold:**
-- Error: "Test coverage {actual}% below threshold 80%"
-- Action: Add more tests to increase coverage
-
-**4. Syntax Errors:**
-- Error: "Syntax errors detected in implementation"
-- Action: Fix syntax errors, re-run tests
-
-**See:** `references/error-scenarios.md` for complete error handling guide
+**See:** `references/error-scenarios.md` for detailed error handling strategies
 
 ---
 
@@ -388,12 +316,10 @@ If tests break during refactoring:
 
 ## Best Practices
 
-1. **Always Follow TDD Cycle** - Red → Green → Refactor, no shortcuts
-2. **Keep Tests Focused** - One test per behavior/requirement
+1. **Follow TDD Cycle** - Red → Green → Refactor, no shortcuts
+2. **Keep Tests Focused** - One test per behavior
 3. **Mock External Dependencies** - Database, APIs, file system
-4. **Commit Frequently** - After RED, after GREEN, after REFACTOR
-5. **Update Documentation** - Task file, API docs, inline comments
-6. **Run Tests After Every Change** - Never guess if tests pass
+4. **Commit Frequently** - After each TDD phase
 
 **See:** `references/best-practices.md` for detailed TDD best practices
 
@@ -423,49 +349,20 @@ If tests break during refactoring:
 
 ## Reference Files
 
-Detailed documentation in `references/`:
-
-- **requirement-analysis-guide.md**: Analyze acceptance criteria, plan tests
-- **test-examples.md**: Complete test patterns (unit, integration, e2e)
-- **implementation-examples.md**: Code implementation patterns
-- **refactoring-patterns.md**: Common refactoring techniques
-- **validation-guide.md**: Complete validation procedures
-- **error-scenarios.md**: Error handling strategies
-- **best-practices.md**: TDD and testing best practices
-- **templates.md**: Task update and summary templates
+- `references/requirement-analysis-guide.md` - Analyze acceptance criteria, plan tests
+- `references/test-examples.md` - Complete test patterns (unit, integration, e2e)
+- `references/implementation-examples.md` - Code implementation patterns
+- `references/refactoring-patterns.md` - Common refactoring techniques
+- `references/validation-guide.md` - Complete validation procedures
+- `references/error-scenarios.md` - Error handling strategies
+- `references/best-practices.md` - TDD and testing best practices
+- `references/templates.md` - Task spec format, output format, commit templates
 
 ---
 
 ## Using This Skill
 
-**From James subagent:**
-```bash
-@james *implement task-auth-002-login
-```
-
-**Directly:**
-```bash
-Use .claude/skills/development/implement-feature/SKILL.md with input {task_id: "task-auth-002"}
-```
-
-**With Orchestrator:**
-Orchestrator calls this skill automatically during delivery workflow.
-
----
-
-## Philosophy
-
-This skill embodies BMAD's 3-layer architecture:
-
-- **Uses Commands** (Layer 1): bmad-commands for read_file, run_tests
-- **Provides Composition** (Layer 2): Sequences commands into TDD workflow
-- **Enables Orchestration** (Layer 3): Called by James subagent with routing
-
-By using commands, this skill is:
-- **Observable**: Telemetry at every step
-- **Testable**: Commands have known contracts
-- **Composable**: Can be used by other workflows
-- **Reliable**: Deterministic command behavior
+Invoked by James subagent with routing, or called directly with task_id input.
 
 ---
 

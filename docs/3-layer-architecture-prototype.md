@@ -10,9 +10,9 @@
 
 Successfully prototyped the 3-layer architecture for BMAD Enhanced using the **implement workflow** as the validation case. The prototype demonstrates:
 
-- ✅ **Primitive Skills Layer**: Testable, observable primitives
-- ✅ **Skills Layer**: Contract-based composition with acceptance criteria
-- ✅ **Subagents Layer**: Intelligent routing with guardrails
+- ✅ **Primitives**: Testable, observable primitives
+- ✅ **Workflow Skills**: Contract-based composition with acceptance criteria
+- ✅ **Subagents**: Intelligent routing with guardrails
 
 **Key Achievement:** Validated that the 3-layer pattern works with Claude Code's skill system and BMAD's existing structure.
 
@@ -20,7 +20,7 @@ Successfully prototyped the 3-layer architecture for BMAD Enhanced using the **i
 
 ## What Was Built
 
-### Layer 1: Primitive Skills (bmad-commands skill)
+### Layer 1: Primitives (bmad-commands skill)
 
 **Location:** `.claude/skills/bmad-commands/`
 
@@ -374,7 +374,7 @@ Output:
 
 ## Files Created
 
-### Primitive Skills Layer
+### Primitives
 ```
 .claude/skills/bmad-commands/
 ├── SKILL.md (295 lines)

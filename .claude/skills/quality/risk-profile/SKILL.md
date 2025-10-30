@@ -116,16 +116,9 @@ This skill executes through 7 sequential steps (Step 0-6). Each step must comple
 - Task file not found or unreadable
 - Task too vague to assess risks
 
-**Output:**
-```
-✓ Configuration loaded from .claude/config.yaml
-✓ Risk threshold: {threshold} (≥{threshold} triggers CONCERNS gate)
-✓ Task specification loaded: {task-id} - {title}
-✓ Assessment mode: {pre-implementation/during-development/post-implementation}
-✓ Implementation scope: {complexity_indicators}
-```
+**Output:** Configuration loaded with risk threshold, task spec loaded with ID/title, assessment mode determined, implementation scope analyzed (tasks/systems/patterns)
 
-**Reference:** See [risk-scoring.md](references/risk-scoring.md) for P×I methodology details.
+**See:** `references/templates.md#step-0-output` for complete format
 
 ---
 
@@ -160,14 +153,9 @@ This skill executes through 7 sequential steps (Step 0-6). Each step must comple
    - **Operational:** Deployment complexity, monitoring gaps, rollback difficulty
 5. Document 10-20 potential risks with initial categorization
 
-**Output:**
-```
-✓ Risk areas identified: {count} potential risks
-✓ Categories: Technical [{count}], Security [{count}], Performance [{count}], Data [{count}], Business [{count}], Operational [{count}]
-✓ Complexity indicators: {task_count} tasks, {system_count} systems, {pattern_type}
-```
+**Output:** Risk areas identified with count per category (Technical/Security/Performance/Data/Business/Operational), complexity indicators (task count, system count, pattern type)
 
-**Reference:** See [risk-categories.md](references/risk-categories.md) for detailed category definitions and examples.
+**See:** `references/templates.md#step-1-output` for complete format with examples
 
 ---
 
@@ -192,19 +180,9 @@ For each identified risk:
    - Why this impact? (user impact, business impact, fix difficulty)
 5. Sort risks by score (highest first for reporting)
 
-**Output:**
-```
-✓ Risks scored: {count} risks evaluated
-✓ Score distribution:
-  ├─ Critical (≥7): {count}
-  ├─ High (6): {count}
-  ├─ Medium (3-5): {count}
-  └─ Low (1-2): {count}
-✓ Highest risk score: {max_score}
-✓ Quality gate impact: {predicted_status}
-```
+**Output:** Risks scored with P×I methodology, score distribution (critical/high/medium/low counts), highest score, quality gate impact prediction
 
-**Reference:** See [risk-scoring.md](references/risk-scoring.md) for detailed scoring examples and guidelines.
+**See:** `references/templates.md#step-2-output` for complete format and scoring examples
 
 ---
 
@@ -233,16 +211,9 @@ For each high-risk item (prioritize critical risks first):
    - Moderate (1-4 hours)
    - Significant (>4 hours)
 
-**Output:**
-```
-✓ Mitigation strategies developed: {count} strategies
-✓ Critical risks mitigated: {count}/{critical_count}
-✓ High risks mitigated: {count}/{high_count}
-✓ Total mitigation effort: {total_effort}
-✓ Phases: Implementation [{count}], Testing [{count}], Deployment [{count}], Monitoring [{count}]
-```
+**Output:** Mitigation strategies developed for all high-risk items, critical/high risks mitigation counts, total effort estimate, phase breakdown (implementation/testing/deployment/monitoring)
 
-**Reference:** See [mitigation-strategies.md](references/mitigation-strategies.md) for mitigation patterns and examples.
+**See:** `references/templates.md#step-3-output` for complete format and mitigation examples
 
 ---
 
@@ -271,16 +242,9 @@ For each high-risk item (prioritize critical risks first):
    - What test coverage is needed?
    - What scenarios would expose the risk?
 
-**Output:**
-```
-✓ Test scenarios prioritized: {count} scenarios
-✓ P0 (Critical) tests: {count} (must have before merge)
-✓ P1 (High) tests: {count} (should have before merge)
-✓ P2 (Medium) tests: {count} (nice to have)
-✓ Risk-test mapping: {count} risks mapped to tests
-```
+**Output:** Test scenarios prioritized by risk level, P0/P1/P2 test counts, risk-test mapping complete
 
-**Reference:** See [risk-examples.md](references/risk-examples.md) for test scenario examples.
+**See:** `references/templates.md#step-4-output` for complete format and test examples
 
 ---
 
@@ -306,17 +270,9 @@ For each high-risk item (prioritize critical risks first):
 6. Generate file path: `{qualityLocation}/assessments/{taskId}-risk-{YYYYMMDD}.md`
 7. Write risk profile file with all sections
 
-**Output:**
-```
-✓ Risk profile report generated
-✓ Output: {report_path}
-✓ Total risks documented: {count}
-✓ Critical/high risks detailed: {count}
-✓ Test priorities documented: P0 [{count}], P1 [{count}], P2 [{count}]
-✓ Quality gate impact: {predicted_status}
-```
+**Output:** Risk profile report generated at path, total risks documented, critical/high risks detailed, test priorities documented (P0/P1/P2 counts), quality gate impact prediction
 
-**Reference:** See [risk-examples.md](references/risk-examples.md) for complete report examples.
+**See:** `references/templates.md#step-5-output` and `#complete-risk-profile-report-template` for complete format
 
 ---
 
@@ -340,151 +296,61 @@ For each high-risk item (prioritize critical risks first):
    - Write P0/P1 tests to validate
 4. Emit telemetry event with all metrics
 
-**Output:**
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Risk Profile Assessment Complete
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Output:** Formatted summary with task metadata, risk counts by severity, critical risks highlighted with mitigations, high-risk areas summarized, P0/P1 test priorities, quality gate impact prediction, path to PASS recommendations, next steps
 
-Task: {task-id} - {title}
-Date: {date}
-Mode: {assessment_mode}
-
-📊 Risk Summary
-
-Total Risks: {total} identified
-- 🔴 Critical (≥7): {count}
-- 🟠 High (6): {count}
-- 🟡 Medium (3-5): {count}
-- 🟢 Low (1-2): {count}
-
-{Critical Risk Section if any}
-
-🎯 High-Risk Areas (Score ≥6)
-
-{List of high-risk areas with mitigation summaries}
-
-📋 Test Priorities
-
-P0 (Critical) - Must Have Before Merge:
-{List of P0 test scenarios}
-
-P1 (High) - Should Have Before Merge:
-{List of P1 test scenarios}
-
-🚦 Quality Gate Impact
-
-Predicted Status: {PASS/CONCERNS/FAIL}
-Reasoning: {prediction rationale}
-
-Recommendation:
-{Action items to achieve PASS}
-
-📄 Full Report: {report_path}
-
-💡 Next Steps:
-1. Review full risk profile report
-2. Confirm mitigation strategies acceptable
-3. Address critical risks during implementation
-4. Write P0/P1 tests to validate
-5. Reference this profile during quality review
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+**See:** `references/templates.md#step-6-user-facing-summary` for complete formatted output examples
 
 **Execution Complete.**
-
-**Reference:** See [risk-examples.md](references/risk-examples.md) for summary format examples.
 
 ---
 
 ## Risk Scoring Methodology
 
-### Probability (P): Likelihood of Risk Occurring
+**Probability (P):** 1-3 scale measuring likelihood (1=<20% unlikely, 2=20-60% may occur, 3=>60% likely)
 
-**Scale 1-3:**
-- **1 - Low:** Unlikely to occur (<20% chance) - established patterns, known approaches, simple implementation
-- **2 - Medium:** May occur (20-60% chance) - some unknowns, moderate complexity, new technology
-- **3 - High:** Likely to occur (>60% chance) - complex, many unknowns, unproven patterns
+**Impact (I):** 1-3 scale measuring severity (1=minor/easy fix, 2=significant issue/moderate fix, 3=critical failure/major fix)
 
-### Impact (I): Severity if Risk Occurs
+**Risk Score:** P × I (1-9 scale) | 9=critical immediate mitigation, 6-8=high mitigation+testing, 3-5=medium monitor, 1-2=low standard precautions
 
-**Scale 1-3:**
-- **1 - Low:** Minor inconvenience, easy fix, minimal user impact, no data loss
-- **2 - Medium:** Significant issue, moderate effort to fix, notable user impact, degraded experience
-- **3 - High:** Critical failure, major effort to fix, severe user/business impact, security breach, data loss
+**Quality Gate Rules:** Score ≥9 → FAIL | Score ≥6 → CONCERNS | Score <6 → No auto-impact
 
-### Risk Score: P × I
-
-**Scale 1-9:**
-- **9 (P:3 × I:3):** Critical - Likely high-impact failure, requires immediate mitigation
-- **6-8:** High - Serious risks requiring mitigation and testing validation
-- **3-5:** Medium - Manageable risks, monitor closely during implementation
-- **1-2:** Low - Minor risks, standard precautions sufficient
-
-### Quality Gate Impact
-
-**Auto-apply rules:**
-- Risk score ≥9 → Quality gate FAIL (must mitigate before merge)
-- Risk score ≥6 → Quality gate CONCERNS (mitigation plan + testing required)
-- Risk score <6 → No automatic gate impact (standard quality processes)
+**See:** `references/templates.md#probability-assessment-guidelines` and `#impact-assessment-guidelines` for detailed scoring criteria and examples
 
 ---
 
 ## Integration with Other Skills
 
-### Before This Skill
+**Before:** Planning skills (create-task-spec, breakdown-epic) create task spec → Task approved → Ready for risk assessment
 
-**Typical workflow:**
-- Planning skill created task specification (create-task-spec, breakdown-epic)
-- Task status set to "Approved" (ready for implementation)
-- Ready to assess risks before coding begins
+**After - Pre-implementation:** Developer aware of risks, mitigations inform implementation approach, test priorities guide test writing
 
-### After This Skill
+**Handoff to test-design:** Risk profile with P0/P1/P2 priorities → test-design creates detailed scenarios for high-risk areas
 
-**Pre-implementation:**
-- Developer aware of risks before coding (design mitigations into implementation)
-- Mitigation strategies inform implementation approach
-- Test priorities guide test writing
+**Handoff to quality-gate:** Risk profile informs gate decision | Critical risks (≥7) checked for mitigation | High risks (≥6) checked for test coverage
 
-**Handoff to test-design:**
-- Risk profile complete with P0/P1/P2 test priorities
-- Test-design skill creates detailed test scenarios based on risk priorities
-- High-risk areas receive comprehensive test coverage
-
-**Handoff to quality-gate:**
-- Risk profile informs quality gate decision
-- Critical risks (≥7) checked for mitigation during gate assessment
-- High risks (≥6) checked for test coverage
-- Gate decision considers risk mitigation effectiveness
+**See:** `references/templates.md#integration-examples` for complete workflows with data flow
 
 ---
 
 ## Best Practices
 
-1. **Assess Early** - Best after task spec creation, before implementation starts. Prevents rework due to unidentified risks discovered late.
-
-2. **Be Honest About Probability** - Don't assume "won't happen to me". Consider team experience with similar work and factor in complexity and unknowns.
-
-3. **Consider Real Impact** - Think beyond "it might break". Consider data loss, security breach, downtime, user impact, business and compliance implications.
-
-4. **Actionable Mitigations** - Make mitigations specific, not vague ("use Prisma ORM only" not "be careful with SQL"). Assignable to phase and effort-estimated.
-
-5. **Risk-Driven Testing** - High risks = high-priority tests. Critical risks = must-have tests. Low risks = nice-to-have tests.
-
-6. **Continuous Reassessment** - Reassess if requirements change, new dependencies added, or critical risk discovered during implementation.
+Assess early (after spec, before code) | Be honest about probability (consider team experience) | Consider real impact (data loss, security, business) | Actionable mitigations (specific, phase-assigned, effort-estimated) | Risk-driven testing (high risk = high priority tests) | Continuous reassessment (if requirements change or new risks discovered)
 
 ---
 
-## References
+## Reference Files
 
-- **[risk-categories.md](references/risk-categories.md)** - Detailed definitions and examples for all 6 risk categories (Technical, Security, Performance, Data, Business, Operational)
+Detailed documentation in `references/`:
 
-- **[risk-scoring.md](references/risk-scoring.md)** - P×I scoring methodology, probability/impact assessment guidelines, scoring examples, quality gate integration
+- **templates.md**: All output formats (Step 0-6), risk scoring examples, complete risk profile report template, risk category details, probability/impact guidelines, mitigation strategies, test prioritization examples, integration workflows, JSON output format
 
-- **[mitigation-strategies.md](references/mitigation-strategies.md)** - Mitigation patterns for common risks, prevention/detection/recovery approaches, concrete action templates
+- **risk-categories.md**: Risk category definitions and examples (currently placeholder - see templates.md)
 
-- **[risk-examples.md](references/risk-examples.md)** - Complete risk profile examples (pre/during/post implementation), risk-test mapping examples, summary formats
+- **risk-scoring.md**: P×I methodology details (currently placeholder - see templates.md)
+
+- **mitigation-strategies.md**: Mitigation patterns (currently placeholder - see templates.md)
+
+- **risk-examples.md**: Risk profile examples (currently placeholder - see templates.md)
 
 ---
 

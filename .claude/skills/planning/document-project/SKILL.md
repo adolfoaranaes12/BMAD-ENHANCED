@@ -102,39 +102,12 @@ Execute steps in order - each builds on previous analysis:
 
 **Actions:**
 
-1. Load configuration from `.claude/config.yaml`:
-   ```yaml
-   brownfield:
-     codebasePath: src/
-     existingDocs: []
-     includeTests: true
-     maxFilesToAnalyze: 1000
-   ```
+1. **Load config** from `.claude/config.yaml` (codebasePath, existingDocs, includeTests, maxFiles)
+2. **Validate structure:** Check path exists, identify languages, count files/lines, verify size (10K-100K recommended)
+3. **Check existing docs:** Ask how to handle (merge/replace/supplement)
+4. **Get confirmation:** Show summary (path, language, file count, lines, estimated time), ask to proceed
 
-2. Validate project structure:
-   - Check codebase path exists
-   - Identify primary language(s)
-   - Count total files and lines of code
-   - Verify within supported size (10K-100K lines recommended)
-
-3. Check existing documentation:
-   - Look for existing docs at configured paths
-   - If found, ask user how to handle:
-     - **Merge:** Preserve existing docs, add new findings
-     - **Replace:** Generate fresh documentation
-     - **Supplement:** Keep existing, create supplemental docs
-
-4. Get user confirmation:
-   ```
-   Project Analysis Summary:
-   - Path: src/
-   - Language: TypeScript (95%), JavaScript (5%)
-   - Total files: 247
-   - Total lines: 42,350
-   - Estimated analysis time: 5-10 minutes
-
-   Proceed with automated documentation? (yes/no)
-   ```
+**See:** `references/templates.md#step-0-configuration-and-validation-output` for complete formats
 
 **Halt if:**
 - Codebase path not found
@@ -143,13 +116,7 @@ Execute steps in order - each builds on previous analysis:
 - Unsupported language
 - User declines to proceed
 
-**Output:**
-```
-✓ Project validated: TypeScript project, 42K lines
-✓ Existing docs: docs/architecture.md (merge mode)
-✓ Analysis scope: src/ (247 files)
-✓ Ready to analyze
-```
+**Output:** Validation confirmation (project type, lines, existing docs mode, scope, ready status)
 
 **Reference:** See [validation-criteria.md](references/validation-criteria.md) for detailed validation rules.
 
@@ -161,53 +128,14 @@ Execute steps in order - each builds on previous analysis:
 
 **Actions:**
 
-1. Scan directory structure:
-   ```bash
-   find src/ -type d | sort
-   ```
-   - Identify main directories (routes/, services/, models/, etc.)
-   - Detect organizational patterns (by feature vs by type)
-   - Note depth of nesting
+1. **Scan directory structure:** Identify main dirs, detect patterns (feature vs type), note nesting
+2. **Analyze file organization:** Files per dir, naming conventions, size distribution, co-location patterns
+3. **Detect project type:** Backend API / Frontend App / Full-Stack / Library / Monorepo (based on directory structure)
+4. **Map relationships:** Analyze imports, build dependency graph, identify core modules, detect circular dependencies
 
-2. Analyze file organization:
-   - Files per directory
-   - Naming conventions (camelCase, kebab-case, etc.)
-   - File size distribution
-   - Co-location patterns (tests with code vs separate)
+**Output:** Project structure analysis with type, organization, directory structure (dirs + file counts + line counts), key patterns
 
-3. Detect project type:
-   - **Backend API:** routes/, controllers/, services/, models/
-   - **Frontend App:** components/, pages/, hooks/, context/
-   - **Full-Stack:** Both patterns present
-   - **Library:** lib/, dist/, no app structure
-   - **Monorepo:** packages/, apps/, libs/
-
-4. Map module relationships:
-   - Analyze imports/requires
-   - Build dependency graph
-   - Identify core vs peripheral modules
-   - Detect circular dependencies
-
-**Output:**
-```
-Project Structure Analysis:
-
-Type: Backend API (Express.js)
-Organization: Layered architecture (by type)
-
-Directory Structure:
-src/
-├── routes/         # API endpoints (12 files, ~2,000 lines)
-├── services/       # Business logic (18 files, ~4,500 lines)
-├── repositories/   # Data access (8 files, ~1,800 lines)
-├── models/         # Data models (15 files, ~3,200 lines)
-└── utils/          # Utilities (22 files, ~2,100 lines)
-
-Key Patterns:
-- Layered architecture (routes → services → repositories)
-- Dependency injection pattern detected
-- Test co-location: No (separate tests/ directory)
-```
+**See:** `references/templates.md#step-1-codebase-analysis-output` for complete format
 
 **Reference:** See [analysis-techniques.md](references/analysis-techniques.md) for detailed analysis methods.
 
@@ -236,28 +164,9 @@ Key Patterns:
    - Node.js/Python/JDK version
    - Database type (PostgreSQL, MySQL, MongoDB)
 
-**Output:**
-```
-Technology Stack:
+**Output:** Tech stack summary (runtime, backend/frontend frameworks, key libraries, testing tools, versions, confidence score)
 
-Runtime:
-- Node.js: >=20.0.0
-- TypeScript: 5.3.2
-
-Backend Framework:
-- Express.js: 4.18.2 (web framework)
-- Prisma: 5.6.0 (ORM)
-
-Key Libraries:
-- zod: 3.22.4 (validation)
-- jsonwebtoken: 9.0.2 (authentication)
-
-Testing:
-- Jest: 29.7.0 (test framework)
-- Supertest: 6.3.3 (HTTP testing)
-
-Confidence: High (95%)
-```
+**See:** `references/templates.md#step-2-technology-stack-analysis` for complete format
 
 ---
 
@@ -283,26 +192,9 @@ Confidence: High (95%)
    - Request → Validation → Service → Repository → Database
    - Response transformation (DTOs)
 
-**Output:**
-```
-Data Models:
+**Output:** Data models summary (models with fields/types/constraints, validation rules, relationships, confidence score)
 
-User Model:
-- id: UUID (primary key)
-- email: string (unique, validated: RFC 5322 format)
-- password: string (hashed with bcrypt)
-- createdAt: timestamp (auto-generated)
-
-Validation Rules:
-- Email: Must be valid format, max 255 chars
-- Password: Min 8 chars, must contain uppercase, lowercase, number, special char
-
-Relationships:
-- User hasMany Posts (one-to-many)
-- User hasMany Sessions (one-to-many)
-
-Confidence: High (90%)
-```
+**See:** `references/templates.md#complete-architecture-md-template` for data model format
 
 **Reference:** See [analysis-techniques.md](references/analysis-techniques.md) for model extraction patterns.
 
@@ -331,26 +223,9 @@ Confidence: High (90%)
 
 4. Detect rate limiting and other middleware
 
-**Output:**
-```
-API Specifications:
+**Output:** API specs summary (base URL, authentication type/headers/expiry, error/success response formats, confidence score)
 
-Base URL: /api
-
-Authentication:
-- Type: JWT (Bearer token)
-- Header: Authorization: Bearer <token>
-- Token expiry: 7 days
-
-Error Response Format:
-{
-  "error": "Error message",
-  "details": ["Detail 1", "Detail 2"],
-  "code": "ERROR_CODE"
-}
-
-Confidence: High (85%)
-```
+**See:** `references/templates.md#complete-architecture-md-template` for API specification format
 
 ---
 
@@ -514,47 +389,14 @@ Confidence: High (90%)
 
 **Actions:**
 
-1. Calculate overall confidence:
-   ```
-   Confidence Scoring:
+1. **Calculate confidence:** Score each section (tech stack, structure, data models, API, standards) and compute overall
+2. **Identify low-confidence areas:** Find sections <70%, conflicting patterns, missing info
+3. **Generate review checklist:** List high/medium priority items needing human verification
+4. **Create validation report**
 
-   Tech Stack:         95% (explicit in package.json)
-   Project Structure:  90% (clear file organization)
-   Data Models:        85% (some inferred relationships)
-   API Specifications: 80% (missing OpenAPI spec)
-   Coding Standards:   90% (ESLint + observed patterns)
+**Output:** Validation summary (overall confidence %, high/medium priority review item counts)
 
-   Overall Confidence: 88%
-   ```
-
-2. Identify low-confidence areas:
-   - Sections with <70% confidence
-   - Conflicting patterns found
-   - Sparse or missing information
-
-3. Generate human review checklist:
-   ```markdown
-   ## Human Review Required
-
-   High Priority:
-   - [ ] Verify API rate limiting implementation
-   - [ ] Document deployment architecture
-   - [ ] Confirm database connection pooling settings
-
-   Medium Priority:
-   - [ ] Verify password requirements match security policy
-   - [ ] Document caching strategy (if exists)
-   ```
-
-4. Create validation report
-
-**Output:**
-```
-✓ Validation complete
-✓ Overall confidence: 88%
-✓ High-priority review items: 3
-✓ Medium-priority review items: 3
-```
+**See:** `references/templates.md#review-checklist-template` and `references/confidence-scoring.md` for formats
 
 **Reference:** See [confidence-scoring.md](references/confidence-scoring.md) for scoring guidelines.
 
@@ -566,119 +408,46 @@ Confidence: High (90%)
 
 **Actions:**
 
-1. Generate summary report:
-   ```markdown
-   ## Automated Documentation Complete
+1. **Generate summary report:** Project name, duration, files analyzed, confidence, generated docs (paths + line counts), key findings (type, arch, tech stack, test coverage), next steps
+2. **Create review checklist file:** `docs/REVIEW_CHECKLIST.md`
+3. **Update config:** Set brownfield flag, doc paths, documented=true
+4. **Prompt next action:** Review items, create task spec, run index-docs, or exit
 
-   **Project:** {project-name}
-   **Analysis Duration:** 8 minutes
-   **Files Analyzed:** 247
-   **Overall Confidence:** 88%
+**Output:** Summary confirmation (report generated, checklist created, config updated, ready status)
 
-   **Generated Documentation:**
-   - ✅ docs/architecture.md (2,450 lines)
-   - ✅ docs/standards.md (850 lines)
-   - ✅ docs/patterns.md (620 lines)
-
-   **Key Findings:**
-   - Project Type: Backend API (Express.js)
-   - Architecture: Layered architecture
-   - Tech Stack: TypeScript, Express, Prisma, PostgreSQL
-   - Test Coverage: 78%
-
-   **Next Steps:**
-   1. Review generated documentation (especially low-confidence sections)
-   2. Complete human review checklist (docs/REVIEW_CHECKLIST.md)
-   3. Update configuration with correct paths
-   4. Begin creating task specifications using architecture docs
-   ```
-
-2. Create review checklist file: `docs/REVIEW_CHECKLIST.md`
-
-3. Update configuration:
-   - Set `project.type: brownfield`
-   - Set documentation paths
-   - Set `brownfield.documented: true`
-
-4. Prompt for next action:
-   ```
-   Documentation generation complete!
-
-   Would you like to:
-   A) Review high-priority items now
-   B) Create first task specification using generated docs
-   C) Run index-docs skill to create searchable knowledge base
-   D) Exit (review later)
-   ```
-
-**Output:**
-```
-✓ Summary report generated
-✓ Review checklist created: docs/REVIEW_CHECKLIST.md
-✓ Configuration updated
-✓ Ready for next phase
-```
+**See:** `references/templates.md` for complete summary formats
 
 ---
 
 ## Confidence Scoring Guidelines
 
-**High Confidence (85-100%):**
-- Information explicitly in code or config files
-- Consistent patterns observed across codebase
-- No conflicting information found
+**High (85-100%):** Explicit in code/config, consistent patterns, no conflicts | **Medium (70-84%):** Inferred from patterns, some inconsistencies, needs validation | **Low (<70%):** Missing/unclear info, conflicts, high uncertainty, MUST review
 
-**Medium Confidence (70-84%):**
-- Information inferred from patterns
-- Some inconsistencies observed
-- Requires validation
-
-**Low Confidence (<70%):**
-- Information missing or unclear
-- Conflicting patterns
-- High uncertainty
-- **MUST be reviewed by human**
-
-**Reference:** See [confidence-scoring.md](references/confidence-scoring.md) for detailed scoring methodology.
+**See:** `references/confidence-scoring.md` for detailed scoring methodology
 
 ---
 
 ## Limitations
 
-**This skill cannot:**
-- ❌ Understand business logic without code context
-- ❌ Document deployment infrastructure (not in code)
-- ❌ Capture tribal knowledge
-- ❌ Understand legacy decisions
-- ❌ Document external integrations perfectly
+**Cannot:** Understand business logic without context, document deployment infrastructure, capture tribal knowledge, understand legacy decisions, document external integrations perfectly
 
-**This skill requires:**
-- ✅ Readable, structured codebase
-- ✅ Standard project organization
-- ✅ Supported language/framework
-- ✅ 10K-100K lines (optimal)
+**Requires:** Readable structured codebase, standard organization, supported language/framework, 10K-100K lines (optimal)
 
 ## Best Practices
 
-1. **Run Periodically:** Re-run every 3-6 months to keep docs fresh
-2. **Always Review:** Don't trust 100% - always review low-confidence sections
-3. **Supplement with Manual Docs:** Add business context, deployment details
-4. **Use as Starting Point:** Generated docs are foundation, enhance with team input
+Run periodically (every 3-6 months) | Always review low-confidence sections | Supplement with manual docs (business context, deployment) | Use as starting point, enhance with team input
 
 ## Integration with Planning Workflow
 
-**Brownfield Workflow:**
-1. **document-project** → Generate architecture docs
-2. **index-docs** → Create searchable knowledge base
-3. **create-task-spec** → Use docs for task creation
-
-**Greenfield vs Brownfield:**
-- **Greenfield:** Write architecture docs manually first
-- **Brownfield:** Generate architecture docs from code, then refine
+**Brownfield:** document-project → index-docs → create-task-spec (use generated docs) | **Greenfield:** Write docs manually first | **Brownfield:** Generate from code, then refine
 
 ## References
 
-- [analysis-techniques.md](references/analysis-techniques.md) - Detailed analysis methods for structure, tech stack, models, APIs
-- [pattern-detection.md](references/pattern-detection.md) - Pattern identification and documentation techniques
-- [documentation-templates.md](references/documentation-templates.md) - Templates for architecture, standards, patterns docs
-- [confidence-scoring.md](references/confidence-scoring.md) - Confidence calculation methodology and validation criteria
+Detailed documentation in `references/`:
+
+- **templates.md**: All output formats, complete architecture/standards/patterns templates, analysis summaries, review checklists, error templates
+- **analysis-techniques.md**: Analysis methods for structure, tech stack, models, APIs, patterns
+- **pattern-detection.md**: Pattern identification and documentation techniques
+- **documentation-templates.md**: Templates for architecture, standards, patterns docs
+- **confidence-scoring.md**: Confidence calculation methodology and validation criteria
+- **validation-criteria.md**: Project validation rules and sizing guidelines

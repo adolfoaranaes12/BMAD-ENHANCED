@@ -25,7 +25,7 @@
 ## Table of Contents
 
 1. [Architecture Overview](#architecture-overview)
-2. [Layer 1: Primitive Skills](#layer-1-primitive-skills)
+2. [Layer 1: Primitives](#layer-1-primitives)
 3. [Layer 2: Workflow Skills](#layer-2-workflow-skills)
 4. [Layer 3: Subagents](#layer-3-subagents-not-skills)
 5. [How They Work Together](#how-they-work-together)
@@ -65,7 +65,7 @@
 │           │ Uses commands             │ No commands needed   │
 │           ↓                           ↓                       │
 ├─────────────────────────────────────────────────────────────┤
-│  Layer 1: PRIMITIVE SKILLS (Skills with Scripts)               │
+│  Layer 1: PRIMITIVES (Skills with Scripts)                     │
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │ bmad-commands/  (This is a SKILL! ✅)                 │   │
 │  │ ├── SKILL.md                                          │   │
@@ -92,9 +92,9 @@ KEY INSIGHT: Layers 1 and 2 are ALL SKILLS (packageable, portable).
    - All are self-contained
 
 2. **Layers Define Roles, Not Structure**
-   - Layer 1: Skills that provide primitive operations
-   - Layer 2: Skills that implement workflows
-   - Layer 3: Files that coordinate routing
+   - Layer 1 (Primitives): Skills that provide atomic operations
+   - Layer 2 (Workflow Skills): Skills that implement workflows
+   - Layer 3 (Subagents): Files that coordinate routing
 
 3. **Portability First**
    - Skills work anywhere
@@ -109,11 +109,11 @@ KEY INSIGHT: Layers 1 and 2 are ALL SKILLS (packageable, portable).
 
 ---
 
-## Layer 1: Primitive Skills
+## Layer 1: Primitives
 
 ### What They Are
 
-**Command skills are regular skills that bundle executable scripts.**
+**Primitives are regular skills that bundle executable scripts.**
 
 They follow the exact same skill-creator pattern as any other skill, but they include a `scripts/` directory with executable code.
 

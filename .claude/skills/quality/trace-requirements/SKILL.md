@@ -75,67 +75,13 @@ Create comprehensive traceability documentation that demonstrates:
 
 ## Traceability Concepts
 
-### Forward Traceability (AC → Implementation)
-Maps each acceptance criterion to its implementation:
+**Forward Traceability (AC → Implementation):** Maps each AC to implementation evidence (file, function, code snippet) | Status: ✅ Implemented, ⚠️ Partial, ❌ Not Implemented, ❓ Unclear
 
-```
-AC-1: User can signup with email and password
-  ↓
-Implementation Evidence:
-  - File: src/routes/auth/signup.ts:15-42
-  - Function: handleSignup()
-  - Status: ✅ Implemented
-  - Code Snippet: [5-10 lines showing implementation]
-```
+**Backward Traceability (Tests → AC):** Maps each test to ACs it validates | Status: ✅ Tested, ⚠️ Partial, ❌ Not Tested, 🔄 Indirect
 
-**Classification:**
-- ✅ **Implemented:** Clear evidence found in code
-- ⚠️ **Partial:** Some evidence but incomplete
-- ❌ **Not Implemented:** No evidence found
-- ❓ **Unclear:** Code exists but unclear if it satisfies AC
+**Gap Severity:** CRITICAL (9): Security/data integrity/core functionality | HIGH (6-8): Important requirements/P0 tests | MEDIUM (3-5): Minor requirements/P1 tests | LOW (1-2): Nice-to-have/P2 tests
 
-### Backward Traceability (Tests → AC)
-Maps each test to the acceptance criteria it validates:
-
-```
-Test: "should create user with valid email and password"
-  ↑
-Validates: AC-1 (User can signup)
-  - File: src/routes/auth/__tests__/signup.test.ts:12-24
-  - Type: Integration, Priority: P0
-  - Status: ✅ Tested
-```
-
-**Classification:**
-- ✅ **Tested:** AC has at least one test validating it
-- ⚠️ **Partial:** AC has tests but not all scenarios covered
-- ❌ **Not Tested:** AC has no tests
-- 🔄 **Indirect:** AC tested indirectly through E2E or other tests
-
-### Gap Severity Ratings
-
-**CRITICAL (Score 9):**
-- Security requirement not implemented or tested
-- Data integrity requirement missing
-- Core functionality not implemented
-- High-risk area (from risk profile) not tested
-
-**HIGH (Score 6-8):**
-- Important requirement not implemented
-- Security test missing (but implementation exists)
-- Performance requirement not validated
-- P0 test missing
-
-**MEDIUM (Score 3-5):**
-- Minor requirement not implemented
-- Edge case test missing
-- P1 test missing
-- Partial implementation without full test coverage
-
-**LOW (Score 1-2):**
-- Nice-to-have requirement missing
-- P2 test missing
-- Documentation-only gap
+**See:** `references/templates.md` for complete examples and classification details
 
 ## SEQUENTIAL Skill Execution
 
@@ -176,23 +122,11 @@ Validates: AC-1 (User can signup)
    - Output file: `{task-id}-trace-{YYYYMMDD}.md`
    - Template: `.claude/templates/trace-requirements.md` (if exists)
 
-**Output:**
-```
-✓ Configuration loaded from .claude/config.yaml
-✓ Task specification loaded: {task-id} - {title}
-✓ Acceptance Criteria: {count} criteria identified
-✓ Related assessments: Risk profile [{found/not found}], Test design [{found/not found}]
-✓ Implementation files: {count} files identified
-✓ Output: {output-file}
-```
+**Output:** Configuration loaded, task spec loaded with AC count, related assessments checked (risk profile/test design), implementation files identified, output path set
 
-**Halt Conditions:**
-- Configuration file missing (cannot proceed)
-- Task file not found or unreadable (cannot proceed)
-- Task has no acceptance criteria (cannot proceed)
-- Cannot create output directory (cannot proceed)
+**Halt If:** Config missing, task file not found, no ACs, cannot create output
 
-**Reference:** See [evidence-collection.md](references/evidence-collection.md) for evidence collection techniques
+**See:** `references/templates.md#step-0-configuration-loading-output` for complete format
 
 ---
 
@@ -218,51 +152,18 @@ Validates: AC-1 (User can signup)
    - ❌ **Not Implemented:** No evidence found
    - ❓ **Unclear:** Code exists but unclear if it satisfies AC
 
-4. **Record evidence for each AC:**
-   ```markdown
-   AC-1: User can sign up with email and password
-   Status: ✅ Implemented
-   Evidence:
-     - File: src/routes/auth/signup.ts:15-42
-       Function: handleSignup()
-       Description: Implements signup endpoint accepting email/password,
-                    hashing password, creating user in database, sending
-                    verification email
-       Snippet:
-         ```typescript
-         export async function handleSignup(req: Request, res: Response) {
-           const { email, password } = req.body;
-           const hashedPassword = await bcrypt.hash(password, 10);
-           const user = await prisma.user.create({
-             data: { email, password: hashedPassword, emailVerified: false }
-           });
-           await sendVerificationEmail(user.email);
-           return res.status(201).json({ user, token: generateJWT(user) });
-         }
-         ```
-   ```
+4. **Record evidence:** File paths, line ranges, function names, code snippets (5-10 lines) for each AC
 
 5. **Calculate implementation coverage:**
    ```
    Implementation Coverage = (Implemented + 0.5 × Partial) / Total AC × 100%
    ```
 
-**Output:**
-```
-✓ Forward traceability analysis complete
-✓ Total Acceptance Criteria: {count}
-✓ Implemented: {count} ({percentage}%)
-✓ Partial: {count} ({percentage}%)
-✓ Not Implemented: {count} ({percentage}%)
-✓ Unclear: {count} ({percentage}%)
-✓ Implementation Coverage: {percentage}%
-```
+**Output:** Forward traceability complete, AC counts by status, implementation coverage %
 
-**Halt Conditions:**
-- Cannot read implementation files (cannot gather evidence)
-- More than 50% of ACs have "Unclear" status (ambiguous task, needs clarification)
+**Halt If:** Cannot read implementation files, >50% ACs unclear
 
-**Reference:** See [traceability-matrix.md](references/traceability-matrix.md) for matrix building techniques
+**See:** `references/templates.md#step-1-forward-traceability-output` for complete format and examples
 
 ---
 
@@ -282,17 +183,7 @@ Validates: AC-1 (User can signup)
    - Extract test names from `it()`, `test()`, `describe()` blocks
    - Extract test scenarios (Given-When-Then if present)
 
-   ```typescript
-   describe('POST /api/auth/signup', () => {
-     it('should create user with valid email and password', async () => {
-       // Test case 1: Validates AC-1
-     });
-
-     it('should reject password shorter than 8 characters', async () => {
-       // Test case 2: Validates AC-2
-     });
-   });
-   ```
+   Extract test names from `it()`, `test()`, `describe()` blocks
 
 3. **Map tests to acceptance criteria:**
    - Analyze test name and assertions
@@ -300,13 +191,7 @@ Validates: AC-1 (User can signup)
    - A single test can validate multiple ACs
    - An AC typically has multiple tests (happy path, edge cases, errors)
 
-   ```markdown
-   Test: "should create user with valid email and password"
-   Validates: AC-1 (User can sign up with email and password)
-   File: src/routes/auth/__tests__/signup.test.ts:12-24
-   Type: Integration, Priority: P0
-   Scenario: Given valid inputs, When signup called, Then user created and JWT returned
-   ```
+   Map tests to ACs (analyze test name + assertions, single test can validate multiple ACs)
 
 4. **Classify test coverage:**
    - ✅ **Tested:** AC has at least one test validating it
@@ -319,20 +204,11 @@ Validates: AC-1 (User can signup)
    Test Coverage = (Tested + 0.5 × Partial) / Total AC × 100%
    ```
 
-**Output:**
-```
-✓ Backward traceability analysis complete
-✓ Total Tests: {count}
-✓ Tested ACs: {count} ({percentage}%)
-✓ Partial Test Coverage: {count} ({percentage}%)
-✓ Not Tested: {count} ({percentage}%)
-✓ Test Coverage: {percentage}%
-```
+**Output:** Backward traceability complete, tested AC counts, total tests, test coverage %
 
-**Halt Conditions:**
-- None (can proceed even if no tests found, but will generate gaps)
+**Halt If:** None (proceed even if no tests, will generate gaps)
 
-**Reference:** See [traceability-matrix.md](references/traceability-matrix.md) for test mapping techniques
+**See:** `references/templates.md#step-2-backward-traceability-output` for complete format
 
 ---
 
@@ -347,36 +223,14 @@ Validates: AC-1 (User can signup)
    - Document missing functionality
    - Estimate impact and effort
 
-   ```markdown
-   Implementation Gap 1:
-   - AC-4: "System must rate-limit login attempts to 5 per minute"
-   - Status: Not Implemented
-   - Severity: HIGH (security requirement, high risk if missing)
-   - Impact: Brute force attacks possible
-   - Required Action: Implement rate limiting middleware
-   - Effort: Medium (2-4 hours)
-   - Priority: P0 (must fix before merge)
-   ```
+   Document missing functionality, estimate impact and effort
 
 2. **Identify test gaps:**
    - ACs with test coverage: Not Tested or Partial
    - Document missing test scenarios
    - Identify missing edge cases, error cases, security tests
 
-   ```markdown
-   Test Gap 1:
-   - AC-2: "Password must be at least 8 characters"
-   - Implementation: ✅ Implemented (validation in src/validators/auth.ts:23)
-   - Test Coverage: ⚠️ Partial
-   - Missing Scenarios:
-     * Edge case: Password exactly 8 characters (boundary test)
-     * Error case: Password with 7 characters (validation error)
-     * Edge case: Password with special characters (acceptance)
-   - Severity: MEDIUM (core validation, but implementation exists)
-   - Required Action: Add missing test scenarios
-   - Effort: Small (30 min - 1 hour)
-   - Priority: P1
-   ```
+   Document missing test scenarios, identify edge cases/error cases
 
 3. **Classify gap severity:**
    Use risk profile (if available) to inform severity:
@@ -486,30 +340,7 @@ Validates: AC-1 (User can signup)
    - Gaps: None
    ```
 
-3. **Generate gap details:**
-   ```markdown
-   ## GAP-1: Rate Limiting Not Implemented (HIGH)
-
-   **Type:** Implementation Gap
-   **Severity:** HIGH (Score: 7)
-   **Criterion:** AC-4 - "System must rate-limit login attempts to 5 per minute"
-
-   **Impact:**
-   - Brute force attacks possible on login endpoint
-   - Potential account takeover vulnerability
-   - No protection against credential stuffing
-
-   **Related Risk:** Risk #3 from risk profile: "Brute force attacks" (Score: 8)
-
-   **Required Action:**
-   1. Implement rate limiting middleware using express-rate-limit
-   2. Configure limit: 5 requests per minute per IP
-   3. Apply to /api/auth/login endpoint
-   4. Add tests for rate limiting behavior
-
-   **Effort:** Medium (2-4 hours)
-   **Priority:** P0 (Must fix before merge - security issue)
-   ```
+3. **Generate gap details:** Document each gap with severity, impact, required action, effort, priority
 
 4. **Calculate overall traceability score:**
    ```
@@ -529,20 +360,11 @@ Validates: AC-1 (User can signup)
                       = 83.5%
    ```
 
-**Output:**
-```
-✓ Traceability matrix complete
-✓ Total Entries: {count} acceptance criteria
-✓ Complete: {count} ({percentage}%)
-✓ Partial: {count} ({percentage}%)
-✓ Incomplete: {count} ({percentage}%)
-✓ Overall Traceability Score: {percentage}%
-```
+**Output:** Matrix complete with entry counts, traceability score
 
-**Halt Conditions:**
-- None (matrix can always be generated from available data)
+**Halt If:** None
 
-**Reference:** See [traceability-matrix.md](references/traceability-matrix.md) for complete matrix examples
+**See:** `references/templates.md#complete-traceability-matrix-example` for matrix format
 
 ---
 
@@ -558,85 +380,17 @@ Validates: AC-1 (User can signup)
    2. Priority (P0 → P1 → P2)
    3. Effort (Small → Medium → Large)
 
-2. **Generate action plan:**
-   ```markdown
-   ## Immediate Actions (Before Merge - P0)
+2. **Generate action plan:** Prioritized actions (P0/P1/P2) with impact, effort, required actions, tests
 
-   1. **[GAP-1] Implement Rate Limiting (HIGH)**
-      - Impact: Security vulnerability
-      - Effort: Medium (2-4 hours)
-      - Action: Add rate limiting middleware to /api/auth/login
-      - Tests: Add 3 tests for rate limit behavior
+3. **Quality gate impact assessment:** Determine status (PASS/CONCERNS/FAIL), provide reasoning, list actions to achieve PASS with effort estimates
 
-   2. **[GAP-4] Add Input Sanitization Tests (CRITICAL)**
-      - Impact: XSS vulnerability untested
-      - Effort: Small (1-2 hours)
-      - Action: Implementation exists, add tests for XSS/SQL injection
-      - Tests: Add 5 tests for malicious inputs
+4. **Best practices:** Future task guidance (TDD, reference AC IDs, update traceability), current task guidance (close P0 gaps, document waivers, re-run after fixes)
 
-   ## Short-Term Actions (Before Release - P1)
+**Output:** Recommendations with P0/P1/P2 counts, effort estimates, quality gate prediction
 
-   3. **[GAP-2] Complete Password Validation Tests (MEDIUM)**
-      - Impact: Edge cases not validated
-      - Effort: Small (30 min - 1 hour)
-      - Action: Add boundary and edge case tests
-      - Tests: Add 2 tests (exactly 8 chars, special characters)
-   ```
+**Halt If:** None
 
-3. **Quality gate impact assessment:**
-   ```markdown
-   ## Impact on Quality Gate
-
-   **Current Status:** CONCERNS
-
-   **Reasoning:**
-   - 2 HIGH-severity gaps present security risks
-   - 1 CRITICAL gap has untested security implementation
-   - Implementation coverage at 85% (above threshold)
-   - Test coverage at 80% (above threshold)
-   - But gaps in critical security areas
-
-   **To Achieve PASS:**
-   1. Close all CRITICAL gaps (GAP-4)
-   2. Close all HIGH gaps (GAP-1, GAP-3) OR provide waiver with mitigation
-   3. Achieve implementation coverage ≥90%
-   4. Achieve test coverage ≥85%
-
-   **Estimated Effort to PASS:** 4-6 hours
-   ```
-
-4. **Best practices for future tasks:**
-   ```markdown
-   ## Traceability Best Practices
-
-   **For Future Tasks:**
-   1. Write tests alongside implementation (TDD approach)
-   2. Reference AC IDs in commit messages ("Implements AC-1, AC-3")
-   3. Reference AC IDs in test names ("test should satisfy AC-2")
-   4. Update traceability as you implement
-   5. Run trace-requirements before marking task as "Review"
-
-   **For This Task:**
-   1. Close P0 gaps before requesting review
-   2. Document any waived gaps with rationale
-   3. Update Implementation Record with gap closure evidence
-   4. Re-run trace-requirements after closing gaps
-   ```
-
-**Output:**
-```
-✓ Recommendations generated
-✓ P0 Actions: {count} (must complete before merge)
-✓ P1 Actions: {count} (should complete before release)
-✓ P2 Actions: {count} (future enhancements)
-✓ Estimated Effort to Close P0 Gaps: {hours} hours
-✓ Quality Gate Prediction: {PASS/CONCERNS/FAIL}
-```
-
-**Halt Conditions:**
-- None (recommendations can always be generated from gaps)
-
-**Reference:** See [gap-analysis.md](references/gap-analysis.md) for prioritization and action planning
+**See:** `references/templates.md` for recommendation formats and action plans
 
 ---
 
@@ -666,67 +420,13 @@ Validates: AC-1 (User can signup)
    - Validate all template variables replaced
    - No placeholder text remaining
 
-5. **Present concise summary to user:**
-   ```
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Requirements Traceability Analysis Complete
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. **Present concise summary:** Task metadata, coverage metrics (implementation/test/gap/traceability score), gap breakdown by severity, quality gate impact + reasoning, actions to achieve PASS with estimates, report path, next steps
 
-   Task: task-006 - User Signup Implementation
-   Date: 2025-10-29
+**Output:** Report generated at output path, summary presented
 
-   📊 Coverage Metrics:
-   ├─ Implementation Coverage: 85% (5/6 AC implemented)
-   ├─ Test Coverage: 80% (5/6 AC tested)
-   ├─ Gap Coverage: 93% (4 gaps identified)
-   └─ Overall Traceability Score: 83.5%
+**Halt If:** File write fails
 
-   ⚠️  Coverage Gaps Identified:
-   ├─ CRITICAL: 1 gap (untested security implementation)
-   ├─ HIGH: 2 gaps (missing security features)
-   ├─ MEDIUM: 1 gap (incomplete test scenarios)
-   └─ LOW: 0 gaps
-
-   🎯 Quality Gate Impact: CONCERNS
-
-   Reasoning:
-   - 2 HIGH-severity gaps present security risks
-   - 1 CRITICAL gap has untested security implementation
-   - Implementation and test coverage above thresholds
-   - But critical gaps in security areas require attention
-
-   ✅ To Achieve PASS:
-   1. Close GAP-4 (CRITICAL): Add XSS/injection tests [1-2h]
-   2. Close GAP-1 (HIGH): Implement rate limiting [2-4h]
-   3. Close GAP-3 (HIGH): Add session management [3-5h]
-
-   Estimated effort: 6-11 hours
-
-   📄 Full Report:
-   .claude/quality/assessments/task-006-trace-20251029.md
-
-   💡 Next Steps:
-   1. Review detailed traceability matrix in report
-   2. Prioritize P0 gaps (before merge)
-   3. Close critical and high-severity gaps
-   4. Re-run trace analysis after closing gaps
-   5. Update task Implementation Record with gap closure
-
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   ```
-
-**Output:**
-```
-✓ Traceability report generated
-✓ Output: .claude/quality/assessments/{task-id}-trace-{date}.md
-✓ Report size: {lines} lines
-✓ Summary presented to user
-```
-
-**Halt Conditions:**
-- File write fails (cannot save traceability report)
-
-**Reference:** See [traceability-examples.md](references/traceability-examples.md) for complete report examples
+**See:** `references/templates.md#step-4-complete-summary-format` for full summary output
 
 ---
 
@@ -734,58 +434,11 @@ Validates: AC-1 (User can signup)
 
 ### Integration with risk-profile
 
-**Input from risk-profile:**
-- Risk scores for each risk area
-- High-risk areas (score ≥6) requiring extra test coverage
-- Mitigation strategies that may be implemented
-
-**How trace-requirements uses it:**
-- Gaps in high-risk areas → Increase gap severity
-- Missing tests for high-risk areas → CRITICAL severity
-- Risk mitigation → Cross-reference with implementation evidence
-
-**Example:**
-```markdown
-Risk Profile says:
-  Risk #3: Brute force attacks (Score: 8, HIGH)
-  Mitigation: Implement rate limiting
-
-Traceability finds:
-  AC-4: "Rate-limit login attempts" → Not Implemented
-
-Gap Severity:
-  Base: HIGH (security requirement)
-  Risk amplification: +1 (high-risk from risk profile)
-  Final: CRITICAL (Score: 9)
-```
+**Input:** Risk scores for high-risk areas | **Usage:** Gaps in high-risk areas → increase severity (e.g., HIGH → CRITICAL), missing tests for high-risk → CRITICAL
 
 ### Integration with test-design
 
-**Input from test-design:**
-- Test scenarios with priorities (P0/P1/P2)
-- Test files and locations
-- Mock strategies
-- Expected test counts
-
-**How trace-requirements uses it:**
-- Maps test scenarios to acceptance criteria
-- Validates all P0 tests have corresponding AC
-- Identifies test scenarios not linked to any AC (over-testing)
-- Validates coverage matches test design plan
-
-**Example:**
-```markdown
-Test Design says:
-  Scenario 1: Valid signup (P0, Integration)
-  - Validates: User can sign up with email and password
-  - File: src/routes/auth/__tests__/signup.test.ts
-
-Traceability confirms:
-  AC-1: "User can sign up..." → ✅ Tested
-  - Test: "should create user with valid email and password"
-  - File: src/routes/auth/__tests__/signup.test.ts:12-24
-  - Priority: P0 ✓ (matches test design)
-```
+**Input:** Test scenarios with priorities (P0/P1/P2), AC-to-test mappings | **Usage:** Validate test-to-AC mappings, identify missing test scenarios, use test priorities for gap severity
 
 ### Integration with quality-gate
 

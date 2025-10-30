@@ -290,7 +290,7 @@ Summarize the task objective, acceptance criteria, and technical requirements.
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│ Layer 1: PRIMITIVE SKILLS (Atomic Operations)               │
+│ Layer 1: PRIMITIVES (Atomic Operations)                     │
 │ Location: .claude/skills/bmad-commands/                     │
 │                                                              │
 │ • bmad-commands/SKILL.md   ← Skill (official term)          │
