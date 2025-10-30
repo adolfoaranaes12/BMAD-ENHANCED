@@ -14,10 +14,10 @@
 - ✅ `.claude/commands/james.md` - James slash command
 - ✅ `.claude/commands/quinn.md` - Quinn slash command
 - ✅ `.claude/commands/orchestrator.md` - Orchestrator slash command
-- ✅ `.claude/subagents/alex-planner.md` - Alex subagent definition
-- ✅ `.claude/subagents/james-developer.md` - James subagent definition
-- ✅ `.claude/subagents/quinn-quality.md` - Quinn subagent definition
-- ✅ `.claude/subagents/orchestrator.md` - Orchestrator definition
+- ✅ `.claude/agents/alex-planner.md` - Alex subagent definition
+- ✅ `.claude/agents/james-developer.md` - James subagent definition
+- ✅ `.claude/agents/quinn-quality.md` - Quinn subagent definition
+- ✅ `.claude/agents/orchestrator.md` - Orchestrator definition
 
 **All files verified and in place!**
 
@@ -42,7 +42,7 @@ Use .claude/skills/router.md with command "@alex *breakdown 'User Authentication
    - subagent: "alex"
    - command: "breakdown"
    - args: "User Authentication System"
-2. ✅ Map to file: `.claude/subagents/alex-planner.md`
+2. ✅ Map to file: `.claude/agents/alex-planner.md`
 3. ✅ Find command mapping: `*breakdown` → `.claude/skills/planning/breakdown-epic.md`
 4. ✅ Invoke skill with args
 5. ✅ Return epic breakdown with user stories
@@ -68,7 +68,7 @@ Use .claude/skills/router.md with command "@james *implement task-auth-002"
    - subagent: "james"
    - command: "implement"
    - args: "task-auth-002"
-2. ✅ Map to file: `.claude/subagents/james-developer.md`
+2. ✅ Map to file: `.claude/agents/james-developer.md`
 3. ✅ Find command mapping: `*implement` → `.claude/skills/development/implement-feature.md`
 4. ✅ Invoke skill with task ID
 5. ✅ Execute TDD workflow and return implementation
@@ -94,7 +94,7 @@ Use .claude/skills/router.md with command "@quinn *review task-auth-002"
    - subagent: "quinn"
    - command: "review"
    - args: "task-auth-002"
-2. ✅ Map to file: `.claude/subagents/quinn-quality.md`
+2. ✅ Map to file: `.claude/agents/quinn-quality.md`
 3. ✅ Find command mapping: `*review` → `.claude/skills/quality/review-task.md`
 4. ✅ Invoke skill with task ID
 5. ✅ Execute quality review and return assessment
@@ -120,7 +120,7 @@ Use .claude/skills/router.md with command "@orchestrator *deliver 'User login fe
    - subagent: "orchestrator"
    - command: "deliver"
    - args: "User login feature"
-2. ✅ Map to file: `.claude/subagents/orchestrator.md`
+2. ✅ Map to file: `.claude/agents/orchestrator.md`
 3. ✅ Find command mapping: `*deliver` → `.claude/skills/implementation/deliver-feature.md`
 4. ✅ Invoke skill with feature name
 5. ✅ Execute full delivery workflow
@@ -591,7 +591,7 @@ Expected: Should execute full workflow across all subagents
 ### Problem: "Subagent file not found"
 
 **Solution:**
-- Verify `.claude/subagents/` contains all 4 subagent files
+- Verify `.claude/agents/` contains all 4 subagent files
 - Check file names match exactly (alex-planner.md, james-developer.md, etc.)
 
 ---

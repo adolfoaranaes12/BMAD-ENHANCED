@@ -1,0 +1,127 @@
+# BMAD Command Contracts
+# Defines inputs, outputs, and errors for all commands
+
+commands:
+  read_file:
+    description: "Read file contents with metadata"
+    inputs:
+      path:
+        type: string
+        required: true
+        validation: "Must be a valid file path"
+        description: "Path to the file to read"
+    outputs:
+      content:
+        type: string
+        description: "File contents as text"
+      line_count:
+        type: number
+        description: "Number of lines in the file"
+      size_bytes:
+        type: number
+        description: "File size in bytes"
+      path:
+        type: string
+        description: "Absolute path to the file"
+    errors:
+      - file_not_found: "File does not exist at specified path"
+      - path_is_not_file: "Path exists but is not a file (e.g., directory)"
+      - permission_denied: "Insufficient permissions to read file"
+      - unexpected_error: "Unexpected error occurred"
+    telemetry:
+      - command: "read_file"
+      - duration_ms: "Execution time in milliseconds"
+      - timestamp: "ISO 8601 timestamp"
+      - path: "Path that was read"
+      - line_count: "Number of lines read"
+    usage_example: |
+      python scripts/read_file.py --path workspace/tasks/task-001.md --output json
+
+  run_tests:
+    description: "Execute tests with specified framework"
+    inputs:
+      path:
+        type: string
+        required: true
+        validation: "Must be a valid directory path containing tests"
+        description: "Path to directory containing tests"
+      framework:
+        type: enum
+        values: [jest, pytest]
+        default: jest
+        description: "Test framework to use"
+      timeout:
+        type: number
+        default: 120
+        description: "Timeout in seconds"
+    outputs:
+      passed:
+        type: boolean
+        description: "Whether all tests passed"
+      summary:
+        type: string
+        description: "Human-readable summary of test results"
+      total_tests:
+        type: number
+        description: "Total number of tests executed"
+      passed_tests:
+        type: number
+        description: "Number of tests that passed"
+      failed_tests:
+        type: number
+        description: "Number of tests that failed"
+      coverage_percent:
+        type: number
+        description: "Test coverage percentage (0-100)"
+      junit_path:
+        type: string
+        description: "Path to JUnit XML report (if generated)"
+    errors:
+      - invalid_path: "Path does not exist"
+      - timeout: "Tests exceeded timeout duration"
+      - unsupported_framework: "Specified framework is not supported"
+      - json_parse_failed: "Could not parse test output as JSON"
+      - report_not_found: "Test report file not found"
+      - unexpected_error: "Unexpected error occurred"
+    telemetry:
+      - command: "run_tests"
+      - framework: "Test framework used"
+      - duration_ms: "Execution time in milliseconds"
+      - timestamp: "ISO 8601 timestamp"
+      - total_tests: "Number of tests executed"
+      - passed_tests: "Number of tests passed"
+      - failed_tests: "Number of tests failed"
+    usage_example: |
+      python scripts/run_tests.py --path . --framework jest --timeout 120 --output json
+
+# Standard Response Format
+# All commands return JSON in this structure:
+response_format:
+  success:
+    type: boolean
+    description: "Whether the command executed successfully"
+  outputs:
+    type: object
+    description: "Command-specific outputs (see each command's outputs section)"
+  telemetry:
+    type: object
+    description: "Telemetry data for observability"
+  errors:
+    type: array
+    description: "List of errors encountered (empty if success=true)"
+
+# Example Response
+example_response:
+  success: true
+  outputs:
+    content: "# Task Specification\n..."
+    line_count: 45
+    size_bytes: 1024
+    path: "/abs/path/to/file.md"
+  telemetry:
+    command: "read_file"
+    duration_ms: 12
+    timestamp: "2025-01-15T10:30:00Z"
+    path: "workspace/tasks/task-001.md"
+    line_count: 45
+  errors: []
