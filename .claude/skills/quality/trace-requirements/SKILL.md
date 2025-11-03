@@ -8,6 +8,59 @@ acceptance:
   backward_traceability: "All tests mapped to acceptance criteria they validate with test files, scenarios, types (unit/integration/E2E), and priorities (P0/P1/P2)"
   gaps_identified: "Coverage gaps identified and classified by type (implementation/test), severity (CRITICAL/HIGH/MEDIUM/LOW), and priority (P0/P1/P2) with required actions"
   traceability_report_generated: "Complete traceability report generated with matrix, detailed entries, gap analysis, recommendations, and quality gate impact assessment"
+inputs:
+  task_id:
+    type: string
+    required: true
+    description: "Task identifier for traceability analysis (e.g., 'task-007')"
+  task_file:
+    type: string
+    required: true
+    description: "Path to task specification file"
+  implementation_path:
+    type: string
+    required: false
+    description: "Path to implementation code (defaults to project root)"
+  test_path:
+    type: string
+    required: false
+    description: "Path to test files (defaults to test directory)"
+  risk_profile_file:
+    type: string
+    required: false
+    description: "Path to risk profile file (for risk-informed gap severity)"
+  test_design_file:
+    type: string
+    required: false
+    description: "Path to test design file (for expected test scenarios)"
+outputs:
+  total_acceptance_criteria:
+    type: number
+    description: "Total number of acceptance criteria analyzed"
+  implementation_coverage_percentage:
+    type: number
+    description: "Percentage of ACs with implementation evidence (0-100)"
+  test_coverage_percentage:
+    type: number
+    description: "Percentage of ACs with test coverage (0-100)"
+  traceability_score:
+    type: number
+    description: "Overall traceability score (0-100)"
+  total_gaps:
+    type: number
+    description: "Total number of coverage gaps identified"
+  critical_gaps_count:
+    type: number
+    description: "Number of critical severity gaps"
+  high_gaps_count:
+    type: number
+    description: "Number of high severity gaps"
+  traceability_report_path:
+    type: string
+    description: "Path to generated traceability report"
+  quality_gate_impact:
+    type: string
+    description: "Predicted quality gate status (PASS/CONCERNS/FAIL)"
 telemetry:
   emit: "skill.trace-requirements.completed"
   track:

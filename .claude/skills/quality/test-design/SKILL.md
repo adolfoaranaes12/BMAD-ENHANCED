@@ -8,6 +8,52 @@ acceptance:
   priorities_assigned: "All test scenarios assigned priority levels (P0/P1/P2) based on risk scores from risk-profile or AC criticality"
   mock_strategies_developed: "Mock strategies developed for all external dependencies (APIs, databases, services) with implementation guidance"
   cicd_integration_planned: "CI/CD test execution strategy planned with stages (pre-commit, PR, pre-deployment, production), parallelization, and coverage requirements"
+inputs:
+  task_id:
+    type: string
+    required: true
+    description: "Task identifier for test design (e.g., 'task-007')"
+  task_file:
+    type: string
+    required: true
+    description: "Path to task specification file"
+  assessment_mode:
+    type: enum
+    required: false
+    description: "Assessment timing (pre-implementation | retrospective)"
+    default: "pre-implementation"
+  risk_profile_file:
+    type: string
+    required: false
+    description: "Path to risk profile file (for risk-informed prioritization)"
+outputs:
+  total_tests:
+    type: number
+    description: "Total number of test scenarios designed"
+  p0_tests_count:
+    type: number
+    description: "Number of P0 (critical) tests"
+  p1_tests_count:
+    type: number
+    description: "Number of P1 (high priority) tests"
+  p2_tests_count:
+    type: number
+    description: "Number of P2 (medium priority) tests"
+  unit_tests_count:
+    type: number
+    description: "Number of unit tests"
+  integration_tests_count:
+    type: number
+    description: "Number of integration tests"
+  e2e_tests_count:
+    type: number
+    description: "Number of end-to-end tests"
+  estimated_execution_time_seconds:
+    type: number
+    description: "Estimated total test execution time in seconds"
+  test_design_file:
+    type: string
+    description: "Path to generated test design document"
 telemetry:
   emit: "skill.test-design.completed"
   track:

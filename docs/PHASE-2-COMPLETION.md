@@ -137,7 +137,7 @@ Phase 2 of BMAD Enhanced is **100% complete**. All 4 subagents have been upgrade
 
 **Planning Skills (8):**
 1. ✅ breakdown-epic - V2 contract complete
-2. ✅ estimate-stories - V2 contract added
+2. ✅ estimate-stories - V2 contract added (inputs/outputs added this session)
 3. ✅ create-architecture - V2 contract complete
 4. ✅ refine-story - V2 contract complete
 5. ✅ sprint-plan - V2 contract complete
@@ -148,21 +148,26 @@ Phase 2 of BMAD Enhanced is **100% complete**. All 4 subagents have been upgrade
 **Quality Skills (9):**
 1. ✅ review-task - V2 contract complete
 2. ✅ architecture-review - V2 contract complete
-3. ✅ test-design - V2 contract complete
+3. ✅ test-design - V2 contract complete (inputs/outputs added this session)
 4. ✅ quality-gate - V2 contract complete
 5. ✅ validate-architecture - V2 contract complete
 6. ✅ refactor-code - V2 contract complete
 7. ✅ nfr-assess - V2 contract complete
 8. ✅ risk-profile - V2 contract complete
-9. ✅ trace-requirements - V2 contract complete
+9. ✅ trace-requirements - V2 contract complete (inputs/outputs added this session)
 
-**V2 Contract Elements:**
-- `acceptance`: Acceptance criteria for skill completion
-- `inputs`: Input parameters with types, requirements, validation
-- `outputs`: Output values with types and descriptions
-- `telemetry`: Event names and tracked metrics
+**V2 Contract Elements (all 17 skills):**
+- `acceptance`: Acceptance criteria for skill completion ✅ 17/17
+- `inputs`: Input parameters with types, requirements, validation ✅ 17/17
+- `outputs`: Output values with types and descriptions ✅ 17/17
+- `telemetry`: Event names and tracked metrics ✅ 17/17
 
-**Note:** estimate-stories was updated with complete V2 contract during this session. All other skills already had V2 contracts from previous work.
+**Updated This Session:**
+- estimate-stories: Added complete V2 contract (acceptance, inputs, outputs, telemetry)
+- test-design: Added inputs/outputs sections to complete V2 contract
+- trace-requirements: Added inputs/outputs sections to complete V2 contract
+
+**Result:** All 17 skills verified with complete 4-section V2 contracts.
 
 ---
 
@@ -364,9 +369,11 @@ Complete
 8. `docs/PHASE-2-PROGRESS-SUMMARY.md` - progress tracking
 9. `docs/PHASE-2-COMPLETION.md` (this file) - completion documentation
 
-### Modified Files (2)
+### Modified Files (4)
 1. `.claude/agents/james-developer-v2.md` (2,096 → 3,171 lines, +1,075 lines)
 2. `.claude/skills/planning/estimate-stories/SKILL.md` (added complete V2 contract)
+3. `.claude/skills/quality/test-design/SKILL.md` (added inputs/outputs sections)
+4. `.claude/skills/quality/trace-requirements/SKILL.md` (added inputs/outputs sections)
 
 ### Backed Up Files (4)
 1. `.claude/agents/alex-planner-v1.md.backup` - Original V1 version
