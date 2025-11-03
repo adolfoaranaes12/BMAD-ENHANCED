@@ -1,0 +1,187 @@
+# Sample Quality Gate: Mixed Issues (All Priorities)
+# Scenario: Comprehensive mix of issues across all priority levels
+
+task_id: "task-user-api-sample-004"
+date: "2025-01-15"
+decision: "CONCERNS"
+overall_score: 72
+can_proceed: true
+waiver_required: false
+
+dimensions:
+  risk_management: 70
+  test_coverage: 65
+  traceability: 80
+  nfr_compliance: 68
+  implementation_quality: 75
+  project_compliance: 85
+
+# Priority 1: High Severity Issues
+top_issues:
+  - id: "SEC-001"
+    category: "security"
+    severity: "high"
+    description: "Password stored in plain text"
+    location: "src/services/user.ts:34"
+    recommendation: "Hash passwords with bcrypt: await bcrypt.hash(password, 10)"
+    impact: "Complete user account compromise if database breached"
+
+  - id: "PERF-001"
+    category: "performance"
+    severity: "high"
+    description: "N+1 query loading user profiles"
+    location: "src/services/user.ts:89"
+    recommendation: "Use eager loading: User.findAll({ include: [Profile, Posts] })"
+    impact: "100+ queries per page, timeout on production with 1000+ users"
+
+  - id: "ERR-001"
+    category: "error_handling"
+    severity: "medium"
+    description: "Uncaught promise rejection in async route handlers"
+    location: "src/routes/user.ts:45, :67, :89"
+    recommendation: "Wrap async routes with try-catch or use express-async-errors"
+    impact: "Server crashes on unhandled errors, poor user experience"
+
+  - id: "DOC-001"
+    category: "documentation"
+    severity: "medium"
+    description: "Missing API documentation for user endpoints"
+    location: "src/routes/user.ts"
+    recommendation: "Add JSDoc or OpenAPI/Swagger specs"
+    impact: "API consumers don't know request/response formats"
+
+  - id: "STYLE-001"
+    category: "code_style"
+    severity: "low"
+    description: "Inconsistent indentation (mix of tabs and spaces)"
+    location: "src/services/user.ts"
+    recommendation: "Run Prettier: prettier --write src/**/*.ts"
+    impact: "Code readability, merge conflicts"
+
+# Priority 2: NFR Failures
+nfr_validation:
+  security:
+    status: "FAIL"
+    score: 50
+    concerns:
+      - "Plain text password storage (SEC-001)"
+      - "No input validation on user registration"
+      - "Missing rate limiting"
+    recommendations:
+      - "Hash passwords with bcrypt (salt rounds: 10)"
+      - "Add Joi validation for email/password"
+      - "Add express-rate-limit middleware"
+
+  performance:
+    status: "CONCERNS"
+    score: 60
+    concerns:
+      - "N+1 query pattern (PERF-001)"
+      - "No caching for user profiles"
+    recommendations:
+      - "Optimize queries with eager loading"
+      - "Add Redis cache for frequently accessed users"
+
+  reliability:
+    status: "FAIL"
+    score: 55
+    concerns:
+      - "Uncaught promise rejections (ERR-001)"
+      - "No error logging"
+      - "Missing health check endpoints"
+    recommendations:
+      - "Add global error handler"
+      - "Add Winston logger"
+      - "Add /health endpoint"
+
+  maintainability:
+    status: "CONCERNS"
+    score: 70
+    concerns:
+      - "Missing API documentation (DOC-001)"
+      - "Inconsistent code style (STYLE-001)"
+    recommendations:
+      - "Add JSDoc to all public functions"
+      - "Configure Prettier and ESLint"
+
+  scalability:
+    status: "PASS"
+    score: 75
+
+  usability:
+    status: "PASS"
+    score: 80
+
+# Priority 5: Traceability Gaps
+trace:
+  traceability_score: 80
+  implementation_coverage: 90
+  test_coverage: 70
+  ac_gaps:
+    - ac_id: "AC3"
+      description: "User profile update notifications"
+      coverage: "partial"
+      missing:
+        - "Email notification not implemented"
+        - "Webhook for profile changes not implemented"
+
+    - ac_id: "AC5"
+      description: "User account deletion (GDPR)"
+      coverage: "none"
+      missing:
+        - "Hard delete user data not implemented"
+        - "Data export before deletion not implemented"
+
+# Priority 3: Test Coverage Gaps
+test_design:
+  total_tests: 30
+  p0_tests: 12
+  p1_tests: 15
+  p2_tests: 3
+  coverage_gaps:
+    - ac_id: "AC1"
+      description: "User registration"
+      priority: "P0"
+      missing_tests:
+        - "Should reject duplicate emails"
+        - "Should send verification email"
+
+    - ac_id: "AC2"
+      description: "User authentication"
+      priority: "P0"
+      missing_tests:
+        - "Should reject invalid credentials"
+        - "Should handle expired sessions"
+
+    - ac_id: "AC4"
+      description: "Password reset"
+      priority: "P0"
+      missing_tests:
+        - "Should validate reset token"
+        - "Should expire reset token after 1 hour"
+
+action_items:
+  p0:
+    - "Fix password hashing (SEC-001)"
+    - "Fix N+1 queries (PERF-001)"
+    - "Add global error handler (ERR-001)"
+    - "Add registration tests (AC1)"
+    - "Add authentication tests (AC2)"
+    - "Add password reset tests (AC4)"
+  p1:
+    - "Add input validation"
+    - "Add rate limiting"
+    - "Add error logging"
+    - "Add API documentation"
+    - "Implement profile notifications (AC3)"
+  p2:
+    - "Add caching layer"
+    - "Fix code style (STYLE-001)"
+    - "Implement user deletion (AC5)"
+
+reports:
+  risk_profile: ".claude/quality/assessments/task-user-api-sample-004-risk-2025-01-15.md"
+  test_design: ".claude/quality/assessments/task-user-api-sample-004-test-design-2025-01-15.md"
+  traceability: ".claude/quality/assessments/task-user-api-sample-004-trace-2025-01-15.md"
+  nfr_assessment: ".claude/quality/assessments/task-user-api-sample-004-nfr-2025-01-15.md"
+  gate_report: ".claude/quality/gates/task-user-api-sample-004-gate-2025-01-15.md"

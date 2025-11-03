@@ -1,6 +1,35 @@
 ---
 name: index-docs
 description: Create searchable knowledge base from existing documentation and code for fast context lookup in brownfield projects
+version: 1.0
+category: Brownfield
+acceptance:
+  documentation_indexed: "All documentation files (.md) indexed with sections, keywords, and cross-references extracted"
+  code_indexed: "Code files indexed with exports, functions, and documentation links mapped"
+  search_index_created: "Searchable index files created (search.json, quick-ref.md, glossary.md) in .claude/index/"
+inputs:
+  refresh:
+    required: false
+    description: "Refresh existing index (incremental) vs rebuild from scratch"
+outputs:
+  files_indexed:
+    description: "Total number of files indexed (docs + code)"
+  keywords_count:
+    description: "Total unique keywords identified"
+  references_count:
+    description: "Total cross-references and links created"
+  index_location:
+    description: "Path to generated index files"
+telemetry:
+  emit: "skill.index-docs.completed"
+  track:
+    - files_indexed
+    - docs_files_count
+    - code_files_count
+    - keywords_count
+    - references_count
+    - index_size_bytes
+    - operation_type  # build | refresh
 ---
 
 # Index Documentation and Code Skill
@@ -55,15 +84,9 @@ brownfield:
 3. **Build document index** with sections, keywords, line numbers
 4. **Create cross-references** between documents
 
-**Output:**
-```
-✓ Documentation indexed: 5 files
-✓ Sections extracted: 87
-✓ Keywords identified: 245
-✓ Cross-references: 42
-```
+**Output:** Documentation indexed (file count), sections extracted, keywords identified, cross-references created
 
-**See:** `references/indexing-format.md` for index structure details
+**See:** `references/templates.md#step-2-output` for complete format and index structure
 
 ---
 
@@ -81,15 +104,9 @@ brownfield:
    - Find code mentions in docs
    - Create bidirectional links
 
-**Output:**
-```
-✓ Code files indexed: 247
-✓ Exports mapped: 156
-✓ Functions mapped: 423
-✓ Code → Doc links: 89
-```
+**Output:** Code files indexed, exports/functions mapped, code-to-docs links created
 
-**See:** `references/code-mapping.md` for mapping strategies
+**See:** `references/templates.md#step-3-output` for complete format and code-mapping.md for strategies
 
 ---
 
@@ -109,71 +126,47 @@ brownfield:
    - Terms and definitions
    - Links to detailed documentation
 
-**Output Files:**
-- `.claude/index/search.json` - Searchable index
-- `.claude/index/quick-ref.md` - Quick reference guide
-- `.claude/index/glossary.md` - Term glossary
+**Output:** search.json (searchable index), quick-ref.md (quick reference), glossary.md (term definitions) created in .claude/index/
+
+**See:** `references/templates.md#step-4-output` for complete file formats and examples
 
 ---
 
 ## Using the Index
 
-**Quick searches:**
-```bash
-# Find documentation about User model
-grep -r "User" .claude/index/search.json
+**Quick searches:** grep for keywords in search.json | Look up endpoints in quick-ref.md | Find term definitions in glossary.md
 
-# Look up API endpoint
-cat .claude/index/quick-ref.md | grep "/api/auth"
+**Integration:** create-task-spec loads relevant docs | implement-feature looks up patterns | document-project refreshes index
 
-# Find term definition
-cat .claude/index/glossary.md | grep -A 3 "Repository Pattern"
-```
-
-**Integration with other skills:**
-- `create-task-spec` loads relevant docs from index
-- `implement-feature` looks up patterns from quick ref
-- `document-project` can refresh/update index
+**See:** `references/templates.md#search-examples` for complete search commands and `#integration-examples` for workflows
 
 ---
 
 ## Index Maintenance
 
-**When to refresh:**
-- Documentation updated significantly
-- New code modules added
-- Architecture changes
-- Quarterly maintenance
+**When to refresh:** Documentation updated | New code modules | Architecture changes | Quarterly maintenance
 
-**Refresh vs Rebuild:**
-- **Refresh:** Update existing index (faster, preserves custom entries)
-- **Rebuild:** Full re-index (slower, clean slate)
+**Refresh vs Rebuild:** Refresh=incremental update (faster, preserves customizations) | Rebuild=full re-index (slower, clean slate)
 
-**Command:**
-```bash
-# Refresh index
-@alex *index-docs --refresh
-
-# Full rebuild
-@alex *index-docs --rebuild
-```
+**See:** `references/templates.md#index-maintenance` for detailed refresh process and output examples
 
 ---
 
 ## Best Practices
 
-1. **Index early** - Do this before starting implementation work
-2. **Keep docs updated** - Refresh index when docs change
-3. **Use quick ref** - Faster than searching full docs
-4. **Maintain glossary** - Add project-specific terms
-5. **Include code selectively** - Index key files, not everything
+Index early (before implementation) | Keep docs updated (refresh after changes) | Use quick ref (faster than full docs) | Maintain glossary (project-specific terms) | Include code selectively (key files only)
 
 ---
 
 ## Reference Files
 
-- `references/indexing-format.md` - Index structure and format
-- `references/code-mapping.md` - Code-to-docs mapping strategies
+Detailed documentation in `references/`:
+
+- **templates.md**: All output formats (Steps 1-4), search.json structure, quick-ref.md format, glossary.md format, search examples, integration workflows, index maintenance, JSON output format
+
+- **indexing-format.md**: Index structure details (comprehensive in templates.md)
+
+- **code-mapping.md**: Code-to-docs mapping strategies
 
 ---
 

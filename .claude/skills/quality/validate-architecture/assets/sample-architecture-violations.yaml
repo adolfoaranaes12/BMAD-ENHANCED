@@ -1,0 +1,231 @@
+# Architecture with Violations - Should PASS but with Concerns (Score: 72/100)
+
+project:
+  name: "Payment Processing API"
+  type: "backend"
+  complexity_score: 40
+
+validation_metadata:
+  architecture_file: "docs/architecture.md"
+  validated: "2025-01-16"
+  expected_result: "PASS"
+  expected_score: 72
+  notes: "Borderline pass - needs improvements"
+
+sections_present:
+  system_overview: true
+  architecture_diagrams: true
+  backend_architecture: true
+  data_architecture: true
+  technology_stack: true
+  deployment_architecture: true
+  security_architecture: true
+  performance_architecture: true
+  scalability_plan: true  # but vague
+  adrs: true
+  cost_estimates: false  # violation
+
+diagrams:
+  - type: "container"
+    format: "mermaid"
+  # Missing: context diagram (recommendation)
+  # Missing: deployment diagram (recommendation)
+
+technology_stack:
+  backend:
+    framework: "FastAPI"
+    justification: true
+    alternatives_considered: true
+    adr: "ADR-001"
+
+  database:
+    primary: "PostgreSQL 15"
+    justification: false  # VIOLATION: minimal justification
+    alternatives_considered: false
+    adr: null  # VIOLATION: no ADR
+
+  authentication:
+    method: "JWT"
+    justification: true
+    alternatives_considered: false  # partial violation
+    adr: "ADR-002"
+
+  caching:
+    service: "Redis"
+    justification: false  # VIOLATION: listed but not justified
+    alternatives_considered: false
+    adr: null
+
+  monitoring:
+    service: null  # VIOLATION: not specified
+
+adrs:
+  count: 3
+  minimum_required: 3  # barely meets minimum
+  adrs_list:
+    - id: "ADR-001"
+      title: "FastAPI Framework"
+      status: "Accepted"
+      quality_score: 85
+      has_alternatives: true
+      has_rationale: true
+      has_consequences: true
+
+    - id: "ADR-002"
+      title: "JWT Authentication"
+      status: "Accepted"
+      quality_score: 70  # missing alternatives
+      has_alternatives: false
+      has_rationale: true
+      has_consequences: true
+
+    - id: "ADR-003"
+      title: "Docker Deployment"
+      status: "Accepted"
+      quality_score: 60  # poor quality
+      has_alternatives: false
+      has_rationale: "partial"
+      has_consequences: false
+
+nfrs_coverage:
+  performance:
+    addressed: true
+    specific_targets: true
+    targets: "p95 <500ms"
+    caching_strategy: false  # mentioned but not detailed
+
+  scalability:
+    addressed: true
+    growth_projections: false  # VIOLATION: vague ("will scale")
+    scaling_plan: "partial"  # horizontal scaling mentioned, not detailed
+    bottleneck_analysis: false
+
+  security:
+    addressed: true
+    authentication: true
+    authorization: "partial"  # mentioned but not detailed
+    encryption: true
+    compliance: false  # not addressed
+
+  reliability:
+    addressed: false  # VIOLATION: not addressed
+
+  maintainability:
+    addressed: "partial"  # testing mentioned generically
+    testing_strategy: false
+    cicd: true
+
+security_compliance:
+  authentication:
+    method: "JWT"
+    documented: true
+
+  authorization:
+    model: "partial"  # mentioned but not detailed
+    documented: false
+
+  encryption:
+    at_rest: true
+    in_transit: true
+    key_management: false  # not specified
+
+  compliance:
+    gdpr: false
+    pci: false  # payment API but no PCI discussion
+    hipaa: false
+
+scalability:
+  growth_projections: false  # vague "thousands of requests"
+  horizontal_scaling: "mentioned"  # not detailed
+  database_scaling: false
+  bottlenecks: false
+  cost_scaling: false
+
+documentation_quality:
+  clarity: "medium"
+  diagrams_count: 1
+  examples_provided: "few"
+  formatting: "good"
+
+validation_scores:
+  completeness: 75
+  tech_justification: 70
+  nfrs_coverage: 65
+  security: 85  # strong auth, weak on other aspects
+  scalability: 60  # vague
+  documentation: 70
+
+overall_score: 72
+validation_result: "PASS"
+confidence: "medium"
+
+recommendations:
+  critical: []  # no critical blockers
+
+  high_priority:
+    - "Add ADR for database selection (PostgreSQL)"
+    - "Justify all technologies (Redis, monitoring)"
+    - "Detail scalability plan with growth projections"
+    - "Add authorization model documentation"
+    - "Address reliability NFRs (availability target, redundancy)"
+    - "Specify compliance requirements (PCI for payments)"
+
+  medium_priority:
+    - "Add context and deployment diagrams"
+    - "Improve ADR quality (add alternatives, consequences)"
+    - "Detail caching strategy"
+    - "Add cost estimates"
+    - "Specify monitoring and alerting approach"
+
+  low_priority:
+    - "Add more code examples"
+    - "Improve documentation clarity"
+
+violations:
+  - category: "tech_justification"
+    severity: "medium"
+    description: "PostgreSQL database not justified, no ADR"
+
+  - category: "tech_justification"
+    severity: "medium"
+    description: "Redis caching listed but not justified"
+
+  - category: "nfrs"
+    severity: "high"
+    description: "Reliability NFRs not addressed"
+
+  - category: "nfrs"
+    severity: "high"
+    description: "Scalability growth projections vague"
+
+  - category: "security"
+    severity: "medium"
+    description: "Authorization model not detailed"
+
+  - category: "security"
+    severity: "high"
+    description: "PCI compliance not addressed for payment API"
+
+  - category: "scalability"
+    severity: "medium"
+    description: "No bottleneck analysis"
+
+  - category: "completeness"
+    severity: "low"
+    description: "Missing diagrams (context, deployment)"
+
+notes: |
+  This architecture passes validation with a score of 72/100, but it's a borderline pass.
+  There are no critical blockers, but several high-priority improvements are needed:
+
+  - Key technologies lack justification (PostgreSQL, Redis)
+  - Reliability NFRs completely missing (no availability targets, redundancy plan)
+  - Scalability is vague (no growth projections, no scaling plan details)
+  - Security gaps: authorization model unclear, PCI compliance not addressed
+  - ADR quality is poor (missing alternatives, consequences)
+
+  Recommendation: Proceed to implementation but address high-priority items in sprint 1.
+  Schedule architecture review at 30% implementation to ensure improvements are made.
+
+  This represents a functional but not optimal architecture. It will work but may have
+  issues under scale or when compliance becomes critical.

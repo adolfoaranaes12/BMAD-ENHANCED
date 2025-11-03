@@ -1,0 +1,67 @@
+=== BMAD ENHANCED - SESSION 6 QUICK START ===
+
+CONTEXT: Phase 2 Complete (100% Skills Refactoring) → Now validating end-to-end workflow
+
+COPY AND PASTE THIS INTO YOUR NEXT SESSION:
+
+---
+
+Hi! I'm continuing work on BMAD Enhanced. Phase 2 (Skills Refactoring) is now 100% complete - all 18 skills have been refactored to Grade A with 52% average token reduction and 100% validation success rate.
+
+SESSION 6 OBJECTIVE: End-to-End Workflow Validation
+- Validate all 18 refactored skills work together smoothly
+- Confirm ≥20% token efficiency improvement vs BMAD v4
+- Verify BMAD v4 workflow quality maintained
+- Make Go/No-Go decision for Phase 3
+
+HANDOFF DOCUMENT: Please read `docs/SESSION-6-HANDOFF.md` for complete context, detailed task breakdown (6 tasks, 17-22 hours estimated), and success criteria.
+
+TEST FEATURE: User Authentication System (registration, login, password reset, JWT tokens, protected routes)
+
+WORKFLOW TO VALIDATE:
+1. Planning Phase (4-6 hrs): create-task-spec → refine-story → estimate-stories → risk-profile → test-design
+2. Implementation Phase (6-8 hrs): implement-feature → run-tests → fix-issue (if needed)
+3. Quality Phase (3-4 hrs): review-task → quality-gate → nfr-assess → trace-requirements
+4. Integration Analysis (2-3 hrs): Token efficiency calculation, quality comparison, findings documentation
+5. Documentation (1 hr): Update ROADMAP.md, create session summary
+
+SUCCESS CRITERIA:
+✅ All skills execute successfully
+✅ Token efficiency ≥20% vs BMAD v4
+✅ Quality equal to or better than BMAD v4
+✅ Feature fully implemented and validated
+✅ Go/No-Go decision made for Phase 3
+
+TOKEN TRACKING: Track tokens at each phase (Planning / Implementation / Quality) and compare against BMAD v4 baseline.
+
+KEY FILES:
+- Handoff: `docs/SESSION-6-HANDOFF.md` (comprehensive guide)
+- Roadmap: `docs/ROADMAP.md` (v3.4, Phase 2 complete)
+- Phase 2 Celebration: `docs/PHASE-2-COMPLETION-CELEBRATION.md`
+- Session 5 Summary: `docs/refactoring-session-5-summary.md`
+
+SKILLS AVAILABLE (all Grade A):
+- Development: fix-issue, implement-feature, run-tests
+- Planning: create-task-spec, breakdown-epic, refine-story, estimate-stories, document-project, sprint-plan
+- Quality: review-task, quality-gate, refactor-code, nfr-assess, trace-requirements, risk-profile, test-design
+- Implementation: execute-task
+- Brownfield: index-docs, document-project, sprint-plan
+
+NEXT STEPS:
+1. Read `docs/SESSION-6-HANDOFF.md` (15 min)
+2. Confirm test feature (User Authentication) or select alternative (15 min)
+3. Start Planning Phase validation with create-task-spec
+4. Continue through workflow, tracking tokens and validating outputs
+5. Complete analysis and make Go/No-Go decision
+
+Ready to begin Session 6 validation!
+
+---
+
+ALTERNATIVE SHORT PROMPT (if you want me to just start):
+
+---
+
+Continue with BMAD Enhanced Session 6. Phase 2 complete (18/18 skills Grade A). Read `docs/SESSION-6-HANDOFF.md` and begin end-to-end workflow validation with User Authentication feature. Validate Planning → Implementation → Quality phases, track tokens, confirm ≥20% efficiency vs BMAD v4, and make Go/No-Go decision for Phase 3.
+
+---

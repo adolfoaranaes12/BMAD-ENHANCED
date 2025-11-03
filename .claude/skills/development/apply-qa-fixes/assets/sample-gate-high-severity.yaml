@@ -1,0 +1,108 @@
+# Sample Quality Gate: High Severity Issues
+# Scenario: Security-critical issues requiring immediate fixes
+
+task_id: "task-auth-sample-001"
+date: "2025-01-15"
+decision: "FAIL"
+overall_score: 45
+can_proceed: false
+waiver_required: true
+
+dimensions:
+  risk_management: 40
+  test_coverage: 70
+  traceability: 85
+  nfr_compliance: 30
+  implementation_quality: 60
+  project_compliance: 85
+
+# High severity issues (Priority 1)
+top_issues:
+  - id: "SEC-001"
+    category: "security"
+    severity: "high"
+    description: "SQL injection vulnerability in user authentication"
+    location: "src/auth/login.ts:45"
+    recommendation: "Use parameterized queries instead of string concatenation: db.query('SELECT * FROM users WHERE email = ?', [email])"
+    impact: "Attacker could extract entire user database or execute arbitrary SQL"
+
+  - id: "SEC-002"
+    category: "security"
+    severity: "high"
+    description: "Missing input validation on user registration endpoint"
+    location: "src/api/user.ts:78"
+    recommendation: "Add Joi validation schema for email, password, username fields"
+    impact: "Malformed data can reach database, potential XSS or injection attacks"
+
+  - id: "SEC-003"
+    category: "security"
+    severity: "high"
+    description: "Hardcoded JWT secret in configuration file"
+    location: "config/auth.ts:12"
+    recommendation: "Move JWT secret to environment variable (process.env.JWT_SECRET)"
+    impact: "Secret exposed in version control, attackers can forge authentication tokens"
+
+nfr_validation:
+  security:
+    status: "FAIL"
+    score: 30
+    concerns:
+      - "SQL injection vulnerability (SEC-001)"
+      - "Missing input validation (SEC-002)"
+      - "Hardcoded secrets (SEC-003)"
+    recommendations:
+      - "Implement parameterized queries throughout application"
+      - "Add comprehensive input validation middleware"
+      - "Move all secrets to environment variables"
+      - "Enable HTTPS enforcement"
+
+  performance:
+    status: "PASS"
+    score: 80
+
+  reliability:
+    status: "PASS"
+    score: 75
+
+  maintainability:
+    status: "CONCERNS"
+    score: 65
+    concerns:
+      - "No error handling in auth flow"
+
+  scalability:
+    status: "PASS"
+    score: 70
+
+  usability:
+    status: "PASS"
+    score: 75
+
+trace:
+  traceability_score: 85
+  implementation_coverage: 90
+  test_coverage: 80
+  ac_gaps: []
+
+test_design:
+  total_tests: 25
+  p0_tests: 10
+  p1_tests: 10
+  p2_tests: 5
+  coverage_gaps: []
+
+action_items:
+  p0:
+    - "Fix SQL injection vulnerability (SEC-001)"
+    - "Add input validation (SEC-002)"
+    - "Remove hardcoded secrets (SEC-003)"
+  p1:
+    - "Add error handling in auth flow"
+  p2: []
+
+reports:
+  risk_profile: ".claude/quality/assessments/task-auth-sample-001-risk-2025-01-15.md"
+  test_design: ".claude/quality/assessments/task-auth-sample-001-test-design-2025-01-15.md"
+  traceability: ".claude/quality/assessments/task-auth-sample-001-trace-2025-01-15.md"
+  nfr_assessment: ".claude/quality/assessments/task-auth-sample-001-nfr-2025-01-15.md"
+  gate_report: ".claude/quality/gates/task-auth-sample-001-gate-2025-01-15.md"

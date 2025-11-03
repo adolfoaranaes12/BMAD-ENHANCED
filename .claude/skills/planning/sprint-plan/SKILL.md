@@ -119,18 +119,9 @@ Execute steps in order - each builds on previous analysis:
    Example: 20 points × (1 - 0.15) = 17 points available
    ```
 
-**Output:**
-```
-Sprint Planning Context:
-- Sprint: Sprint 1
-- Velocity: 20 points
-- Buffer: 15% (3 points)
-- Effective Capacity: 17 points
-- Eligible Stories: 24 stories (78 total points)
-- Dependencies: 8 blocking relationships identified
-```
+**Output:** Sprint context loaded with velocity, buffer, effective capacity, eligible stories, dependencies identified
 
-**Reference:** See [sprint-planning-mechanics.md](references/sprint-planning-mechanics.md) for capacity calculation details.
+**See:** `references/templates.md#step-0-output` for complete format and `sprint-planning-mechanics.md` for capacity calculations
 
 ---
 
@@ -145,17 +136,9 @@ Sprint Planning Context:
 3. **Risk Score** (high-risk early for discovery)
 4. **Story Points** (smaller stories for momentum)
 
-**Example Sorted Backlog:**
-```
-1. story-auth-001 (Signup) - P0, 5 points, blocks 3 stories
-2. story-auth-002 (Login) - P0, 3 points, blocked by auth-001
-3. story-auth-003 (Logout) - P0, 1 point, blocked by auth-002
-4. story-profile-001 (View Profile) - P1, 2 points, blocked by auth-002
-5. story-profile-002 (Edit Profile) - P1, 3 points, blocked by profile-001
-...
-```
+**Output:** Stories prioritized and sorted by priority level, dependency order, risk score, story points
 
-**Reference:** See [story-selection-algorithm.md](references/story-selection-algorithm.md) for detailed sorting logic.
+**See:** `references/templates.md#step-1-output` for complete sorted backlog example and `story-selection-algorithm.md` for sorting logic
 
 ---
 
@@ -173,21 +156,9 @@ Sprint Planning Context:
 3. Continue with P1, then P2 stories
 4. Stop when capacity reached or no more valid stories
 
-**Example Selection:**
-```
-Sprint 1 Commitment:
-1. story-auth-001 (Signup) - 5 points
-2. story-auth-002 (Login) - 3 points  
-3. story-auth-003 (Logout) - 1 point
-4. story-profile-001 (View Profile) - 2 points
-5. story-profile-002 (Edit Profile) - 3 points
-6. story-settings-001 (Change Password) - 2 points
+**Output:** Stories selected for sprint respecting capacity, dependencies, feature completeness | Total points, utilization percentage, remaining capacity
 
-Total: 16 points / 17 available (94% utilization)
-Remaining: 1 point (buffer + small reserve)
-```
-
-**Reference:** See [story-selection-algorithm.md](references/story-selection-algorithm.md) for selection rules and edge cases.
+**See:** `references/templates.md#step-2-output` for complete selection example and `story-selection-algorithm.md` for selection rules
 
 ---
 
@@ -209,16 +180,9 @@ Remaining: 1 point (buffer + small reserve)
    - Dependencies can span sprints (A in Sprint 1, B in Sprint 2)
    - But must be in correct order
 
-**Example Validation:**
-```
-✓ All dependencies satisfied:
-  - story-auth-001 (Sprint 1) blocks story-auth-002 (Sprint 1) ✓
-  - story-auth-002 (Sprint 1) blocks story-profile-001 (Sprint 1) ✓
-  - story-profile-001 (Sprint 1) blocks story-profile-002 (Sprint 1) ✓
+**Output:** Dependencies validated, all blocking relationships satisfied, no orphaned dependencies, feature completeness maintained
 
-✓ No orphaned dependencies
-✓ Feature completeness maintained
-```
+**See:** `references/templates.md#step-3-output` for complete validation examples including edge cases
 
 ---
 
@@ -244,28 +208,9 @@ Remaining: 1 point (buffer + small reserve)
    - Sprint becomes "all or nothing"
    - No flexibility for adjustments
 
-**Example Risk Assessment:**
-```
-Sprint Risks:
+**Output:** Sprint risks assessed by category (capacity/dependency/technical/scope), overall risk level, mitigation strategies identified
 
-⚠️ MEDIUM: Capacity Risk
-- Utilization: 94% (high but acceptable)
-- Mitigation: 1-point buffer available, can drop story-settings-001 if needed
-
-⚠️ MEDIUM: Dependency Risk
-- Critical path: auth-001 → auth-002 → profile-001 → profile-002 (4 stories)
-- Mitigation: Prioritize auth-001 early in sprint, daily progress tracking
-
-✓ LOW: Technical Risk
-- Only 1 high-risk story (auth-001, risk=7)
-- Mitigation: Pair programming, technical spike planned
-
-✓ LOW: Scope Risk
-- 3 P0 stories out of 6 total (50%)
-- Flexibility: Can defer profile-002 or settings-001 if needed
-```
-
-**Reference:** See [sprint-risk-assessment.md](references/sprint-risk-assessment.md) for risk scoring methodology.
+**See:** `references/templates.md#step-4-output` for detailed risk assessment example and `sprint-risk-assessment.md` for scoring methodology
 
 ---
 
@@ -295,20 +240,9 @@ Sprint Risks:
 - ❌ "Work on authentication and profiles and settings and..."
 - ❌ "Make progress on the backlog"
 
-**Example for Our Sprint:**
-```
-Sprint 1 Goal:
-"Implement core authentication and basic profile management so that users can securely 
-register, log in, and view/edit their profiles."
+**Output:** Sprint goal defined following formula ([Action] [Feature] so that [Business Value]), success criteria specified, goal validated (specific/measurable/valuable/achievable/focused)
 
-Success Criteria:
-- Users can sign up with email/password
-- Users can log in and log out
-- Users can view and edit their profile
-- All authentication flows are secure (bcrypt, JWT, rate limiting)
-```
-
-**Reference:** See [sprint-goals-and-metrics.md](references/sprint-goals-and-metrics.md) for goal-setting patterns.
+**See:** `references/templates.md#step-5-output` for complete goal examples and `sprint-goals-and-metrics.md` for goal patterns
 
 ---
 
@@ -324,34 +258,9 @@ Success Criteria:
 4. **Dependency Depth:** Longest dependency chain
 5. **Risk Score:** Weighted average of story risks
 
-**Example Metrics:**
-```yaml
-Sprint Metrics:
+**Output:** Sprint metrics calculated including capacity (velocity/buffer/commitment/utilization), stories (total/priority breakdown), dependencies (relationships/longest chain), risk (average score/high-risk count/overall level)
 
-Capacity:
-  velocity: 20
-  buffer: 3 (15%)
-  effectiveCapacity: 17
-  commitment: 16
-  utilization: 94%
-  remaining: 1
-
-Stories:
-  total: 6
-  p0: 3 (50%)
-  p1: 2 (33%)
-  p2: 1 (17%)
-
-Dependencies:
-  totalRelationships: 4
-  longestChain: 4 (auth-001 → auth-002 → profile-001 → profile-002)
-  averageDepth: 2
-
-Risk:
-  averageRiskScore: 4.2/10
-  highRiskStories: 1
-  overallRisk: MEDIUM
-```
+**See:** `references/templates.md#step-6-output` for complete metrics example with all fields
 
 ---
 
@@ -361,85 +270,11 @@ Risk:
 
 **File:** `.claude/sprints/sprint-{sprint-name}-{date}.md`
 
-**Sprint Plan Structure:**
-```markdown
-# Sprint Plan: {Sprint Name}
+**Output:** Sprint plan document generated with sections: Sprint Goal, Committed Stories table, Sprint Metrics, Risks and Mitigation, Sprint Schedule, Definition of Done
 
-**Sprint Dates:** {start-date} to {end-date}
-**Velocity:** {velocity} points
-**Commitment:** {commitment} points ({utilization}% utilization)
-**Status:** Planned
+**File:** `.claude/sprints/sprint-{name}-{date}.md`
 
----
-
-## Sprint Goal
-
-{Sprint goal statement}
-
-**Success Criteria:**
-- {Criterion 1}
-- {Criterion 2}
-- {Criterion 3}
-
----
-
-## Committed Stories
-
-| Story ID | Title | Priority | Points | Dependencies |
-|----------|-------|----------|--------|--------------|
-| story-auth-001 | User Signup | P0 | 5 | None |
-| story-auth-002 | User Login | P0 | 3 | auth-001 |
-| story-auth-003 | User Logout | P0 | 1 | auth-002 |
-| story-profile-001 | View Profile | P1 | 2 | auth-002 |
-| story-profile-002 | Edit Profile | P1 | 3 | profile-001 |
-| story-settings-001 | Change Password | P1 | 2 | auth-002 |
-
-**Total:** 16 points
-
----
-
-## Sprint Metrics
-
-{Metrics from Step 6}
-
----
-
-## Risks and Mitigation
-
-{Risks from Step 4}
-
----
-
-## Sprint Schedule (Recommended)
-
-**Week 1:**
-- Days 1-2: story-auth-001 (Signup) - 5 points
-- Days 3-4: story-auth-002 (Login) - 3 points
-- Day 5: story-auth-003 (Logout) - 1 point
-
-**Week 2:**
-- Days 1-2: story-profile-001 (View Profile) - 2 points
-- Days 3-4: story-profile-002 (Edit Profile) - 3 points
-- Day 5: story-settings-001 (Change Password) - 2 points
-
----
-
-## Definition of Done (Sprint-Level)
-
-- [ ] All committed stories meet their individual DoD
-- [ ] Sprint goal achieved
-- [ ] No critical/high bugs remain
-- [ ] Code reviewed and merged
-- [ ] Documentation updated
-- [ ] Demo prepared for stakeholders
-
----
-
-**Generated:** {date}
-**Planner:** Alex (Planning Agent)
-```
-
-**Reference:** See [sprint-plan-template.md](references/sprint-plan-template.md) for complete template.
+**See:** `references/templates.md#step-7-output` for complete sprint plan document template with all sections
 
 ---
 
@@ -458,21 +293,9 @@ Risk:
 3. Repeat Steps 1-7 for Sprint 2 with remaining stories
 4. Continue for Sprint 3, 4 as needed
 
-**Multi-Sprint Output:**
-```
-Sprint 1 (20 points): Core Authentication
-- 6 stories, 16 points committed
+**Output:** Multiple sprint plans generated, total roadmap points, stories distributed across sprints, files created for each sprint
 
-Sprint 2 (20 points): Advanced Features
-- 5 stories, 18 points committed
-
-Sprint 3 (20 points): Integration & Polish
-- 4 stories, 15 points committed
-
-Total Roadmap: 15 stories, 49 points across 3 sprints
-```
-
-**Reference:** See [sprint-planning-mechanics.md](references/sprint-planning-mechanics.md) for multi-sprint algorithm.
+**See:** `references/templates.md#step-8-output` for multi-sprint roadmap example and `sprint-planning-mechanics.md` for algorithm
 
 ---
 
@@ -480,39 +303,9 @@ Total Roadmap: 15 stories, 49 points across 3 sprints
 
 **Purpose:** Communicate sprint plan clearly to team.
 
-**Summary Format:**
-```
-✅ Sprint Plan Complete
+**Output:** Sprint plan summary with sprint name/dates, commitment details (stories/points/utilization), sprint goal, top stories list, risk summary, sprint plan file path, next steps
 
-Sprint: Sprint 1
-Dates: Jan 20 - Feb 2, 2025 (2 weeks)
-
-Commitment:
-- Stories: 6 (3 P0, 2 P1, 1 P2)
-- Points: 16 / 17 available (94% utilization)
-- Buffer: 1 point remaining
-
-Sprint Goal:
-"Implement core authentication and basic profile management so that users can 
-securely register, log in, and view/edit their profiles."
-
-Top Stories:
-1. story-auth-001: User Signup (5 pts, P0)
-2. story-auth-002: User Login (3 pts, P0)  
-3. story-auth-003: User Logout (1 pt, P0)
-4. story-profile-001: View Profile (2 pts, P1)
-5. story-profile-002: Edit Profile (3 pts, P1)
-6. story-settings-001: Change Password (2 pts, P1)
-
-Risks: 2 MEDIUM (capacity, dependencies), 0 HIGH
-
-Sprint Plan: .claude/sprints/sprint-sprint-1-20250120.md
-
-Next Steps:
-1. Review sprint plan with team
-2. Begin Sprint 1 on Jan 20
-3. Start with story-auth-001 (highest priority)
-```
+**See:** `references/templates.md#step-9-output` for complete summary format
 
 ---
 
@@ -532,20 +325,22 @@ Next Steps:
 
 ## Best Practices
 
-1. **Respect Velocity:** Don't over-commit (keep 10-15% buffer)
-2. **Honor Dependencies:** Never break dependency chains
-3. **Focus on Value:** Prioritize P0/P1 stories over P2/P3
-4. **Balance Risk:** Mix high-risk and low-risk stories
-5. **Complete Features:** Avoid half-done features across sprint boundaries
-6. **Review and Adapt:** Update velocity based on actual completion
+Respect velocity (10-15% buffer) | Honor dependencies (never break chains) | Focus on value (P0/P1 first) | Balance risk (mix high/low risk stories) | Complete features (avoid half-done work) | Review and adapt (update velocity based on actuals)
 
-**Reference:** See [sprint-goals-and-metrics.md](references/sprint-goals-and-metrics.md) for planning best practices.
+**See:** `sprint-goals-and-metrics.md` for detailed planning best practices
 
 ---
 
-## References
+## Reference Files
 
-- [sprint-planning-mechanics.md](references/sprint-planning-mechanics.md) - Capacity calculation, multi-sprint algorithm, velocity tracking
-- [story-selection-algorithm.md](references/story-selection-algorithm.md) - Sorting criteria, selection rules, edge cases
-- [sprint-risk-assessment.md](references/sprint-risk-assessment.md) - Risk categories, scoring methodology, mitigation strategies
-- [sprint-goals-and-metrics.md](references/sprint-goals-and-metrics.md) - Goal-setting patterns, metrics definitions, best practices
+Detailed documentation in `references/`:
+
+- **templates.md**: All output formats (Steps 0-9), complete sprint plan document template, multi-sprint roadmap examples, risk assessment examples, sprint goal examples, JSON output format
+
+- **sprint-planning-mechanics.md**: Capacity calculation, multi-sprint algorithm, velocity tracking
+
+- **story-selection-algorithm.md**: Sorting criteria, selection rules, edge cases
+
+- **sprint-risk-assessment.md**: Risk categories, scoring methodology, mitigation strategies
+
+- **sprint-goals-and-metrics.md**: Goal-setting patterns, metrics definitions, best practices

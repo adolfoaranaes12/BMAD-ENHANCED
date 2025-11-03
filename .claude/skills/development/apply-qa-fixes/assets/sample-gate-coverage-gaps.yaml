@@ -1,0 +1,114 @@
+# Sample Quality Gate: Test Coverage Gaps
+# Scenario: Missing P0 tests for critical acceptance criteria
+
+task_id: "task-payment-sample-003"
+date: "2025-01-15"
+decision: "CONCERNS"
+overall_score: 68
+can_proceed: true
+waiver_required: false
+
+dimensions:
+  risk_management: 80
+  test_coverage: 55
+  traceability: 75
+  nfr_compliance: 75
+  implementation_quality: 80
+  project_compliance: 90
+
+top_issues: []
+
+nfr_validation:
+  security:
+    status: "PASS"
+    score: 80
+
+  performance:
+    status: "CONCERNS"
+    score: 65
+    concerns:
+      - "Payment processing timeout not configured"
+
+  reliability:
+    status: "PASS"
+    score: 75
+
+  maintainability:
+    status: "PASS"
+    score: 80
+
+  scalability:
+    status: "PASS"
+    score: 70
+
+  usability:
+    status: "PASS"
+    score: 75
+
+trace:
+  traceability_score: 75
+  implementation_coverage: 100
+  test_coverage: 60
+  ac_gaps:
+    - ac_id: "AC4"
+      description: "Secure payment storage"
+      coverage: "partial"
+      missing:
+        - "PCI-DSS compliance validation not verified in tests"
+        - "Card data encryption tests missing"
+
+# Test Coverage Gaps (Priority 3)
+test_design:
+  total_tests: 20
+  p0_tests: 8  # Missing 5 P0 tests
+  p1_tests: 8
+  p2_tests: 4
+  coverage_gaps:
+    - ac_id: "AC1"
+      description: "Process payment transactions"
+      priority: "P0"
+      missing_tests:
+        - "Should handle payment gateway timeout (30s)"
+        - "Should retry failed payment with exponential backoff"
+        - "Should process refund within 24 hours"
+
+    - ac_id: "AC2"
+      description: "Validate payment methods"
+      priority: "P0"
+      missing_tests:
+        - "Should reject expired credit cards"
+        - "Should validate CVV format and length"
+
+    - ac_id: "AC3"
+      description: "Handle payment webhooks"
+      priority: "P1"
+      missing_tests:
+        - "Should verify webhook signature"
+        - "Should process webhook idempotently"
+
+    - ac_id: "AC4"
+      description: "Secure payment storage"
+      priority: "P0"
+      missing_tests:
+        - "Should encrypt card data with AES-256"
+        - "Should never log card numbers (PCI-DSS)"
+        - "Should tokenize payment methods"
+
+action_items:
+  p0:
+    - "Add payment timeout test (AC1)"
+    - "Add payment retry test (AC1)"
+    - "Add card validation tests (AC2)"
+    - "Add card encryption tests (AC4)"
+    - "Add PCI-DSS compliance tests (AC4)"
+  p1:
+    - "Add refund test (AC1)"
+    - "Add webhook tests (AC3)"
+  p2: []
+
+reports:
+  risk_profile: ".claude/quality/assessments/task-payment-sample-003-risk-2025-01-15.md"
+  test_design: ".claude/quality/assessments/task-payment-sample-003-test-design-2025-01-15.md"
+  traceability: ".claude/quality/assessments/task-payment-sample-003-trace-2025-01-15.md"
+  nfr_assessment: ".claude/quality/assessments/task-payment-sample-003-nfr-2025-01-15.md"
+  gate_report: ".claude/quality/gates/task-payment-sample-003-gate-2025-01-15.md"

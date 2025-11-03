@@ -155,17 +155,11 @@ Create test design documents that specify:
    - If exists: Load risk scores for prioritization
    - If missing: Can proceed but warn user (recommend running risk-profile first)
 
-**Output:**
-- Configuration loaded
-- Task context understood
-- Risk profile loaded (if available)
-- Ready to analyze test requirements
+**Output:** Configuration loaded with coverage targets/timeouts, task context understood, risk profile loaded if available, ready to analyze requirements
 
-**Halt Conditions:**
-- Configuration file missing (cannot proceed)
-- Task file missing or unreadable (cannot proceed)
+**Halt Conditions:** Config file missing | Task file missing/unreadable
 
-**Reference:** See [test-scenarios.md](references/test-scenarios.md) for test scenario design patterns
+**See:** `references/templates.md#step-0-output` for complete format
 
 ---
 
@@ -201,42 +195,11 @@ Create test design documents that specify:
    - File I/O (temp directories)
    - Network calls (mock or test endpoints?)
 
-**Output:**
-- Test requirements identified per acceptance criterion
-- Test categories mapped (happy path, error, edge, security, performance, integration)
-- Test levels determined (unit, integration, E2E)
-- Technical considerations noted (mocking, dependencies)
+**Output:** Test requirements identified per AC, categories mapped (happy path/error/edge/security/performance/integration), test levels determined (unit/integration/E2E), technical considerations noted
 
-**Example:**
-```
-AC1: User can signup with valid email/password
+**Halt Conditions:** ACs too vague to test | Missing context
 
-Test Requirements:
-- Valid signup creates user record
-- Valid signup returns JWT token
-- Valid signup sends confirmation email
-- Email format validation
-- Password strength validation
-- Duplicate email rejection
-
-Test Categories:
-- Happy path: Valid email/password signup
-- Error cases: Invalid email, weak password, duplicate email
-- Edge cases: Unicode emails, very long passwords
-- Security: SQL injection attempts, XSS in email
-- Integration: Email service interaction, database transaction
-
-Test Levels:
-- Unit: Email validation logic, password strength logic
-- Integration: POST /api/auth/signup endpoint with test DB
-- E2E: Complete signup flow from form to confirmation
-```
-
-**Halt Conditions:**
-- Acceptance criteria too vague to test (cannot identify testable outcomes)
-- Missing context to understand what to test
-
-**Reference:** See [test-scenarios.md](references/test-scenarios.md) for test requirement analysis patterns
+**See:** `references/templates.md#step-1-output` for complete format with detailed examples
 
 ---
 
@@ -274,46 +237,11 @@ For each test requirement from Step 1:
    - What requires real services? (database, file system)
    - What fixtures needed? (test data, mocks)
 
-**Output:**
-- Test scenarios with Given-When-Then format
-- Test level assigned (unit/integration/E2E)
-- Priority assigned (P0/P1/P2) with risk linkage
-- Test data specified (valid, invalid, edge, security)
-- Dependencies identified (mocks, fixtures)
+**Output:** Test scenarios with Given-When-Then format, test level assigned, priority assigned (P0/P1/P2 with risk linkage), test data specified, dependencies identified
 
-**Example:**
-```markdown
-### Scenario 1: Valid User Signup (P0, Integration)
+**Halt Conditions:** Cannot define clear pass/fail criteria | Scenarios too ambiguous
 
-**Given** the API is running and database is empty
-**When** POST /api/auth/signup with valid email "user@example.com" and strong password "SecurePass123!"
-**Then**
-- Response status is 201
-- Response body contains user object with email
-- Response body contains JWT token
-- User record exists in database
-- Confirmation email queued
-
-**Test Level:** Integration
-**Priority:** P0 (Critical - core functionality)
-**Risk:** Linked to AC1 implementation risk (score: 5)
-**Test Data:**
-- Valid email: user@example.com
-- Valid password: SecurePass123! (8+ chars, mixed case, number, special)
-
-**Dependencies:**
-- Test database with users table
-- Email service mocked (verify queue called)
-- JWT secret configured
-
-**File:** src/routes/auth/__tests__/signup.integration.test.ts
-```
-
-**Halt Conditions:**
-- Cannot define clear pass/fail criteria for scenarios
-- Scenarios too ambiguous to implement
-
-**Reference:** See [test-scenarios.md](references/test-scenarios.md) for complete scenario examples
+**See:** `references/templates.md#step-2-output` for complete scenario examples (valid signup, SQL injection, duplicate email, E2E flow)
 
 ---
 
@@ -357,71 +285,11 @@ For each test requirement from Step 1:
    - What libraries to use? (jest, sinon, nock)
    - How to verify mock interactions? (expect calls, spy on methods)
 
-**Output:**
-- Mock strategy for each dependency (full mock, test instance, partial mock)
-- Mock data/fixtures specified (success, failure, edge cases)
-- Configuration documented (setup, libraries, verification)
+**Output:** Mock strategy for each dependency (full mock/test instance/partial mock), mock data/fixtures specified (success/failure/edge cases), configuration documented (setup/libraries/verification)
 
-**Example:**
-```markdown
-## Mock Strategy
+**Halt Conditions:** Cannot determine appropriate mock strategy | Dependency too complex to mock
 
-### Email Service (Full Mock)
-
-**Approach:** Mock email service to prevent sending real emails during tests
-
-**Implementation:**
-```typescript
-// tests/setup/mocks/emailService.ts
-export const mockEmailService = {
-  sendEmail: jest.fn().mockResolvedValue({ messageId: 'test-123' }),
-  verifyEmail: jest.fn().mockResolvedValue(true)
-};
-
-// In test:
-jest.mock('@/services/email', () => mockEmailService);
-```
-
-**Mock Data:**
-- Success: `{ messageId: 'test-123', status: 'sent' }`
-- Failure: `{ error: 'Service unavailable' }`
-- Timeout: Delay 5000ms then reject
-
-**Verification:**
-```typescript
-expect(mockEmailService.sendEmail).toHaveBeenCalledWith({
-  to: 'user@example.com',
-  subject: 'Confirm your email',
-  template: 'confirmation'
-});
-```
-
----
-
-### Database (Test Instance)
-
-**Approach:** Use real PostgreSQL with test database (not mocked)
-
-**Why not mock:** Database interactions are integration test targets, real DB catches query bugs
-
-**Implementation:**
-```typescript
-// tests/setup/database.ts
-export const testDb = new PrismaClient({
-  datasources: { db: { url: process.env.TEST_DATABASE_URL } }
-});
-
-beforeEach(async () => {
-  await testDb.user.deleteMany();  // Clean slate
-});
-```
-```
-
-**Halt Conditions:**
-- Cannot determine appropriate mock strategy for critical dependency
-- Dependency too complex to mock or test
-
-**Reference:** See [mock-strategies.md](references/mock-strategies.md) for complete mock strategy patterns
+**See:** `references/templates.md#step-3-output` for complete mock strategies (email service, database, JWT, payment API)
 
 ---
 
@@ -457,67 +325,11 @@ beforeEach(async () => {
    - How to clean up after tests? (global teardown, beforeEach)
    - How to handle shared resources? (isolated databases per worker)
 
-**Output:**
-- Test execution strategy (stages, triggers, failure policy)
-- Environment configuration (local, CI, staging, production)
-- Parallelization plan (parallel vs sequential, resources)
-- Coverage requirements (minimums, critical paths, policy)
-- Data management approach (seed, cleanup, isolation)
+**Output:** Test execution strategy (stages/triggers/failure policy), environment configuration, parallelization plan, coverage requirements, data management approach
 
-**Example:**
-```markdown
-## CI/CD Test Strategy
+**Halt Conditions:** Cannot determine CI/CD strategy | Environment requirements unclear
 
-### Test Execution Stages
-
-**Stage 1: Pre-commit (Local)**
-- Trigger: Before git commit
-- Tests: Unit tests only
-- Duration: < 10 seconds
-- Failure: Block commit
-
-**Stage 2: Pull Request (CI)**
-- Trigger: On PR creation/update
-- Tests: All tests (unit + integration + E2E)
-- Duration: < 3 minutes
-- Failure: Block merge
-- Coverage: Minimum 80% overall, 100% critical paths
-
-**Stage 3: Pre-deployment (Staging)**
-- Trigger: Before production deployment
-- Tests: E2E + smoke tests on staging
-- Duration: < 5 minutes
-- Failure: Block deployment
-
-**Stage 4: Post-deployment (Production)**
-- Trigger: After production deployment
-- Tests: Smoke tests only
-- Duration: < 1 minute
-- Failure: Alert (manual rollback decision)
-
----
-
-### Parallelization
-
-**Unit Tests:** Full parallelization (100% workers)
-**Integration Tests:** Parallel with isolated databases (4 workers)
-**E2E Tests:** Sequential (1 worker, shared browser state)
-
----
-
-### Coverage Requirements
-
-**Minimum Coverage:**
-- Overall: 80% statements, 75% branches
-- New code: 90% statements, 85% branches
-- Critical paths (auth, payment): 100% (blocks merge if below)
-```
-
-**Halt Conditions:**
-- Cannot determine appropriate CI/CD strategy for project
-- Test environment requirements unclear
-
-**Reference:** See [cicd-integration.md](references/cicd-integration.md) for complete CI/CD integration patterns
+**See:** `references/templates.md#step-4-output` for complete CI/CD examples (GitHub Actions, GitLab CI, pre-commit hooks)
 
 ---
 
@@ -549,41 +361,11 @@ beforeEach(async () => {
    - Critical path coverage (should be 100%)
    - Overall coverage estimate (based on scope)
 
-**Output:**
-- Test count summary (by level and priority)
-- Priority breakdown (P0/P1/P2 counts)
-- Estimated execution time (by level and total)
-- Expected coverage (overall and critical paths)
+**Output:** Test count summary (by level and priority), priority breakdown (P0/P1/P2 counts), estimated execution time (by level and total), expected coverage (overall and critical paths)
 
-**Example:**
-```markdown
-## Test Summary
+**Halt Conditions:** None (calculation always possible)
 
-**Total Tests:** 24
-- Unit: 15
-- Integration: 7
-- E2E: 2
-
-**By Priority:**
-- P0 (Critical): 8 tests - Must pass before merge
-- P1 (High): 10 tests - Should pass before merge
-- P2 (Medium): 6 tests - Can defer if needed
-
-**Estimated Execution Time:**
-- Unit: 0.75s (15 × 50ms)
-- Integration: 3.5s (7 × 500ms)
-- E2E: 10s (2 × 5s)
-- **Total: 14.25s** (fast test suite)
-
-**Expected Coverage:**
-- Overall: ~85-90%
-- Critical paths (auth, payment): 100%
-- Business logic: 95%
-- Error handling: 85%
-```
-
-**Halt Conditions:**
-- None (calculation always possible from scenario counts)
+**See:** `references/templates.md#step-5-output` for complete summary examples
 
 ---
 
@@ -619,237 +401,53 @@ beforeEach(async () => {
    - Risk-test mapping (if available)
    - Next steps guidance
 
-**Output:**
-- Complete test design document written to file
-- Concise summary presented to user
-- User has clear guidance for implementation
+**Output:** Complete test design document written to file, concise summary presented to user with test counts/priorities/mock strategy/CI-CD/risk mapping, clear next steps guidance
 
-**Example Summary:**
-```markdown
-## Test Design Complete
+**Halt Conditions:** File write fails
 
-**Task:** User Signup Implementation
-**File:** .claude/quality/assessments/task-006-test-design-20251029.md
-
----
-
-### Test Summary
-
-**Total Tests:** 24 scenarios designed
-- Unit: 15 (business logic, validation)
-- Integration: 7 (API endpoints, database)
-- E2E: 2 (complete user journeys)
-
-**Priority Breakdown:**
-- 🔴 P0 (Critical): 8 tests - Must pass before merge
-- 🟠 P1 (High): 10 tests - Should pass before merge
-- 🟡 P2 (Medium): 6 tests - Can defer if needed
-
-**Estimated Time:** 14 seconds total execution (fast suite)
-
----
-
-### Key Test Scenarios
-
-**Security (P0):**
-- SQL injection attempts rejected
-- Password strength validation enforced
-- Rate limiting prevents brute force
-
-**Functionality (P0):**
-- Valid signup creates user and returns token
-- Duplicate email rejected with 409
-- Email confirmation sent successfully
-
-**Performance (P1):**
-- Signup response < 200ms (target)
-- No N+1 queries in user operations
-- Concurrent signups handled correctly
-
----
-
-### Mock Strategy
-
-**Email Service:** Full mock with success/failure scenarios
-**Database:** Test instance with isolated data per test
-**JWT Service:** Real implementation (deterministic in tests)
-
----
-
-### CI/CD Integration
-
-**Pre-commit:** Unit tests only (< 10s)
-**Pull Request:** All tests + coverage check (< 3min)
-**Pre-deployment:** E2E + smoke tests (< 5min)
-
-**Coverage Requirements:**
-- Overall: 80% minimum (blocks merge if below)
-- Critical paths (auth): 100% required
-
----
-
-### Risk-Test Mapping
-
-Based on risk profile, tests address:
-- 🔴 Critical Risk (Score 9): Password logging → Security test (P0)
-- 🟠 High Risk (Score 6): SQL injection → Security tests (P0)
-- 🟠 High Risk (Score 6): N+1 query → Performance test (P1)
-
-All high-risk areas have corresponding P0/P1 tests.
-
----
-
-### Next Steps
-
-1. Review full test design document for details
-2. Begin implementation with test-first approach
-3. Write tests for each scenario as you implement
-4. Run tests frequently during development
-5. Verify all P0 tests pass before marking ready for review
-
-**Ready to begin implementation with this test strategy?**
-```
-
-**Halt Conditions:**
-- File write fails (cannot save test design document)
-
-**Reference:** See [test-examples.md](references/test-examples.md) for complete test design examples
+**See:** `references/templates.md#step-6-output` for complete user-facing summary example and test design document template
 
 ---
 
 ## Integration with Other Skills
 
-### After Risk Profile Skill
+**After risk-profile:** Risk profile identifies high-risk areas with P×I scores → test-design uses scores for prioritization (critical risks → P0 tests, high → P0/P1, medium/low → P2)
 
-```markdown
-Risk profile identified high-risk areas:
-- File: .claude/quality/assessments/task-006-risk-20251029.md
-- Critical risks: 1 (score 9)
-- High risks: 3 (score 6)
+**Before implementation:** Test design complete with scenarios/mocks/CI-CD → Implementation writes tests following scenarios, uses mock strategies, achieves P0 tests first, targets 80%+ coverage
 
-Test design uses risk scores for prioritization:
-- Critical risks → P0 tests (must pass before merge)
-- High risks → P0/P1 tests (should pass before merge)
-- Medium/low risks → P2 tests (can defer if needed)
+**With trace-requirements:** Test design provides scenarios mapped to ACs → trace-requirements verifies all scenarios implemented, all ACs covered by passing tests, coverage gaps identified
 
-Next: Implement with test-first approach using test design guidance
-```
-
-### Before Implementation
-
-```markdown
-Test design complete:
-- File: .claude/quality/assessments/task-006-test-design-20251029.md
-- 24 test scenarios specified with Given-When-Then
-- Mock strategies documented for email, database
-- CI/CD integration planned (pre-commit → PR → staging → production)
-
-Implementation should:
-1. Write tests following these scenarios
-2. Use specified mock strategies
-3. Achieve P0 tests first (critical functionality)
-4. Target 80%+ overall coverage, 100% critical paths
-
-Next: Begin implementation with test-first approach
-```
-
-### Integration with Trace Requirements Skill
-
-```markdown
-Test design provides 24 test scenarios:
-- Mapped to acceptance criteria
-- Prioritized by risk (P0/P1/P2)
-
-Trace requirements skill will verify:
-- All scenarios implemented as tests
-- All acceptance criteria covered by passing tests
-- Coverage gaps identified and addressed
-
-Next: After implementation, run trace-requirements to verify AC coverage
-```
+**See:** `references/templates.md#integration-examples` for complete workflows with data flow
 
 ## Best Practices
 
-1. **Test-First Approach:**
-   - Design tests before implementation
-   - Tests guide implementation decisions and prevent "testing afterthought"
+Test-first approach (design before code) | Risk-informed prioritization (critical risks → P0 tests) | Appropriate test levels (unit for logic, integration for interactions, E2E for critical journeys) | Realistic mock strategies (mock external APIs, real DB test instances) | CI/CD integration (fast feedback loops) | Coverage vs quality (focus on meaningful scenarios, 100% for critical paths)
 
-2. **Risk-Informed Prioritization:**
-   - Use risk profile for prioritization (critical risks → P0 tests)
-   - Don't skip high-risk tests even if time-constrained
+## Common Pitfalls
 
-3. **Appropriate Test Levels:**
-   - Unit for logic and algorithms (fast, isolated)
-   - Integration for component interactions (realistic, moderate speed)
-   - E2E for critical user journeys (slow, high value)
-   - Don't over-rely on E2E (slow, brittle)
+Avoid: Too many E2E tests (slow/brittle) | Under-mocking (hitting real APIs) | Brittle tests (hard-coded values) | Ignoring test performance (slow suites) | Testing implementation details (private methods) | No CI/CD integration (manual only)
 
-4. **Realistic Mock Strategies:**
-   - Mock external dependencies (APIs, payment, email)
-   - Use real implementations when practical (database, file system with test instances)
-   - Document mock data and scenarios clearly
-
-5. **CI/CD Integration:**
-   - Fast feedback loops (unit tests pre-commit)
-   - Comprehensive validation (all tests on PR)
-   - Production smoke tests post-deployment
-
-6. **Coverage vs Quality:**
-   - 100% coverage doesn't guarantee quality
-   - Focus on meaningful scenarios (security, critical paths, edge cases)
-   - Critical paths should have 100% coverage (security, payment, data integrity)
-
-## Common Pitfalls to Avoid
-
-1. **Too Many E2E Tests:**
-   - ❌ Don't test everything through UI (slow, brittle)
-   - ✅ Unit test logic, E2E test critical journeys only
-
-2. **Under-Mocking:**
-   - ❌ Don't hit real external APIs in tests (slow, flaky, expensive)
-   - ✅ Mock external dependencies, use test instances for local services
-
-3. **Brittle Tests:**
-   - ❌ Don't hard-code IDs, dates, specific strings (breaks easily)
-   - ✅ Use factories, fixtures, flexible assertions
-
-4. **Ignoring Test Performance:**
-   - ❌ Don't accept slow test suite ("we'll fix it later" never happens)
-   - ✅ Keep unit tests < 50ms, integration < 500ms
-
-5. **Testing Implementation Details:**
-   - ❌ Don't test private methods, internal state (brittle)
-   - ✅ Test public API, observable behavior (robust)
-
-6. **No CI/CD Integration:**
-   - ❌ Don't only run tests locally (manual, error-prone)
-   - ✅ Automate tests in CI/CD pipeline (consistent, reliable)
+Instead: Unit test logic, E2E for critical journeys | Mock external dependencies | Use factories/fixtures | Keep unit <50ms, integration <500ms | Test public API/behavior | Automate in CI/CD
 
 ## Configuration
 
-### In `.claude/config.yaml`
+Configure in `.claude/config.yaml`: Test coverage targets (overall/criticalPaths/newCode), test timeouts (unit/integration/e2e), assessment location
 
-```yaml
-quality:
-  # Test coverage targets
-  testCoverage:
-    overall: 80              # Minimum overall coverage
-    criticalPaths: 100       # Critical paths must have 100%
-    newCode: 90              # New code held to higher standard
+**See:** `references/templates.md#configuration-examples` for complete config.yaml, package.json scripts, jest.config.js
 
-  # Test execution timeouts
-  testTimeouts:
-    unit: 5000               # 5 seconds total for all unit tests
-    integration: 30000       # 30 seconds total for integration tests
-    e2e: 60000               # 60 seconds total for E2E tests
+## Reference Files
 
-  # Test assessment location
-  assessmentLocation: ".claude/quality/assessments"
-```
+Detailed documentation in `references/`:
 
-### Template File
+- **templates.md**: All output formats (Step 0-6), complete test scenario examples (Given-When-Then), mock strategies (email service, database, JWT, payment API), CI/CD examples (GitHub Actions, GitLab CI, pre-commit hooks), complete test design document template, configuration examples, JSON output format
 
-`.claude/templates/test-design.md` - Template for test design output (optional)
+- **test-scenarios.md**: Test scenario patterns (currently placeholder - see templates.md)
+
+- **mock-strategies.md**: Mock strategy patterns (currently placeholder - see templates.md)
+
+- **cicd-integration.md**: CI/CD integration patterns (currently placeholder - see templates.md)
+
+- **test-examples.md**: Test design examples (currently placeholder - see templates.md)
 
 ---
 

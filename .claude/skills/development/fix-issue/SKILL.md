@@ -1,6 +1,63 @@
 ---
 name: fix-issue
 description: Debug and fix bugs by reproducing issues, identifying root causes, implementing fixes, and validating without regressions
+acceptance:
+  - bug_reproduced: "Bug successfully reproduced with failing test"
+  - root_cause_identified: "Root cause clearly identified and documented"
+  - fix_applied: "Minimal fix applied addressing root cause"
+  - tests_passing: "Bug test now passes, all existing tests pass"
+  - no_regressions: "No regressions introduced by fix"
+  - edge_cases_tested: "Edge cases identified and tested"
+inputs:
+  issue_id:
+    type: string
+    required: true
+    description: "Issue/bug identifier (e.g., bug-login-email, issue-42)"
+    validation: "Must be valid issue identifier"
+  severity:
+    type: enum
+    required: false
+    description: "Issue severity: critical, high, medium, low"
+    default: "medium"
+  reproduction_confirmed:
+    type: boolean
+    required: false
+    description: "Whether reproduction is confirmed"
+    default: false
+outputs:
+  fix_complete:
+    type: boolean
+    description: "Whether bug fix is complete"
+  bug_test_passes:
+    type: boolean
+    description: "Whether the new bug test passes"
+  all_tests_pass:
+    type: boolean
+    description: "Whether all tests pass (no regressions)"
+  regression_count:
+    type: number
+    description: "Number of regressions introduced (should be 0)"
+  edge_case_tests_added:
+    type: number
+    description: "Number of edge case tests added"
+  files_modified:
+    type: array
+    description: "List of files modified during fix"
+  root_cause_location:
+    type: string
+    description: "File and line where root cause was identified"
+telemetry:
+  emit: "skill.fix-issue.completed"
+  track:
+    - issue_id
+    - severity
+    - reproduction_confirmed
+    - root_cause_identified
+    - duration_ms
+    - files_modified_count
+    - tests_added
+    - tests_passed
+    - regression_count
 ---
 
 # Fix Issue Skill

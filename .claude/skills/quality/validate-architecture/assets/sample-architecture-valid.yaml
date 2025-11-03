@@ -1,0 +1,218 @@
+# Valid Architecture Metadata - Should PASS Validation (Score: 85/100)
+
+project:
+  name: "E-commerce Marketplace"
+  type: "fullstack"
+  complexity_score: 55
+
+validation_metadata:
+  architecture_file: "docs/architecture.md"
+  validated: "2025-01-15"
+  expected_result: "PASS"
+  expected_score: 85
+
+sections_present:
+  system_overview: true
+  architecture_diagrams: true
+  frontend_architecture: true
+  backend_architecture: true
+  data_architecture: true
+  technology_stack: true
+  deployment_architecture: true
+  security_architecture: true
+  performance_architecture: true
+  scalability_plan: true
+  adrs: true
+  migration_strategy: false  # greenfield, not needed
+
+diagrams:
+  - type: "context"
+    format: "mermaid"
+  - type: "container"
+    format: "mermaid"
+  - type: "deployment"
+    format: "mermaid"
+
+technology_stack:
+  frontend:
+    framework: "Next.js 14"
+    justification: true
+    alternatives_considered: true
+    adr: "ADR-001"
+
+  backend:
+    api: "Next.js API Routes"
+    justification: true
+    alternatives_considered: true
+    adr: "ADR-001"
+
+  database:
+    primary: "PostgreSQL 15"
+    justification: true
+    alternatives_considered: true
+    benchmarks_provided: true
+    adr: "ADR-002"
+
+  caching:
+    service: "Upstash Redis"
+    justification: true
+    alternatives_considered: false
+    adr: "ADR-003"
+
+  authentication:
+    method: "NextAuth.js"
+    justification: true
+    alternatives_considered: true
+    adr: "ADR-004"
+
+  payments:
+    provider: "Stripe"
+    justification: true
+    adr: "ADR-005"
+
+adrs:
+  count: 6
+  minimum_required: 5
+  adrs_list:
+    - id: "ADR-001"
+      title: "Next.js Fullstack Framework"
+      status: "Accepted"
+      quality_score: 100
+      has_alternatives: true
+      has_rationale: true
+      has_consequences: true
+
+    - id: "ADR-002"
+      title: "PostgreSQL Database"
+      status: "Accepted"
+      quality_score: 100
+      has_alternatives: true
+      has_rationale: true
+      has_consequences: true
+
+    - id: "ADR-003"
+      title: "Upstash Redis for Caching"
+      status: "Accepted"
+      quality_score: 80
+      has_alternatives: false
+      has_rationale: true
+      has_consequences: true
+
+    - id: "ADR-004"
+      title: "NextAuth.js Authentication"
+      status: "Accepted"
+      quality_score: 85
+      has_alternatives: true
+      has_rationale: true
+      has_consequences: true
+
+    - id: "ADR-005"
+      title: "Stripe Payment Integration"
+      status: "Accepted"
+      quality_score: 85
+      has_alternatives: true
+      has_rationale: true
+      has_consequences: true
+
+    - id: "ADR-006"
+      title: "Multi-region Deployment"
+      status: "Accepted"
+      quality_score: 100
+      has_alternatives: true
+      has_rationale: true
+      has_consequences: true
+
+nfrs_coverage:
+  performance:
+    addressed: true
+    specific_targets: true
+    targets: "p95 <500ms, caching strategy, CDN"
+
+  scalability:
+    addressed: true
+    growth_projections: true
+    projections: "50K → 500K users in 12 months"
+    scaling_plan: true
+    bottleneck_analysis: "partial"
+
+  security:
+    addressed: true
+    authentication: true
+    authorization: true
+    encryption: true
+    compliance: "GDPR, PCI via Stripe"
+
+  reliability:
+    addressed: true
+    availability_target: "99.9%"
+    redundancy: "Multi-AZ RDS"
+    disaster_recovery: false  # recommendation
+
+  maintainability:
+    addressed: true
+    testing_strategy: true
+    coverage_target: false  # recommendation
+    cicd: true
+
+security_compliance:
+  authentication:
+    method: "NextAuth.js (OAuth + email/password)"
+    documented: true
+
+  authorization:
+    model: "RBAC (buyers, sellers, admin)"
+    documented: true
+
+  encryption:
+    at_rest: true
+    in_transit: true
+    key_management: "Vercel env variables"
+
+  compliance:
+    gdpr: true
+    pci: "via Stripe"
+    hipaa: false
+
+scalability:
+  growth_projections: "50K launch → 500K year 1"
+  horizontal_scaling: true
+  database_scaling: "Read replicas at 50K users"
+  bottlenecks: "Identified: database, file uploads"
+  cost_scaling: false  # recommendation
+
+documentation_quality:
+  clarity: "high"
+  diagrams_count: 3
+  examples_provided: true
+  formatting: "good"
+
+validation_scores:
+  completeness: 90
+  tech_justification: 85
+  nfrs_coverage: 80
+  security: 90
+  scalability: 75
+  documentation: 85
+
+overall_score: 85
+validation_result: "PASS"
+confidence: "high"
+
+recommendations:
+  critical: []
+  high_priority:
+    - "Add cost breakdown and scaling cost projections"
+    - "Detail monitoring strategy (tools, metrics, alerting)"
+  medium_priority:
+    - "Improve bottleneck analysis with specific mitigation"
+    - "Add sequence diagrams for complex flows"
+    - "Justify SendGrid with alternatives comparison"
+  low_priority:
+    - "Add security testing plan"
+    - "Document migration path if switching frameworks"
+
+notes: |
+  This is a well-documented architecture that passes validation with an excellent score.
+  All required sections are present, technologies are justified, NFRs are addressed,
+  and security is comprehensive. The architecture is ready for implementation with
+  only minor improvements recommended.

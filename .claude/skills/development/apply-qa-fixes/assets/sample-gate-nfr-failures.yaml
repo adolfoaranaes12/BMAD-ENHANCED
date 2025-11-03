@@ -1,0 +1,121 @@
+# Sample Quality Gate: NFR Failures
+# Scenario: Multiple non-functional requirements failing
+
+task_id: "task-api-sample-002"
+date: "2025-01-15"
+decision: "CONCERNS"
+overall_score: 62
+can_proceed: true
+waiver_required: false
+
+dimensions:
+  risk_management: 75
+  test_coverage: 80
+  traceability: 90
+  nfr_compliance: 45
+  implementation_quality: 70
+  project_compliance: 85
+
+top_issues:
+  - id: "PERF-001"
+    category: "performance"
+    severity: "medium"
+    description: "N+1 query pattern in data fetching"
+    location: "src/services/data.ts:67"
+    recommendation: "Use eager loading or batch queries: await User.findAll({ include: [Posts] })"
+    impact: "Poor performance with large datasets, 100+ queries per page load"
+
+# NFR Failures (Priority 2)
+nfr_validation:
+  security:
+    status: "FAIL"
+    score: 40
+    concerns:
+      - "No rate limiting on API endpoints"
+      - "Missing HTTPS enforcement middleware"
+      - "No request validation on POST/PUT endpoints"
+    recommendations:
+      - "Add express-rate-limit: app.use(rateLimit({ windowMs: 15*60*1000, max: 100 }))"
+      - "Add HTTPS redirect middleware for production"
+      - "Implement request validation schemas with Joi or Zod"
+
+  performance:
+    status: "FAIL"
+    score: 50
+    concerns:
+      - "No caching layer for frequently accessed data"
+      - "Missing database indexes on foreign keys"
+      - "N+1 query patterns (PERF-001)"
+    recommendations:
+      - "Add Redis caching for user sessions and frequent queries"
+      - "Create indexes: CREATE INDEX idx_user_id ON posts(user_id)"
+      - "Optimize queries with eager loading"
+
+  reliability:
+    status: "FAIL"
+    score: 45
+    concerns:
+      - "No error logging or monitoring"
+      - "Missing graceful error handling"
+      - "No health check endpoints"
+    recommendations:
+      - "Add Winston logger with file and console transports"
+      - "Implement global error handler middleware"
+      - "Add /health and /ready endpoints for monitoring"
+
+  maintainability:
+    status: "CONCERNS"
+    score: 65
+    concerns:
+      - "Missing JSDoc comments on public APIs"
+      - "Inconsistent error response format"
+    recommendations:
+      - "Add JSDoc to all exported functions"
+      - "Standardize error responses: { error: { code, message, details } }"
+
+  scalability:
+    status: "CONCERNS"
+    score: 60
+    concerns:
+      - "Stateful session storage (in-memory)"
+      - "Missing database connection pooling configuration"
+    recommendations:
+      - "Move sessions to Redis for horizontal scaling"
+      - "Configure connection pool: { max: 10, min: 2, idle: 10000 }"
+
+  usability:
+    status: "PASS"
+    score: 75
+
+trace:
+  traceability_score: 90
+  implementation_coverage: 95
+  test_coverage: 85
+  ac_gaps: []
+
+test_design:
+  total_tests: 35
+  p0_tests: 15
+  p1_tests: 15
+  p2_tests: 5
+  coverage_gaps: []
+
+action_items:
+  p0:
+    - "Add rate limiting (NFR-SEC)"
+    - "Add error logging (NFR-REL)"
+    - "Add caching layer (NFR-PERF)"
+  p1:
+    - "Add HTTPS enforcement"
+    - "Add database indexes"
+    - "Move sessions to Redis"
+  p2:
+    - "Add JSDoc comments"
+    - "Standardize error formats"
+
+reports:
+  risk_profile: ".claude/quality/assessments/task-api-sample-002-risk-2025-01-15.md"
+  test_design: ".claude/quality/assessments/task-api-sample-002-test-design-2025-01-15.md"
+  traceability: ".claude/quality/assessments/task-api-sample-002-trace-2025-01-15.md"
+  nfr_assessment: ".claude/quality/assessments/task-api-sample-002-nfr-2025-01-15.md"
+  gate_report: ".claude/quality/gates/task-api-sample-002-gate-2025-01-15.md"

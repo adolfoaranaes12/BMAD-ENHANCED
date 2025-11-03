@@ -1,0 +1,328 @@
+# Validation Report Templates
+
+Templates for architecture validation reports and scoring matrices.
+
+---
+
+## Validation Report Template
+
+```markdown
+# Architecture Validation Report
+
+**Project:** [Project Name]
+**Architecture File:** [Path to architecture.md]
+**Validated By:** validate-architecture skill
+**Date:** [YYYY-MM-DD]
+**Project Type:** [Frontend | Backend | Fullstack]
+
+---
+
+## Executive Summary
+
+**Overall Quality Score:** [X]/100
+**Validation Result:** [PASS | FAIL]
+**Critical Issues:** [Count]
+**Recommendations:** [Count]
+
+**Quick Assessment:**
+[1-2 sentence summary of overall architecture quality]
+
+---
+
+## Dimension Scores
+
+| Dimension | Score | Status | Weight |
+|-----------|-------|--------|--------|
+| Completeness | [0-100] | [✅/⚠️/❌] | 25% |
+| Technology Justification | [0-100] | [✅/⚠️/❌] | 20% |
+| NFRs Coverage | [0-100] | [✅/⚠️/❌] | 20% |
+| Security & Compliance | [0-100] | [✅/⚠️/❌] | 15% |
+| Scalability Planning | [0-100] | [✅/⚠️/❌] | 10% |
+| Documentation Quality | [0-100] | [✅/⚠️/❌] | 10% |
+
+**Weighted Score Calculation:**
+```
+(Completeness × 0.25) + (Tech Justification × 0.20) + (NFRs × 0.20) +
+(Security × 0.15) + (Scalability × 0.10) + (Documentation × 0.10)
+```
+
+---
+
+## Detailed Findings
+
+### Completeness (Score: [X]/100)
+
+**Required Sections Present:**
+- [✅/❌] System Overview
+- [✅/❌] Architecture Diagrams
+- [✅/❌] Technology Stack
+- [✅/❌] Data Architecture
+- [✅/❌] Deployment Architecture
+- [✅/❌] ADRs (minimum 3)
+
+**Missing Sections:**
+- [List missing required sections]
+
+**Incomplete Sections:**
+- [List sections that exist but lack detail]
+
+---
+
+### Technology Justification (Score: [X]/100)
+
+**Technologies with Justification:**
+- [✅] [Technology 1]: Rationale provided
+- [✅] [Technology 2]: Rationale provided
+
+**Technologies Missing Justification:**
+- [❌] [Technology 3]: No rationale
+- [❌] [Technology 4]: Vague justification
+
+**Alternatives Analysis:**
+- [X/Y] technologies have alternatives considered
+
+---
+
+### NFRs Coverage (Score: [X]/100)
+
+**NFRs Addressed:**
+- [✅] Performance: [Details]
+- [✅] Scalability: [Details]
+- [⚠️] Security: Partial coverage
+- [❌] Reliability: Not addressed
+
+**Missing NFR Coverage:**
+- [List NFRs not addressed]
+
+---
+
+### Security & Compliance (Score: [X]/100)
+
+**Security Considerations:**
+- [✅/❌] Authentication documented
+- [✅/❌] Authorization model defined
+- [✅/❌] Data encryption addressed
+- [✅/❌] Security testing mentioned
+
+**Compliance:**
+- [✅/❌] GDPR considerations
+- [✅/❌] Industry-specific compliance
+
+---
+
+### Scalability Planning (Score: [X]/100)
+
+**Scaling Strategy:**
+- [✅/❌] Horizontal scaling plan
+- [✅/❌] Database scaling approach
+- [✅/❌] Bottleneck identification
+- [✅/❌] Growth projections
+
+---
+
+### Documentation Quality (Score: [X]/100)
+
+**Quality Indicators:**
+- Clarity: [High/Medium/Low]
+- Diagrams: [X] present
+- Examples: [X] provided
+- Completeness: [Percentage]
+
+---
+
+## Critical Issues ([Count])
+
+### Issue 1: [Title]
+**Severity:** Critical
+**Category:** [Completeness/Security/etc.]
+**Description:** [Detailed description]
+**Impact:** [What happens if not fixed]
+**Recommendation:** [How to fix]
+**Priority:** P0 (Must fix)
+
+### Issue 2: [Title]
+[Repeat structure]
+
+---
+
+## Recommendations ([Count])
+
+### High Priority (P1)
+1. **[Recommendation Title]**
+   - **Why:** [Rationale]
+   - **How:** [Implementation guidance]
+   - **Impact:** [Expected improvement]
+
+### Medium Priority (P2)
+[Continue structure]
+
+### Low Priority (P3)
+[Continue structure]
+
+---
+
+## ADR Quality Assessment
+
+**ADRs Found:** [Count]
+**ADRs Required:** [Minimum based on complexity]
+
+| ADR | Title | Status | Quality |
+|-----|-------|--------|---------|
+| ADR-001 | [Title] | [Accepted/Proposed] | [Good/Fair/Poor] |
+| ADR-002 | [Title] | [Accepted/Proposed] | [Good/Fair/Poor] |
+
+**ADR Issues:**
+- [List common issues across ADRs]
+
+---
+
+## Validation Checklist
+
+**Mandatory Elements:**
+- [✅/❌] System context defined
+- [✅/❌] Architecture diagrams present
+- [✅/❌] Technology stack documented
+- [✅/❌] At least 3 ADRs
+- [✅/❌] Security addressed
+- [✅/❌] Deployment plan defined
+
+**Recommended Elements:**
+- [✅/❌] Cost estimates
+- [✅/❌] Scaling strategy
+- [✅/❌] Monitoring approach
+- [✅/❌] Migration plan (brownfield)
+
+---
+
+## Next Steps
+
+### If Validation PASSED (Score ≥ 70):
+1. Review and address medium/low priority recommendations
+2. Proceed to implementation
+3. Schedule architecture review checkpoint at 30% implementation
+
+### If Validation FAILED (Score < 70):
+1. **Must Fix:** Address all critical issues
+2. **Should Fix:** Address high-priority recommendations
+3. **Re-validate:** Run validation again after fixes
+4. Do NOT proceed to implementation until validation passes
+
+---
+
+## Appendix
+
+### Scoring Rubric Used
+[Link to validation-rules.md]
+
+### Architecture Best Practices
+[Link to relevant guidelines]
+
+### Contact
+Questions? Contact [Tech Lead / Architecture Team]
+
+---
+
+*Generated by validate-architecture skill v1.0*
+```
+
+---
+
+## Quick Scorecard Template
+
+```markdown
+# Architecture Scorecard
+
+**Project:** [Name]
+**Score:** [X]/100 - [PASS/FAIL]
+**Date:** [YYYY-MM-DD]
+
+## Scores at a Glance
+
+```
+Completeness        ████████░░  80/100
+Tech Justification  ██████░░░░  60/100
+NFRs Coverage       ████████░░  80/100
+Security            ██████████ 100/100
+Scalability         ███████░░░  70/100
+Documentation       ████████░░  75/100
+                    ──────────
+Overall             ████████░░  77/100 ✅ PASS
+```
+
+**Critical Issues:** 0
+**High Priority:** 3
+**Medium Priority:** 5
+**Low Priority:** 2
+
+**Decision:** ✅ Ready for implementation with minor improvements
+
+---
+
+## Top 3 Recommendations
+
+1. Add database scaling strategy (P1)
+2. Document disaster recovery plan (P1)
+3. Provide cost estimates (P2)
+```
+
+---
+
+## Checklist-Only Template
+
+```markdown
+# Architecture Validation Checklist
+
+**Project:** [Name]
+**Reviewer:** [Name/Skill]
+**Date:** [YYYY-MM-DD]
+
+## Required Elements
+
+### System Overview
+- [ ] Purpose and goals clearly stated
+- [ ] Target users identified
+- [ ] Scale and constraints documented
+
+### Architecture Diagrams
+- [ ] System context diagram (C4 Level 1)
+- [ ] Container diagram (C4 Level 2)
+- [ ] Component diagram (if needed)
+- [ ] Deployment diagram
+
+### Technology Stack
+- [ ] All technologies listed
+- [ ] Justification for each major technology
+- [ ] Alternatives considered documented
+- [ ] Total cost estimated
+
+### Data Architecture
+- [ ] Data model documented
+- [ ] Database selection justified
+- [ ] Migration strategy (brownfield)
+- [ ] Backup and recovery plan
+
+### Security
+- [ ] Authentication approach defined
+- [ ] Authorization model documented
+- [ ] Data encryption addressed
+- [ ] Compliance requirements addressed
+
+### Scalability
+- [ ] Growth projections documented
+- [ ] Scaling strategy defined
+- [ ] Bottlenecks identified
+- [ ] Performance targets specified
+
+### ADRs
+- [ ] Minimum 3 ADRs present
+- [ ] Major decisions documented
+- [ ] Alternatives evaluated
+- [ ] Consequences identified
+
+## Score: ____/100
+## Decision: [PASS / FAIL]
+```
+
+---
+
+*Reference for validate-architecture skill - Use these templates to generate consistent validation reports*

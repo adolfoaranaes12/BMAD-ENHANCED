@@ -125,6 +125,246 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 
 ---
 
+### generate_architecture_diagram
+
+Generate architecture diagrams from architecture documents (C4 model, deployment, sequence diagrams).
+
+**Usage:**
+```bash
+python scripts/generate_architecture_diagram.py --architecture <file-path> --type <diagram-type> --output <output-dir>
+```
+
+**Inputs:**
+- `architecture` (required): Path to architecture document
+- `type` (required): Diagram type (c4-context, c4-container, c4-component, deployment, sequence)
+- `output` (optional): Output directory (default: docs/diagrams)
+
+**Outputs:**
+- `diagram_path`: Path to generated diagram file
+- `diagram_type`: Type of diagram generated
+- `diagram_format`: Format (svg, png)
+- `architecture_source`: Source architecture document
+
+**Example:**
+```bash
+python .claude/skills/bmad-commands/scripts/generate_architecture_diagram.py \
+  --architecture docs/architecture.md \
+  --type c4-context \
+  --output docs/diagrams
+```
+
+**Returns:**
+```json
+{
+  "success": true,
+  "outputs": {
+    "diagram_path": "/path/to/docs/diagrams/c4-context-20250131.svg",
+    "diagram_type": "c4-context",
+    "diagram_format": "svg",
+    "architecture_source": "docs/architecture.md"
+  },
+  "telemetry": {
+    "command": "generate_architecture_diagram",
+    "diagram_type": "c4-context",
+    "duration_ms": 450,
+    "timestamp": "2025-01-31T10:30:00Z"
+  },
+  "errors": []
+}
+```
+
+---
+
+### analyze_tech_stack
+
+Analyze technology stack from architecture document, validate compatibility, identify risks.
+
+**Usage:**
+```bash
+python scripts/analyze_tech_stack.py --architecture <file-path> --output <json|summary>
+```
+
+**Inputs:**
+- `architecture` (required): Path to architecture document
+- `output` (optional): Output format (default: json)
+
+**Outputs:**
+- `technologies`: List of detected technologies with categories
+- `tech_count`: Number of technologies detected
+- `categories`: Technology categories (frontend, backend, database, etc.)
+- `compatibility`: Compatibility analysis and warnings
+- `architecture_source`: Source architecture document
+
+**Example:**
+```bash
+python .claude/skills/bmad-commands/scripts/analyze_tech_stack.py \
+  --architecture docs/architecture.md \
+  --output json
+```
+
+**Returns:**
+```json
+{
+  "success": true,
+  "outputs": {
+    "technologies": [
+      {"name": "React", "category": "frontend", "version": "18+"},
+      {"name": "Node.js", "category": "backend", "version": "20+"},
+      {"name": "PostgreSQL", "category": "database", "version": "15+"}
+    ],
+    "tech_count": 3,
+    "categories": ["frontend", "backend", "database"],
+    "compatibility": {
+      "issues": [],
+      "warnings": [],
+      "recommendations": ["Verify versions are compatible"]
+    },
+    "architecture_source": "docs/architecture.md"
+  },
+  "telemetry": {
+    "command": "analyze_tech_stack",
+    "tech_count": 3,
+    "duration_ms": 180,
+    "timestamp": "2025-01-31T10:30:00Z"
+  },
+  "errors": []
+}
+```
+
+---
+
+### extract_adrs
+
+Extract Architecture Decision Records (ADRs) from architecture document into separate files.
+
+**Usage:**
+```bash
+python scripts/extract_adrs.py --architecture <file-path> --output <output-dir>
+```
+
+**Inputs:**
+- `architecture` (required): Path to architecture document
+- `output` (optional): Output directory for ADR files (default: docs/adrs)
+
+**Outputs:**
+- `adrs_extracted`: Number of ADRs extracted
+- `adrs`: List of ADRs with number, title, and file path
+- `output_directory`: Directory where ADRs were saved
+- `architecture_source`: Source architecture document
+
+**Example:**
+```bash
+python .claude/skills/bmad-commands/scripts/extract_adrs.py \
+  --architecture docs/architecture.md \
+  --output docs/adrs
+```
+
+**Returns:**
+```json
+{
+  "success": true,
+  "outputs": {
+    "adrs_extracted": 5,
+    "adrs": [
+      {
+        "number": "001",
+        "title": "Technology Stack Selection",
+        "file": "/path/to/docs/adrs/ADR-001-technology-stack-selection.md"
+      },
+      {
+        "number": "002",
+        "title": "Database Choice",
+        "file": "/path/to/docs/adrs/ADR-002-database-choice.md"
+      }
+    ],
+    "output_directory": "/path/to/docs/adrs",
+    "architecture_source": "docs/architecture.md"
+  },
+  "telemetry": {
+    "command": "extract_adrs",
+    "adrs_count": 5,
+    "duration_ms": 120,
+    "timestamp": "2025-01-31T10:30:00Z"
+  },
+  "errors": []
+}
+```
+
+---
+
+### validate_patterns
+
+Validate architectural patterns against best practices, check appropriateness for requirements.
+
+**Usage:**
+```bash
+python scripts/validate_patterns.py --architecture <file-path> [--requirements <file-path>] --output <json|summary>
+```
+
+**Inputs:**
+- `architecture` (required): Path to architecture document
+- `requirements` (optional): Path to requirements document
+- `output` (optional): Output format (default: json)
+
+**Outputs:**
+- `detected_patterns`: List of architectural patterns found
+- `validation`: Validation results including warnings and recommendations
+- `architecture_source`: Source architecture document
+- `requirements_source`: Source requirements document (if provided)
+
+**Example:**
+```bash
+python .claude/skills/bmad-commands/scripts/validate_patterns.py \
+  --architecture docs/architecture.md \
+  --requirements docs/prd.md \
+  --output json
+```
+
+**Returns:**
+```json
+{
+  "success": true,
+  "outputs": {
+    "detected_patterns": [
+      {
+        "name": "Microservices",
+        "category": "architectural",
+        "validated": true,
+        "warnings": []
+      },
+      {
+        "name": "Repository Pattern",
+        "category": "architectural",
+        "validated": true,
+        "warnings": []
+      }
+    ],
+    "validation": {
+      "patterns_validated": 2,
+      "patterns_appropriate": 2,
+      "anti_patterns_detected": 0,
+      "warnings": [],
+      "recommendations": [
+        "Validate pattern complexity matches team expertise",
+        "Ensure pattern choice aligns with scale requirements"
+      ]
+    },
+    "architecture_source": "docs/architecture.md",
+    "requirements_source": "docs/prd.md"
+  },
+  "telemetry": {
+    "command": "validate_patterns",
+    "patterns_count": 2,
+    "anti_patterns_count": 0,
+    "duration_ms": 210,
+    "timestamp": "2025-01-31T10:30:00Z"
+  },
+  "errors": []
+}
+```
+
+---
+
 ## Response Format
 
 All commands return JSON with this structure:
