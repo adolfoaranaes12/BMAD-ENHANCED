@@ -1,6 +1,66 @@
 ---
 name: estimate-stories
 description: Estimate story points using structured formula based on complexity, effort, and risk for consistent sprint planning
+acceptance:
+  - story_loaded: "Story file successfully loaded with acceptance criteria"
+  - complexity_assessed: "Complexity score (1-5) calculated with detailed rationale based on technical difficulty"
+  - effort_assessed: "Effort score (1-5) calculated with rationale based on work volume"
+  - risk_assessed: "Risk adjustment (0-3) calculated with rationale based on unknowns"
+  - story_points_calculated: "Story points calculated using formula: (Complexity × Effort) + Risk"
+  - estimation_documented: "Estimation block added to story file with formula, breakdown, and assumptions"
+inputs:
+  story_id:
+    type: string
+    required: true
+    description: "Story identifier (e.g., 'story-auth-001')"
+    validation: "Must match pattern: story-{component}-{number}-{slug}"
+  story_file:
+    type: string
+    required: true
+    description: "Path to story markdown file"
+  batch_mode:
+    type: boolean
+    required: false
+    description: "Whether estimating multiple stories (for consistency checks)"
+    default: false
+  config_file:
+    type: string
+    required: false
+    description: "Path to config with velocity baseline (defaults to .claude/config.yaml)"
+outputs:
+  story_points:
+    type: number
+    description: "Calculated story points using formula"
+  complexity_score:
+    type: number
+    description: "Complexity assessment (1-5 scale)"
+  effort_score:
+    type: number
+    description: "Effort assessment (1-5 scale)"
+  risk_score:
+    type: number
+    description: "Risk adjustment (0-3 scale)"
+  confidence_level:
+    type: string
+    description: "Estimation confidence (high/medium/low based on clarity and familiarity)"
+  estimation_added:
+    type: boolean
+    description: "Whether estimation block was added to story file"
+  split_recommended:
+    type: boolean
+    description: "Whether story should be split (true if >13 points)"
+telemetry:
+  emit: "skill.estimate-stories.completed"
+  track:
+    - story_id
+    - story_points
+    - complexity_score
+    - effort_score
+    - risk_score
+    - confidence_level
+    - split_recommended
+    - batch_mode
+    - duration_ms
 ---
 
 # Estimate Stories Skill
