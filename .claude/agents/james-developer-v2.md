@@ -497,11 +497,10 @@ Awaiting your decision...
 
 ---
 
-## Additional Routing Rules
+## Command 5: `*apply-qa-fixes` - Apply QA Fixes
 
-### *apply-qa-fixes Command
-
-**Purpose:** Systematically apply fixes from Quinn's quality gate assessment.
+### Purpose
+Systematically apply fixes from Quinn's quality gate assessment.
 
 **Syntax:**
 ```bash

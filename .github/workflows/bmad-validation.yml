@@ -1,0 +1,514 @@
+# BMAD Enhanced V2 Validation Workflow
+# Validates architecture, structure, and specifications
+
+name: BMAD Enhanced Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  validate-structure:
+    name: Validate Directory Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate .claude directory structure
+        run: |
+          echo "::group::Checking directory structure"
+
+          # Check required directories
+          required_dirs=(
+            ".claude"
+            ".claude/agents"
+            ".claude/skills"
+            "docs"
+          )
+
+          for dir in "${required_dirs[@]}"; do
+            if [ ! -d "$dir" ]; then
+              echo "::error::Missing required directory: $dir"
+              exit 1
+            fi
+            echo "✓ $dir exists"
+          done
+
+          # Create optional directories if they don't exist
+          mkdir -p .claude/workflows
+          mkdir -p .claude/quality/gates
+          mkdir -p .claude/telemetry
+          mkdir -p .claude/tasks
+          mkdir -p workspace
+
+          echo "::endgroup::"
+
+      - name: Validate subagent files
+        run: |
+          echo "::group::Checking subagent files"
+
+          required_agents=(
+            "orchestrator-v2.md"
+            "alex-planner.md"
+            "james-developer-v2.md"
+            "quinn-quality.md"
+          )
+
+          for agent in "${required_agents[@]}"; do
+            if [ ! -f ".claude/agents/$agent" ]; then
+              echo "::error::Missing required subagent: $agent"
+              exit 1
+            fi
+            echo "✓ $agent exists"
+          done
+
+          echo "::endgroup::"
+
+      - name: Validate skill files
+        run: |
+          echo "::group::Checking skill files"
+
+          # Count skills
+          skill_count=$(find .claude/skills -name "SKILL.md" | wc -l)
+          echo "Found $skill_count skills"
+
+          if [ "$skill_count" -lt 17 ]; then
+            echo "::error::Expected at least 17 skills, found $skill_count"
+            exit 1
+          fi
+
+          # Check each skill has SKILL.md
+          for skill_dir in .claude/skills/*/; do
+            skill_name=$(basename "$skill_dir")
+            if [ ! -f "${skill_dir}SKILL.md" ]; then
+              echo "::warning::Skill $skill_name missing SKILL.md"
+            fi
+          done
+
+          echo "::endgroup::"
+
+      - name: Check for sensitive files
+        run: |
+          echo "::group::Checking for sensitive files"
+
+          # Files that should NOT be in the repository
+          sensitive_files=(
+            ".env"
+            "*.key"
+            "credentials.json"
+            "*secret*"
+          )
+
+          found_sensitive=false
+          for pattern in "${sensitive_files[@]}"; do
+            if find . -name "$pattern" -not -path "./.git/*" | grep -q .; then
+              echo "::warning::Found sensitive file matching pattern: $pattern"
+              find . -name "$pattern" -not -path "./.git/*"
+              found_sensitive=true
+            fi
+          done
+
+          if [ "$found_sensitive" = true ]; then
+            echo "::warning::Sensitive files found - ensure they are in .gitignore"
+          fi
+
+          echo "::endgroup::"
+
+  validate-specifications:
+    name: Validate V2 Specifications
+    runs-on: ubuntu-latest
+    needs: validate-structure
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Validate V2 pattern in subagents
+        run: |
+          echo "::group::Validating V2 patterns"
+
+          # Check for 7-step workflow in subagents
+          for agent in .claude/agents/*.md; do
+            agent_name=$(basename "$agent")
+            echo "Checking $agent_name..."
+
+            # Check for V2 workflow steps
+            if ! grep -q "Step 1: Load" "$agent" || \
+               ! grep -q "Step 2: Assess" "$agent" || \
+               ! grep -q "Step 3: Route" "$agent" || \
+               ! grep -q "Step 4: Check Guardrails" "$agent" || \
+               ! grep -q "Step 5: Execute" "$agent" || \
+               ! grep -q "Step 6: Verify" "$agent" || \
+               ! grep -q "Step 7: Emit Telemetry" "$agent"; then
+              echo "::warning::$agent_name may be missing complete 7-step workflow"
+            else
+              echo "✓ $agent_name has 7-step workflow"
+            fi
+          done
+
+          echo "::endgroup::"
+
+      - name: Validate skill V2 contracts
+        run: |
+          echo "::group::Validating skill V2 contracts"
+
+          skills_with_contracts=0
+          skills_without_contracts=0
+
+          for skill_file in .claude/skills/*/SKILL.md; do
+            skill_name=$(dirname "$skill_file" | xargs basename)
+
+            # Check for V2 contract sections
+            has_acceptance=$(grep -q "## Acceptance Criteria" "$skill_file" && echo "yes" || echo "no")
+            has_inputs=$(grep -q "## Inputs" "$skill_file" && echo "yes" || echo "no")
+            has_outputs=$(grep -q "## Outputs" "$skill_file" && echo "yes" || echo "no")
+            has_telemetry=$(grep -q "## Telemetry" "$skill_file" && echo "yes" || echo "no")
+
+            if [ "$has_acceptance" = "yes" ] && \
+               [ "$has_inputs" = "yes" ] && \
+               [ "$has_outputs" = "yes" ] && \
+               [ "$has_telemetry" = "yes" ]; then
+              echo "✓ $skill_name has complete V2 contract"
+              ((skills_with_contracts++))
+            else
+              echo "::warning::$skill_name missing V2 contract sections"
+              [ "$has_acceptance" = "no" ] && echo "  Missing: Acceptance Criteria"
+              [ "$has_inputs" = "no" ] && echo "  Missing: Inputs"
+              [ "$has_outputs" = "no" ] && echo "  Missing: Outputs"
+              [ "$has_telemetry" = "no" ] && echo "  Missing: Telemetry"
+              ((skills_without_contracts++))
+            fi
+          done
+
+          echo ""
+          echo "Skills with complete V2 contracts: $skills_with_contracts"
+          echo "Skills without complete V2 contracts: $skills_without_contracts"
+
+          if [ "$skills_without_contracts" -gt 0 ]; then
+            echo "::warning::$skills_without_contracts skills missing complete V2 contracts"
+          fi
+
+          echo "::endgroup::"
+
+      - name: Validate configuration template
+        run: |
+          echo "::group::Validating configuration"
+
+          if [ -f ".claude/config.yaml.template" ]; then
+            # Validate YAML syntax
+            python3 -c "import yaml; yaml.safe_load(open('.claude/config.yaml.template'))" || {
+              echo "::error::Invalid YAML in config.yaml.template"
+              exit 1
+            }
+            echo "✓ Configuration template is valid YAML"
+          else
+            echo "::warning::No config.yaml.template found"
+          fi
+
+          echo "::endgroup::"
+
+  validate-documentation:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+    needs: validate-structure
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check required documentation
+        run: |
+          echo "::group::Checking required documentation"
+
+          required_docs=(
+            "README.md"
+            "docs/V2-ARCHITECTURE.md"
+            "docs/DOCUMENTATION-INDEX.md"
+            "docs/ROADMAP.md"
+            "docs/quickstart-alex.md"
+            "docs/quickstart-james.md"
+            "docs/quickstart-quinn.md"
+            "docs/quickstart-orchestrator.md"
+          )
+
+          for doc in "${required_docs[@]}"; do
+            if [ ! -f "$doc" ]; then
+              echo "::error::Missing required documentation: $doc"
+              exit 1
+            fi
+            echo "✓ $doc exists"
+          done
+
+          echo "::endgroup::"
+
+      - name: Validate documentation links
+        run: |
+          echo "::group::Validating documentation links"
+
+          # Check for broken internal links in README
+          if [ -f "README.md" ]; then
+            broken_links=0
+            while IFS= read -r line; do
+              if [[ $line =~ \[.*\]\((.*\.md)\) ]]; then
+                link="${BASH_REMATCH[1]}"
+                # Remove anchor
+                file_path="${link%%#*}"
+                # Handle relative paths
+                if [[ ! $file_path =~ ^http ]]; then
+                  if [ ! -f "$file_path" ]; then
+                    echo "::warning::Broken link in README.md: $file_path"
+                    ((broken_links++))
+                  fi
+                fi
+              fi
+            done < README.md
+
+            if [ "$broken_links" -eq 0 ]; then
+              echo "✓ No broken links in README.md"
+            else
+              echo "::warning::Found $broken_links broken link(s) in README.md"
+            fi
+          fi
+
+          echo "::endgroup::"
+
+      - name: Check for documentation TOC
+        run: |
+          echo "::group::Checking for table of contents"
+
+          large_docs=(
+            "docs/V2-ARCHITECTURE.md"
+            "docs/PRODUCTION-MONITORING-GUIDE.md"
+            "docs/PRODUCTION-DEPLOYMENT-GUIDE.md"
+          )
+
+          for doc in "${large_docs[@]}"; do
+            if [ -f "$doc" ]; then
+              if grep -q "## Table of Contents" "$doc"; then
+                echo "✓ $doc has table of contents"
+              else
+                echo "::warning::$doc missing table of contents"
+              fi
+            fi
+          done
+
+          echo "::endgroup::"
+
+  validate-quality:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+    needs: [validate-structure, validate-specifications]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check file sizes
+        run: |
+          echo "::group::Checking file sizes"
+
+          # Large files that should be reviewed
+          large_files=$(find . -type f -size +1M -not -path "./.git/*" | wc -l)
+
+          if [ "$large_files" -gt 0 ]; then
+            echo "::warning::Found $large_files file(s) larger than 1MB"
+            find . -type f -size +1M -not -path "./.git/*" -exec ls -lh {} \;
+          else
+            echo "✓ No unusually large files found"
+          fi
+
+          echo "::endgroup::"
+
+      - name: Check line lengths
+        run: |
+          echo "::group::Checking line lengths in markdown files"
+
+          long_lines=0
+          while IFS= read -r file; do
+            max_length=$(awk 'length > 200 { print length; exit }' "$file")
+            if [ -n "$max_length" ]; then
+              echo "::warning::$file has lines longer than 200 characters"
+              ((long_lines++))
+            fi
+          done < <(find docs -name "*.md")
+
+          if [ "$long_lines" -eq 0 ]; then
+            echo "✓ All markdown files have reasonable line lengths"
+          else
+            echo "::warning::$long_lines file(s) have very long lines"
+          fi
+
+          echo "::endgroup::"
+
+      - name: Count lines of code
+        run: |
+          echo "::group::Lines of code statistics"
+
+          # Subagent specifications
+          subagent_lines=$(cat .claude/agents/*.md | wc -l)
+          echo "Subagent specifications: $subagent_lines lines"
+
+          # Skill specifications
+          skill_lines=$(find .claude/skills -name "SKILL.md" -exec cat {} \; | wc -l)
+          echo "Skill specifications: $skill_lines lines"
+
+          # Documentation
+          doc_lines=$(find docs -name "*.md" -exec cat {} \; | wc -l)
+          echo "Documentation: $doc_lines lines"
+
+          # Total
+          total_lines=$((subagent_lines + skill_lines + doc_lines))
+          echo "Total specification code: $total_lines lines"
+
+          echo "::endgroup::"
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: validate-structure
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Scan for secrets
+        run: |
+          echo "::group::Scanning for exposed secrets"
+
+          # Patterns to search for
+          patterns=(
+            "api[_-]?key"
+            "api[_-]?secret"
+            "password"
+            "token"
+            "secret[_-]?key"
+            "claude[_-]?api[_-]?key"
+          )
+
+          found_secrets=false
+          for pattern in "${patterns[@]}"; do
+            if grep -ri "$pattern" --include="*.md" --include="*.yaml" --include="*.yml" \
+                   --exclude-dir=".git" --exclude-dir="docs" . | grep -v "your-.*-here" | grep -q .; then
+              echo "::warning::Found potential secret pattern: $pattern"
+              found_secrets=true
+            fi
+          done
+
+          if [ "$found_secrets" = false ]; then
+            echo "✓ No obvious secrets found in code"
+          fi
+
+          echo "::endgroup::"
+
+      - name: Check .gitignore
+        run: |
+          echo "::group::Checking .gitignore"
+
+          required_ignores=(
+            ".env"
+            "*.key"
+            "credentials.json"
+          )
+
+          for ignore in "${required_ignores[@]}"; do
+            if ! grep -q "^${ignore}$" .gitignore; then
+              echo "::warning::.gitignore should include: $ignore"
+            else
+              echo "✓ .gitignore includes $ignore"
+            fi
+          done
+
+          echo "::endgroup::"
+
+  report-results:
+    name: Generate Validation Report
+    runs-on: ubuntu-latest
+    needs: [validate-structure, validate-specifications, validate-documentation, validate-quality, security-scan]
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate report
+        run: |
+          cat > validation-report.md <<EOF
+          # BMAD Enhanced Validation Report
+
+          **Date:** $(date)
+          **Commit:** ${{ github.sha }}
+          **Branch:** ${{ github.ref }}
+          **Triggered by:** ${{ github.actor }}
+
+          ## Validation Results
+
+          - **Structure Validation:** ${{ needs.validate-structure.result }}
+          - **Specification Validation:** ${{ needs.validate-specifications.result }}
+          - **Documentation Validation:** ${{ needs.validate-documentation.result }}
+          - **Quality Checks:** ${{ needs.validate-quality.result }}
+          - **Security Scan:** ${{ needs.security-scan.result }}
+
+          ## Summary
+
+          All validation checks completed. See job logs for details.
+
+          EOF
+
+          cat validation-report.md
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-report
+          path: validation-report.md
+          retention-days: 30
+
+  notify-on-failure:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [validate-structure, validate-specifications, validate-documentation, validate-quality, security-scan]
+    if: failure()
+
+    steps:
+      - name: Create issue on failure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Validation Failed: ${context.payload.head_commit?.message || 'Unknown commit'}`,
+              body: `# BMAD Enhanced Validation Failure
+
+              **Commit:** ${context.sha}
+              **Branch:** ${context.ref}
+              **Workflow Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}
+
+              One or more validation checks failed. Please review the workflow logs for details.
+
+              ## Failed Jobs
+              - Check the workflow run for details
+
+              **Action Required:** Fix the validation issues and push a new commit.
+              `,
+              labels: ['validation-failure', 'automated']
+            });
+
+            console.log(`Created issue #${issue.data.number}`);
