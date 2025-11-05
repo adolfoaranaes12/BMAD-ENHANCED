@@ -33,14 +33,15 @@
 
 | Guide | Description | Length | Read Time |
 |-------|-------------|--------|-----------|
-| **[QUICK-START.md](./QUICK-START.md)** ⭐ | Get started in 10 minutes with first tasks | 518 lines | 10 min |
+| **[QUICK-START.md](./QUICK-START.md)** ⭐ | Get started in 10 minutes with first tasks | 643 lines | 10 min |
 | **[USER-GUIDE.md](./USER-GUIDE.md)** ⭐ | Complete user manual for all agents | 1,878 lines | 45 min |
 | **[WORKFLOW-GUIDE.md](./WORKFLOW-GUIDE.md)** ⭐ | 15+ detailed workflow scenarios | 3,360 lines | 60 min |
-| **[AGENT-REFERENCE.md](./AGENT-REFERENCE.md)** ⭐ | Complete command reference | 1,399 lines | 30 min |
-| **[TROUBLESHOOTING.md](./TROUBLESHOOTING.md)** ⭐ | Common issues & solutions | Comprehensive | 20 min |
-| **[BEST-PRACTICES.md](./BEST-PRACTICES.md)** ⭐ | World-class patterns & anti-patterns | Comprehensive | 30 min |
+| **[AGENT-REFERENCE.md](./AGENT-REFERENCE.md)** ⭐ | Complete command reference (detailed) | 1,399 lines | 30 min |
+| **[COMMAND-REFERENCE-SUMMARY.md](./COMMAND-REFERENCE-SUMMARY.md)** ⭐ | Quick command lookup (all 50+ commands) | 302 lines | 5 min |
+| **[TROUBLESHOOTING.md](./TROUBLESHOOTING.md)** ⭐ | Common issues & solutions | 1,309 lines | 20 min |
+| **[BEST-PRACTICES.md](./BEST-PRACTICES.md)** ⭐ | World-class patterns & anti-patterns | 1,103 lines | 30 min |
 
-**Total:** 7,155+ lines of comprehensive, world-class documentation
+**Total:** 9,994+ lines of comprehensive, world-class documentation
 
 ### Essential Reading
 

@@ -15,7 +15,8 @@ Transform hours of AGILE ceremony into minutes of AI-assisted productivity.
 | **[Quick Start](./docs/QUICK-START.md)** | Get started in 10 minutes | 10 min |
 | **[User Guide](./docs/USER-GUIDE.md)** | Comprehensive manual (1,878 lines) | 45 min |
 | **[Workflow Guide](./docs/WORKFLOW-GUIDE.md)** | 15+ detailed workflow examples | 30 min |
-| **[Agent Reference](./docs/AGENT-REFERENCE.md)** | Complete command reference | 20 min |
+| **[Agent Reference](./docs/AGENT-REFERENCE.md)** | Complete command reference (detailed) | 20 min |
+| **[Command Reference](./docs/COMMAND-REFERENCE-SUMMARY.md)** | Quick command lookup (50+ commands) | 5 min |
 | **[Troubleshooting](./docs/TROUBLESHOOTING.md)** | Common issues & solutions | 15 min |
 | **[Best Practices](./docs/BEST-PRACTICES.md)** | World-class patterns | 25 min |
 
