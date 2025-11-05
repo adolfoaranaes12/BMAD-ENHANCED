@@ -57,7 +57,7 @@
 **Step 1: Initial Specification**
 
 ```bash
-@alex *create-task-spec "Users want better security"
+/alex *create-task-spec "Users want better security"
 ```
 
 **What Happens:**
@@ -85,7 +85,7 @@ Specification includes:
 **Step 2: Refine with Clarification**
 
 ```bash
-@alex *refine-story task-sec-001 --context "Focus on authenticator app MFA, minimum 12-char passwords with uppercase/lowercase/numbers/symbols, 30-minute session timeout"
+/alex *refine-story task-sec-001 --context "Focus on authenticator app MFA, minimum 12-char passwords with uppercase/lowercase/numbers/symbols, 30-minute session timeout"
 ```
 
 **What Happens:**
@@ -141,10 +141,10 @@ Estimated Effort: 5 story points
 
 ```bash
 # Option A: Implement immediately
-@james *implement task-sec-001
+/james *implement task-sec-001
 
 # Option B: Get estimate first
-@alex *estimate task-sec-001
+/alex *estimate task-sec-001
 
 # Option C: Review before committing
 # (Review specification file manually, then proceed)
@@ -172,7 +172,7 @@ Estimated Effort: 5 story points
 **Step 1: Break Down Epic**
 
 ```bash
-@alex *breakdown-epic "E-commerce Shopping Cart System"
+/alex *breakdown-epic "E-commerce Shopping Cart System"
 ```
 
 **What Happens:**
@@ -216,7 +216,7 @@ Sprint 3: Stories 7, 8, 9 (11 pts - advanced features)
 
 ```bash
 # Estimate story 1
-@alex *estimate .claude/stories/story-cart-001.md
+/alex *estimate .claude/stories/story-cart-001.md
 
 # Output:
 # ✓ Story estimated: 3 story points
@@ -228,7 +228,7 @@ Sprint 3: Stories 7, 8, 9 (11 pts - advanced features)
 # - Testing: Standard (unit + integration)
 
 # Repeat for remaining stories (or use batch)
-@alex *estimate .claude/stories/story-cart-*.md
+/alex *estimate .claude/stories/story-cart-*.md
 ```
 
 **Step 3: Validate Dependencies**
@@ -271,10 +271,10 @@ cat .claude/planning/epic-cart-dependencies.md
 
 ```bash
 # Create sprint plan
-@alex *plan-sprint --velocity 12 --stories .claude/stories/story-cart-*.md
+/alex *plan-sprint --velocity 12 --stories .claude/stories/story-cart-*.md
 
 # Or use orchestrator for complete planning
-@orchestrator *workflow epic-to-sprint "E-commerce Shopping Cart" --velocity 12
+/orchestrator *workflow epic-to-sprint "E-commerce Shopping Cart" --velocity 12
 ```
 
 ---
@@ -299,7 +299,7 @@ cat .claude/planning/epic-cart-dependencies.md
 **Step 1: Sprint Planning**
 
 ```bash
-@alex *plan-sprint --velocity 40 --sprint-length 2-weeks --team-size 4
+/alex *plan-sprint --velocity 40 --sprint-length 2-weeks --team-size 4
 ```
 
 **What Happens:**
@@ -368,11 +368,11 @@ Sprint Goal:
 ```bash
 # Generate detailed task specs for all sprint stories
 for story in .claude/stories/story-auth-001.md .claude/stories/story-auth-002.md; do
-  @alex *create-task-spec --from-story $story
+  /alex *create-task-spec --from-story $story
 done
 
 # Or batch create
-@alex *create-task-spec --from-sprint .claude/sprints/sprint-15-plan.md
+/alex *create-task-spec --from-sprint .claude/sprints/sprint-15-plan.md
 ```
 
 **Output:**
@@ -414,12 +414,12 @@ All tasks ready for implementation.
 
 ```bash
 # Option A: Execute sprint manually (implement each task)
-@james *implement task-auth-001
-@james *implement task-auth-002
+/james *implement task-auth-001
+/james *implement task-auth-002
 # ... continue for all tasks
 
 # Option B: Use orchestrator for automated sprint execution
-@orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
+/orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
 ```
 
 ---
@@ -446,7 +446,7 @@ All tasks ready for implementation.
 **Step 1: Implement with TDD**
 
 ```bash
-@james *implement task-auth-003
+/james *implement task-auth-003
 ```
 
 **What Happens:**
@@ -539,7 +539,7 @@ Ready for review.
 **Step 2: Run Full Test Suite**
 
 ```bash
-@james *test --all
+/james *test --all
 ```
 
 **Output:**
@@ -603,13 +603,13 @@ No issues found. Ready for quality review.
 
 ```bash
 # Quality review
-@quinn *review task-auth-003
+/quinn *review task-auth-003
 
 # If issues found
-@james *apply-qa-fixes task-auth-003
+/james *apply-qa-fixes task-auth-003
 
 # Final validation
-@quinn *validate-quality-gate task-auth-003
+/quinn *validate-quality-gate task-auth-003
 ```
 
 ---
@@ -634,7 +634,7 @@ No issues found. Ready for quality review.
 **Step 1: Bug Reproduction and Root Cause Analysis**
 
 ```bash
-@james *fix bug-login-memory-leak --reproduce-steps "1. Login as admin\n2. Navigate to dashboard\n3. Memory usage grows by 100MB every 5 minutes\n4. After 4 hours, application crashes with OOM"
+/james *fix bug-login-memory-leak --reproduce-steps "1. Login as admin\n2. Navigate to dashboard\n3. Memory usage grows by 100MB every 5 minutes\n4. After 4 hours, application crashes with OOM"
 ```
 
 **What Happens:**
@@ -795,11 +795,11 @@ Added return cleanup function to properly dispose resources
 
 ```bash
 # Address related issues
-@james *fix task-bug-002
-@james *fix task-bug-003
+/james *fix task-bug-002
+/james *fix task-bug-003
 
 # Quality review
-@quinn *review bug-login-memory-leak
+/quinn *review bug-login-memory-leak
 ```
 
 ---
@@ -824,7 +824,7 @@ Added return cleanup function to properly dispose resources
 **Step 1: Establish Baseline**
 
 ```bash
-@james *test --all --record-baseline
+/james *test --all --record-baseline
 ```
 
 **Output:**
@@ -846,7 +846,7 @@ Performance baseline:
 **Step 2: Assess Current State**
 
 ```bash
-@quinn *review src/payment/processor.py --scope code-quality
+/quinn *review src/payment/processor.py --scope code-quality
 ```
 
 **Output:**
@@ -890,7 +890,7 @@ Recommendations:
 **Step 3: Safe Refactoring**
 
 ```bash
-@james *refactor src/payment/processor.py --scope moderate --preserve-behavior=true
+/james *refactor src/payment/processor.py --scope moderate --preserve-behavior=true
 ```
 
 **What Happens:**
@@ -985,7 +985,7 @@ Code Metrics:
 **Step 4: Final Verification**
 
 ```bash
-@james *test --all --compare-baseline
+/james *test --all --compare-baseline
 ```
 
 **Output:**
@@ -1029,7 +1029,7 @@ Behavior Changes: 0 detected
 
 ```bash
 # Quality review to confirm
-@quinn *review src/payment/processor.py --scope code-quality
+/quinn *review src/payment/processor.py --scope code-quality
 
 # Expected: Quality score 85-95/100
 ```
@@ -1058,7 +1058,7 @@ Behavior Changes: 0 detected
 **Iteration 1: Initial Review**
 
 ```bash
-@quinn *review task-checkout-001 --scope comprehensive
+/quinn *review task-checkout-001 --scope comprehensive
 ```
 
 **Output:**
@@ -1117,7 +1117,7 @@ Detailed report: .claude/quality/review-checkout-001-iter1.md
 **Iteration 2: Apply QA Fixes**
 
 ```bash
-@james *apply-qa-fixes task-checkout-001 --scope high_severity
+/james *apply-qa-fixes task-checkout-001 --scope high_severity
 ```
 
 **Output:**
@@ -1154,7 +1154,7 @@ Re-run review to validate fixes.
 **Iteration 3: Verify Fixes**
 
 ```bash
-@quinn *review task-checkout-001 --scope comprehensive
+/quinn *review task-checkout-001 --scope comprehensive
 ```
 
 **Output:**
@@ -1214,7 +1214,7 @@ Detailed report: .claude/quality/review-checkout-001-iter2.md
 **Iteration 4: NFR Assessment**
 
 ```bash
-@quinn *assess-nfr task-checkout-001 --categories "security,performance,reliability"
+/quinn *assess-nfr task-checkout-001 --categories "security,performance,reliability"
 ```
 
 **Output:**
@@ -1254,7 +1254,7 @@ Minor recommendations for future improvement.
 **Final: Quality Gate Validation**
 
 ```bash
-@quinn *validate-quality-gate task-checkout-001 --threshold 80
+/quinn *validate-quality-gate task-checkout-001 --threshold 80
 ```
 
 **Output:**
@@ -1347,7 +1347,7 @@ gh pr create --title "Checkout feature" --body "Quality gate: PASS (85/100)"
 **Step 1: Comprehensive NFR Assessment**
 
 ```bash
-@quinn *assess-nfr task-api-001 --categories "security,performance,reliability,scalability,maintainability,usability"
+/quinn *assess-nfr task-api-001 --categories "security,performance,reliability,scalability,maintainability,usability"
 ```
 
 **Output:**
@@ -1443,12 +1443,12 @@ Recommendations for Future:
 
 **Security Deep Dive:**
 ```bash
-@quinn *assess-nfr task-api-001 --categories security --depth comprehensive
+/quinn *assess-nfr task-api-001 --categories security --depth comprehensive
 ```
 
 **Performance Deep Dive:**
 ```bash
-@quinn *assess-nfr task-api-001 --categories performance --depth comprehensive
+/quinn *assess-nfr task-api-001 --categories performance --depth comprehensive
 ```
 
 ---
@@ -1471,11 +1471,11 @@ Recommendations for Future:
 
 ```bash
 # Address high-priority recommendations
-@james *implement task-security-headers
-@james *implement task-auto-scaling-config
+/james *implement task-security-headers
+/james *implement task-auto-scaling-config
 
 # Re-assess after fixes
-@quinn *assess-nfr task-api-001 --categories security,scalability
+/quinn *assess-nfr task-api-001 --categories security,scalability
 ```
 
 ---
@@ -1500,7 +1500,7 @@ Recommendations for Future:
 **Step 1: Risk Assessment**
 
 ```bash
-@quinn *assess-risk "Migrate from monolithic architecture to microservices" --scope architecture --impact high
+/quinn *assess-risk "Migrate from monolithic architecture to microservices" --scope architecture --impact high
 ```
 
 **Output:**
@@ -1651,7 +1651,7 @@ Detailed risk register: .claude/quality/risk-assessment-microservices.md
 **Step 2: Create Mitigation Plan**
 
 ```bash
-@alex *create-task-spec "Microservices Migration - Risk Mitigation Phase 1" --context "Address 3 high-risk items from risk assessment"
+/alex *create-task-spec "Microservices Migration - Risk Mitigation Phase 1" --context "Address 3 high-risk items from risk assessment"
 ```
 
 **Output:**
@@ -1731,10 +1731,10 @@ Next Steps:
 
 ```bash
 # Implement mitigation plan
-@james *implement task-migration-001
+/james *implement task-migration-001
 
 # Monitor risks during implementation
-@quinn *assess-risk "Phase 1 Complete" --update task-migration-001
+/quinn *assess-risk "Phase 1 Complete" --update task-migration-001
 ```
 
 ---
@@ -1761,7 +1761,7 @@ Next Steps:
 **Step 1: Comprehensive Analysis**
 
 ```bash
-@winston *analyze-architecture . --depth comprehensive --focus all
+/winston *analyze-architecture . --depth comprehensive --focus all
 ```
 
 **What Happens:**
@@ -2078,13 +2078,13 @@ Total Duration: 12 minutes
 
 ```bash
 # Option A: Create improvement plan
-@alex *breakdown-epic "Architecture Improvement Plan" --context docs/architecture-analysis-20251105.md
+/alex *breakdown-epic "Architecture Improvement Plan" --context docs/architecture-analysis-20251105.md
 
 # Option B: Compare modernization options
-@winston *compare-architectures "Improve scalability and performance" --current docs/architecture-analysis-20251105.md
+/winston *compare-architectures "Improve scalability and performance" --current docs/architecture-analysis-20251105.md
 
 # Option C: Implement highest priority improvement
-@james *implement "Migrate sessions to Redis for horizontal scaling"
+/james *implement "Migrate sessions to Redis for horizontal scaling"
 ```
 
 ---
@@ -2109,7 +2109,7 @@ Total Duration: 12 minutes
 **Step 1: Create PRD (if not exists)**
 
 ```bash
-@alex *create-prd "E-commerce Platform for Handmade Crafts"
+/alex *create-prd "E-commerce Platform for Handmade Crafts"
 ```
 
 **Output:**
@@ -2144,7 +2144,7 @@ PRD Summary:
 **Step 2: Design Architecture**
 
 ```bash
-@winston *create-architecture docs/prd-ecommerce-platform.md --type fullstack --depth comprehensive
+/winston *create-architecture docs/prd-ecommerce-platform.md --type fullstack --depth comprehensive
 ```
 
 **What Happens:**
@@ -2691,13 +2691,13 @@ Total Duration: 18 minutes
 
 ```bash
 # Option A: Validate architecture
-@winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md
 
 # Option B: Create implementation plan
-@alex *breakdown-epic docs/architecture.md --type architecture
+/alex *breakdown-epic docs/architecture.md --type architecture
 
 # Option C: Start MVP development
-@james *implement task-mvp-001
+/james *implement task-mvp-001
 ```
 
 ---
@@ -2722,7 +2722,7 @@ Total Duration: 18 minutes
 **Step 1: Compare Architecture Options**
 
 ```bash
-@winston *compare-architectures "Scale to 50K users and add real-time features" --current docs/architecture-analysis-20251105.md
+/winston *compare-architectures "Scale to 50K users and add real-time features" --current docs/architecture-analysis-20251105.md
 ```
 
 **What Happens:**
@@ -3180,10 +3180,10 @@ Total Duration: 12 minutes
 
 ```bash
 # Option A: Proceed with recommended option
-@winston *create-architecture --option moderate --requirements "Scale to 50K users + real-time"
+/winston *create-architecture --option moderate --requirements "Scale to 50K users + real-time"
 
 # Option B: Get detailed migration plan
-@alex *breakdown-epic "Modernization - Option B Implementation"
+/alex *breakdown-epic "Modernization - Option B Implementation"
 
 # Option C: Interactive consultation
 /winston-consult "I want to proceed with Option B, what's the risk mitigation strategy?"
@@ -3213,7 +3213,7 @@ Total Duration: 12 minutes
 **Single Command:**
 
 ```bash
-@orchestrator *workflow feature-delivery "Add user profile page with avatar upload and bio editing"
+/orchestrator *workflow feature-delivery "Add user profile page with avatar upload and bio editing"
 ```
 
 **What Happens:**
@@ -3260,7 +3260,7 @@ Review PR and merge when approved.
 **Interactive Workflow:**
 
 ```bash
-@orchestrator *workflow modernize . "Scale to 100K users and add real-time features"
+/orchestrator *workflow modernize . "Scale to 100K users and add real-time features"
 ```
 
 [Full interactive workflow with 5 phases and user decision point as shown in orchestrator examples]
@@ -3282,9 +3282,9 @@ Review PR and merge when approved.
 
 ```bash
 # Start implementation
-@alex *breakdown-epic .claude/epics/modernization-plan.md
-@alex *plan-sprint --velocity 25
-@james *implement task-modernization-001
+/alex *breakdown-epic .claude/epics/modernization-plan.md
+/alex *plan-sprint --velocity 25
+/james *implement task-modernization-001
 ```
 
 ---
@@ -3309,7 +3309,7 @@ Review PR and merge when approved.
 **Sprint Kickoff:**
 
 ```bash
-@orchestrator *workflow sprint-execution "Sprint 15" --velocity 40 --daily-standups=true
+/orchestrator *workflow sprint-execution "Sprint 15" --velocity 40 --daily-standups=true
 ```
 
 [Full sprint execution with daily loops as shown in orchestrator examples]

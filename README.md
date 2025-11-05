@@ -6,6 +6,23 @@ Transform hours of AGILE ceremony into minutes of AI-assisted productivity.
 
 ---
 
+## 📚 Documentation
+
+**New to BMAD Enhanced? Start here:**
+
+| Guide | Description | Read Time |
+|-------|-------------|-----------|
+| **[Quick Start](./docs/QUICK-START.md)** | Get started in 10 minutes | 10 min |
+| **[User Guide](./docs/USER-GUIDE.md)** | Comprehensive manual (1,878 lines) | 45 min |
+| **[Workflow Guide](./docs/WORKFLOW-GUIDE.md)** | 15+ detailed workflow examples | 30 min |
+| **[Agent Reference](./docs/AGENT-REFERENCE.md)** | Complete command reference | 20 min |
+| **[Troubleshooting](./docs/TROUBLESHOOTING.md)** | Common issues & solutions | 15 min |
+| **[Best Practices](./docs/BEST-PRACTICES.md)** | World-class patterns | 25 min |
+
+**See [Complete Documentation Index](./docs/DOCUMENTATION-INDEX.md) for all 60+ guides**
+
+---
+
 ## What is BMAD Enhanced?
 
 BMAD Enhanced is a **Claude Code native** implementation of the proven BMAD Method v4 workflow, optimized for massive token efficiency through intelligent 3-layer architecture and progressive disclosure patterns.

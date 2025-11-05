@@ -1,12 +1,27 @@
 ---
-description: Interactive architecture consultation for brownfield and greenfield systems through conversational dialogue, intelligent routing, and tailored recommendations
+description: Interactive architecture consultation through conversational dialogue with multi-agent coordination. Routes to Winston, Alex, Quinn, and other agents as needed for brainstorming and exploration.
 argument-hint: [context-or-question]
 allowed-tools: Read, Bash, Glob, Grep, Skill, Task, AskUserQuestion, TodoWrite
 ---
 
 # Winston Consult Command
 
-Interactive architecture advisor that understands your situation through dialogue and routes to appropriate analysis or design skills.
+**Conversational architecture consultation** that understands your situation through dialogue and coordinates multiple agents for exploration and brainstorming.
+
+## When to Use
+
+**Use `/winston-consult` for:**
+- ✅ Exploratory conversations about architecture
+- ✅ Brainstorming with multi-agent coordination
+- ✅ "I have an idea but need guidance"
+- ✅ Comparing multiple architecture options
+- ✅ Discovery before making decisions
+
+**Use `/winston` for direct architecture work:**
+- 🏗️ Design architecture from requirements (`/winston *create-architecture`)
+- 🔍 Review existing architecture (`/winston *review-architecture`)
+- 📊 Analyze codebase (`/winston *analyze-architecture`)
+- 📝 Create ADRs (`/winston *create-adr`)
 
 ## Usage
 

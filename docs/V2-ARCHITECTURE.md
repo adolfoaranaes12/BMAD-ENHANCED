@@ -62,7 +62,18 @@ V2 architecture is a **specification-based framework** where:
 
 ### Related Documentation
 
-**Quick Start Guides:**
+**User-Oriented Documentation** (Focus: How to USE the system)
+- [Quick Start Guide](./QUICK-START.md) - Get started in 10 minutes with use cases
+- [User Guide](./USER-GUIDE.md) - Comprehensive guide for users
+- [Workflow Guide](./WORKFLOW-GUIDE.md) - Real-world workflow examples
+- [Command Reference](./COMMAND-REFERENCE-SUMMARY.md) - All commands quick reference
+
+**Technical-Oriented Documentation** (Focus: How the system WORKS)
+- [3-Layer Architecture](./3-layer-architecture-for-skills.md) - Technical implementation details
+- **[This Document - V2 Architecture]** - System architecture and design
+- [Agent Reference](./AGENT-REFERENCE.md) - Agent specifications and routing
+
+**Quick Start by Role:**
 - [Alex (Planner) Quick Start](./quickstart-alex.md) - Planning & requirements
 - [James (Developer) Quick Start](./quickstart-james.md) - Implementation & TDD
 - [Quinn (Quality) Quick Start](./quickstart-quinn.md) - Quality & NFR assessment
@@ -78,6 +89,8 @@ V2 architecture is a **specification-based framework** where:
 ## Architecture Layers
 
 BMAD Enhanced follows a **3-layer architecture** for separation of concerns:
+
+**Note:** This section provides a high-level overview. For detailed technical implementation including how skills dynamically load and execute, see the [3-Layer Architecture](./3-layer-architecture-for-skills.md) document.
 
 ```
 ┌────────────────────────────────────────────────────────┐

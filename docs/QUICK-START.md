@@ -82,27 +82,27 @@ development:
 
 **1. Alex (Planner)** - Planning & Requirements
 ```bash
-@alex *create-task-spec "User login feature"
+/alex *create-task-spec "User login feature"
 ```
 
 **2. James (Developer)** - Implementation with TDD
 ```bash
-@james *implement task-auth-001
+/james *implement task-auth-001
 ```
 
 **3. Quinn (Quality)** - Quality Assurance & Review
 ```bash
-@quinn *review task-auth-001
+/quinn *review task-auth-001
 ```
 
 **4. Winston (Architect)** - System Architecture & Design
 ```bash
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 ```
 
 **5. Orchestrator** - Workflow Coordination
 ```bash
-@orchestrator *workflow feature-delivery "User authentication"
+/orchestrator *workflow feature-delivery "User authentication"
 ```
 
 ### The Architecture: 3 Layers
@@ -115,6 +115,142 @@ Layer 1: Primitives (Commands) → Atomic, testable operations
 
 ---
 
+## How Commands Work: Complete Flow
+
+### Command Syntax
+
+**General Form:**
+```bash
+/agent *task parameters
+```
+
+**Components:**
+- `/agent` - Slash command that routes to subagent (e.g., `/alex`, `/james`, `/quinn`)
+- `*task` - Skill command (starts with asterisk, e.g., `*create-task-spec`, `*implement`)
+- `parameters` - Arguments passed to the skill (files, descriptions, flags)
+
+### Complete Execution Flow
+
+**1. User Types Slash Command**
+```bash
+/alex *create-task-spec "User login with email validation"
+```
+
+**2. Slash Command Expands**
+
+The content of `/alex.md` becomes a prompt to Claude:
+```
+Route the command "*create-task-spec 'User login with email validation'"
+to the alex-planner-v2 subagent.
+
+Use the Task tool with:
+- subagent_type: alex-planner-v2
+- description: Alex planning command
+- prompt: Execute planning command: *create-task-spec "User login with email validation"
+```
+
+**3. Claude Invokes Task Tool**
+```
+Task Tool Call:
+├── subagent_type: alex-planner-v2
+├── description: "Alex planning command"
+└── prompt: "Execute planning command: *create-task-spec 'User login with email validation'"
+```
+
+**4. Subagent Loads**
+
+The alex-planner-v2 agent loads and reads `.claude/agents/alex-planner-v2.md`
+
+**5. Agent Recognizes *task Command**
+
+The agent's routing logic recognizes the `*` prefix:
+- `*create-task-spec` → Load skill from `.claude/skills/planning/create-task-spec/SKILL.md`
+
+**6. Agent Loads Skill and Follows Instructions**
+
+The agent dynamically loads the skill file and follows its instructions:
+- **Skills are markdown files** - they contain step-by-step instructions
+- **Agent reads the skill** - loads it when needed (not pre-compiled)
+- **Agent follows like a recipe** - executes each step using available tools
+
+Think of it like: Agent reads a recipe (skill file) and follows the cooking instructions.
+
+**7. Result Returns to You**
+
+Agent completes the work → Result returns → You see the output
+
+**For Technical Details:** See [3-Layer Architecture](./3-layer-architecture-for-skills.md) to understand how skills dynamically load and execute.
+
+### Command Patterns
+
+**Pattern 1: Task Only (No Parameters)**
+```bash
+/james *test
+```
+- Agent: james-developer-v2
+- Task: *test (run tests)
+- Parameters: none
+
+**Pattern 2: Task + Simple Parameter**
+```bash
+/alex *estimate story-auth-005
+```
+- Agent: alex-planner-v2
+- Task: *estimate
+- Parameters: story-auth-005
+
+**Pattern 3: Task + Quoted String**
+```bash
+/alex *create-task-spec "User login with email validation"
+```
+- Agent: alex-planner-v2
+- Task: *create-task-spec
+- Parameters: "User login with email validation"
+
+**Pattern 4: Task + File Path**
+```bash
+/james *implement .claude/tasks/task-auth-002.md
+```
+- Agent: james-developer-v2
+- Task: *implement
+- Parameters: .claude/tasks/task-auth-002.md
+
+**Pattern 5: Task + Multiple Parameters**
+```bash
+/quinn *review task-auth-002 --depth comprehensive
+```
+- Agent: quinn-quality-v2
+- Task: *review
+- Parameters: task-auth-002 --depth comprehensive
+
+**Pattern 6: Task + Flags**
+```bash
+/winston *create-architecture docs/prd.md --type fullstack --depth comprehensive
+```
+- Agent: winston-architect
+- Task: *create-architecture
+- Parameters: docs/prd.md --type fullstack --depth comprehensive
+
+**Special Case: Winston Consult (No *task)**
+```bash
+/winston-consult
+/winston-consult "I have a web app with React. I want to add real-time features."
+```
+This is conversational - no `*task` needed. It starts an interactive dialogue.
+
+### Key Points
+
+✅ **Slash prefix** (`/`) routes to subagent
+✅ **Asterisk prefix** (`*`) indicates skill task
+✅ **Skills are markdown files** - contain instructions, not code
+✅ **Agents load skills dynamically** - read skill files when needed
+✅ **Agents follow instructions** - like following a recipe step-by-step
+✅ **Parameters** are passed through the chain
+
+**Remember:** You're commanding agents who read and follow skill instructions to do the actual work.
+
+---
+
 ## Your First Task: Complete Feature Delivery
 
 Let's build a complete feature from scratch in **10 minutes**.
@@ -123,7 +259,7 @@ Let's build a complete feature from scratch in **10 minutes**.
 
 ```bash
 # One command for complete feature delivery
-@orchestrator *workflow feature-delivery "Add logout button to user dashboard"
+/orchestrator *workflow feature-delivery "Add logout button to user dashboard"
 ```
 
 **What Happens:**
@@ -142,7 +278,7 @@ Let's build a complete feature from scratch in **10 minutes**.
 #### Step 1: Plan (2 minutes)
 
 ```bash
-@alex *create-task-spec "Add logout button to user dashboard"
+/alex *create-task-spec "Add logout button to user dashboard"
 ```
 
 **Output:**
@@ -159,7 +295,7 @@ Includes:
 #### Step 2: Implement (5 minutes)
 
 ```bash
-@james *implement task-ui-001
+/james *implement task-ui-001
 ```
 
 **Output:**
@@ -180,7 +316,7 @@ All tests passing ✓
 #### Step 3: Review (2 minutes)
 
 ```bash
-@quinn *review task-ui-001
+/quinn *review task-ui-001
 ```
 
 **Output:**
@@ -213,79 +349,79 @@ Your feature is complete with:
 
 ```bash
 # Create task specification
-@alex *create-task-spec "Feature description"
+/alex *create-task-spec "Feature description"
 
 # Break epic into stories
-@alex *breakdown-epic "Epic: User Authentication System"
+/alex *breakdown-epic "Epic: User Authentication System"
 
 # Estimate story points
-@alex *estimate story-auth-001
+/alex *estimate story-auth-001
 
 # Refine vague requirements
-@alex *refine-story "Users need better security"
+/alex *refine-story "Users need better security"
 
 # Create sprint plan
-@alex *plan-sprint --velocity 40
+/alex *plan-sprint --velocity 40
 ```
 
 ### Development Commands (James)
 
 ```bash
 # Implement feature with TDD
-@james *implement task-001
+/james *implement task-001
 
 # Fix bug systematically
-@james *fix bug-login-error
+/james *fix bug-login-error
 
 # Run tests (auto-detects framework)
-@james *test task-001
+/james *test task-001
 
 # Refactor code safely
-@james *refactor task-001
+/james *refactor task-001
 
 # Apply QA fixes
-@james *apply-qa-fixes task-001
+/james *apply-qa-fixes task-001
 
 # Debug issues
-@james *debug "Login tests failing"
+/james *debug "Login tests failing"
 
 # Explain code
-@james *explain src/auth/login.ts
+/james *explain src/auth/login.ts
 ```
 
 ### Quality Commands (Quinn)
 
 ```bash
 # Comprehensive quality review
-@quinn *review task-001
+/quinn *review task-001
 
 # Assess non-functional requirements
-@quinn *assess-nfr task-001
+/quinn *assess-nfr task-001
 
 # Quality gate decision
-@quinn *validate-quality-gate task-001
+/quinn *validate-quality-gate task-001
 
 # Requirements traceability
-@quinn *trace-requirements task-001
+/quinn *trace-requirements task-001
 
 # Risk assessment (P×I methodology)
-@quinn *assess-risk task-001
+/quinn *assess-risk task-001
 ```
 
 ### Architecture Commands (Winston)
 
 ```bash
 # Analyze existing codebase
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 
 # Design system architecture
-@winston *create-architecture requirements.md
+/winston *create-architecture requirements.md
 
 # Review architecture quality
-@winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md
 
 # Compare architecture options
-@winston *compare-architectures "Scale to 50K users"
+/winston *compare-architectures "Scale to 50K users"
 
 # Interactive consultation
 /winston-consult "How do I add real-time features?"
@@ -295,19 +431,19 @@ Your feature is complete with:
 
 ```bash
 # Complete feature delivery
-@orchestrator *workflow feature-delivery "Feature description"
+/orchestrator *workflow feature-delivery "Feature description"
 
 # Epic to sprint planning
-@orchestrator *workflow epic-to-sprint "Epic name" --velocity 40
+/orchestrator *workflow epic-to-sprint "Epic name" --velocity 40
 
 # Sprint execution
-@orchestrator *workflow sprint-execution "Sprint 15"
+/orchestrator *workflow sprint-execution "Sprint 15"
 
 # Brownfield modernization
-@orchestrator *workflow modernize . "Your goals"
+/orchestrator *workflow modernize . "Your goals"
 
 # Cross-subagent coordination
-@orchestrator *coordinate "Task" --subagents alex,james
+/orchestrator *coordinate "Task" --subagents alex,james
 ```
 
 ---
@@ -318,54 +454,54 @@ Your feature is complete with:
 
 ```bash
 # Automated (10-15 min)
-@orchestrator *workflow feature-delivery "User profile page"
+/orchestrator *workflow feature-delivery "User profile page"
 
 # OR Manual (15-20 min)
-@alex *create-task-spec "User profile page"
-@james *implement task-profile-001
-@quinn *review task-profile-001
+/alex *create-task-spec "User profile page"
+/james *implement task-profile-001
+/quinn *review task-profile-001
 ```
 
 ### Workflow 2: Fix Bug
 
 ```bash
 # Simple fix (5-10 min)
-@james *fix bug-login-timeout
+/james *fix bug-login-timeout
 
 # Complex investigation (15-30 min)
-@james *debug "Memory leak in worker process"
-@james *implement task-fix-001
-@quinn *review task-fix-001
+/james *debug "Memory leak in worker process"
+/james *implement task-fix-001
+/quinn *review task-fix-001
 ```
 
 ### Workflow 3: Quality Improvement
 
 ```bash
 # Review and improve (20-30 min)
-@quinn *review src/payment/
-@james *apply-qa-fixes task-payment-001
-@james *refactor task-payment-001
-@quinn *review task-payment-001
+/quinn *review src/payment/
+/james *apply-qa-fixes task-payment-001
+/james *refactor task-payment-001
+/quinn *review task-payment-001
 ```
 
 ### Workflow 4: Architecture Analysis
 
 ```bash
 # Analyze existing system (10-15 min)
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 
 # Get recommendations (5-10 min)
 /winston-consult "How do I scale to 100K users?"
 
 # Design improvements (20-30 min)
-@winston *compare-architectures "Add real-time + scale to 50K"
+/winston *compare-architectures "Add real-time + scale to 50K"
 ```
 
 ### Workflow 5: Sprint Planning
 
 ```bash
 # Epic to sprint (30-45 min)
-@orchestrator *workflow epic-to-sprint "Shopping Cart" --velocity 40
+/orchestrator *workflow epic-to-sprint "Shopping Cart" --velocity 40
 ```
 
 ---
@@ -386,11 +522,11 @@ BMAD Enhanced works with **ANY test framework** through auto-detection:
 
 ```bash
 # Auto-detection (recommended)
-@james *implement task-001  # Detects your framework
+/james *implement task-001  # Detects your framework
 
 # Explicit framework
-@james *test task-001 --framework pytest
-@james *implement task-api --framework junit
+/james *test task-001 --framework pytest
+/james *implement task-api --framework junit
 ```
 
 **Add Custom Framework:** See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENSION-GUIDE.md)
@@ -429,35 +565,35 @@ BMAD Enhanced works with **ANY test framework** through auto-detection:
 **Solution:** Ensure you're using the correct agent prefix:
 ```bash
 # Correct
-@alex *create-task-spec "Feature"
-@james *implement task-001
+/alex *create-task-spec "Feature"
+/james *implement task-001
 
 # Incorrect
 alex *create-task-spec  # Missing @
-@alex create-task-spec  # Missing *
+/alex create-task-spec  # Missing *
 ```
 
 ### "Task specification required"
 
 **Solution:** Create task spec first:
 ```bash
-@alex *create-task-spec "Your feature description"
-@james *implement task-generated-id
+/alex *create-task-spec "Your feature description"
+/james *implement task-generated-id
 ```
 
 ### "Tests failing"
 
 **Solution:** Use debug command:
 ```bash
-@james *debug "Test failure description"
-@james *test task-001  # Re-run tests
+/james *debug "Test failure description"
+/james *test task-001  # Re-run tests
 ```
 
 ### "Complexity too high"
 
 **Solution:** Break down the task:
 ```bash
-@alex *breakdown-epic "Large feature"
+/alex *breakdown-epic "Large feature"
 # Then implement each smaller task
 ```
 
@@ -505,7 +641,7 @@ You've learned:
 
 **Ready to go?** Start with:
 ```bash
-@orchestrator *workflow feature-delivery "Your first feature"
+/orchestrator *workflow feature-delivery "Your first feature"
 ```
 
 ---

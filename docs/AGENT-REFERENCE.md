@@ -61,8 +61,8 @@ Every command follows 7 steps:
 
 **Syntax:**
 ```bash
-@alex *create-task-spec "<requirement>"
-@alex *create-task-spec "User login with email and password"
+/alex *create-task-spec "<requirement>"
+/alex *create-task-spec "User login with email and password"
 ```
 
 **Input Contract:**
@@ -103,7 +103,7 @@ dependencies: array          # Required prerequisites
 
 **Example:**
 ```bash
-@alex *create-task-spec "Add OAuth Google login"
+/alex *create-task-spec "Add OAuth Google login"
 
 # Output:
 ✓ Task specification created: .claude/tasks/task-auth-005.md
@@ -130,8 +130,8 @@ dependencies: array          # Required prerequisites
 
 **Syntax:**
 ```bash
-@alex *breakdown-epic "<epic>"
-@alex *breakdown-epic "User Authentication System"
+/alex *breakdown-epic "<epic>"
+/alex *breakdown-epic "User Authentication System"
 ```
 
 **Input Contract:**
@@ -166,7 +166,7 @@ sprint_suggestions: array    # Sprint allocation recommendations
 
 **Example:**
 ```bash
-@alex *breakdown-epic "Shopping Cart System"
+/alex *breakdown-epic "Shopping Cart System"
 
 # Output:
 ✓ Epic broken down: 9 stories
@@ -183,8 +183,8 @@ sprint_suggestions: array    # Sprint allocation recommendations
 
 **Syntax:**
 ```bash
-@alex *estimate "<story>"
-@alex *estimate .claude/stories/story-cart-001.md
+/alex *estimate "<story>"
+/alex *estimate .claude/stories/story-cart-001.md
 ```
 
 **Input Contract:**
@@ -228,7 +228,7 @@ Story Points mapping:
 
 **Example:**
 ```bash
-@alex *estimate "Add product search with filtering"
+/alex *estimate "Add product search with filtering"
 
 # Output:
 ✓ Estimated: 5 story points
@@ -245,8 +245,8 @@ Story Points mapping:
 
 **Syntax:**
 ```bash
-@alex *refine-story "<vague-requirement>"
-@alex *refine-story "Users want better security"
+/alex *refine-story "<vague-requirement>"
+/alex *refine-story "Users want better security"
 ```
 
 **Input Contract:**
@@ -278,7 +278,7 @@ refined_file: string         # Path to refined story
 
 **Example:**
 ```bash
-@alex *refine-story "Improve app performance"
+/alex *refine-story "Improve app performance"
 
 # Output:
 ✓ Story refined: .claude/stories/story-perf-001-refined.md
@@ -298,8 +298,8 @@ refined_file: string         # Path to refined story
 
 **Syntax:**
 ```bash
-@alex *plan-sprint --velocity <points> [options]
-@alex *plan-sprint --velocity 40 --team-size 4
+/alex *plan-sprint --velocity <points> [options]
+/alex *plan-sprint --velocity 40 --team-size 4
 ```
 
 **Input Contract:**
@@ -345,7 +345,7 @@ sprint_goal: string          # Sprint objective
 
 **Example:**
 ```bash
-@alex *plan-sprint --velocity 40 --sprint-length 2-weeks
+/alex *plan-sprint --velocity 40 --sprint-length 2-weeks
 
 # Output:
 ✓ Sprint plan created: .claude/sprints/sprint-15-plan.md
@@ -377,9 +377,9 @@ sprint_goal: string          # Sprint objective
 
 **Syntax:**
 ```bash
-@james *implement <task-id>
-@james *implement task-auth-001
-@james *implement task-auth-001 --framework pytest
+/james *implement <task-id>
+/james *implement task-auth-001
+/james *implement task-auth-001 --framework pytest
 ```
 
 **Input Contract:**
@@ -434,7 +434,7 @@ duration_ms: number
 
 **Example:**
 ```bash
-@james *implement task-login-001
+/james *implement task-login-001
 
 # Output:
 ✓ Implementation complete
@@ -457,8 +457,8 @@ duration_ms: number
 
 **Syntax:**
 ```bash
-@james *fix <bug-id>
-@james *fix bug-login-timeout --reproduce-steps "..."
+/james *fix <bug-id>
+/james *fix bug-login-timeout --reproduce-steps "..."
 ```
 
 **Input Contract:**
@@ -504,7 +504,7 @@ related_issues: array        # Similar patterns found
 
 **Example:**
 ```bash
-@james *fix bug-memory-leak
+/james *fix bug-memory-leak
 
 # Output:
 ✓ Bug fixed: bug-memory-leak
@@ -523,10 +523,10 @@ related_issues: array        # Similar patterns found
 
 **Syntax:**
 ```bash
-@james *test <scope>
-@james *test task-001
-@james *test --all
-@james *test src/auth/** --framework pytest
+/james *test <scope>
+/james *test task-001
+/james *test --all
+/james *test src/auth/** --framework pytest
 ```
 
 **Input Contract:**
@@ -561,7 +561,7 @@ performance_metrics: object
 
 **Example:**
 ```bash
-@james *test --all
+/james *test --all
 
 # Output:
 ✓ Test execution complete
@@ -582,8 +582,8 @@ performance_metrics: object
 
 **Syntax:**
 ```bash
-@james *refactor <task-id> [--scope conservative|moderate|aggressive]
-@james *refactor task-001 --scope moderate
+/james *refactor <task-id> [--scope conservative|moderate|aggressive]
+/james *refactor task-001 --scope moderate
 ```
 
 **Input Contract:**
@@ -636,8 +636,8 @@ behavior_preserved: boolean  # Must be true
 
 **Syntax:**
 ```bash
-@james *apply-qa-fixes <task-id>
-@james *apply-qa-fixes task-001 --scope high_severity
+/james *apply-qa-fixes <task-id>
+/james *apply-qa-fixes task-001 --scope high_severity
 ```
 
 **Input Contract:**
@@ -673,8 +673,8 @@ tests_added: number
 
 **Syntax:**
 ```bash
-@james *debug "<issue>"
-@james *debug "Login tests failing intermittently"
+/james *debug "<issue>"
+/james *debug "Login tests failing intermittently"
 ```
 
 **Input Contract:**
@@ -704,8 +704,8 @@ prevention_recommendations: array
 
 **Syntax:**
 ```bash
-@james *explain <file-or-pattern>
-@james *explain src/auth/oauth.py --audience developer
+/james *explain <file-or-pattern>
+/james *explain src/auth/oauth.py --audience developer
 ```
 
 **Input Contract:**
@@ -747,8 +747,8 @@ related_files: array
 
 **Syntax:**
 ```bash
-@quinn *review <task-id>
-@quinn *review task-001 --scope comprehensive
+/quinn *review <task-id>
+/quinn *review task-001 --scope comprehensive
 ```
 
 **Input Contract:**
@@ -801,7 +801,7 @@ report_file: string
 
 **Syntax:**
 ```bash
-@quinn *assess-nfr <task-id> --categories "security,performance"
+/quinn *assess-nfr <task-id> --categories "security,performance"
 ```
 
 **Input Contract:**
@@ -841,7 +841,7 @@ recommendations: array
 
 **Syntax:**
 ```bash
-@quinn *validate-quality-gate <task-id> --threshold 80
+/quinn *validate-quality-gate <task-id> --threshold 80
 ```
 
 **Input Contract:**
@@ -871,7 +871,7 @@ recommendations: array
 
 **Syntax:**
 ```bash
-@quinn *trace-requirements <task-id>
+/quinn *trace-requirements <task-id>
 ```
 
 **Input Contract:**
@@ -897,7 +897,7 @@ completeness: number         # Percentage
 
 **Syntax:**
 ```bash
-@quinn *assess-risk "<change>" --scope architecture --impact high
+/quinn *assess-risk "<change>" --scope architecture --impact high
 ```
 
 **Input Contract:**
@@ -954,8 +954,8 @@ recommendation: string       # Proceed/Proceed with Caution/Don't Proceed
 
 **Syntax:**
 ```bash
-@winston *analyze-architecture <path>
-@winston *analyze-architecture . --depth comprehensive --focus scalability
+/winston *analyze-architecture <path>
+/winston *analyze-architecture . --depth comprehensive --focus scalability
 ```
 
 **Input Contract:**
@@ -1021,8 +1021,8 @@ adrs: array                         # Discovered ADRs
 
 **Syntax:**
 ```bash
-@winston *create-architecture <requirements>
-@winston *create-architecture docs/prd.md --type fullstack --depth comprehensive
+/winston *create-architecture <requirements>
+/winston *create-architecture docs/prd.md --type fullstack --depth comprehensive
 ```
 
 **Input Contract:**
@@ -1063,8 +1063,8 @@ estimated_cost: object       # Development + infrastructure
 
 **Syntax:**
 ```bash
-@winston *review-architecture <file>
-@winston *review-architecture docs/architecture.md --focus security
+/winston *review-architecture <file>
+/winston *review-architecture docs/architecture.md --focus security
 ```
 
 **Input Contract:**
@@ -1098,7 +1098,7 @@ recommendations: array
 
 **Syntax:**
 ```bash
-@winston *validate-story <story-file> --mode strict
+/winston *validate-story <story-file> --mode strict
 ```
 
 ---
@@ -1109,8 +1109,8 @@ recommendations: array
 
 **Syntax:**
 ```bash
-@winston *compare-architectures "<goals>"
-@winston *compare-architectures "Scale to 50K users + add real-time" --current docs/analysis.md
+/winston *compare-architectures "<goals>"
+/winston *compare-architectures "Scale to 50K users + add real-time" --current docs/analysis.md
 ```
 
 **Input Contract:**
@@ -1163,9 +1163,9 @@ next_steps: array
 
 **Syntax:**
 ```bash
-@orchestrator *workflow <type> "<input>"
-@orchestrator *workflow feature-delivery "User profile page"
-@orchestrator *workflow modernize . "Scale to 100K users"
+/orchestrator *workflow <type> "<input>"
+/orchestrator *workflow feature-delivery "User profile page"
+/orchestrator *workflow modernize . "Scale to 100K users"
 ```
 
 **Input Contract:**
@@ -1224,8 +1224,8 @@ next_steps: array
 
 **Syntax:**
 ```bash
-@orchestrator *coordinate "<task>" --subagents <list>
-@orchestrator *coordinate "Validate architecture and plan" --subagents winston,alex
+/orchestrator *coordinate "<task>" --subagents <list>
+/orchestrator *coordinate "Validate architecture and plan" --subagents winston,alex
 ```
 
 **Input Contract:**
@@ -1275,58 +1275,58 @@ result: object
 ### By Complexity
 
 **Simple Commands (≤30):**
-- @alex *create-task-spec (clear requirements)
-- @alex *estimate (straightforward stories)
+- /alex *create-task-spec (clear requirements)
+- /alex *estimate (straightforward stories)
 
 **Standard Commands (31-60):**
-- @alex *breakdown-epic
-- @alex *refine-story
-- @alex *plan-sprint
-- @james *implement (moderate features)
-- @james *fix (reproducible bugs)
-- @james *test
-- @james *refactor
-- @quinn *review
-- @winston *analyze-architecture
-- @orchestrator *workflow feature-delivery
-- @orchestrator *workflow epic-to-sprint
+- /alex *breakdown-epic
+- /alex *refine-story
+- /alex *plan-sprint
+- /james *implement (moderate features)
+- /james *fix (reproducible bugs)
+- /james *test
+- /james *refactor
+- /quinn *review
+- /winston *analyze-architecture
+- /orchestrator *workflow feature-delivery
+- /orchestrator *workflow epic-to-sprint
 
 **Complex Commands (>60):**
-- @james *implement (large features)
-- @quinn *assess-nfr
-- @quinn *assess-risk
-- @winston *create-architecture
-- @winston *compare-architectures
-- @orchestrator *workflow sprint-execution
-- @orchestrator *workflow modernize
+- /james *implement (large features)
+- /quinn *assess-nfr
+- /quinn *assess-risk
+- /winston *create-architecture
+- /winston *compare-architectures
+- /orchestrator *workflow sprint-execution
+- /orchestrator *workflow modernize
 
 ### By Duration
 
 **Quick (< 15 min):**
-- @alex *estimate
-- @james *test
-- @quinn *trace-requirements
+- /alex *estimate
+- /james *test
+- /quinn *trace-requirements
 
 **Standard (15-30 min):**
-- @alex *create-task-spec
-- @alex *breakdown-epic
-- @alex *refine-story
-- @alex *plan-sprint
-- @james *fix
-- @winston *analyze-architecture (quick mode)
+- /alex *create-task-spec
+- /alex *breakdown-epic
+- /alex *refine-story
+- /alex *plan-sprint
+- /james *fix
+- /winston *analyze-architecture (quick mode)
 
 **Long (30-60 min):**
-- @james *implement
-- @james *refactor
-- @quinn *review
-- @quinn *assess-nfr
-- @winston *create-architecture
-- @winston *compare-architectures
-- @orchestrator *workflow feature-delivery
+- /james *implement
+- /james *refactor
+- /quinn *review
+- /quinn *assess-nfr
+- /winston *create-architecture
+- /winston *compare-architectures
+- /orchestrator *workflow feature-delivery
 
 **Very Long (> 60 min):**
-- @orchestrator *workflow sprint-execution (1-2 weeks)
-- @orchestrator *workflow modernize (full mode)
+- /orchestrator *workflow sprint-execution (1-2 weeks)
+- /orchestrator *workflow modernize (full mode)
 
 ---
 
@@ -1335,32 +1335,32 @@ result: object
 ### Choosing the Right Agent
 
 **For Planning:**
-- Requirements unclear? → @alex *refine-story
-- Need task spec? → @alex *create-task-spec
-- Large feature? → @alex *breakdown-epic
-- Sprint planning? → @alex *plan-sprint
+- Requirements unclear? → /alex *refine-story
+- Need task spec? → /alex *create-task-spec
+- Large feature? → /alex *breakdown-epic
+- Sprint planning? → /alex *plan-sprint
 
 **For Development:**
-- Implement feature? → @james *implement
-- Bug fix? → @james *fix
-- Run tests? → @james *test
-- Improve quality? → @james *refactor
+- Implement feature? → /james *implement
+- Bug fix? → /james *fix
+- Run tests? → /james *test
+- Improve quality? → /james *refactor
 
 **For Quality:**
-- Code review? → @quinn *review
-- Quality gate? → @quinn *validate-quality-gate
-- Security/performance? → @quinn *assess-nfr
-- Risk assessment? → @quinn *assess-risk
+- Code review? → /quinn *review
+- Quality gate? → /quinn *validate-quality-gate
+- Security/performance? → /quinn *assess-nfr
+- Risk assessment? → /quinn *assess-risk
 
 **For Architecture:**
-- Analyze codebase? → @winston *analyze-architecture
-- Design system? → @winston *create-architecture
-- Compare options? → @winston *compare-architectures
-- Review design? → @winston *review-architecture
+- Analyze codebase? → /winston *analyze-architecture
+- Design system? → /winston *create-architecture
+- Compare options? → /winston *compare-architectures
+- Review design? → /winston *review-architecture
 
 **For Automation:**
-- Complete workflow? → @orchestrator *workflow
-- Multi-agent task? → @orchestrator *coordinate
+- Complete workflow? → /orchestrator *workflow
+- Multi-agent task? → /orchestrator *coordinate
 
 ### Command Chaining
 
@@ -1368,19 +1368,19 @@ result: object
 
 ```bash
 # Feature development
-@alex *create-task-spec "Feature"
-@james *implement task-001
-@quinn *review task-001
+/alex *create-task-spec "Feature"
+/james *implement task-001
+/quinn *review task-001
 
 # Sprint planning
-@alex *breakdown-epic "Epic"
-@alex *estimate story-001
-@alex *plan-sprint --velocity 40
+/alex *breakdown-epic "Epic"
+/alex *estimate story-001
+/alex *plan-sprint --velocity 40
 
 # Modernization
-@winston *analyze-architecture .
-@winston *compare-architectures "Goals"
-@winston *create-architecture --option moderate
+/winston *analyze-architecture .
+/winston *compare-architectures "Goals"
+/winston *create-architecture --option moderate
 ```
 
 ---

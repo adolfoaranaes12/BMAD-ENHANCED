@@ -25,14 +25,29 @@
 
 ## Getting Started
 
-Start here if you're new to BMAD Enhanced:
+**Start here if you're new to BMAD Enhanced:**
+
+### 🎯 Essential Guides (Comprehensive Documentation Suite)
+
+**New comprehensive documentation for software product creation:**
+
+| Guide | Description | Length | Read Time |
+|-------|-------------|--------|-----------|
+| **[QUICK-START.md](./QUICK-START.md)** ⭐ | Get started in 10 minutes with first tasks | 518 lines | 10 min |
+| **[USER-GUIDE.md](./USER-GUIDE.md)** ⭐ | Complete user manual for all agents | 1,878 lines | 45 min |
+| **[WORKFLOW-GUIDE.md](./WORKFLOW-GUIDE.md)** ⭐ | 15+ detailed workflow scenarios | 3,360 lines | 60 min |
+| **[AGENT-REFERENCE.md](./AGENT-REFERENCE.md)** ⭐ | Complete command reference | 1,399 lines | 30 min |
+| **[TROUBLESHOOTING.md](./TROUBLESHOOTING.md)** ⭐ | Common issues & solutions | Comprehensive | 20 min |
+| **[BEST-PRACTICES.md](./BEST-PRACTICES.md)** ⭐ | World-class patterns & anti-patterns | Comprehensive | 30 min |
+
+**Total:** 7,155+ lines of comprehensive, world-class documentation
 
 ### Essential Reading
 
 - **[README.md](../README.md)** - Main project overview, features, and quick start
 - **[WHY-BMAD-ENHANCED.md](./WHY-BMAD-ENHANCED.md)** - Project vision and goals
 - **[BROWNFIELD-GETTING-STARTED.md](./BROWNFIELD-GETTING-STARTED.md)** - Brownfield project onboarding
-- **[START-NEXT-SESSION.md](./START-NEXT-SESSION.md)** - How to start working on the project
+- **[ESSENTIAL-DEVELOPMENT-DOCS.md](./ESSENTIAL-DEVELOPMENT-DOCS.md)** - Critical files for developers
 
 ### Current Status
 

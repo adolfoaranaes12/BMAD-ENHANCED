@@ -90,6 +90,8 @@ BMAD Enhanced excels at:
 
 BMAD Enhanced uses a unique 3-layer architecture where skills remain portable and packageable - the layers define HOW skills work together, not different file structures.
 
+**Note for Users:** This section provides a simplified overview focused on understanding use cases. For technical details about how skills dynamically load and execute, see the [3-Layer Architecture](./3-layer-architecture-for-skills.md) document.
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │  Layer 3: SUBAGENTS (Coordination)                  │
@@ -307,29 +309,29 @@ guardrails:
 
 ```bash
 # Test that agents are accessible
-@alex --help
-@james --help
-@quinn --help
-@orchestrator --help
+/alex --help
+/james --help
+/quinn --help
+/orchestrator --help
 ```
 
 **Step 2: Run Your First Command**
 
 ```bash
 # Create a simple task specification
-@alex *create-task-spec "Add a logout button to the navbar"
+/alex *create-task-spec "Add a logout button to the navbar"
 ```
 
 **Step 3: Complete Your First Feature**
 
 ```bash
 # Option A: Automated (fastest)
-@orchestrator *workflow feature-delivery "Add logout button to navbar"
+/orchestrator *workflow feature-delivery "Add logout button to navbar"
 
 # Option B: Step-by-step (learning mode)
-@alex *create-task-spec "Add logout button to navbar"
-@james *implement task-generated-id
-@quinn *review task-generated-id
+/alex *create-task-spec "Add logout button to navbar"
+/james *implement task-generated-id
+/quinn *review task-generated-id
 ```
 
 ### 3.4 Understanding Output
@@ -395,7 +397,7 @@ Ready for production
 #### 4.1.1 Creating Task Specifications
 
 ```bash
-@alex *create-task-spec "User authentication with email and password"
+/alex *create-task-spec "User authentication with email and password"
 ```
 
 **Output Structure:**
@@ -414,7 +416,7 @@ Ready for production
 #### 4.1.2 Breaking Down Epics
 
 ```bash
-@alex *breakdown-epic "User Authentication System"
+/alex *breakdown-epic "User Authentication System"
 ```
 
 **Complexity Assessment:**
@@ -433,7 +435,7 @@ Ready for production
 #### 4.1.3 Estimating Stories
 
 ```bash
-@alex *estimate story-auth-001
+/alex *estimate story-auth-001
 ```
 
 **Estimation Formula:**
@@ -449,7 +451,7 @@ Uses 5 factors with weighted scoring:
 #### 4.1.4 Refining Vague Requirements
 
 ```bash
-@alex *refine-story "Users need better security"
+/alex *refine-story "Users need better security"
 ```
 
 **Clarification Process:**
@@ -461,7 +463,7 @@ Uses 5 factors with weighted scoring:
 #### 4.1.5 Sprint Planning
 
 ```bash
-@alex *plan-sprint --velocity 40
+/alex *plan-sprint --velocity 40
 ```
 
 **Planning Process:**
@@ -482,7 +484,7 @@ Uses 5 factors with weighted scoring:
 #### 4.2.1 Implementing Features
 
 ```bash
-@james *implement task-auth-001
+/james *implement task-auth-001
 ```
 
 **TDD Workflow:**
@@ -527,7 +529,7 @@ testing:
 #### 4.2.2 Fixing Bugs
 
 ```bash
-@james *fix bug-login-timeout
+/james *fix bug-login-timeout
 ```
 
 **Systematic Process:**
@@ -548,16 +550,16 @@ testing:
 
 ```bash
 # Auto-detect framework
-@james *test task-001
+/james *test task-001
 
 # Explicit framework
-@james *test task-001 --framework pytest
+/james *test task-001 --framework pytest
 
 # Run all tests
-@james *test --all
+/james *test --all
 
 # Specific scope
-@james *test src/auth/**
+/james *test src/auth/**
 ```
 
 **Test Report Includes:**
@@ -571,7 +573,7 @@ testing:
 #### 4.2.4 Refactoring Code
 
 ```bash
-@james *refactor task-001 --scope moderate
+/james *refactor task-001 --scope moderate
 ```
 
 **Refactoring Scopes:**
@@ -588,7 +590,7 @@ testing:
 #### 4.2.5 Applying QA Fixes
 
 ```bash
-@james *apply-qa-fixes task-001
+/james *apply-qa-fixes task-001
 ```
 
 **Systematic Fix Process:**
@@ -607,7 +609,7 @@ testing:
 #### 4.2.6 Debugging Issues
 
 ```bash
-@james *debug "Login tests failing intermittently"
+/james *debug "Login tests failing intermittently"
 ```
 
 **Hypothesis-Driven Debugging:**
@@ -621,7 +623,7 @@ testing:
 #### 4.2.7 Explaining Code
 
 ```bash
-@james *explain src/auth/oauth.py --audience developer
+/james *explain src/auth/oauth.py --audience developer
 ```
 
 **Audiences:**
@@ -641,7 +643,7 @@ testing:
 #### 4.3.1 Comprehensive Quality Review
 
 ```bash
-@quinn *review task-001
+/quinn *review task-001
 ```
 
 **Review Dimensions:**
@@ -667,7 +669,7 @@ testing:
 #### 4.3.2 NFR Assessment
 
 ```bash
-@quinn *assess-nfr task-001
+/quinn *assess-nfr task-001
 ```
 
 **NFR Categories:**
@@ -689,7 +691,7 @@ testing:
 #### 4.3.3 Quality Gate Validation
 
 ```bash
-@quinn *validate-quality-gate task-001 --threshold 80
+/quinn *validate-quality-gate task-001 --threshold 80
 ```
 
 **Gate Criteria:**
@@ -708,7 +710,7 @@ testing:
 #### 4.3.4 Requirements Traceability
 
 ```bash
-@quinn *trace-requirements task-001
+/quinn *trace-requirements task-001
 ```
 
 **Traceability Matrix:**
@@ -720,7 +722,7 @@ testing:
 #### 4.3.5 Risk Assessment
 
 ```bash
-@quinn *assess-risk task-001
+/quinn *assess-risk task-001
 ```
 
 **P×I Methodology:**
@@ -750,7 +752,7 @@ testing:
 #### 4.4.1 Analyzing Existing Architecture
 
 ```bash
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 ```
 
 **Analysis Dimensions (8 quality scores):**
@@ -782,7 +784,7 @@ Weighted average of 8 dimensions (0-100)
 #### 4.4.2 Designing Architecture
 
 ```bash
-@winston *create-architecture requirements.md
+/winston *create-architecture requirements.md
 ```
 
 **Design Process:**
@@ -806,7 +808,7 @@ Weighted average of 8 dimensions (0-100)
 #### 4.4.3 Comparing Architecture Options
 
 ```bash
-@winston *compare-architectures "Scale to 50K users + add real-time"
+/winston *compare-architectures "Scale to 50K users + add real-time"
 ```
 
 **Generates 3 Options:**
@@ -843,7 +845,7 @@ Evidence-based recommendation with confidence score and justification
 #### 4.4.4 Reviewing Architecture
 
 ```bash
-@winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md
 ```
 
 **Peer Review Dimensions:**
@@ -890,7 +892,7 @@ Evidence-based recommendation with confidence score and justification
 
 **Feature Delivery Workflow**
 ```bash
-@orchestrator *workflow feature-delivery "User profile page with avatar upload"
+/orchestrator *workflow feature-delivery "User profile page with avatar upload"
 ```
 
 **Phases:**
@@ -906,7 +908,7 @@ Evidence-based recommendation with confidence score and justification
 
 **Epic to Sprint Workflow**
 ```bash
-@orchestrator *workflow epic-to-sprint "Shopping Cart System" --velocity 40
+/orchestrator *workflow epic-to-sprint "Shopping Cart System" --velocity 40
 ```
 
 **Phases:**
@@ -921,7 +923,7 @@ Evidence-based recommendation with confidence score and justification
 
 **Sprint Execution Workflow**
 ```bash
-@orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
+/orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
 ```
 
 **Phases:**
@@ -941,7 +943,7 @@ Evidence-based recommendation with confidence score and justification
 
 **Modernization Workflow**
 ```bash
-@orchestrator *workflow modernize . "Scale to 100K users + real-time features"
+/orchestrator *workflow modernize . "Scale to 100K users + real-time features"
 ```
 
 **Phases:**
@@ -964,7 +966,7 @@ Evidence-based recommendation with confidence score and justification
 #### 4.5.2 Cross-Subagent Coordination
 
 ```bash
-@orchestrator *coordinate "Validate architecture and create plan" --subagents winston,alex
+/orchestrator *coordinate "Validate architecture and create plan" --subagents winston,alex
 ```
 
 **Coordination Patterns:**
@@ -988,12 +990,12 @@ Evidence-based recommendation with confidence score and justification
 
 **Resume Failed Workflow:**
 ```bash
-@orchestrator *resume workflow-003
+/orchestrator *resume workflow-003
 ```
 
 **Abort Workflow:**
 ```bash
-@orchestrator *abort workflow-003
+/orchestrator *abort workflow-003
 ```
 
 **Learn More:** [Orchestrator Quick Start Guide](./quickstart-orchestrator.md)
@@ -1008,15 +1010,15 @@ Evidence-based recommendation with confidence score and justification
 
 ```bash
 # Automated (fastest)
-@orchestrator *workflow feature-delivery "User notifications system"
+/orchestrator *workflow feature-delivery "User notifications system"
 
 # Manual (more control)
-@alex *create-task-spec "User notifications system"
-@james *implement task-notif-001
-@james *test task-notif-001
-@quinn *review task-notif-001
-@james *apply-qa-fixes task-notif-001  # If needed
-@quinn *validate-quality-gate task-notif-001
+/alex *create-task-spec "User notifications system"
+/james *implement task-notif-001
+/james *test task-notif-001
+/quinn *review task-notif-001
+/james *apply-qa-fixes task-notif-001  # If needed
+/quinn *validate-quality-gate task-notif-001
 ```
 
 **Duration:** 30-120 minutes
@@ -1030,12 +1032,12 @@ Evidence-based recommendation with confidence score and justification
 
 ```bash
 # Simple bug
-@james *fix bug-login-timeout
+/james *fix bug-login-timeout
 
 # Complex bug requiring investigation
-@james *debug "Memory leak in background worker"
-@james *implement task-fix-memory-leak
-@quinn *review task-fix-memory-leak
+/james *debug "Memory leak in background worker"
+/james *implement task-fix-memory-leak
+/quinn *review task-fix-memory-leak
 ```
 
 **Duration:** 10-45 minutes
@@ -1049,14 +1051,14 @@ Evidence-based recommendation with confidence score and justification
 
 ```bash
 # Review code
-@quinn *review src/payment/
+/quinn *review src/payment/
 
 # Refactor
-@james *refactor src/payment/processor.py --scope moderate
+/james *refactor src/payment/processor.py --scope moderate
 
 # Verify improvements
-@james *test src/payment/**
-@quinn *review src/payment/
+/james *test src/payment/**
+/quinn *review src/payment/
 ```
 
 **Duration:** 20-60 minutes
@@ -1070,14 +1072,14 @@ Evidence-based recommendation with confidence score and justification
 
 ```bash
 # Complete planning workflow
-@orchestrator *workflow epic-to-sprint "Shopping Cart Feature" --velocity 40
+/orchestrator *workflow epic-to-sprint "Shopping Cart Feature" --velocity 40
 
 # OR Manual planning
-@alex *breakdown-epic "Shopping Cart Feature"
-@alex *estimate story-cart-001
-@alex *estimate story-cart-002
+/alex *breakdown-epic "Shopping Cart Feature"
+/alex *estimate story-cart-001
+/alex *estimate story-cart-002
 # ... estimate all stories
-@alex *plan-sprint --velocity 40
+/alex *plan-sprint --velocity 40
 ```
 
 **Duration:** 30-60 minutes
@@ -1091,14 +1093,14 @@ Evidence-based recommendation with confidence score and justification
 
 ```bash
 # Interactive workflow
-@orchestrator *workflow modernize . "Scale to 50K users + add real-time features"
+/orchestrator *workflow modernize . "Scale to 50K users + add real-time features"
 
 # OR Step-by-step
-@winston *analyze-architecture .
-@winston *compare-architectures "Scale to 50K + real-time"
+/winston *analyze-architecture .
+/winston *compare-architectures "Scale to 50K + real-time"
 # User selects option B (moderate refactor)
-@winston *create-architecture --option moderate
-@alex *breakdown-epic "Modernization Implementation Plan"
+/winston *create-architecture --option moderate
+/alex *breakdown-epic "Modernization Implementation Plan"
 ```
 
 **Duration:** 41-63 minutes (interactive) or 18-25 minutes (quick)
@@ -1112,16 +1114,16 @@ Evidence-based recommendation with confidence score and justification
 
 ```bash
 # Step 1: Requirements
-@alex *create-prd "E-commerce Platform Requirements"
+/alex *create-prd "E-commerce Platform Requirements"
 
 # Step 2: Architecture
-@winston *create-architecture .claude/requirements/prd.md
+/winston *create-architecture .claude/requirements/prd.md
 
 # Step 3: Validation
-@winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md
 
 # Step 4: Implementation planning
-@alex *breakdown-epic docs/architecture.md
+/alex *breakdown-epic docs/architecture.md
 ```
 
 **Duration:** 60-90 minutes
@@ -1135,7 +1137,7 @@ Evidence-based recommendation with confidence score and justification
 
 ```bash
 # Write tests first
-@james *implement task-feature-001 --tdd=true
+/james *implement task-feature-001 --tdd=true
 
 # Verify TDD cycle
 # RED: Tests written first (all failing)
@@ -1154,15 +1156,15 @@ Evidence-based recommendation with confidence score and justification
 
 ```bash
 # Iteration 1
-@quinn *review feature/checkout
-@james *apply-qa-fixes task-checkout-001
+/quinn *review feature/checkout
+/james *apply-qa-fixes task-checkout-001
 
 # Iteration 2 (verify fixes)
-@quinn *review feature/checkout
-@quinn *assess-nfr task-checkout-001
+/quinn *review feature/checkout
+/quinn *assess-nfr task-checkout-001
 
 # Final gate
-@quinn *validate-quality-gate task-checkout-001 --threshold 80
+/quinn *validate-quality-gate task-checkout-001 --threshold 80
 ```
 
 **Duration:** 25-50 minutes
@@ -1518,8 +1520,8 @@ testing:
 
 **Solution:**
 ```bash
-@alex *create-task-spec "Your feature description"
-@james *implement task-generated-id
+/alex *create-task-spec "Your feature description"
+/james *implement task-generated-id
 ```
 
 ---
@@ -1533,9 +1535,9 @@ testing:
 # Option 1: Proceed with confirmation (James will prompt)
 
 # Option 2: Break down task
-@alex *breakdown-epic "Large feature"
-@james *implement task-part-1
-@james *implement task-part-2
+/alex *breakdown-epic "Large feature"
+/james *implement task-part-1
+/james *implement task-part-2
 ```
 
 ---
@@ -1547,13 +1549,13 @@ testing:
 **Solution:**
 ```bash
 # Check coverage report
-@james *test task-001
+/james *test task-001
 
 # Add missing tests
 # (Edit test files to add uncovered cases)
 
 # Re-run tests
-@james *test task-001
+/james *test task-001
 ```
 
 ---
@@ -1568,7 +1570,7 @@ testing:
 # (Review and minimize files touched)
 
 # Option 2: Split into multiple tasks
-@alex *breakdown-epic "Large feature"
+/alex *breakdown-epic "Large feature"
 ```
 
 ---
@@ -1580,7 +1582,7 @@ testing:
 **Solution:**
 ```bash
 # Explicitly specify framework
-@james *test task-001 --framework pytest
+/james *test task-001 --framework pytest
 
 # Or configure in .claude/config.yaml
 testing:
@@ -1596,13 +1598,13 @@ testing:
 **Solution:**
 ```bash
 # Apply QA fixes
-@james *apply-qa-fixes task-001
+/james *apply-qa-fixes task-001
 
 # Refactor if needed
-@james *refactor task-001 --scope moderate
+/james *refactor task-001 --scope moderate
 
 # Re-review
-@quinn *review task-001
+/quinn *review task-001
 ```
 
 ---
@@ -1614,13 +1616,13 @@ testing:
 **Solution:**
 ```bash
 # Check workflow status
-@orchestrator *status workflow-001
+/orchestrator *status workflow-001
 
 # Resume from last checkpoint
-@orchestrator *resume workflow-001
+/orchestrator *resume workflow-001
 
 # Or abort if unrecoverable
-@orchestrator *abort workflow-001
+/orchestrator *abort workflow-001
 ```
 
 ### 8.2 Debug Mode
@@ -1740,11 +1742,11 @@ cat workspace/telemetry/latest.json | jq '.execution.duration_ms'
 
 | Shortcut | Command | Description |
 |----------|---------|-------------|
-| `@a` | @alex | Alex (Planner) |
-| `@j` | @james | James (Developer) |
-| `@q` | @quinn | Quinn (Quality) |
-| `@w` | @winston | Winston (Architect) |
-| `@o` | @orchestrator | Orchestrator |
+| `@a` | /alex | Alex (Planner) |
+| `@j` | /james | James (Developer) |
+| `@q` | /quinn | Quinn (Quality) |
+| `@w` | /winston | Winston (Architect) |
+| `@o` | /orchestrator | Orchestrator |
 
 ---
 
@@ -1854,9 +1856,9 @@ COMMAND                           PURPOSE
 - [Best Practices](./BEST-PRACTICES.md) - Recommended patterns
 - [Troubleshooting Guide](./TROUBLESHOOTING.md) - Common issues
 
-**Architecture Documentation:**
+**Technical Documentation** (How the system WORKS):
+- [3-Layer Architecture](./3-layer-architecture-for-skills.md) - Technical implementation details
 - [V2 Architecture](./V2-ARCHITECTURE.md) - System architecture overview
-- [3-Layer Architecture](./3-layer-architecture-for-skills.md) - How skills work
 - [Framework Support](./FRAMEWORK-SUPPORT-MATRIX.md) - Supported frameworks
 
 **Quick Start Guides:**

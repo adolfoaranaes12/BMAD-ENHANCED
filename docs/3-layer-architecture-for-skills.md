@@ -109,6 +109,101 @@ KEY INSIGHT: Layers 1 and 2 are ALL SKILLS (packageable, portable).
 
 ---
 
+## How Skills Are Dynamically Loaded and Executed
+
+### The Dynamic Loading Mechanism
+
+**Critical Understanding:** Skills are **markdown files with instructions**, not executable code. The agent acts as an "interpreter" that dynamically loads and follows these instructions.
+
+#### Step-by-Step Loading Process
+
+**1. Agent Receives Command with \*prefix**
+```
+User: /alex *create-task-spec "Feature description"
+        ↓
+Agent sees: *create-task-spec
+```
+
+**2. Agent's Routing Logic Activates**
+
+The agent file (`.claude/agents/alex-planner-v2.md`) contains routing instructions:
+```markdown
+## Command Routing
+
+When you receive a command starting with `*`, route to the appropriate skill:
+
+- `*create-task-spec` → .claude/skills/planning/create-task-spec/SKILL.md
+- `*breakdown-epic` → .claude/skills/planning/breakdown-epic/SKILL.md
+- `*estimate` → .claude/skills/planning/estimate/SKILL.md
+```
+
+**3. Agent Uses Read Tool to Load Skill**
+
+The agent dynamically loads the skill file:
+```
+Read tool: .claude/skills/planning/create-task-spec/SKILL.md
+```
+
+**4. Agent Follows Skill Instructions Step-by-Step**
+
+The skill file contains instructions like:
+```markdown
+## Workflow
+
+1. Analyze the requirement description
+2. Use Read tool to check for existing task files
+3. Generate unique task ID
+4. Create task specification using template
+5. Use Write tool to save task file
+...
+```
+
+**5. Agent Executes Using Available Tools**
+
+As the agent follows the skill instructions, it uses tools:
+- **Read tool** - to load files
+- **Write tool** - to create/update files
+- **Bash tool** - to run commands
+- **Edit tool** - to modify files
+- etc.
+
+### Key Technical Points
+
+✅ **Skills are NOT pre-compiled** - they load on-demand when needed
+✅ **Skills are NOT executable** - they're instructions that the agent interprets
+✅ **The \* prefix is our convention** - not a Claude Code feature, but our routing signal
+✅ **Agent is the interpreter** - reads skill markdown and executes instructions
+✅ **Dynamic = Flexible** - can add new skills without modifying agents
+
+### Analogy: Recipe Execution
+
+Think of it like cooking:
+- **Skill File** = Recipe (instructions written in markdown)
+- **Agent** = Chef (reads recipe and follows steps)
+- **Tools** = Kitchen equipment (Read, Write, Bash tools)
+- **\*command** = Menu selection (which recipe to use)
+
+The chef (agent) doesn't "become" the recipe - they **read and follow** it.
+
+### Implications for Developers
+
+**Adding New Skills:**
+1. Create new SKILL.md file in appropriate directory
+2. Update agent's routing logic to recognize the new \*command
+3. No compilation needed - agent will Read and follow it
+
+**Modifying Skills:**
+1. Edit the SKILL.md file
+2. Changes take effect immediately (next time agent Reads it)
+3. No restart or recompilation needed
+
+**Portability:**
+- Skills are just markdown files → easy to version control
+- No runtime dependencies → works anywhere
+- Package as .zip → distribute to others
+
+---
+
 ## Layer 1: Primitives
 
 ### What They Are
