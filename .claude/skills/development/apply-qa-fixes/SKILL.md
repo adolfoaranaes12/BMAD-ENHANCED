@@ -67,14 +67,14 @@ After Quinn's quality review creates a quality gate with CONCERNS or FAIL status
 - **Processing:** Parse findings → Build fix plan → Apply fixes → Validate
 - **Output:** Fixed code + updated task file + telemetry
 
-## When to Use
+## When to Use This Skill
 
-**Use when:**
+**This skill should be used when:**
 - Quality gate status is CONCERNS or FAIL
 - Quinn has identified specific issues requiring fixes
 - Task is in Review status with completed implementation
 
-**Do NOT use when:**
+**This skill should NOT be used when:**
 - Quality gate is PASS (no fixes needed)
 - Quality gate is WAIVED (intentionally accepted)
 - Task implementation is incomplete
@@ -423,7 +423,7 @@ If fix fails:
    ```bash
    python .claude/skills/bmad-commands/scripts/run_tests.py \
      --path . \
-     --framework jest \
+     --framework auto \
      --output json
    ```
 

@@ -52,11 +52,13 @@ V2 architecture is a **specification-based framework** where:
 
 ### Architecture Metrics
 
-- **4 Subagents:** orchestrator, alex-planner, james-developer, quinn-quality
-- **19 Commands:** Complete coverage of planning → implementation → quality
-- **17 Skills:** Reusable, portable capabilities with V2 contracts
+- **10 Subagents:** 5 core + 5 persona agents (BMAD v4 parity)
+  - **Core (5):** orchestrator, alex-planner, winston-architect, james-developer, quinn-quality
+  - **Personas (5):** mary-analyst, john-pm, sarah-po, bob-sm, sally-ux-expert
+- **30+ Commands:** Complete coverage from discovery → planning → implementation → quality
+- **26 Skills:** Reusable, portable capabilities with V2 contracts (22 core + 4 new planning skills)
 - **10 Primitives:** Deterministic file and test operations
-- **6,779 lines:** Total specification code
+- **11,679+ lines:** Total specification code (6,779 core + 4,900 personas)
 
 ### Related Documentation
 
@@ -680,6 +682,184 @@ error: null
 - Assessing risks
 
 **Learn more:** [Quinn Quick Start](./quickstart-quinn.md)
+
+---
+
+### 5. Winston (Architect)
+
+**Commands:** 5
+- `*design-architecture` - Create system architecture from requirements
+- `*analyze-architecture` - Analyze existing (brownfield) codebase architecture
+- `*review-architecture` - Peer review architecture for quality and risks
+- `*validate-story` - Validate architecture stories
+- `*consult` - Interactive architecture consultation
+
+**Specialties:**
+- System architecture design
+- Technology stack selection
+- Architecture Decision Records (ADRs)
+- Brownfield architecture analysis
+- Architecture quality assessment
+
+**Use when:**
+- Designing system architecture (greenfield or brownfield)
+- Analyzing existing codebases
+- Reviewing architecture quality
+- Making technology decisions
+
+---
+
+## Agent Personas (BMAD v4 Parity)
+
+**Purpose:** Specialized persona-driven agents for power users who prefer BMAD v4's interactive, role-specific workflows.
+
+**When to use personas vs. core agents:**
+- **Core agents** (Alex, Winston, James, Quinn, Orchestrator): Default for most workflows, automated routing, comprehensive coverage
+- **Persona agents**: When you prefer persona-driven interactions, specific workflow styles, or BMAD v4 familiarity
+
+---
+
+### 6. Mary (Analyst)
+
+**Persona:** Business Analyst specializing in brainstorming, market research, and competitive analysis
+
+**Commands:** 6
+- `*brainstorm` - Structured brainstorming sessions
+- `*create-competitor-analysis` - Competitive landscape analysis
+- `*create-project-brief` - Initial project briefs (pre-PRD)
+- `*perform-market-research` - TAM/SAM/SOM market research
+- `*research-prompt` - Generate deep research prompts
+- `*elicit` - Advanced requirements elicitation (Five Whys, JTBD)
+
+**Specialties:**
+- Early-stage discovery (before PRD)
+- Brainstorming and ideation
+- Market research (TAM/SAM/SOM, PESTLE)
+- Competitive analysis (Porter's Five Forces, SWOT)
+- Requirements elicitation
+
+**Use when:**
+- Starting a new project (before requirements formalization)
+- Need brainstorming facilitation
+- Conducting market research
+- Competitive analysis
+- Deep requirements elicitation
+
+**Style:** Analytical, inquisitive, creative, facilitative, data-informed
+
+---
+
+### 7. John (PM)
+
+**Persona:** Product Manager specializing in PRD creation and product strategy
+
+**Commands:** 5
+- `*create-prd` - Create greenfield PRD (uses create-prd skill)
+- `*create-brownfield-prd` - Generate PRD from existing codebase (uses create-brownfield-prd skill)
+- `*shard-prd` - Break large PRDs into shards (uses shard-document skill)
+- `*create-brownfield-epic` - Create brownfield epic
+- `*create-brownfield-story` - Create brownfield user story
+
+**Specialties:**
+- PRD creation (greenfield and brownfield)
+- Product strategy and feature prioritization
+- MoSCoW prioritization
+- Brownfield PRD with confidence scoring
+- PRD sharding for large documents
+
+**Use when:**
+- Creating comprehensive PRDs
+- Generating brownfield PRDs from codebases
+- Product strategy and feature prioritization
+- Breaking large PRDs into manageable pieces
+
+**Style:** Analytical, inquisitive, data-driven, user-focused, pragmatic
+
+**Key Innovation:** Confidence scoring for brownfield PRDs (High/Medium/Low based on code analysis)
+
+---
+
+### 8. Sarah (PO)
+
+**Persona:** Product Owner specializing in story validation and quality assurance
+
+**Commands:** 5
+- `*create-epic` - Create epic from requirements
+- `*create-story` - Create user story with acceptance criteria
+- `*validate-story-draft` - Validate story using INVEST criteria (uses validate-story skill)
+- `*shard-doc` - Break documents into shards (uses shard-document skill)
+- `*execute-checklist-po` - PO master checklist (uses interactive-checklist skill)
+
+**Specialties:**
+- Story validation (INVEST criteria)
+- Backlog management and grooming
+- Interactive checklist-driven workflows
+- Quality guardian role
+- Acceptance criteria definition
+
+**Use when:**
+- Validating story quality before sprint commitment
+- Interactive checklist-driven validation
+- Backlog grooming
+- Need quality guardian emphasis
+
+**Style:** Detail-oriented, systematic, collaborative, quality-focused
+
+**Key Strength:** Interactive checklist workflows for comprehensive validation
+
+---
+
+### 9. Bob (SM)
+
+**Persona:** Scrum Master specializing in developer handoff
+
+**Commands:** 2
+- `*draft` - Create developer-ready story
+- `*story-checklist` - Story draft checklist (uses interactive-checklist skill)
+
+**Specialties:**
+- Developer-focused story creation
+- Crystal-clear requirements (zero ambiguity)
+- Developer handoff optimization
+- Story draft checklists
+
+**Use when:**
+- Need quick, developer-ready story drafts
+- Developer handoff clarity is priority
+- Simple, straightforward stories
+- Minimal overhead workflows
+
+**Style:** Efficient, precise, direct, developer-focused
+
+**Philosophy:** "Crystal-clear stories for dumb AI agents" - assume literal interpretation, zero ambiguity
+
+---
+
+### 10. Sally (UX Expert)
+
+**Persona:** UX Expert specializing in UI/UX design and accessibility
+
+**Commands:** 2
+- `*create-front-end-spec` - Create front-end specification with UX details
+- `*generate-ui-prompt` - Generate AI UI prompts (v0, Lovable, Artifacts)
+
+**Specialties:**
+- UI/UX design and interaction patterns
+- Front-end specifications
+- WCAG 2.1 AA accessibility compliance
+- AI UI prompt generation (v0, Lovable, Claude Artifacts)
+- User experience optimization
+
+**Use when:**
+- Designing UI/UX for features
+- Creating front-end specifications
+- Ensuring accessibility compliance
+- Generating AI UI prompts
+- User experience focus required
+
+**Style:** Empathetic, creative, detail-oriented, user-obsessed, accessibility-focused
+
+**Philosophy:** "Good UX is invisible. Great UX is delightful."
 
 ---
 

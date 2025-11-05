@@ -1,6 +1,6 @@
 ---
 name: run-tests
-description: Execute tests with coverage analysis using bmad-commands, identify coverage gaps, and suggest missing tests. Use for test execution and quality validation.
+description: Execute tests with coverage analysis using bmad-commands, identify coverage gaps, and suggest missing tests. This skill should be used for test execution and quality validation.
 acceptance:
   - tests_executed: "All matching tests successfully executed"
   - coverage_generated: "Coverage report generated successfully"
@@ -20,8 +20,8 @@ inputs:
   framework:
     type: string
     required: false
-    description: "Test framework (jest, pytest, mocha)"
-    default: "jest"
+    description: "Test framework (auto-detect or explicit: jest, pytest, junit, gtest, cargo, go)"
+    default: "auto"
 outputs:
   tests_passed:
     type: boolean
@@ -68,10 +68,15 @@ Execute tests, generate coverage reports, analyze coverage gaps, and suggest mis
 
 ## Prerequisites
 
-- Test framework configured (Jest, Pytest, Mocha, etc.)
+- Test framework configured (Jest, Pytest, JUnit, Google Test, Cargo, Go Test, or any custom framework)
 - Tests written for the code being tested
 - bmad-commands skill available at `.claude/skills/bmad-commands/`
 - Project dependencies installed
+
+**Framework Support:**
+- **Auto-detection:** Automatically detects Jest, Pytest, JUnit, GTest, Cargo, Go Test
+- **Explicit:** Specify framework with `--framework <name>`
+- **Custom:** Add custom frameworks via `.claude/config.yaml` (see bmad-commands/FRAMEWORK-EXTENSION-GUIDE.md)
 
 ---
 
@@ -91,7 +96,7 @@ Execute tests, generate coverage reports, analyze coverage gaps, and suggest mis
 
 **Action:** Use bmad-commands to run tests.
 
-**Execute:** `python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework jest --output json`
+**Execute:** `python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework auto --output json`
 
 **Parse Response:** Extract success, outputs (passed, total_tests, coverage_percent, failures), telemetry, errors
 

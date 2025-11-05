@@ -117,7 +117,57 @@ Commands automatically route based on **complexity assessment**:
 
 ---
 
-## Current Status (2025-02-03)
+## 🌍 Framework-Agnostic Testing (NEW in v2.1)
+
+**BMAD Enhanced now supports ANY test framework!**
+
+### Supported Out-of-the-Box
+- ✅ **JavaScript/TypeScript:** Jest (auto-detected)
+- ✅ **Python:** Pytest (auto-detected)
+- ✅ **Java/Kotlin:** JUnit with Maven/Gradle
+- ✅ **C/C++:** Google Test with CMake/CTest
+- ✅ **Rust:** Cargo test
+- ✅ **Go:** Go test
+- ✅ **Custom:** Add your own framework in minutes
+
+### How It Works
+
+**Auto-Detection (Recommended):**
+```bash
+@james *test task-auth-001  # Auto-detects Jest, Pytest, JUnit, GTest, Cargo, Go
+```
+
+**Explicit Framework:**
+```bash
+@james *implement task-api-001 --framework pytest
+@james *test task-auth-001 --framework junit
+```
+
+**Add Your Framework:**
+```yaml
+# .claude/config.yaml
+testing:
+  frameworks:
+    mocha:
+      adapter: ".claude.custom_adapters.mocha_adapter.MochaAdapter"
+      command: ["npm", "run", "test", "--", "--reporter", "json"]
+```
+
+**Learn More:**
+- 📖 [Framework Extension Guide](.claude/skills/bmad-commands/FRAMEWORK-EXTENSION-GUIDE.md)
+- 🏗️ [Architecture](.claude/skills/bmad-commands/FRAMEWORK-ADAPTER-ARCHITECTURE.md)
+- 📝 [Complete Summary](.claude/skills/bmad-commands/FRAMEWORK-AGNOSTIC-SUMMARY.md)
+
+### Benefits
+- 🌐 **Universal:** Works with ANY programming language
+- 🔌 **Pluggable:** Add frameworks via config, not code
+- 🎯 **Smart:** Auto-detects framework from project structure
+- 📊 **Consistent:** Same output format for all frameworks
+- 🔄 **Backward Compatible:** Existing projects continue to work
+
+---
+
+## Current Status (2025-11-05)
 
 ### ✅ Phase 1: Architecture Migration - 100% COMPLETE
 
@@ -127,7 +177,8 @@ Commands automatically route based on **complexity assessment**:
 - ✅ **Subagents:** `.claude/agents/` with single .md files (not directories)
 - ✅ **3-Layer Architecture:** Properly structured (Primitives → Workflows → Subagents)
 - ✅ **Terminology:** 100% aligned with docs.claude.com
-- ✅ **Documentation:** 20+ comprehensive docs covering architecture, patterns, standards
+- ✅ **Documentation:** 60+ comprehensive docs covering architecture, patterns, standards
+- ✅ **Framework-Agnostic:** Supports ANY test framework via adapter pattern 🌍 NEW
 
 **References:**
 - Skills: https://docs.claude.com/en/docs/claude-code/skills
@@ -137,7 +188,7 @@ Commands automatically route based on **complexity assessment**:
 
 ### ✅ Phase 2: V2 Architecture - 100% COMPLETE 🎉
 
-**All 21 skills refactored to Grade A (Claude Code compliant, portable, token-efficient):**
+**All skills refactored to Grade A (Claude Code compliant, portable, token-efficient):**
 
 **Refactoring Results:**
 - **18 skills refactored** across 5 sessions
@@ -145,17 +196,68 @@ Commands automatically route based on **complexity assessment**:
 - **Validation success:** 100% (no rework required, all Grade A on first try)
 - **Portability:** 100% (no hardcoded paths, fully packageable)
 
-**Skills by Domain (21 total):**
+**Skills by Domain (26 total):**
 - **Development (3):** fix-issue, implement-feature, run-tests
-- **Planning (7):** estimate-stories, create-task-spec, breakdown-epic, refine-story, document-project, sprint-plan, create-architecture ⭐NEW
-- **Quality (10):** review-task, refactor-code, quality-gate, nfr-assess, trace-requirements, risk-profile, test-design, validate-architecture ⭐NEW, architecture-review ⭐NEW
+- **Planning (13):** estimate-stories, create-task-spec, breakdown-epic, refine-story, document-project, sprint-plan, create-architecture, validate-story, analyze-architecture, create-prd, create-brownfield-prd, shard-document, interactive-checklist, **compare-architectures** ⭐NEW
+- **Quality (9):** review-task, refactor-code, quality-gate, nfr-assess, trace-requirements, risk-profile, test-design, validate-architecture, architecture-review
 - **Implementation (1):** execute-task
 - **Primitives (1):** bmad-commands (10 atomic operations including architecture primitives)
 
-**Architecture Skills (NEW - Phase 2.5):**
-- ✅ `create-architecture` - Generate comprehensive system architecture documents
-- ✅ `validate-architecture` - Validate architecture completeness and quality
-- ✅ `architecture-review` - Peer review of architecture decisions
+---
+
+### ✅ Phase 3: Integration & Production - 100% COMPLETE 🎉
+
+**Production-ready with comprehensive testing, monitoring, and UX:**
+
+- ✅ **Testing:** 74/74 specifications validated (100% pass rate)
+- ✅ **Performance:** 51ms average overhead (83% better than target)
+- ✅ **Documentation:** 60+ documents organized with complete navigation
+- ✅ **Production Guides:** Monitoring, deployment, security, readiness checklist
+- ✅ **UX Tools:** Interactive wizard, progress visualization, error handling
+- ✅ **Example Workflows:** 11 practical, copy-paste ready workflows
+
+---
+
+### ✅ Phase 4 Week 1: Brownfield Architecture Workflow - 100% COMPLETE 🎉
+
+**Conversational brownfield architecture improvement workflow:**
+
+**New Components:**
+
+1. **`/winston-consult` Command** - Conversational architecture advisor
+   - Ask Winston about your architecture challenges
+   - Get intelligent routing to appropriate workflows
+   - Interactive dialogue with clarifying questions
+   - 4 consultation patterns (analysis, design, comparison, advice)
+
+2. **`compare-architectures` Skill** - Architecture options with trade-offs
+   - Generates 3 architecture options (minimal, moderate, full)
+   - Comprehensive trade-offs analysis (cost, timeline, risk, performance, maintainability)
+   - Evidence-based recommendation with confidence scoring
+   - Helps make informed modernization decisions
+
+3. **`@orchestrator *workflow modernize`** - Complete brownfield modernization
+   - 5-phase workflow: Analysis → PRD → Comparison → Architecture → Implementation Plan
+   - Interactive checkpoints for user input
+   - 51 minutes for complete architecture + implementation plan
+   - Variants: --interactive, --quick, --analysis-only, --auto
+
+**Use Cases:**
+- "I want to improve my existing web app's architecture"
+- "Should I modernize or rewrite my system?"
+- "What are my options for scaling to 100K users?"
+- "How do I add real-time features to my app?"
+
+**Quick Start:**
+```bash
+# Start conversationally
+/winston-consult "I have a web app with React/Express. Want to add real-time features."
+
+# Or run complete workflow
+@orchestrator *workflow modernize . "Your modernization goals here"
+```
+
+**Documentation:** [Brownfield Workflow Guide](./docs/brownfield-workflow-guide.md)
 
 ---
 
@@ -234,6 +336,31 @@ BMAD Enhanced V2 consists of 4 production-ready subagents with 19 intelligent co
 
 ---
 
+### 🏗️ Winston (Architect) - 5 Commands ⭐NEW
+
+**Role:** System Architecture Design & Analysis
+
+**Commands (V2):**
+- `*analyze-architecture [path]` - Analyze existing codebase architecture
+- `*create-architecture <requirements>` - Generate system architecture from requirements
+- `*validate-architecture <arch-doc>` - Validate architecture completeness
+- `*review-architecture <arch-doc>` - Peer review architecture for risks/optimizations
+- `*compare-architectures <requirements>` - Generate 3 architecture options with trade-offs ⭐NEW
+
+**V2 Features:** Brownfield analysis, architecture patterns, technology decisions, ADRs
+
+**Example:**
+```
+@winston *analyze-architecture .
+@winston *compare-architectures "Add real-time features and scale to 50K users"
+```
+
+**Quick Start:** [Winston Quick Start Guide](./docs/quickstart-winston.md)
+
+**Slash Command:** `/winston-consult` - Conversational architecture advisor ⭐NEW
+
+---
+
 ### 🎭 Orchestrator (Coordinator) - 2 Commands
 
 **Role:** Workflow Orchestration & Cross-Subagent Coordination
@@ -243,13 +370,15 @@ BMAD Enhanced V2 consists of 4 production-ready subagents with 19 intelligent co
   - `feature-delivery` - Requirement to PR
   - `epic-to-sprint` - Epic breakdown to sprint plan
   - `sprint-execution` - Execute complete sprint
+  - `modernize` - Complete brownfield modernization ⭐NEW
 - `*coordinate <task> --subagents <list>` - Cross-subagent coordination
 
-**V2 Features:** State persistence, resume capability, error recovery
+**V2 Features:** State persistence, resume capability, error recovery, interactive checkpoints
 
 **Example:**
 ```
 @orchestrator *workflow feature-delivery "User login with email validation"
+@orchestrator *workflow modernize . "Scale to 100K users + add real-time features"
 @orchestrator *coordinate "Quality improvement" --subagents quinn,james
 ```
 

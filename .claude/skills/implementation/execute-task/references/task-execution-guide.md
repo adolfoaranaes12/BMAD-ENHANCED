@@ -142,7 +142,7 @@ describe('Signup Service Integration', () => {
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path src/schemas/__tests__/ \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 
@@ -155,12 +155,12 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 # Unit tests for this component
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path src/types/ \
-  --framework jest
+  --framework auto
 
 # Integration tests if applicable
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path src/services/auth/__tests__/ \
-  --framework jest
+  --framework auto
 ```
 
 **Run linter/formatter:**
@@ -243,11 +243,11 @@ npm run format:check
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path src/types/ \
-  --framework jest
+  --framework auto
 
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path src/schemas/ \
-  --framework jest
+  --framework auto
 ```
 
 **Run full lint check:**

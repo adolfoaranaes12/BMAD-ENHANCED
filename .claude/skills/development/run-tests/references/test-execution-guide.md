@@ -117,7 +117,7 @@ addopts =
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 
@@ -172,7 +172,7 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest
+  --framework auto
 ```
 
 ### Pattern 2: Specific Pattern
@@ -180,7 +180,7 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --pattern auth
 ```
 
@@ -189,7 +189,7 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path src/__tests__/controllers/auth.controller.test.ts \
-  --framework jest
+  --framework auto
 ```
 
 ### Pattern 4: With Coverage
@@ -197,7 +197,7 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --coverage true
 ```
 
@@ -311,13 +311,13 @@ for (const failure of outputs.failures) {
 **Common Commands:**
 ```bash
 # All tests
-python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework jest
+python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework auto
 
 # Specific pattern
-python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework jest --pattern auth
+python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework auto --pattern auth
 
 # With coverage
-python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework jest --coverage true
+python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework auto --coverage true
 ```
 
 **Response Fields:**

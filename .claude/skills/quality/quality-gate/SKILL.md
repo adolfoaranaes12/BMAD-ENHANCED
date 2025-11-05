@@ -65,13 +65,13 @@ The assessment evaluates 6 quality dimensions with configurable weights: Risk Ma
 
 ## When to Use This Skill
 
-**Use quality-gate when you need to:**
-- Make final quality decision before merge/deploy/release
-- Synthesize all quality assessments into overall quality score
-- Generate audit trail for compliance documentation
-- Integrate quality checks into CI/CD pipeline
-- Track quality waivers with justification
-- Determine if implementation meets quality standards
+**This skill should be used when:**
+- Final quality decision is needed before merge/deploy/release
+- All quality assessments need to be synthesized into overall quality score
+- Audit trail for compliance documentation is required
+- Quality checks need to be integrated into CI/CD pipeline
+- Quality waivers need to be tracked with justification
+- Determination of whether implementation meets quality standards is needed
 
 **This skill is particularly valuable:**
 - After all quality assessments complete (risk, test-design, trace, nfr)
@@ -80,7 +80,7 @@ The assessment evaluates 6 quality dimensions with configurable weights: Risk Ma
 - When automated quality gates are part of CI/CD
 - For tracking quality trends over time (score history)
 
-**Do NOT use quality-gate when:**
+**This skill should NOT be used when:**
 - Quality assessments haven't been performed yet (run assessments first)
 - Task is in early planning stage (no implementation to assess)
 - You only need specific assessment (use individual assessment skills instead)

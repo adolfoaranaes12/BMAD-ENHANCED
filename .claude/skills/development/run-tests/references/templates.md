@@ -81,7 +81,7 @@ Found 47 test files:
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --pattern "(auth|login)" \
   --coverage true \
   --output json
@@ -1501,7 +1501,7 @@ jobs:
         run: |
           python .claude/skills/bmad-commands/scripts/run_tests.py \
             --path . \
-            --framework jest \
+            --framework auto \
             --coverage true \
             --output json > test-results.json
 
@@ -1529,7 +1529,7 @@ test:
   image: node:18
   script:
     - npm ci
-    - python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework jest --coverage true --output json > test-results.json
+    - python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework auto --coverage true --output json > test-results.json
     - COVERAGE=$(jq '.outputs.coverage_percent' test-results.json)
     - |
       if (( $(echo "$COVERAGE < 80" | bc -l) )); then
@@ -1558,7 +1558,7 @@ echo "Running tests before commit..."
 
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --coverage true \
   --output json > test-results.json
 

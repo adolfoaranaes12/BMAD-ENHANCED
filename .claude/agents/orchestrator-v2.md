@@ -89,6 +89,11 @@ Execute end-to-end workflows coordinating multiple subagents with state manageme
    - Phases: Daily work (james + quinn loop) → Sprint review → Retrospective
    - Input: Sprint name, velocity
 
+4. **modernize** - Complete brownfield modernization
+   - Phases: Analysis (winston) → PRD (alex) → Architecture (winston) → Comparison (winston) → Implementation Plan (alex)
+   - Input: Codebase path, modernization goals, constraints (optional)
+   - Interactive: User input required at key decision points
+
 ---
 
 ### Workflow
@@ -707,6 +712,327 @@ error: null
 # 3. Abort workflow: @orchestrator *abort workflow-003
 #
 # Recommendation: Fix test failures, then resume workflow
+```
+
+**Example 5: Brownfield Modernization Workflow (Interactive)**
+
+```bash
+@orchestrator *workflow modernize . "Add real-time features and scale to 50K users"
+
+# Orchestrator:
+# ✅ Workflow: modernize
+# ✅ Complexity: 58 (Standard)
+# ✅ Template: modernize-interactive
+# ⏳ This workflow requires user input at key decision points
+#
+# Phase 1/5: Architecture Analysis (winston-architect) ⏳
+# Analyzing codebase structure...
+# Detecting project type: Fullstack (React + Express)
+# Analyzing tech stack... 18 dependencies found
+# Identifying patterns... DDD/CQRS detected
+# Calculating quality scores...
+#
+# ✅ Analysis Complete (12 minutes)
+#
+# **Production Readiness:** 78/100 ⭐⭐⭐⭐
+# **Key Findings:**
+# • Architecture Quality: 85/100 (Very Good)
+# • Performance: 65/100 (Needs improvement)
+# • Scalability: 60/100 (Limited to ~10K users)
+#
+# **Top 3 Modernization Opportunities:**
+# 1. Add WebSocket/real-time infrastructure (HIGH PRIORITY)
+# 2. Implement caching layer (Redis) (HIGH PRIORITY)
+# 3. Database read replicas for scaling (MEDIUM PRIORITY)
+#
+# 📄 Report: docs/architecture-analysis-2025-11-05.md
+#
+# Phase 2/5: Brownfield PRD (alex-planner) ⏳
+# Extracting current features from codebase...
+# Documenting 12 core features, 5 secondary features
+# Identifying gaps and technical debt...
+#
+# ✅ Brownfield PRD Created (8 minutes)
+# 📄 PRD: docs/brownfield-prd.md
+#
+# **Current Features:**
+# • User Authentication (High confidence)
+# • Dashboard & Analytics (High confidence)
+# • Data Management (Medium confidence)
+# • [9 more features...]
+#
+# **Gaps Identified:**
+# • No real-time capabilities (needed for your goal)
+# • Limited caching (performance bottleneck)
+# • No horizontal scaling (blocks 50K user goal)
+#
+# Phase 3/5: Architecture Comparison (winston-architect) ⏳
+# Generating 3 modernization options...
+#
+# ✅ Comparison Complete (10 minutes)
+#
+# **Option A: Minimal Changes** (4-6 weeks, $25K-$40K, Risk: Low)
+# Add Socket.IO + Redis to existing stack
+# ✅ Fast, low risk
+# ❌ Limited scalability (~15K users max)
+#
+# **Option B: Moderate Refactor** (2-3 months, $60K-$90K, Risk: Medium) ✅ RECOMMENDED
+# Microservices for real-time + Redis caching + DB read replicas
+# ✅ Scales to 50K+ users, reduces tech debt
+# ⚖️ Moderate complexity
+#
+# **Option C: Full Modernization** (4-6 months, $150K-$200K, Risk: High)
+# Complete rebuild with Next.js + tRPC + Serverless
+# ✅ Best long-term, scales to 100K+
+# ❌ High cost, long timeline
+#
+# 📄 Comparison: docs/architecture-comparison-2025-11-05.md
+#
+# ❓ USER INPUT REQUIRED:
+# Which option would you like to proceed with?
+# A) Option A - Minimal Changes (fast, limited scale)
+# B) Option B - Moderate Refactor (recommended, balanced)
+# C) Option C - Full Modernization (best quality, highest cost)
+#
+# > User selects: B
+#
+# ✅ Option B selected: Moderate Refactor
+#
+# Phase 4/5: Detailed Architecture Design (winston-architect) ⏳
+# Designing complete architecture for Option B...
+# Creating ADRs for technology decisions...
+# Designing migration strategy...
+#
+# ✅ Architecture Complete (15 minutes)
+# 📄 Architecture: docs/architecture.md
+#
+# **Technology Stack:**
+# • Real-time: Dedicated Node.js microservice + Socket.IO
+# • Caching: Redis (sessions + data cache)
+# • Database: PostgreSQL (existing) + Read replicas (new)
+# • API Gateway: Kong (route management)
+#
+# **Migration Strategy:**
+# Phase 1 (Month 1): Redis caching layer
+# Phase 2 (Month 2): Real-time microservice
+# Phase 3 (Month 3): Database read replicas + API gateway
+#
+# Phase 5/5: Implementation Plan (alex-planner) ⏳
+# Breaking down architecture into epics...
+# Creating implementation roadmap...
+#
+# ✅ Implementation Plan Complete (6 minutes)
+# 📄 Plan: .claude/epics/modernization-plan.md
+#
+# **Epic Breakdown:**
+# Epic 1: Redis Caching Infrastructure (13 points)
+# Epic 2: Real-time Microservice (21 points)
+# Epic 3: Database Read Replicas (8 points)
+# Epic 4: API Gateway Setup (13 points)
+# Epic 5: Migration & Testing (13 points)
+#
+# **Total:** 68 story points (~3 sprints at 20-25 velocity)
+#
+# 🎉 Modernization Workflow Complete!
+#
+# **Summary:**
+# • Analysis: Production Readiness 78/100
+# • Approach: Option B - Moderate Refactor
+# • Timeline: 2-3 months (3 sprints)
+# • Cost Estimate: $60K-$90K
+# • Expected Outcome: Scale to 50K+ users, reduce tech debt
+#
+# **Next Steps:**
+# 1. Review architecture: docs/architecture.md
+# 2. Review implementation plan: .claude/epics/modernization-plan.md
+# 3. Start Epic 1: @alex *breakdown-epic .claude/epics/modernization-plan.md
+# 4. Begin sprint planning: @alex *plan-sprint --velocity 25
+#
+# **Files Generated:**
+# • Architecture Analysis: docs/architecture-analysis-2025-11-05.md
+# • Brownfield PRD: docs/brownfield-prd.md
+# • Architecture Comparison: docs/architecture-comparison-2025-11-05.md
+# • Final Architecture: docs/architecture.md
+# • Implementation Plan: .claude/epics/modernization-plan.md
+#
+# Total Duration: 51 minutes
+```
+
+**Example 6: Quick Modernization Assessment**
+
+```bash
+@orchestrator *workflow modernize packages/backend --quick
+
+# Using --quick flag: Skip PRD generation, focus on architecture analysis and recommendations
+
+# Phase 1/3: Architecture Analysis ⏳
+# ✅ Complete (8 minutes)
+# Production Readiness: 65/100 ⭐⭐⭐
+
+# Phase 2/3: Architecture Comparison ⏳
+# ✅ Complete (6 minutes)
+# Recommended: Option B - Moderate Refactor
+
+# Phase 3/3: High-Level Plan ⏳
+# ✅ Complete (4 minutes)
+
+# 🎉 Quick Assessment Complete (18 minutes)
+#
+# **Recommendation:** Modernize with Option B
+# **Investment:** $60K-$90K, 2-3 months
+# **Priority Actions:**
+# 1. Add caching layer (HIGH)
+# 2. Implement real-time capabilities (HIGH)
+# 3. Database scaling (MEDIUM)
+#
+# Run full workflow for detailed implementation plan:
+# @orchestrator *workflow modernize packages/backend
+```
+
+---
+
+### Modernize Workflow Details
+
+**Purpose:** Complete brownfield system modernization from analysis to implementation plan.
+
+**Phases:**
+
+1. **Architecture Analysis** (winston-architect)
+   - Command: `/analyze-architecture {codebase_path} --depth comprehensive`
+   - Duration: 10-15 minutes
+   - Output: Architecture analysis document with production readiness score
+   - Success Criteria: Analysis complete, quality dimensions scored, recommendations provided
+
+2. **Brownfield PRD** (alex-planner)
+   - Command: `*create-brownfield-prd {codebase_path} --business-context {goals}`
+   - Duration: 6-10 minutes
+   - Output: Brownfield PRD documenting current features, gaps, modernization opportunities
+   - Success Criteria: Feature inventory complete, confidence scores assigned, gaps identified
+
+3. **Architecture Comparison** (winston-architect)
+   - Command: `*compare-architectures --current {analysis} --requirements {goals}`
+   - Duration: 8-12 minutes
+   - Output: 3 architecture options with trade-offs analysis
+   - Success Criteria: 3 viable options generated, trade-offs analyzed, recommendation provided
+   - **Interactive Checkpoint:** User selects preferred option
+
+4. **Detailed Architecture Design** (winston-architect)
+   - Command: `*create-architecture {brownfield_prd} --option {selected_option}`
+   - Duration: 12-18 minutes
+   - Output: Complete architecture document with ADRs, migration strategy
+   - Success Criteria: Architecture complete, technology decisions justified, migration plan defined
+
+5. **Implementation Plan** (alex-planner)
+   - Command: `*breakdown-epic {architecture} --type modernization`
+   - Duration: 5-8 minutes
+   - Output: Epic breakdown with story points and sprint recommendations
+   - Success Criteria: Epics defined, story points estimated, implementation order prioritized
+
+**Total Duration:** 41-63 minutes (comprehensive) | 18-25 minutes (quick mode)
+
+**Complexity Assessment:**
+- Stages: 5 = 70 points × 0.30 = 21
+- Subagents: 2 (winston, alex) = 40 points × 0.25 = 10
+- Dependencies: Linear = 40 points × 0.20 = 8
+- Timeline: 1 hour = 40 points × 0.15 = 6
+- Risk: Medium (depends on codebase) = 40 points × 0.10 = 4
+- **Score: 49 (Standard)**
+
+**Workflow Variants:**
+
+1. **--interactive** (default): Requires user input at decision points (option selection)
+2. **--quick**: Skip PRD, generate high-level recommendations only (3 phases instead of 5)
+3. **--analysis-only**: Only run Phase 1 (architecture analysis), skip rest
+4. **--auto**: Auto-select recommended option, no user input required
+
+**Syntax Examples:**
+
+```bash
+# Full interactive modernization
+@orchestrator *workflow modernize . "Scale to 100K users + add real-time features"
+
+# Quick assessment only
+@orchestrator *workflow modernize packages/backend --quick
+
+# Analysis only (understand current state)
+@orchestrator *workflow modernize . --analysis-only
+
+# Auto-select recommended option (non-interactive)
+@orchestrator *workflow modernize . "Improve performance" --auto
+
+# Specific constraints
+@orchestrator *workflow modernize . "Add mobile app" --timeline 3-months --budget 75K
+```
+
+**State Management:**
+
+Workflow state saved at: `.claude/orchestrator/modernize-{timestamp}.yaml`
+
+Example state file:
+```yaml
+workflow_id: modernize-20251105-143022
+workflow_type: modernize
+status: awaiting_user_input
+created_at: "2025-11-05T14:30:22Z"
+updated_at: "2025-11-05T14:58:15Z"
+
+input:
+  codebase_path: "."
+  modernization_goals: "Add real-time features and scale to 50K users"
+  constraints:
+    timeline: "2-3 months"
+    budget: "moderate"
+
+phases:
+  - id: architecture_analysis
+    subagent: winston-architect
+    command: "*analyze-architecture"
+    status: completed
+    duration_ms: 720000
+    output:
+      analysis_file: "docs/architecture-analysis-2025-11-05.md"
+      production_readiness: 78
+
+  - id: brownfield_prd
+    subagent: alex-planner
+    command: "*create-brownfield-prd"
+    status: completed
+    duration_ms: 480000
+    output:
+      prd_file: "docs/brownfield-prd.md"
+      feature_count: 17
+
+  - id: architecture_comparison
+    subagent: winston-architect
+    command: "*compare-architectures"
+    status: completed
+    duration_ms: 600000
+    output:
+      comparison_file: "docs/architecture-comparison-2025-11-05.md"
+      recommended_option: "moderate"
+
+  - id: user_decision
+    status: awaiting_input
+    question: "Which architecture option do you prefer?"
+    options: ["minimal", "moderate", "full"]
+
+  - id: detailed_architecture
+    status: pending
+
+  - id: implementation_plan
+    status: pending
+
+current_phase: user_decision
+total_duration_ms: 1800000
+```
+
+**Resume After User Input:**
+
+```bash
+# User selects option B (moderate refactor)
+@orchestrator *resume modernize-20251105-143022 --option moderate
+
+# Orchestrator continues from Phase 4 (detailed architecture design)
 ```
 
 ---

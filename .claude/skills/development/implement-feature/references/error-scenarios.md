@@ -99,7 +99,7 @@ export const login = async (req: Request, res: Response) => {
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 

@@ -58,12 +58,12 @@ The skill is most powerful when used pre-implementation (after task spec creatio
 
 ## When to Use This Skill
 
-**Use risk-profile when you need to:**
-- Assess risks before starting implementation (recommended timing)
-- Identify potential issues early in development cycle
-- Prioritize test scenarios by risk level
-- Inform quality gate decisions with risk data
-- Develop mitigation strategies for high-risk areas
+**This skill should be used when:**
+- Risks need to be assessed before starting implementation (recommended timing)
+- Potential issues need identification early in development cycle
+- Test scenarios need to be prioritized by risk level
+- Quality gate decisions need to be informed with risk data
+- Mitigation strategies need to be developed for high-risk areas
 
 **This skill is particularly valuable:**
 - After task spec creation, before implementation begins (optimal timing)
@@ -71,7 +71,7 @@ The skill is most powerful when used pre-implementation (after task spec creatio
 - When planning comprehensive test strategy
 - During quality review to validate risk mitigation
 
-**Do NOT use risk-profile when:**
+**This skill should NOT be used when:**
 - Task is simple CRUD with no external dependencies (low value)
 - Bug fix has clear root cause and straightforward solution
 - Well-established patterns with no unknowns (minimal risk)

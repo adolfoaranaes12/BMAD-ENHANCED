@@ -33,7 +33,7 @@
 
 ## Commands
 
-### 1. `*implement` - Implement Features
+### 1. `*implement` - Implement Features 🌍 Framework-Agnostic
 
 **Purpose:** Implement features using Test-Driven Development with intelligent routing
 
@@ -44,15 +44,36 @@
 @james *implement task-payment-001
 ```
 
+**🌍 NEW: Works with ANY test framework!**
+```bash
+# Auto-detects your test framework
+@james *implement task-login-001      # Jest, Pytest, JUnit, GTest, Cargo, Go
+@james *implement task-api-001        # Tests written in your framework
+```
+
 **Examples:**
 ```bash
+# TypeScript/Next.js project (auto-detects Jest)
 @james *implement task-login-001
-@james *implement task-checkout-flow
+
+# Python/Flask project (auto-detects Pytest)
 @james *implement task-api-auth
+
+# Java/Spring project (auto-detects JUnit)
+@james *implement task-checkout-flow
+
+# C++ project (auto-detects Google Test)
+@james *implement task-sorting-algorithm
+
+# Rust project (auto-detects Cargo test)
+@james *implement task-http-server
+
+# Go project (auto-detects Go test)
+@james *implement task-grpc-service
 ```
 
 **What You Get:**
-- Working, tested implementation
+- Working, tested implementation (in YOUR framework)
 - Test suite with 80%+ coverage
 - Code following TDD (tests written first)
 - Acceptance criteria verified
@@ -69,6 +90,9 @@
 - Implementing features from task specifications
 - Building new functionality
 - After Alex creates task spec
+
+**Framework Support:**
+See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENSION-GUIDE.md) to add custom frameworks
 
 ---
 
@@ -111,7 +135,7 @@
 
 ---
 
-### 3. `*test` - Execute Tests
+### 3. `*test` - Execute Tests 🌍 Framework-Agnostic
 
 **Purpose:** Execute tests with coverage analysis, identify gaps, and suggest missing tests
 
@@ -123,16 +147,35 @@
 @james *test --all
 ```
 
-**Examples:**
+**🌍 NEW: Auto-detects test framework!**
 ```bash
-@james *test task-login-001
-@james *test src/payment/checkout.ts
-@james *test auth
-@james *test --all
+@james *test task-login-001  # Auto-detects: Jest, Pytest, JUnit, GTest, Cargo, Go
 ```
 
+**Examples:**
+```bash
+# Auto-detection (recommended)
+@james *test task-login-001       # Detects Jest (JS/TS)
+@james *test task-api-001         # Detects Pytest (Python)
+@james *test task-service-001     # Detects JUnit (Java)
+@james *test task-algorithm-001   # Detects GTest (C++)
+
+# Explicit framework
+@james *test task-auth-001 --framework pytest
+@james *test task-checkout --framework junit
+```
+
+**Supported Frameworks:**
+- ✅ **JavaScript/TypeScript:** Jest (auto-detected)
+- ✅ **Python:** Pytest (auto-detected)
+- ✅ **Java/Kotlin:** JUnit with Maven/Gradle
+- ✅ **C/C++:** Google Test with CMake/CTest
+- ✅ **Rust:** Cargo test
+- ✅ **Go:** Go test
+- ✅ **Custom:** Add your own in `.claude/config.yaml`
+
 **What You Get:**
-- Test execution results
+- Test execution results (all frameworks)
 - Coverage report with gaps identified
 - Missing test suggestions
 - Performance metrics
@@ -148,6 +191,10 @@
 - After implementing features
 - Before committing code
 - During debugging
+
+**Learn More:**
+- 📖 [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENSION-GUIDE.md)
+- 🏗️ [Adapter Architecture](../.claude/skills/bmad-commands/FRAMEWORK-ADAPTER-ARCHITECTURE.md)
 - For coverage analysis
 
 ---

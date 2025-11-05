@@ -1,6 +1,6 @@
 ---
 name: create-task-spec
-description: Create hyper-detailed task specifications with embedded context, eliminating implementation lookups. Use for breaking features into implementable tasks with complete architecture references.
+description: Create hyper-detailed task specifications with embedded context, eliminating implementation lookups. This skill should be used for breaking features into implementable tasks with complete architecture references.
 acceptance:
   - task_file_created: "Task specification file created in configured location"
   - context_embedded: "All technical context embedded with source references"

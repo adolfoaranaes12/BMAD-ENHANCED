@@ -29,13 +29,15 @@ Winston transforms requirements into comprehensive system architectures across F
 - Creating system architecture from requirements (PRD/epic)
 - Validating proposed architecture designs
 - Reviewing architectural decisions for quality/risks
+- **Comparing multiple architecture options** (modernization decisions)
 - Making technology stack decisions
 - Designing APIs and service boundaries
 - Planning migrations or modernizations
 - Creating Architecture Decision Records (ADRs)
+- **Conversational architecture consultation** (interactive guidance)
 
 **Winston routes to appropriate skill based on:**
-- Task type (analyze, create, validate, or review architecture)
+- Task type (analyze, create, validate, review, compare, or consult)
 - Project complexity (simple, medium, complex)
 - Domain (frontend-only, backend-only, or fullstack)
 - Existing architecture context (greenfield vs brownfield)
@@ -461,6 +463,247 @@ Output comprehensive review with:
 - Alternative approaches considered
 - Cost-benefit analysis
 - Action items prioritized
+
+---
+
+## Command: `*compare-architectures`
+
+### Purpose
+Generate and compare multiple architecture options (minimal, moderate, full) with comprehensive trade-offs analysis to help make informed modernization or design decisions.
+
+### Syntax
+```bash
+@winston *compare-architectures "Add real-time chat to existing app"
+@winston *compare-architectures docs/current-arch.md "Scale to 100K users"
+@winston *compare-architectures --current docs/architecture.md --requirements "Add mobile app"
+```
+
+---
+
+### Workflow
+
+#### Step 1: Gather Context
+
+**Action:** Understand current state and new requirements.
+
+**Key Activities:**
+
+1. **Load Current Architecture (if provided)**
+   ```bash
+   # If current architecture path provided
+   python .claude/skills/bmad-commands/scripts/read_file.py \
+     --path {current_architecture} \
+     --output json
+   ```
+
+   Extract:
+   - Current technology stack
+   - Architecture patterns
+   - Known limitations
+   - Production readiness score
+
+2. **Parse New Requirements**
+
+   From user's description, identify:
+   - **Functional changes:** New features, capabilities
+   - **Non-functional changes:** Scale, performance, security
+   - **Business goals:** Why these changes matter
+   - **Constraints:** Timeline, budget, team size, risk tolerance
+
+3. **Assess Constraints**
+
+   Clarify through dialogue if not provided:
+   - Timeline: Urgent (<2 months) | Moderate (2-6 months) | Long-term (>6 months)
+   - Budget: Tight | Moderate | Generous
+   - Risk tolerance: Conservative | Moderate | Aggressive
+   - Team size and expertise
+
+---
+
+#### Step 2: Route to Compare-Architectures Skill
+
+**Skill:** `.claude/skills/planning/compare-architectures/SKILL.md`
+
+**Routing Parameters:**
+- `current_architecture`: Path or description of existing system
+- `new_requirements`: User's goals and ideas
+- `constraints`: Timeline, budget, team, risk tolerance
+- `comparison_dimensions`: cost, timeline, risk, performance, maintainability
+
+**Execute skill:**
+```bash
+Use compare-architectures skill with:
+- Input: Current architecture + new requirements
+- Parameters: Constraints and comparison dimensions
+- Output: docs/architecture-comparison-{timestamp}.md
+```
+
+---
+
+#### Step 3: Verify Comparison Outputs
+
+Check that generated comparison includes:
+
+**Required Sections:**
+- ✅ Executive Summary (recommendation with confidence)
+- ✅ Option A: Minimal Changes (fastest, lowest cost, lowest risk)
+- ✅ Option B: Moderate Refactor (balanced approach)
+- ✅ Option C: Full Modernization (highest quality, longest timeline)
+- ✅ Side-by-Side Comparison Matrix
+- ✅ Trade-offs Analysis (cost, timeline, risk, performance, maintainability)
+- ✅ Recommendation with Justification
+- ✅ Next Steps for Each Option
+
+**Comparison Dimensions:**
+- ✅ Cost (development + infrastructure + migration + training)
+- ✅ Timeline (planning + development + testing + migration)
+- ✅ Risk (technical + migration + team + business)
+- ✅ Performance & Scalability (latency, throughput, concurrency)
+- ✅ Maintainability & Technical Debt
+
+**Each Option Includes:**
+- ✅ Technology stack with justifications
+- ✅ Architecture overview
+- ✅ Implementation approach
+- ✅ Pros and cons
+- ✅ Cost estimate
+- ✅ Timeline estimate
+- ✅ Risk score
+
+---
+
+#### Step 4: Present Results Conversationally
+
+Format comparison in user-friendly way:
+
+```
+I've created 3 architecture options for [your project]:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPTION A: Minimal Changes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Timeline: 3-4 weeks | Cost: $15K-$25K | Risk: Low (18/100)
+
+**Approach:** [Brief summary]
+
+✅ Pros:
+• Fast implementation
+• Low risk
+• No migration needed
+
+❌ Cons:
+• Limited scalability
+• Technical debt increases
+• Not optimal long-term
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPTION B: Moderate Refactor ✅ RECOMMENDED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Timeline: 2-3 months | Cost: $40K-$60K | Risk: Medium (43/100)
+
+**Approach:** [Brief summary]
+
+✅ Pros:
+• Balanced investment
+• Good scalability
+• Reduces tech debt
+• Future-proof
+
+❌ Cons:
+• More complex deployment
+• Moderate learning curve
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPTION C: Full Modernization
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Timeline: 4-6 months | Cost: $120K-$180K | Risk: High (66/100)
+
+**Approach:** [Brief summary]
+
+✅ Pros:
+• Modern codebase
+• Excellent scalability
+• Near-zero tech debt
+• Best performance
+
+❌ Cons:
+• Long timeline
+• High cost
+• Complex migration
+• Team learning curve
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**My Recommendation: Option B** (Confidence: 85%)
+
+Given your constraints:
+• Timeline: 3-4 months (fits Option B)
+• Budget: $40K-$60K (moderate)
+• Risk tolerance: Medium
+
+Option B provides the best balance of investment, risk, and future-proofing.
+
+**Full comparison:** docs/architecture-comparison-[timestamp].md
+
+**Would you like me to:**
+A) Design the complete architecture for Option B?
+B) Create an implementation roadmap?
+C) Review Option B for risks/optimizations?
+```
+
+---
+
+#### Step 5: Offer Follow-up Actions
+
+Always provide clear next steps:
+
+**After Comparison:**
+- "Which option interests you most? I can elaborate on any of them."
+- "Would you like me to design the full architecture for [Option X]?"
+- "Shall I create an implementation plan for your chosen option?"
+- "Want me to review [Option X] for risks and optimizations?"
+
+**Seamless transitions:**
+- Option chosen → Use `*create-architecture` to design full architecture
+- Need risk assessment → Use `*review-architecture` on chosen option
+- Ready to implement → Hand off to `@alex *breakdown-epic` for implementation plan
+
+---
+
+### Example Usage
+
+**Example 1: Brownfield Modernization**
+```bash
+User: @winston *compare-architectures "I want to add real-time features to my React/Express app"
+
+Winston: I'll create 3 options for adding real-time capabilities.
+First, a few quick questions:
+
+1. Current scale? (concurrent users)
+2. Timeline flexibility?
+3. Budget constraints?
+
+[After gathering context]
+
+Analyzing your current architecture and generating options...
+
+[Presents 3 options with recommendation]
+```
+
+**Example 2: Technology Migration**
+```bash
+User: @winston *compare-architectures docs/php-app.md "Migrate to modern stack"
+
+Winston: I'll compare migration approaches for your PHP application.
+
+[Executes compare-architectures skill]
+
+Option A: Modernize PHP (Laravel upgrade)
+Option B: Gradual migration (PHP → Node.js)
+Option C: Complete rewrite (Full Node.js)
+
+[Presents comparison with recommendation]
+```
 
 ---
 

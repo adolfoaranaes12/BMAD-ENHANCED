@@ -36,16 +36,16 @@ def parse_analyze_architecture(args: List[str]) -> Dict[str, Any]:
         /analyze-architecture [codebase-path] [options]
 
     Options:
-        --depth quick|standard|comprehensive  Analysis depth (default: standard)
+        --depth quick|standard|comprehensive  Analysis depth (default: comprehensive)
         --output markdown|json|both          Output format (default: markdown)
         --focus area                         Focus on specific area (default: all)
-        --budget N                           Token budget (default: 100000)
+        --budget N                           Token budget (default: 120000)
 
     Examples:
-        /analyze-architecture
+        /analyze-architecture  # Comprehensive by default
         /analyze-architecture --depth quick
         /analyze-architecture packages/backend --output json
-        /analyze-architecture . --depth comprehensive --focus security
+        /analyze-architecture . --depth standard --focus security
     """
     parser = argparse.ArgumentParser(
         prog='analyze-architecture',
@@ -63,8 +63,8 @@ def parse_analyze_architecture(args: List[str]) -> Dict[str, Any]:
     parser.add_argument(
         '--depth',
         choices=['quick', 'standard', 'comprehensive'],
-        default='standard',
-        help='Analysis depth mode (default: standard)'
+        default='comprehensive',
+        help='Analysis depth mode (default: comprehensive)'
     )
 
     parser.add_argument(
@@ -84,8 +84,8 @@ def parse_analyze_architecture(args: List[str]) -> Dict[str, Any]:
     parser.add_argument(
         '--budget',
         type=int,
-        default=100000,
-        help='Token budget in tokens (default: 100000)'
+        default=120000,
+        help='Token budget in tokens (default: 120000)'
     )
 
     parsed = parser.parse_args(args)
@@ -109,14 +109,15 @@ def parse_design_architecture(args: List[str]) -> Dict[str, Any]:
         /design-architecture <requirements-file> [options]
 
     Options:
-        --type frontend|backend|fullstack    System type (default: fullstack)
-        --complexity low|medium|high         Complexity level (default: medium)
+        --type frontend|backend|fullstack    System type (default: auto)
+        --depth quick|standard|comprehensive Design depth (default: comprehensive)
+        --complexity low|medium|high         Complexity level (default: auto)
         --existing <file>                    Existing architecture to extend
 
     Examples:
-        /design-architecture docs/prd.md
+        /design-architecture docs/prd.md  # Comprehensive by default
         /design-architecture docs/requirements.md --type backend
-        /design-architecture docs/epic.md --complexity high
+        /design-architecture docs/epic.md --depth quick
     """
     parser = argparse.ArgumentParser(
         prog='design-architecture',
@@ -130,16 +131,23 @@ def parse_design_architecture(args: List[str]) -> Dict[str, Any]:
 
     parser.add_argument(
         '--type',
-        choices=['frontend', 'backend', 'fullstack'],
-        default='fullstack',
-        help='System type (default: fullstack)'
+        choices=['auto', 'frontend', 'backend', 'fullstack'],
+        default='auto',
+        help='System type (default: auto)'
+    )
+
+    parser.add_argument(
+        '--depth',
+        choices=['quick', 'standard', 'comprehensive'],
+        default='comprehensive',
+        help='Design depth mode (default: comprehensive)'
     )
 
     parser.add_argument(
         '--complexity',
-        choices=['low', 'medium', 'high'],
-        default='medium',
-        help='System complexity (default: medium)'
+        choices=['auto', 'low', 'medium', 'high'],
+        default='auto',
+        help='System complexity (default: auto)'
     )
 
     parser.add_argument(
@@ -153,6 +161,7 @@ def parse_design_architecture(args: List[str]) -> Dict[str, Any]:
         'command': 'design-architecture',
         'requirements_file': parsed.requirements_file,
         'system_type': parsed.type,
+        'depth': parsed.depth,
         'complexity': parsed.complexity,
         'existing_architecture': parsed.existing,
         'skill': 'design-architecture'
@@ -168,12 +177,12 @@ def parse_review_architecture(args: List[str]) -> Dict[str, Any]:
 
     Options:
         --focus <area>     Focus area (completeness, quality, security, etc.)
-        --mode review|approve|reject    Review mode (default: review)
+        --depth quick|standard|comprehensive    Review depth (default: comprehensive)
 
     Examples:
-        /review-architecture docs/architecture.md
+        /review-architecture docs/architecture.md  # Comprehensive by default
         /review-architecture docs/design.md --focus security
-        /review-architecture docs/architecture.md --mode approve
+        /review-architecture docs/architecture.md --depth quick
     """
     parser = argparse.ArgumentParser(
         prog='review-architecture',
@@ -187,16 +196,16 @@ def parse_review_architecture(args: List[str]) -> Dict[str, Any]:
 
     parser.add_argument(
         '--focus',
-        choices=['completeness', 'quality', 'security', 'scalability', 'performance', 'all'],
+        choices=['completeness', 'quality', 'security', 'scalability', 'performance', 'cost', 'all'],
         default='all',
         help='Focus area for review (default: all)'
     )
 
     parser.add_argument(
-        '--mode',
-        choices=['review', 'approve', 'reject'],
-        default='review',
-        help='Review mode (default: review)'
+        '--depth',
+        choices=['quick', 'standard', 'comprehensive'],
+        default='comprehensive',
+        help='Review depth mode (default: comprehensive)'
     )
 
     parsed = parser.parse_args(args)
@@ -205,7 +214,7 @@ def parse_review_architecture(args: List[str]) -> Dict[str, Any]:
         'command': 'review-architecture',
         'architecture_file': parsed.architecture_file,
         'focus_area': parsed.focus,
-        'review_mode': parsed.mode,
+        'depth': parsed.depth,
         'skill': 'review-architecture'
     }
 

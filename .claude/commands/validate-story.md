@@ -59,13 +59,13 @@ Parse command and arguments from user input.
 Command format: /validate-story <story-file> [--mode <mode>]
 
 Extract:
-- story_file: ${1} (first argument, story file path)
-- mode: ${2} (optional: full, quick, critical_only - default: full)
+- story_file: $1 (first argument, story file path)
+- mode: $2 (optional: full, quick, critical_only - default: full)
 
 Route to validate-story skill:
 Use .claude/skills/planning/validate-story/SKILL.md with:
-- Input: story_file = ${1}
-- Input: validation_mode = ${2:-full} (default to "full" if not specified)
+- Input: story_file = $1
+- Input: validation_mode = $2 (default to "full" if not specified)
 
 Execute 10-step validation workflow:
 1. Template completeness

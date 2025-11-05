@@ -534,7 +534,7 @@ def recommend_option(constraints, user_priorities):
 
 **Why This Option:**
 
-Given your constraints:
+Given the constraints:
 - Timeline: 3-4 months (moderate)
 - Budget: $40K-$60K (moderate)
 - Risk tolerance: Medium (willing to invest strategically)
@@ -549,7 +549,7 @@ Given your constraints:
 
 2. **Addresses Core Needs:**
    - Solves real-time chat requirement properly (dedicated service)
-   - Scales to 25K users (covers your 10K + growth)
+   - Scales to 25K users (covers the 10K + growth trajectory)
    - Sets up for future microservices (if needed)
 
 3. **Manageable Risk:**
@@ -597,7 +597,7 @@ Given your constraints:
 **Recommendation:** Option B - Moderate Refactor
 **Confidence:** 85% (High)
 
-**Why:** Balanced approach that meets your requirements, fits timeline/budget, and positions for future growth without over-engineering.
+**Why:** Balanced approach that meets the requirements, fits timeline/budget, and positions for future growth without over-engineering.
 
 **Quick Comparison:**
 

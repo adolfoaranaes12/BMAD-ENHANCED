@@ -1,6 +1,6 @@
 ---
 name: implement-feature
-description: Implement features from task specifications using Test-Driven Development (TDD) with bmad-commands for file operations and testing. Use when implementing new functionality from approved task specs.
+description: Implement features from task specifications using Test-Driven Development (TDD) with bmad-commands for file operations and testing. This skill should be used when implementing new functionality from approved task specs.
 acceptance:
   - tests_passing: "All tests must pass"
   - coverage_threshold: "Test coverage >= 80%"
@@ -125,7 +125,7 @@ Test Cases:
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 
@@ -155,7 +155,7 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 
@@ -190,7 +190,7 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 
@@ -218,7 +218,7 @@ For each acceptance criterion:
 # Run full test suite
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 
@@ -252,7 +252,7 @@ python .claude/skills/bmad-commands/scripts/run_tests.py \
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 

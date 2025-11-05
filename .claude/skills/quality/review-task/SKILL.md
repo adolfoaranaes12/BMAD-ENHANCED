@@ -1,6 +1,6 @@
 ---
 name: review-task
-description: Orchestrate comprehensive quality assessment by executing 5 specialized quality skills in sequence and synthesizing results into a unified quality gate decision. Use when performing final review of completed implementation.
+description: Orchestrate comprehensive quality assessment by executing 5 specialized quality skills in sequence and synthesizing results into a unified quality gate decision. This skill should be used when performing final review of completed implementation.
 acceptance:
   - all_assessments_completed: "All 5 quality skills executed successfully (risk-profile, test-design, trace-requirements, nfr-assess, quality-gate)"
   - gate_decision_made: "Quality gate decision generated (PASS/CONCERNS/FAIL/WAIVED) with overall quality score"
@@ -55,13 +55,13 @@ This skill coordinates execution of 5 specialized quality skills to provide comp
 4. **nfr-assess** → Assess non-functional requirements (security, performance, reliability, etc.)
 5. **quality-gate** → Synthesize all assessments into final gate decision
 
-## When to Use
+## When to Use This Skill
 
-**Use when:** Comprehensive quality review of completed task (status "Review"), preparing for merge/deploy decision
+**This skill should be used when:** Comprehensive quality review of completed task (status "Review"), preparing for merge/deploy decision
 
 **Individual assessments:** Invoke specific skills directly (risk-profile, test-design, trace-requirements, nfr-assess, quality-gate)
 
-**Do NOT use when:** Task in progress, reviewing drafts, quick spot checks
+**This skill should NOT be used when:** Task in progress, reviewing drafts, quick spot checks
 
 ## Architecture
 

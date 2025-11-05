@@ -1,0 +1,111 @@
+# BMAD Enhanced Configuration - Testing Framework Registry
+# Add this section to your .claude/config.yaml
+
+testing:
+  # Default framework (auto-detect if not specified)
+  default_framework: "auto"
+
+  # Framework Registry
+  # Built-in frameworks (Jest, Pytest) are automatically registered
+  # Add custom frameworks below
+  frameworks:
+
+    # ===================================================================
+    # EXAMPLE: Mocha (JavaScript)
+    # ===================================================================
+    mocha:
+      adapter: ".claude.custom_adapters.mocha_adapter.MochaAdapter"
+      command: ["npm", "run", "test", "--", "--reporter", "json"]
+      coverage_command: ["npm", "run", "test", "--", "--reporter", "json", "--coverage"]
+      auto_detect:
+        - "package.json"  # Must have mocha in dependencies
+
+    # ===================================================================
+    # EXAMPLE: RSpec (Ruby)
+    # ===================================================================
+    rspec:
+      adapter: ".claude.custom_adapters.rspec_adapter.RSpecAdapter"
+      command: ["rspec", "--format", "json"]
+      coverage_command: ["rspec", "--format", "json", "--require", "simplecov"]
+      auto_detect:
+        - "spec"
+        - ".rspec"
+
+    # ===================================================================
+    # EXAMPLE: PHPUnit (PHP)
+    # ===================================================================
+    phpunit:
+      adapter: ".claude.custom_adapters.phpunit_adapter.PHPUnitAdapter"
+      command: ["phpunit", "--log-json", ".phpunit-result.json"]
+      coverage_command: ["phpunit", "--coverage-clover", "coverage.xml"]
+      auto_detect:
+        - "phpunit.xml"
+        - "phpunit.xml.dist"
+
+    # ===================================================================
+    # EXAMPLE: JUnit (Java) - Built into adapters/junit_adapter.py
+    # ===================================================================
+    junit:
+      adapter: "adapters.junit_adapter.JUnitAdapter"
+      command: ["mvn", "test"]  # or ["gradle", "test"]
+      auto_detect:
+        - "pom.xml"
+        - "build.gradle"
+
+    # ===================================================================
+    # EXAMPLE: Google Test (C++) - Built into adapters/gtest_adapter.py
+    # ===================================================================
+    gtest:
+      adapter: "adapters.gtest_adapter.GTestAdapter"
+      command: ["ctest", "--output-on-failure"]
+      auto_detect:
+        - "CMakeLists.txt"
+
+    # ===================================================================
+    # EXAMPLE: Cargo (Rust) - Built into adapters/cargo_adapter.py
+    # ===================================================================
+    cargo:
+      adapter: "adapters.cargo_adapter.CargoAdapter"
+      command: ["cargo", "test", "--", "--format", "json"]
+      coverage_command: ["cargo", "tarpaulin", "--out", "Json"]
+      auto_detect:
+        - "Cargo.toml"
+
+    # ===================================================================
+    # EXAMPLE: Go Test - Built into adapters/go_test_adapter.py
+    # ===================================================================
+    go:
+      adapter: "adapters.go_test_adapter.GoTestAdapter"
+      command: ["go", "test", "-json", "./..."]
+      coverage_command: ["go", "test", "-json", "-cover", "./..."]
+      auto_detect:
+        - "go.mod"
+
+    # ===================================================================
+    # EXAMPLE: Custom Framework Template
+    # ===================================================================
+    # my_framework:
+    #   adapter: ".claude.custom_adapters.my_framework_adapter.MyFrameworkAdapter"
+    #   command: ["my-test-runner", "--json"]
+    #   coverage_command: ["my-test-runner", "--json", "--coverage"]
+    #   auto_detect:
+    #     - "my-framework.config.json"
+    #     - "tests/"
+
+# ===================================================================
+# Usage Examples
+# ===================================================================
+#
+# Auto-detect framework:
+#   python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework auto
+#
+# Explicit framework:
+#   python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework mocha
+#   python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework rspec
+#   python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework junit
+#
+# With coverage:
+#   python .claude/skills/bmad-commands/scripts/run_tests.py --path . --framework auto --coverage
+#
+# List available frameworks:
+#   python .claude/skills/bmad-commands/scripts/run_tests.py --list-frameworks

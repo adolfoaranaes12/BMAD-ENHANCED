@@ -227,7 +227,7 @@ Creating React component: src/components/auth/SignupForm.tsx
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 

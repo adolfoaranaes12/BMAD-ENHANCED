@@ -1,7 +1,7 @@
 ---
 description: Interactive architecture consultation for brownfield and greenfield systems through conversational dialogue, intelligent routing, and tailored recommendations
 argument-hint: [context-or-question]
-allowed-tools: Read, Bash, Glob, Grep, Skill, AskUserQuestion, TodoWrite
+allowed-tools: Read, Bash, Glob, Grep, Skill, Task, AskUserQuestion, TodoWrite
 ---
 
 # Winston Consult Command
@@ -276,7 +276,7 @@ I've designed a [project_type] architecture for your [project name]:
 **Next Steps:**
 1. Review architecture document: docs/architecture.md
 2. Review Architecture Decision Records (ADRs)
-3. Validate architecture: @winston *review-architecture docs/architecture.md
+3. Validate architecture: /review-architecture docs/architecture.md
 
 Would you like me to review this architecture for risks or create an implementation plan?
 ```
@@ -471,7 +471,7 @@ Winston consult can seamlessly hand off to other subagents:
 After architecture design, suggest:
 "Would you like me to hand this off to Alex to create a detailed implementation plan?"
 
-@alex *breakdown-epic docs/architecture.md
+/alex *breakdown-epic docs/architecture.md
 ```
 
 **Hand-off to Quinn (Quality):**
@@ -479,7 +479,7 @@ After architecture design, suggest:
 After architecture design, suggest:
 "Would you like Quinn to review this architecture for quality and risks?"
 
-@quinn *review docs/architecture.md
+/quinn *review docs/architecture.md
 ```
 
 **Hand-off to Orchestrator:**
@@ -487,7 +487,7 @@ After architecture design, suggest:
 For complete workflows:
 "Would you like me to orchestrate the complete modernization workflow?"
 
-@orchestrator *workflow modernize
+/orchestrator *workflow modernize
 ```
 
 ---

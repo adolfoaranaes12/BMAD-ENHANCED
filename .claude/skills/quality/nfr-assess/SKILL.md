@@ -64,13 +64,13 @@ The assessment produces a weighted overall NFR score, individual category scores
 
 ## When to Use This Skill
 
-**Use nfr-assess when you need to:**
-- Validate non-functional quality attributes during implementation review
-- Assess system-wide quality concerns (security, performance, reliability)
-- Identify gaps in quality attributes with severity ratings
-- Generate evidence-based NFR reports for audit/compliance
-- Feed NFR metrics into quality gate decision-making
-- Validate production readiness from quality perspective
+**This skill should be used when:**
+- Non-functional quality attributes need validation during implementation review
+- System-wide quality concerns (security, performance, reliability) need assessment
+- Gaps in quality attributes need identification with severity ratings
+- Evidence-based NFR reports are required for audit/compliance
+- NFR metrics need to feed into quality gate decision-making
+- Production readiness needs validation from quality perspective
 
 **This skill is particularly valuable:**
 - Before quality gate review (identifies issues early)
@@ -79,7 +79,7 @@ The assessment produces a weighted overall NFR score, individual category scores
 - When preparing for production deployment (ensure production readiness)
 - For compliance validation (OWASP, WCAG, performance budgets)
 
-**Do NOT use nfr-assess when:**
+**This skill should NOT be used when:**
 - Functional requirements haven't been implemented yet (assess functionality first)
 - Task is purely planning/design (no implementation to assess)
 - You only need to test functional behavior (use run-tests instead)

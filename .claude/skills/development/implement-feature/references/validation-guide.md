@@ -13,7 +13,7 @@ Complete validation procedures for TDD implementation before marking feature com
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --output json
 ```
 

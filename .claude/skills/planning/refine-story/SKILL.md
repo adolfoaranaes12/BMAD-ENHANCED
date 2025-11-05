@@ -1,6 +1,6 @@
 ---
 name: refine-story
-description: Transform vague or incomplete user stories into sprint-ready stories with clear acceptance criteria, test scenarios, and technical guidance. Use before sprint commitment for definition of ready check.
+description: Transform vague or incomplete user stories into sprint-ready stories with clear acceptance criteria, test scenarios, and technical guidance. This skill should be used before sprint commitment for definition of ready check.
 acceptance:
   - story_quality_improved: "Story quality score increased by at least 1 point on 4-point scale"
   - acceptance_criteria_complete: "At least 5 specific, testable acceptance criteria defined"
@@ -63,9 +63,9 @@ Apply structured refinement techniques to improve story quality:
 - Create test scenarios (unit, integration, E2E)
 - Ensure definition of ready compliance (INVEST criteria)
 
-## When to Use
+## When to Use This Skill
 
-Use this skill when:
+This skill should be used when:
 - Story has vague or unclear requirements
 - Acceptance criteria are missing or incomplete
 - Story is too large and needs decomposition
@@ -73,7 +73,7 @@ Use this skill when:
 - Before sprint commitment (definition of ready check)
 - After stakeholder feedback requiring clarification
 
-Do NOT use when:
+This skill should NOT be used when:
 - Story already has comprehensive AC and technical notes
 - Story is just being created (use breakdown-epic first)
 - Story is in progress (use refine-task instead)

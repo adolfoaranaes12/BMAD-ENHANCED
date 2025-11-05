@@ -1,6 +1,6 @@
 ---
 name: sprint-plan
-description: Create comprehensive sprint plans by intelligently grouping estimated user stories based on velocity, dependencies, priorities, and risk. Use during sprint planning ceremonies to transform backlog into actionable sprint commitments.
+description: Create comprehensive sprint plans by intelligently grouping estimated user stories based on velocity, dependencies, priorities, and risk. This skill should be used during sprint planning ceremonies to transform backlog into actionable sprint commitments.
 acceptance:
   - velocity_respected: "Total story points ≤ team velocity with 15% buffer"
   - dependencies_satisfied: "All story dependencies respected in sprint ordering"
@@ -66,16 +66,16 @@ Transform backlog of estimated stories into actionable sprint commitments:
 - Generate sprint plan with goals, metrics, and risk mitigation
 - Support multi-sprint planning (roadmap view)
 
-## When to Use
+## When to Use This Skill
 
-Use this skill when:
+This skill should be used when:
 - Starting a new sprint (during Sprint Planning ceremony)
 - Re-planning mid-sprint due to significant changes
 - Creating multi-sprint roadmap (2-4 sprints ahead)
 - Evaluating sprint capacity and feasibility
 - Balancing team workload across multiple teams
 
-Do NOT use when:
+This skill should NOT be used when:
 - Stories are not yet estimated (use estimate-stories first)
 - Stories lack acceptance criteria (use refine-story first)
 - No historical velocity data (establish velocity first with 1-2 sprints)

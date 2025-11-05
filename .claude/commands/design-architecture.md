@@ -1,7 +1,7 @@
 ---
 description: Generate comprehensive system architecture from requirements (PRD/epic) with technology stack selection, architecture patterns, ADRs, diagrams, security design, and NFR mapping for frontend, backend, or fullstack systems
 argument-hint: <requirements-file> [--type <type>] [--depth <mode>] [--complexity <complexity>]
-allowed-tools: Read, Write, Edit, Skill
+allowed-tools: Read, Write, Edit, Skill, Bash
 ---
 
 # Design Architecture Command
@@ -132,7 +132,7 @@ Parse command using structured parser:
 # Use parse_command.py for type-safe parsing
 python .claude/skills/bmad-commands/scripts/parse_command.py \
   design-architecture \
-  ${user_args}
+  $ARGUMENTS
 ```
 
 Expected output:

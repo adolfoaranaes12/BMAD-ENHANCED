@@ -1,6 +1,6 @@
 ---
 name: breakdown-epic
-description: Break down epics into implementable user stories with acceptance criteria, estimates, dependencies, and sprint groupings. Use for epic planning and backlog grooming.
+description: Break down epics into implementable user stories with acceptance criteria, estimates, dependencies, and sprint groupings. This skill should be used for epic planning and backlog grooming.
 acceptance:
   - components_identified: "Major components and sub-features identified from epic"
   - stories_created: "User stories created in proper format with acceptance criteria"

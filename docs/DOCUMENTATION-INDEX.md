@@ -1,8 +1,8 @@
 # BMAD Enhanced Documentation Index
 
-**Version:** 2.1 (Post-Cleanup)
-**Last Updated:** 2025-11-04
-**Phase:** Phase 3 - Integration & Production Readiness (Complete)
+**Version:** 2.2 (Phase 4 Week 1)
+**Last Updated:** 2025-11-05
+**Phase:** Phase 4 - Brownfield Architecture Workflow (Week 1 Complete)
 
 ---
 
@@ -10,15 +10,16 @@
 
 1. [Getting Started](#getting-started)
 2. [Quick Start Guides](#quick-start-guides)
-3. [UX Improvements](#ux-improvements)
-4. [V2 Architecture](#v2-architecture)
-5. [Phase Documentation](#phase-documentation)
-6. [Session Summaries](#session-summaries)
-7. [Architecture & Design](#architecture--design)
-8. [Reference Documentation](#reference-documentation)
-9. [Migration & Compliance](#migration--compliance)
-10. [Testing & Validation](#testing--validation)
-11. [Historical Documentation](#historical-documentation)
+3. [Brownfield Workflow (NEW)](#brownfield-workflow-new)
+4. [UX Improvements](#ux-improvements)
+5. [V2 Architecture](#v2-architecture)
+6. [Phase Documentation](#phase-documentation)
+7. [Session Summaries](#session-summaries)
+8. [Architecture & Design](#architecture--design)
+9. [Reference Documentation](#reference-documentation)
+10. [Migration & Compliance](#migration--compliance)
+11. [Testing & Validation](#testing--validation)
+12. [Historical Documentation](#historical-documentation)
 
 ---
 
@@ -50,14 +51,84 @@ Learn how to use each subagent with practical examples:
 - **[quickstart-alex.md](./quickstart-alex.md)** - Alex (Planner) - 5 commands
   - Create task specs, break down epics, estimate stories, refine requirements, plan sprints
 
-- **[quickstart-james.md](./quickstart-james.md)** - James (Developer) - 7 commands
+- **[quickstart-james.md](./quickstart-james.md)** 🌍 **UPDATED** - James (Developer) - 7 commands
   - Implement features, fix bugs, run tests, refactor, apply QA fixes, debug, explain code
+  - **NEW:** Framework-agnostic testing (Jest, Pytest, JUnit, GTest, Cargo, Go, and custom)
 
 - **[quickstart-quinn.md](./quickstart-quinn.md)** - Quinn (Quality) - 5 commands
   - Review code, assess NFRs, validate quality gates, trace requirements, assess risks
 
+- **[quickstart-winston.md](./quickstart-winston.md)** ⭐ **NEW** - Winston (Architect) - 5 commands + slash command
+  - Analyze architecture, create architecture, compare options, validate, review
+  - `/winston-consult` - Conversational architecture advisor
+
 - **[quickstart-orchestrator.md](./quickstart-orchestrator.md)** - Orchestrator - 2 commands
-  - Execute workflows, coordinate subagents across complete feature delivery
+  - Execute workflows (including `modernize` ⭐NEW), coordinate subagents
+
+---
+
+## Brownfield Workflow (NEW)
+
+**Phase 4 Week 1: Complete conversational brownfield architecture improvement workflow**
+
+### Essential Brownfield Guides
+
+- **[brownfield-workflow-guide.md](./brownfield-workflow-guide.md)** ⭐ **Complete Guide**
+  - How to analyze existing systems
+  - How to get architecture options with trade-offs
+  - How to run complete modernization workflows
+  - Real-world examples and decision matrix
+  - 3 approaches: Conversational, Direct Analysis, Complete Workflow
+
+### Framework-Agnostic Testing (NEW v2.1) 🌍
+
+- **[FRAMEWORK-SUPPORT-MATRIX.md](./FRAMEWORK-SUPPORT-MATRIX.md)** ⭐ **Support Matrix**
+  - Complete list of supported test frameworks
+  - Setup instructions for each framework
+  - Auto-detection capabilities
+  - Performance benchmarks
+  - Troubleshooting guide
+
+- **[Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENSION-GUIDE.md)**
+  - How to add custom frameworks
+  - 6 complete adapter examples (Mocha, RSpec, PHPUnit, etc.)
+  - Best practices and troubleshooting
+
+- **[Framework Adapter Architecture](../.claude/skills/bmad-commands/FRAMEWORK-ADAPTER-ARCHITECTURE.md)**
+  - Technical architecture design
+  - Adapter pattern implementation
+  - Migration path and roadmap
+
+- **[Framework-Agnostic Summary](../.claude/skills/bmad-commands/FRAMEWORK-AGNOSTIC-SUMMARY.md)**
+  - Complete implementation summary
+  - Benefits and usage examples
+  - Files created and modified
+
+### Brownfield Components
+
+- **Slash Command:** `/winston-consult` - Conversational architecture advisor
+  - Ask Winston about your architecture challenges
+  - Get intelligent routing to appropriate workflows
+  - Interactive dialogue with clarifying questions
+
+- **Skill:** `compare-architectures` - Architecture options with trade-offs
+  - Generates 3 options (minimal, moderate, full modernization)
+  - Comprehensive trade-offs analysis
+  - Evidence-based recommendations
+
+- **Workflow:** `@orchestrator *workflow modernize`
+  - 5-phase workflow: Analysis → PRD → Comparison → Architecture → Plan
+  - Interactive checkpoints for user input
+  - 51 minutes for complete modernization workflow
+  - Variants: --interactive, --quick, --analysis-only, --auto
+
+### Phase 4 Documentation
+
+- **[PHASE-4-WEEK-1-SUMMARY.md](./PHASE-4-WEEK-1-SUMMARY.md)** - Complete Phase 4 Week 1 summary
+  - All components detailed
+  - Technical specifications
+  - Integration with V2
+  - User impact analysis
 
 ---
 

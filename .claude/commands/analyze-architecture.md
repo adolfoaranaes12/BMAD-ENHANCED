@@ -17,28 +17,28 @@ Analyze existing codebase to discover architecture, assess quality, and identify
 ## Parameters
 
 - `codebase-path` - Path to codebase root (default: current directory)
-- `--depth` - Analysis depth: `quick` (5-7 min, ~50K tokens), `standard` (10-12 min, ~80K tokens, **default**), `comprehensive` (15-20 min, ~120K tokens)
+- `--depth` - Analysis depth: `quick` (5-7 min, ~50K tokens), `standard` (10-12 min, ~80K tokens), `comprehensive` (15-20 min, ~120K tokens, **default**)
 - `--output` - Output format: `markdown` (default), `json`, `both`
 - `--focus` - Focus area: `all` (default), `architecture`, `security`, `performance`, `scalability`, `tech-debt`
-- `--budget` - Token budget in tokens (default: 100000)
+- `--budget` - Token budget in tokens (default: 120000)
 
 ## Examples
 
 ```bash
-# Quick analysis (5-7 minutes, 50K tokens)
-/analyze-architecture --depth quick
-
-# Standard analysis (default, 10-12 minutes, 80K tokens)
+# Comprehensive analysis (default - most detailed and intelligent)
 /analyze-architecture
 
-# Comprehensive analysis (15-20 minutes, 120K tokens)
-/analyze-architecture --depth comprehensive
+# Quick analysis (fast assessment)
+/analyze-architecture --depth quick
 
-# Focus on specific area
+# Standard analysis (balanced)
+/analyze-architecture --depth standard
+
+# Focus on specific area with comprehensive depth
 /analyze-architecture packages/backend --focus security
 
-# JSON output with token budget
-/analyze-architecture . --output json --budget 60000
+# JSON output
+/analyze-architecture . --output json
 ```
 
 ## Analysis Process
@@ -102,17 +102,17 @@ Comprehensive analysis with:
 - Steps: 1-8 only (structure, type, stack, patterns, quality, tech debt, report, telemetry)
 - Best For: Initial assessments, time-sensitive decisions, high-level overviews
 
-**Standard Mode** (default):
+**Standard Mode** (`--depth standard`):
 - Duration: 10-12 minutes
 - Token Usage: ~80,000 tokens
 - Steps: 1-12 (excludes deep integration analysis)
-- Best For: Regular assessments, pre-production reviews, architecture validation
+- Best For: Regular assessments, iterative development, balanced analysis
 
-**Comprehensive Mode** (`--depth comprehensive`):
+**Comprehensive Mode** (`--depth comprehensive`) [DEFAULT]:
 - Duration: 15-20 minutes
 - Token Usage: ~120,000 tokens
-- Steps: All 15 steps with deep analysis
-- Best For: Production readiness assessments, architecture audits, detailed planning
+- Steps: All 15 steps with deep analysis, complete integration review
+- Best For: Production readiness assessments, architecture audits, detailed planning, enterprise systems
 
 ## Implementation
 
@@ -122,7 +122,7 @@ Parse command using structured parser:
 # Use parse_command.py for type-safe parsing
 python .claude/skills/bmad-commands/scripts/parse_command.py \
   analyze-architecture \
-  ${user_args}
+  $ARGUMENTS
 ```
 
 Expected output:
@@ -130,10 +130,10 @@ Expected output:
 {
   "command": "analyze-architecture",
   "codebase_path": ".",
-  "depth": "standard",
+  "depth": "comprehensive",
   "output_format": "markdown",
   "focus_area": "all",
-  "token_budget": 100000,
+  "token_budget": 120000,
   "skill": "analyze-architecture"
 }
 ```
@@ -141,10 +141,10 @@ Expected output:
 Route to analyze-architecture skill:
 Use .claude/skills/planning/analyze-architecture/SKILL.md with parsed parameters:
 - Input: codebase_path (from parser)
-- Input: depth (from parser, default: "standard")
+- Input: depth (from parser, default: "comprehensive")
 - Input: output_format (from parser, default: "markdown")
 - Input: focus_area (from parser, default: "all")
-- Input: token_budget (from parser, default: 100000)
+- Input: token_budget (from parser, default: 120000)
 
 Emit telemetry:
 - skill.analyze-architecture.completed

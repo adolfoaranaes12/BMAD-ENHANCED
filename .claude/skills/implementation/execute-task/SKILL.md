@@ -1,6 +1,6 @@
 ---
 name: execute-task
-description: Execute approved task specifications sequentially with TDD, comprehensive testing, and validation. Use for implementing tasks from approved specs with full audit trail.
+description: Execute approved task specifications sequentially with TDD, comprehensive testing, and validation. This skill should be used for implementing tasks from approved specs with full audit trail.
 acceptance:
   - task_loaded: "Task specification successfully loaded and validated"
   - status_updated: "Task status progressed from Approved → InProgress → Review"
@@ -183,7 +183,7 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
    ```bash
    python .claude/skills/bmad-commands/scripts/run_tests.py \
      --path . \
-     --framework jest \
+     --framework auto \
      --output json
    ```
 

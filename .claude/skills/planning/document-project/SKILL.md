@@ -1,6 +1,6 @@
 ---
 name: document-project
-description: Generate comprehensive architecture documentation automatically from existing codebase analysis. Use when working with brownfield projects or updating outdated documentation.
+description: Generate comprehensive architecture documentation automatically from existing codebase analysis. This skill should be used when working with brownfield projects or updating outdated documentation.
 acceptance:
   - documentation_generated: "All three documentation files created (architecture.md, standards.md, patterns.md)"
   - confidence_sufficient: "Overall confidence score ≥70% across all analyzed sections"
@@ -62,15 +62,15 @@ Analyze an existing codebase and generate three comprehensive documentation file
 
 This enables BMAD Enhanced to work with brownfield projects by reverse-engineering architecture from code.
 
-## When to Use
+## When to Use This Skill
 
-Use this skill when:
+This skill should be used when:
 - Starting BMAD Enhanced with existing project (brownfield onboarding)
 - Architecture documentation is outdated or missing
 - Need to discover implicit patterns and conventions
 - Onboarding to unfamiliar codebase
 
-Do NOT use when:
+This skill should NOT be used when:
 - Greenfield projects (write docs from scratch instead)
 - Project already has current, comprehensive documentation
 - Codebase >500K lines (too complex for automated analysis)

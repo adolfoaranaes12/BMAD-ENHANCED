@@ -16,7 +16,7 @@ Run comprehensive validation, finalize documentation, and prepare task for quali
 ```bash
 python .claude/skills/bmad-commands/scripts/run_tests.py \
   --path . \
-  --framework jest \
+  --framework auto \
   --coverage true \
   --output json
 ```

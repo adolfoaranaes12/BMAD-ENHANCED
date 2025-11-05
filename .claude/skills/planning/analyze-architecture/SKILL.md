@@ -1261,4 +1261,4 @@ Track analysis metrics for continuous improvement:
 
 ---
 
-*Analyze Architecture skill is ready to provide deep, comprehensive analysis of your existing codebase.* 🔍
+*Analyze Architecture skill is ready to provide deep, comprehensive analysis of existing codebases.* 🔍

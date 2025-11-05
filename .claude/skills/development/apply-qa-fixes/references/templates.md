@@ -431,13 +431,13 @@ quality:
   assessments_dir: ".claude/quality/assessments"
   gates_dir: ".claude/quality/gates"
   coverage_threshold: 80
-  test_framework: "jest"  # or "pytest", "mocha", etc.
+  test_framework: "auto"  # or "pytest", "mocha", etc.
 
 tasks:
   directory: ".claude/tasks"
 
 testing:
-  framework: "jest"
+  framework: "auto"
   coverage_threshold: 80
   test_directory: "tests"
   lint_command: "npm run lint"

@@ -1,6 +1,6 @@
 ---
 name: validate-story
-description: Pre-implementation story validation with 10-step comprehensive assessment including template compliance, anti-hallucination verification, and implementation readiness scoring. Use before handing story to development agent.
+description: Pre-implementation story validation with 10-step comprehensive assessment including template compliance, anti-hallucination verification, and implementation readiness scoring. This skill should be used before handing story to development agent.
 acceptance:
   - validation_complete: "All 10 validation steps executed successfully"
   - go_no_go_decision: "Clear GO or NO-GO decision with confidence level"
@@ -72,15 +72,15 @@ Before handing a story to James (Developer Agent), validate that the story is co
 - **Processing:** 10-step validation → Issue identification → Report generation
 - **Output:** Validation report with GO/NO-GO decision + issues + recommendations
 
-## When to Use
+## When to Use This Skill
 
-**Use when:**
+**This skill should be used when:**
 - Story just created, before implementation
 - Story updated, needs re-validation
 - Pre-sprint planning (validate backlog stories)
 - Story handed from PO → Dev team
 
-**Do NOT use when:**
+**This skill should NOT be used when:**
 - Story already in implementation
 - Quick review needed (use quick mode)
 - Story is template/draft only

@@ -1,7 +1,7 @@
 ---
 description: Peer review system architecture for completeness, quality, security risks, scalability bottlenecks, performance optimizations, cost analysis, and provide prioritized action items with pass/fail decision
 argument-hint: <architecture-file> [--focus <area>] [--depth <mode>]
-allowed-tools: Read, Skill
+allowed-tools: Read, Skill, Bash
 ---
 
 # Review Architecture Command
@@ -39,20 +39,43 @@ Peer review system architecture for quality, risks, and optimization opportuniti
 /review-architecture docs/architecture.md --focus scalability --depth quick
 ```
 
+## Depth Modes
+
+**Quick Mode** (`--depth quick`):
+- Duration: 5-7 minutes
+- Checks: Completeness, critical issues only
+- Analysis: High-level scoring, major gaps
+- Report: Pass/fail with top 3 issues
+- Best For: Initial assessments, fast feedback loops, gate checks
+
+**Standard Mode** (`--depth standard`):
+- Duration: 10-12 minutes
+- Checks: All dimensions, standard rigor
+- Analysis: Balanced depth, practical recommendations
+- Report: Full scoring with prioritized action items
+- Best For: Regular reviews, pre-implementation validation, iteration cycles
+
+**Comprehensive Mode** (`--depth comprehensive`) [DEFAULT]:
+- Duration: 15-20 minutes
+- Checks: All dimensions with deep analysis
+- Analysis: Rigorous scoring, detailed action items, risk modeling, cost analysis
+- Report: Complete assessment with mitigation strategies
+- Best For: Production readiness, architecture audits, compliance reviews, enterprise systems
+
 ## Architecture Review Process
 
-Execute comprehensive 10-step architecture review:
+Execute depth-dependent review workflow (steps adapted by depth mode):
 
 1. Load architecture document and requirements (if available)
 2. Completeness check (all required sections present)
 3. Technology justification review (alternatives considered, rationale provided)
 4. ADR quality assessment (minimum count, quality score per ADR)
 5. NFR coverage analysis (performance, scalability, security, reliability, maintainability)
-6. Security review (auth, authorization, encryption, compliance)
-7. Scalability assessment (growth projections, horizontal scaling, bottlenecks)
-8. Performance optimization opportunities (caching, CDN, query optimization)
-9. Cost analysis (infrastructure costs, operational overhead)
-10. Risk identification and mitigation strategies
+6. Security review (auth, authorization, encryption, compliance) - **depth-dependent rigor**
+7. Scalability assessment (growth projections, horizontal scaling, bottlenecks) - **comprehensive mode only**
+8. Performance optimization opportunities (caching, CDN, query optimization) - **comprehensive mode only**
+9. Cost analysis (infrastructure costs, operational overhead) - **standard+ modes**
+10. Risk identification and mitigation strategies - **depth-dependent detail**
 
 ## Focus Area Deep-Dives
 
@@ -99,21 +122,32 @@ Execute comprehensive 10-step architecture review:
 
 ## Implementation
 
-Parse command and arguments from user input.
+Parse command using structured parser:
 
-Command format: /review-architecture <architecture-file> [--focus <area>] [--mode <mode>]
+```bash
+# Use parse_command.py for type-safe parsing
+python .claude/skills/bmad-commands/scripts/parse_command.py \
+  review-architecture \
+  $ARGUMENTS
+```
 
-Extract:
-- architecture_file: ${1} (first argument, architecture document path)
-- focus_area: ${2} (optional: security, scalability, performance, cost, all - default: all)
-- review_mode: ${3} (optional: quick, standard, strict - default: standard)
+Expected output:
+```json
+{
+  "command": "review-architecture",
+  "architecture_file": "docs/architecture.md",
+  "focus_area": "all",
+  "depth": "comprehensive",
+  "skill": "review-architecture"
+}
+```
 
 Route to architecture-review skill:
-Use .claude/skills/quality/architecture-review/SKILL.md with:
-- Input: architecture_file = ${1}
-- Input: focus_area = ${2:-all} (default to "all" for comprehensive review)
-- Input: review_mode = ${3:-standard} (default to "standard")
+Use .claude/skills/quality/architecture-review/SKILL.md with parsed parameters:
+- Input: architecture_file (from parser)
+- Input: focus_area (from parser, default: "all")
+- Input: depth (from parser, default: "comprehensive")
 
 Emit telemetry:
 - skill.architecture-review.completed
-- Track: validation_score, critical_issues_count, recommendations_count, focus_area, review_result
+- Track: validation_score, depth_mode, critical_issues_count, recommendations_count, focus_area, review_result, duration_ms
