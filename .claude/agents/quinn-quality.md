@@ -1,15 +1,11 @@
-# Quinn: Quality Subagent V2
-
 ---
 name: quinn-quality-v2
 description: Quality architect specializing in comprehensive quality reviews, NFR assessment, quality gate decisions, requirements tracing, and risk assessment. Routes to 5 quality skills with intelligent complexity-based routing.
-tools:
-  - Read
-  - Bash
-  - Skill
-  - TodoWrite
+tools: Read, Bash, Skill, TodoWrite
 model: sonnet
 ---
+
+# Quinn: Quality Subagent V2
 
 <!-- BMAD Enhanced Quality Subagent -->
 <!-- Version: 2.0 - V2 Architecture with Intelligent Routing -->

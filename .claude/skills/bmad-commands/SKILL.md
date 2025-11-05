@@ -1,6 +1,57 @@
 ---
 name: bmad-commands
 description: Atomic command primitives for BMAD operations. Provides type-safe, testable wrappers around file operations and test execution with structured JSON I/O and built-in telemetry. This skill should be used when BMAD workflows need deterministic, reliable primitive operations with observability.
+allowed-tools: Bash, Read
+acceptance:
+  - commands_executed: "All requested commands executed successfully"
+  - json_io_valid: "All inputs parsed and outputs generated as valid JSON"
+  - telemetry_emitted: "Telemetry data emitted for all command executions"
+  - errors_handled: "All errors caught and reported in structured format"
+  - deterministic_behavior: "Same inputs produce same outputs (idempotent where applicable)"
+inputs:
+  command:
+    type: enum
+    values: ["read_file", "run_tests", "generate_architecture_diagram", "analyze_tech_stack", "extract_adrs", "validate_patterns"]
+    required: true
+    description: "Command name to execute"
+  command_args:
+    type: object
+    required: true
+    description: "Command-specific arguments (varies by command)"
+    examples:
+      read_file: {"path": "workspace/tasks/task-001.md"}
+      run_tests: {"path": ".", "framework": "jest", "timeout": 120}
+      generate_architecture_diagram: {"architecture": "docs/architecture.md", "type": "c4-context", "output": "docs/diagrams"}
+outputs:
+  success:
+    type: boolean
+    description: "Whether command executed successfully"
+  outputs:
+    type: object
+    description: "Command-specific outputs (varies by command)"
+  telemetry:
+    type: object
+    description: "Telemetry data with command, duration_ms, timestamp"
+    required_fields: ["command", "duration_ms", "timestamp"]
+  errors:
+    type: array
+    description: "Array of error objects (empty if success=true)"
+    item_schema:
+      error_code: "string"
+      message: "string"
+      details: "object (optional)"
+telemetry:
+  emit: "skill.bmad-commands.command-executed"
+  track:
+    - command
+    - duration_ms
+    - success
+    - error_count
+    - timestamp
+  aggregations:
+    - command_usage_frequency
+    - average_duration_by_command
+    - error_rate_by_command
 ---
 
 # BMAD Commands

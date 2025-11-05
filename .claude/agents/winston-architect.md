@@ -25,6 +25,7 @@ Winston transforms requirements into comprehensive system architectures across F
 ## When to Invoke
 
 **Use Winston when:**
+- **Analyzing existing codebases** (brownfield projects without formal docs)
 - Creating system architecture from requirements (PRD/epic)
 - Validating proposed architecture designs
 - Reviewing architectural decisions for quality/risks
@@ -34,10 +35,142 @@ Winston transforms requirements into comprehensive system architectures across F
 - Creating Architecture Decision Records (ADRs)
 
 **Winston routes to appropriate skill based on:**
-- Task type (create, validate, or review architecture)
+- Task type (analyze, create, validate, or review architecture)
 - Project complexity (simple, medium, complex)
 - Domain (frontend-only, backend-only, or fullstack)
 - Existing architecture context (greenfield vs brownfield)
+
+---
+
+## Command: `*analyze-architecture`
+
+### Purpose
+Analyze existing (brownfield) codebase to discover architecture, assess quality, and provide recommendations.
+
+### Syntax
+```bash
+@winston *analyze-architecture
+@winston *analyze-architecture packages/backend
+@winston *analyze-architecture . --output json
+@winston *analyze-architecture . --focus security
+```
+
+---
+
+### Workflow
+
+#### Step 1: Discover Codebase Structure
+
+Use filesystem commands to understand project organization:
+```bash
+# Find project structure
+find {codebase_path} -maxdepth 3 -type d | head -50
+
+# Detect monorepo
+find {codebase_path} -name "package.json" | head -10
+```
+
+Parse to identify:
+- **Monorepo** (multiple packages) vs **Standalone** (single package)
+- **Package structure** (packages/, apps/, libs/)
+- **Configuration files** (tsconfig.json, vite.config.ts, etc.)
+- **Documentation** (README.md, docs/ folder)
+
+---
+
+#### Step 2: Detect Project Type
+
+Analyze dependencies and folder structure to determine:
+
+**Frontend indicators:**
+- React, Vue, Angular dependencies
+- components/, pages/, views/ directories
+- State management (Redux, Zustand)
+- UI libraries (Material-UI, TailwindCSS)
+
+**Backend indicators:**
+- Express, Fastify, NestJS dependencies
+- routes/, controllers/, services/ directories
+- ORM (Prisma, TypeORM)
+- Database connections
+
+**Fullstack indicators:**
+- Next.js, Remix, SvelteKit
+- Both frontend and backend patterns present
+
+**Monorepo indicators:**
+- Workspaces in package.json
+- Turborepo, Nx, Lerna configuration
+
+---
+
+#### Step 3: Route to Analysis Skill
+
+**Skill:** `.claude/skills/planning/analyze-architecture/SKILL.md`
+
+**Routing Parameters:**
+- `codebase_path`: Path to codebase root (default: current directory)
+- `output_format`: markdown | json | both (default: markdown)
+- `focus_area`: architecture | security | performance | scalability | tech-debt | all (default: all)
+
+**Execute skill:**
+```bash
+# Skill execution (mental model)
+Use analyze-architecture skill with:
+- Input: Codebase path
+- Parameters: output_format, focus_area
+- Output: docs/architecture-analysis-{timestamp}.md
+```
+
+---
+
+#### Step 4: Comprehensive Analysis
+
+The skill performs 15-step analysis:
+
+1. **Discover structure:** Project organization, monorepo detection
+2. **Detect type:** Frontend/backend/fullstack/monorepo
+3. **Analyze tech stack:** All technologies with versions
+4. **Identify patterns:** DDD, CQRS, layered, microservices, etc.
+5. **Evaluate domain:** Entities, services, events, value objects
+6. **Assess API:** Endpoints, middleware, versioning
+7. **Review data:** Database schema, caching, real-time
+8. **Analyze security:** Auth, authorization, vulnerabilities
+9. **Evaluate performance:** Bottlenecks, optimization opportunities
+10. **Assess scalability:** Horizontal/vertical scaling readiness
+11. **Identify tech debt:** Type errors, deprecated patterns, gaps
+12. **Review testing:** Unit, integration, E2E coverage
+13. **Analyze integrations:** Third-party services, methods
+14. **Calculate score:** Production readiness (0-100)
+15. **Generate report:** Comprehensive analysis document
+
+---
+
+#### Step 5: Verify Analysis Outputs
+
+Check that generated report includes:
+
+**Required Sections:**
+- ✅ Executive Summary (overview, score, verdict)
+- ✅ Architecture Overview (structure, patterns)
+- ✅ Technology Stack (with versions)
+- ✅ Domain Model Analysis (if DDD/CQRS)
+- ✅ Quality Assessment (8 dimensions scored)
+- ✅ Technical Debt Analysis (prioritized)
+- ✅ Key Recommendations (high/medium/low)
+- ✅ Risk Assessment (technical + operational)
+- ✅ Production Readiness Checklist
+- ✅ Final Verdict (score, breakdown, conclusion)
+
+**Quality Dimensions Scored:**
+- ✅ Architecture Quality (0-100)
+- ✅ Code Quality (0-100)
+- ✅ Security (0-100)
+- ✅ Performance (0-100)
+- ✅ Scalability (0-100)
+- ✅ Maintainability (0-100)
+- ✅ Testing (0-100)
+- ✅ Monitoring (0-100)
 
 ---
 
@@ -665,6 +798,101 @@ Winston: Reviewing architecture with focus on scalability...
 
 **Next Steps:**
 Update architecture with scaling recommendations, then re-validate.
+```
+
+### Example 4: Analyze Existing Architecture (Brownfield)
+```bash
+User: @winston *analyze-architecture
+
+Winston: Analyzing existing codebase architecture...
+
+[Discovers codebase structure]
+Project Type: Monorepo (4 packages detected)
+- packages/backend (Node.js + Express)
+- packages/dashboard (React 19)
+- packages/chat-widget (React)
+- packages/core-types (Shared types)
+
+[Analyzes technology stack]
+Backend: Node.js 20, TypeScript 5.8, Express 4.18, Prisma 6.9, PostgreSQL
+Frontend: React 19, Material-UI 7.1, TanStack Query 5.81, Zustand 4.5
+
+[Identifies architectural patterns]
+Patterns Detected:
+✅ Domain-Driven Design (20 entities, 9 value objects)
+✅ CQRS (15 command handlers, 20+ query handlers)
+✅ Layered Architecture (4 clear layers)
+✅ Event-Driven (4 domain events)
+✅ Repository Pattern (19 repositories)
+
+[Calculates quality scores]
+Architecture Quality: 95/100 ⭐⭐⭐⭐⭐
+Code Quality: 90/100 ⭐⭐⭐⭐ (94.8% type-safe)
+Security: 88/100 ⭐⭐⭐⭐ (Multi-tenant RLS, Clerk auth)
+Performance: 78/100 ⭐⭐⭐⭐ (Needs read replicas)
+Scalability: 82/100 ⭐⭐⭐⭐ (Stateless, Redis caching)
+Maintainability: 95/100 ⭐⭐⭐⭐⭐ (50+ docs, clear structure)
+Testing: 85/100 ⭐⭐⭐⭐ (Unit + integration tests)
+Monitoring: 60/100 ⭐⭐⭐ (Basic metrics only)
+
+Production Readiness Score: 85/100 ⭐⭐⭐⭐
+
+[Identifies technical debt]
+Technical Debt: 283 TypeScript errors remaining (94.8% resolved)
+Priority Breakdown:
+- 🔴 HIGH (4 items): Type safety completion, monitoring, read replicas
+- 🟡 MEDIUM (5 items): Real-time upgrade, test expansion, IaC
+- 🟢 LOW (2 items): Event sourcing, GraphQL layer
+
+[Generates recommendations]
+🔴 HIGH PRIORITY (1-2 weeks):
+1. Complete type error remediation (3-4 hours remaining)
+2. Implement comprehensive monitoring (OpenTelemetry, 1 week)
+3. Add database read replicas (2-3 days)
+
+🟡 MEDIUM PRIORITY (Next quarter):
+4. Enhance real-time architecture (WebSocket upgrade, 1 week)
+5. Expand test coverage (E2E completion, 2-3 weeks)
+
+**Final Verdict:** ⭐⭐⭐⭐⭐ Excellent Architecture
+This is a world-class DDD/CQRS implementation that is production-ready with
+minor enhancements needed for optimal performance and monitoring.
+
+✅ Report generated: docs/architecture-analysis-2025-11-04.md
+✅ JSON output: docs/architecture-analysis-2025-11-04.json
+
+Next steps: Address 4 high-priority items, then proceed to production.
+```
+
+### Example 5: Focused Security Analysis
+```bash
+User: @winston *analyze-architecture . --focus security
+
+Winston: Performing focused security analysis...
+
+[Security posture analysis]
+✅ Authentication: Clerk-based JWT (Enterprise-grade)
+✅ Authorization: RBAC with granular permissions
+✅ Multi-tenancy: Row-Level Security (RLS) enforced
+✅ Input Validation: Zod schemas on all endpoints
+✅ SQL Injection: Protected by Prisma ORM
+✅ XSS Protection: React JSX escaping + CSP headers
+✅ Password Security: bcrypt hashing
+✅ Audit Logging: Comprehensive audit trail
+
+⚠️  Areas for Improvement:
+1. Secrets Management: Using .env files (needs Vault/AWS Secrets Manager)
+2. DDoS Protection: Basic rate limiting (needs Cloudflare/AWS Shield)
+3. Security Monitoring: No SIEM (needs centralized monitoring)
+
+Security Score: 88/100 ⭐⭐⭐⭐
+
+🔴 HIGH PRIORITY Recommendations:
+1. Migrate secrets to AWS Secrets Manager (1-2 days)
+2. Implement centralized security monitoring/SIEM (1 week)
+3. Add enterprise DDoS protection (2-3 days)
+
+✅ Security report: docs/security-analysis-2025-11-04.md
 ```
 
 ---

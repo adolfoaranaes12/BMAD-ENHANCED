@@ -1,23 +1,48 @@
-Parse command and arguments from user input.
+---
+description: Peer review system architecture for completeness, quality, security risks, scalability bottlenecks, performance optimizations, cost analysis, and provide prioritized action items with pass/fail decision
+argument-hint: <architecture-file> [--focus <area>] [--depth <mode>]
+allowed-tools: Read, Skill
+---
 
-Command format: /review-architecture <architecture-file> [--focus <area>] [--mode <mode>]
+# Review Architecture Command
 
-Example: /review-architecture docs/architecture.md
-Example: /review-architecture docs/architecture.md --focus security
-Example: /review-architecture docs/architecture.md --focus scalability --mode strict
+Peer review system architecture for quality, risks, and optimization opportunities.
 
-Extract:
-- architecture_file: ${1} (first argument, architecture document path)
-- focus_area: ${2} (optional: security, scalability, performance, cost, all - default: all)
-- review_mode: ${3} (optional: quick, standard, strict - default: standard)
+## Usage
 
-Route to architecture-review skill:
-Use .claude/skills/quality/architecture-review/SKILL.md with:
-- Input: architecture_file = ${1}
-- Input: focus_area = ${2:-all} (default to "all" for comprehensive review)
-- Input: review_mode = ${3:-standard} (default to "standard")
+```bash
+/review-architecture <architecture-file> [--focus <area>] [--depth <mode>]
+```
 
-Execute comprehensive architecture review workflow:
+## Parameters
+
+- `architecture-file` - Path to architecture document (required)
+- `--focus` - Focus area: `all` (default), `security`, `scalability`, `performance`, `cost`, `completeness`
+- `--depth` - Review depth: `quick` (high-level, 5-7 min), `standard` (balanced, 10-12 min), `comprehensive` (rigorous, 15-20 min, **default**)
+
+## Examples
+
+```bash
+# Comprehensive review (default - most rigorous)
+/review-architecture docs/architecture.md
+
+# Quick review (high-level assessment)
+/review-architecture docs/architecture.md --depth quick
+
+# Standard review (balanced)
+/review-architecture docs/architecture.md --depth standard
+
+# Security-focused comprehensive review
+/review-architecture docs/architecture.md --focus security
+
+# Quick scalability check
+/review-architecture docs/architecture.md --focus scalability --depth quick
+```
+
+## Architecture Review Process
+
+Execute comprehensive 10-step architecture review:
+
 1. Load architecture document and requirements (if available)
 2. Completeness check (all required sections present)
 3. Technology justification review (alternatives considered, rationale provided)
@@ -29,14 +54,16 @@ Execute comprehensive architecture review workflow:
 9. Cost analysis (infrastructure costs, operational overhead)
 10. Risk identification and mitigation strategies
 
-Focus area deep-dives:
-- Security: Vulnerabilities, attack vectors, compliance gaps, security testing
-- Scalability: Bottleneck analysis, scaling triggers, database scaling, cost scaling
-- Performance: Response time optimization, caching strategy, CDN, bundle size
-- Cost: Infrastructure costs, operational overhead, cost-benefit analysis
-- All: Comprehensive review across all dimensions
+## Focus Area Deep-Dives
 
-Output review report:
+- **Security**: Vulnerabilities, attack vectors, compliance gaps, security testing
+- **Scalability**: Bottleneck analysis, scaling triggers, database scaling, cost scaling
+- **Performance**: Response time optimization, caching strategy, CDN, bundle size
+- **Cost**: Infrastructure costs, operational overhead, cost-benefit analysis
+- **All**: Comprehensive review across all dimensions
+
+## Output Review Report
+
 - Overall architecture quality score (0-100)
 - Dimension scores (completeness, tech justification, NFRs, security, scalability, documentation)
 - Critical issues (must fix before implementation)
@@ -46,26 +73,46 @@ Output review report:
 - Risk assessment (critical, major, minor risks)
 - Action items prioritized by impact
 
-Validation scoring:
-- Completeness: 25% weight
-- Technology Justification: 20% weight
-- NFRs Coverage: 20% weight
-- Security & Compliance: 15% weight
-- Scalability Planning: 10% weight
-- Documentation Quality: 10% weight
+## Validation Scoring
 
-Pass/Fail criteria:
-- Score ≥85: PASS (Excellent) - Ready for implementation
-- Score 70-84: PASS (Good) - Address recommendations, proceed
-- Score 50-69: FAIL (Needs Work) - Fix critical + high priority, re-validate
-- Score 0-49: FAIL (Inadequate) - Major rework required
+- **Completeness**: 25% weight
+- **Technology Justification**: 20% weight
+- **NFRs Coverage**: 20% weight
+- **Security & Compliance**: 15% weight
+- **Scalability Planning**: 10% weight
+- **Documentation Quality**: 10% weight
 
-Quality gates:
+## Pass/Fail Criteria
+
+- **Score ≥85**: PASS (Excellent) - Ready for implementation
+- **Score 70-84**: PASS (Good) - Address recommendations, proceed
+- **Score 50-69**: FAIL (Needs Work) - Fix critical + high priority, re-validate
+- **Score 0-49**: FAIL (Inadequate) - Major rework required
+
+## Quality Gates
+
 - No critical issues blocking implementation
 - Validation score ≥70 to proceed
 - All NFRs addressed
 - Security risks have mitigation plans
 - ADR minimum count met
+
+## Implementation
+
+Parse command and arguments from user input.
+
+Command format: /review-architecture <architecture-file> [--focus <area>] [--mode <mode>]
+
+Extract:
+- architecture_file: ${1} (first argument, architecture document path)
+- focus_area: ${2} (optional: security, scalability, performance, cost, all - default: all)
+- review_mode: ${3} (optional: quick, standard, strict - default: standard)
+
+Route to architecture-review skill:
+Use .claude/skills/quality/architecture-review/SKILL.md with:
+- Input: architecture_file = ${1}
+- Input: focus_area = ${2:-all} (default to "all" for comprehensive review)
+- Input: review_mode = ${3:-standard} (default to "standard")
 
 Emit telemetry:
 - skill.architecture-review.completed
