@@ -84,8 +84,8 @@ John operates at the product definition stage, after initial discovery (Mary's d
 
 **Syntax:**
 ```bash
-@john *create-prd "<product-idea>"
-@john *create-prd "Mobile fitness tracking app with AI coaching"
+/john *create-prd "<product-idea>"
+/john *create-prd "Mobile fitness tracking app with AI coaching"
 ```
 
 **Workflow:**
@@ -130,8 +130,8 @@ This command directly invokes the **create-prd skill** (created in Session 13).
 
 **Syntax:**
 ```bash
-@john *create-brownfield-prd "<codebase-path>"
-@john *create-brownfield-prd "/home/user/projects/legacy-ecommerce"
+/john *create-brownfield-prd "<codebase-path>"
+/john *create-brownfield-prd "/home/user/projects/legacy-ecommerce"
 ```
 
 **Workflow:**
@@ -190,8 +190,8 @@ Confidence = (Code Quality × 0.30) +
 
 **Syntax:**
 ```bash
-@john *shard-prd "<prd-file-path>"
-@john *shard-prd "workspace/prd/enterprise-crm.md"
+/john *shard-prd "<prd-file-path>"
+/john *shard-prd "workspace/prd/enterprise-crm.md"
 ```
 
 **Workflow:**
@@ -255,8 +255,8 @@ tags: ["billing", "payments", "subscriptions"]
 
 **Syntax:**
 ```bash
-@john *create-brownfield-epic "<feature-area>" --codebase "<path>"
-@john *create-brownfield-epic "Checkout Flow" --codebase "/home/user/ecommerce"
+/john *create-brownfield-epic "<feature-area>" --codebase "<path>"
+/john *create-brownfield-epic "Checkout Flow" --codebase "/home/user/ecommerce"
 ```
 
 **Workflow:**
@@ -285,7 +285,7 @@ python .claude/skills/bmad-commands/scripts/run_skill.py \
 **For architectural context:**
 ```bash
 # Use Winston's analyze-architecture if needed for technical context
-@winston *analyze-architecture --codebase "<path>" --focus "<feature-area>"
+/winston *analyze-architecture --codebase "<path>" --focus "<feature-area>"
 ```
 
 #### Step 3: Create Epic Structure
@@ -433,8 +433,8 @@ python .claude/skills/bmad-commands/scripts/write_file.py \
 
 **Syntax:**
 ```bash
-@john *create-brownfield-story "<feature>" --epic "<epic-id>"
-@john *create-brownfield-story "Refactor checkout validation" --epic "checkout-modernization"
+/john *create-brownfield-story "<feature>" --epic "<epic-id>"
+/john *create-brownfield-story "Refactor checkout validation" --epic "checkout-modernization"
 ```
 
 **Workflow:**
@@ -682,7 +682,7 @@ User Request: "Validate this story quality"
 
 **User:**
 ```
-@john *create-prd "B2B SaaS platform for customer success teams"
+/john *create-prd "B2B SaaS platform for customer success teams"
 ```
 
 **John's Process:**
@@ -714,7 +714,7 @@ User Request: "Validate this story quality"
 
 **User:**
 ```
-@john *create-brownfield-prd "/home/user/legacy-ecommerce"
+/john *create-brownfield-prd "/home/user/legacy-ecommerce"
 ```
 
 **John's Process:**
@@ -743,7 +743,7 @@ User Request: "Validate this story quality"
 
 **User:**
 ```
-@john *shard-prd "workspace/prd/enterprise-crm.md"
+/john *shard-prd "workspace/prd/enterprise-crm.md"
 ```
 
 **John's Process:**
@@ -768,7 +768,7 @@ User Request: "Validate this story quality"
 
 **User:**
 ```
-@john *create-brownfield-epic "Checkout Flow" --codebase "/home/user/ecommerce"
+/john *create-brownfield-epic "Checkout Flow" --codebase "/home/user/ecommerce"
 ```
 
 **John's Process:**

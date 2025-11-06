@@ -70,9 +70,11 @@ Last Updated: 2025-11-05
 ### Architecture (Winston)
 
 ```bash
+/winston *analyze-architecture [codebase-path] [--depth <mode>] [--output <format>]
 /winston *create-architecture <requirements-file> [--type <type>] [--depth <mode>]
+/winston *validate-architecture <architecture-file> [--strict]
 /winston *review-architecture <architecture-file> [--focus <area>]
-/winston *analyze-architecture [codebase-path] [--depth <mode>]
+/winston *compare-architectures "<requirements>" [--current <path>]
 /winston *create-adr "<decision-description>"
 /winston *validate-patterns <codebase-path>
 ```
@@ -101,6 +103,7 @@ Conversational architecture advisor (no *task needed)
 - `epic-to-sprint` - Epic breakdown to sprint plan
 - `sprint-execution` - Execute complete sprint
 - `modernize` - Brownfield modernization
+- `document-codebase` - Generate complete documentation (architecture, API, code, guides)
 
 **Purpose:** Multi-agent workflow coordination, state management
 
@@ -212,6 +215,7 @@ Conversational architecture advisor (no *task needed)
 ```bash
 /orchestrator *workflow feature-delivery "Shopping cart checkout"
 /orchestrator *workflow modernize . "Scale to 100K users + add real-time"
+/orchestrator *workflow document-codebase . --depth comprehensive
 /orchestrator *coordinate "Quality improvement" --subagents quinn,james
 ```
 
@@ -277,6 +281,13 @@ User Types          Slash Expands       Subagent Loads     Routes to Skill
 /orchestrator *workflow feature-delivery "Complete feature description"
 ```
 
+### Documenting Codebase
+```bash
+/orchestrator *workflow document-codebase . --depth standard
+/orchestrator *workflow document-codebase . --types api,code --update-existing
+/orchestrator *workflow document-codebase packages/backend --depth quick
+```
+
 ---
 
 ## Tips
@@ -297,6 +308,7 @@ User Types          Slash Expands       Subagent Loads     Routes to Skill
 
 ---
 
-**Version:** 2.0
+**Version:** 2.1
 **Status:** Production Ready
-**Complete Command Count:** 50+ commands across 10 agents
+**Complete Command Count:** 55+ commands across 10 agents
+**Workflows Available:** 5 (feature-delivery, epic-to-sprint, sprint-execution, modernize, document-codebase)

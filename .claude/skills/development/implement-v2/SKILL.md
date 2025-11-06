@@ -106,6 +106,129 @@ python .claude/skills/bmad-commands/scripts/read_file.py \
 
 ---
 
+### Step 0.5: Check for External Packages and Fetch Documentation
+
+**CRITICAL STEP:** Before writing any code, identify external packages and fetch current documentation.
+
+**Why This Step is Essential:**
+- Training data may be outdated
+- Package APIs change between versions
+- Prevents using deprecated or removed methods
+- Ensures compatibility with installed version
+
+**Action 1: Identify External Packages**
+
+Scan task specification and requirements for package mentions:
+- npm packages (JavaScript/TypeScript)
+- PyPI packages (Python)
+- Go modules
+- Maven/Gradle dependencies (Java)
+- Crates (Rust)
+- NuGet packages (.NET)
+
+**Action 2: Check Installed Versions**
+
+```bash
+# JavaScript/TypeScript
+cat package.json | grep "package-name"
+cat package-lock.json | grep -A 5 "package-name"
+
+# Python
+cat requirements.txt | grep package-name
+pip show package-name
+
+# Go
+cat go.mod | grep package-name
+
+# Rust
+cat Cargo.toml | grep package-name
+```
+
+**Action 3: Fetch Official Documentation**
+
+Use WebFetch tool to get current documentation:
+
+**JavaScript/TypeScript packages:**
+```
+WebFetch(
+  url: "https://www.npmjs.com/package/{package-name}",
+  prompt: "Extract: installation, main API methods, usage examples, version compatibility"
+)
+
+# Or check official docs
+WebFetch(
+  url: "{official-docs-url}",
+  prompt: "Extract: API reference for version {version}, method signatures, parameters, return types"
+)
+```
+
+**Python packages:**
+```
+WebFetch(
+  url: "https://pypi.org/project/{package-name}/",
+  prompt: "Extract: installation, API reference, examples for version {version}"
+)
+
+WebFetch(
+  url: "https://{package}.readthedocs.io/en/stable/",
+  prompt: "Extract: API documentation, class methods, function signatures"
+)
+```
+
+**Go modules:**
+```
+WebFetch(
+  url: "https://pkg.go.dev/{module-path}",
+  prompt: "Extract: package documentation, function signatures, examples"
+)
+```
+
+**Action 4: Verify API Compatibility**
+
+Compare fetched documentation with task requirements:
+- Confirm method names exist
+- Verify parameter types match
+- Check return types
+- Note any deprecated methods
+- Identify breaking changes from older versions
+
+**Action 5: Document Findings**
+
+Add comments in code referencing documentation:
+```typescript
+// Using axios@1.6.0
+// Docs: https://axios-http.com/docs/api_intro
+// Method: axios.get(url, config) returns Promise<AxiosResponse>
+import axios from 'axios';
+```
+
+**If Package is Unfamiliar:**
+- Spend 5-10 minutes reviewing documentation
+- Understand core concepts and patterns
+- Review example code
+- Note common pitfalls
+- Prefer official examples over training data
+
+**Common Documentation Sources:**
+
+| Language | Primary Source | Secondary Source |
+|----------|---------------|------------------|
+| JavaScript/TS | npmjs.com, official docs | TypeScript definitions |
+| Python | PyPI, Read the Docs | Official package docs |
+| Go | pkg.go.dev | godoc |
+| Java | Maven Central | Javadoc |
+| Rust | docs.rs | crates.io |
+| .NET | NuGet | Microsoft Docs |
+
+**If Documentation Not Found:**
+- Check package repository (GitHub, GitLab)
+- Look for README.md
+- Check CHANGELOG for version-specific changes
+- Search for migration guides
+- Escalate to user if critical package lacks documentation
+
+---
+
 ### Step 1: Analyze Requirements
 
 **Action:** Break down acceptance criteria into test cases.

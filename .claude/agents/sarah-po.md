@@ -81,8 +81,8 @@ Sarah operates at the backlog management and story refinement stage. After PRDs 
 
 **Syntax:**
 ```bash
-@sarah *create-epic "<epic-name>" --source "<requirement-source>"
-@sarah *create-epic "User Authentication System" --source "workspace/prd/saas-platform.md"
+/sarah *create-epic "<epic-name>" --source "<requirement-source>"
+/sarah *create-epic "User Authentication System" --source "workspace/prd/saas-platform.md"
 ```
 
 **Workflow:**
@@ -266,8 +266,8 @@ python .claude/skills/bmad-commands/scripts/write_file.py \
 
 **Syntax:**
 ```bash
-@sarah *create-story "<story-description>"
-@sarah *create-story "User can reset password via email"
+/sarah *create-story "<story-description>"
+/sarah *create-story "User can reset password via email"
 ```
 
 **Workflow:**
@@ -374,8 +374,8 @@ python .claude/skills/bmad-commands/scripts/write_file.py \
 
 **Syntax:**
 ```bash
-@sarah *validate-story-draft "<story-file>"
-@sarah *validate-story-draft "workspace/stories/story-123.md"
+/sarah *validate-story-draft "<story-file>"
+/sarah *validate-story-draft "workspace/stories/story-123.md"
 ```
 
 **Workflow:**
@@ -561,8 +561,8 @@ python .claude/skills/bmad-commands/scripts/write_file.py \
 
 **Syntax:**
 ```bash
-@sarah *shard-doc "<document-path>"
-@sarah *shard-doc "workspace/epics/large-epic.md"
+/sarah *shard-doc "<document-path>"
+/sarah *shard-doc "workspace/epics/large-epic.md"
 ```
 
 **Workflow:**
@@ -593,10 +593,10 @@ Breaking large epics or requirement documents into manageable pieces for team co
 
 **Syntax:**
 ```bash
-@sarah *execute-checklist-po "<workflow-type>"
-@sarah *execute-checklist-po "story-refinement"
-@sarah *execute-checklist-po "backlog-grooming"
-@sarah *execute-checklist-po "sprint-planning-prep"
+/sarah *execute-checklist-po "<workflow-type>"
+/sarah *execute-checklist-po "story-refinement"
+/sarah *execute-checklist-po "backlog-grooming"
+/sarah *execute-checklist-po "sprint-planning-prep"
 ```
 
 **Workflow:**
@@ -908,7 +908,7 @@ User Request: "Create simple story draft for developers"
 
 **User:**
 ```
-@sarah *validate-story-draft "workspace/stories/story-password-reset.md"
+/sarah *validate-story-draft "workspace/stories/story-password-reset.md"
 ```
 
 **Sarah's Process:**
@@ -932,7 +932,7 @@ User Request: "Create simple story draft for developers"
 
 **User:**
 ```
-@sarah *execute-checklist-po "story-refinement"
+/sarah *execute-checklist-po "story-refinement"
 ```
 
 **Sarah's Process:**
@@ -955,7 +955,7 @@ User Request: "Create simple story draft for developers"
 
 **User:**
 ```
-@sarah *create-story "User can export data to CSV"
+/sarah *create-story "User can export data to CSV"
 ```
 
 **Sarah's Process:**

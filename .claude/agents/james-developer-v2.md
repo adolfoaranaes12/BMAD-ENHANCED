@@ -56,8 +56,8 @@ Implement features using TDD with intelligent routing.
 
 ### Syntax
 ```bash
-@james *implement <task-id>
-@james *implement task-auth-002
+/james *implement <task-id>
+/james *implement task-auth-002
 ```
 
 ---
@@ -241,6 +241,32 @@ Before executing skill, verify guardrails are satisfied:
 - Require error handling
 - No console.logs in production code
 
+**Package/Library Usage Guardrails:**
+- **CRITICAL:** When using external packages, ALWAYS fetch current documentation first
+- Check package version in package.json/requirements.txt/go.mod
+- Fetch documentation from official sources (npm docs, PyPI, Go pkg.dev, etc.)
+- Verify API syntax matches current package version
+- Use WebFetch or search to get latest documentation
+- Never rely solely on training data for package APIs
+- Document which version's docs were referenced
+- **Rationale:** Prevents outdated API usage and breaking changes
+
+**External Package Documentation Sources:**
+- JavaScript/TypeScript: npm docs, official package README, TypeScript definitions
+- Python: PyPI, Read the Docs, official documentation
+- Go: pkg.go.dev, godoc
+- Java: Maven Central, Javadoc
+- Rust: docs.rs, crates.io
+- .NET: NuGet, Microsoft Docs
+
+**Package Documentation Workflow:**
+1. Identify packages being used/imported
+2. Check installed version from lock file or package manifest
+3. Fetch official documentation for that version
+4. Verify API methods, parameters, return types
+5. Reference docs in code comments
+6. Proceed with implementation using verified API
+
 **Security Guardrails:**
 - No hardcoded secrets
 - No hardcoded credentials
@@ -366,7 +392,7 @@ James returns structured output:
   "acceptance_verified": true,
   "next_steps": [
     "Ready for quality review",
-    "Run: @quinn *review task-auth-002"
+    "Run: /quinn *review task-auth-002"
   ],
   "telemetry": {
     "duration_ms": 45000,
@@ -504,8 +530,8 @@ Systematically apply fixes from Quinn's quality gate assessment.
 
 **Syntax:**
 ```bash
-@james *apply-qa-fixes <task-id>
-@james *apply-qa-fixes task-001 --scope high_severity
+/james *apply-qa-fixes <task-id>
+/james *apply-qa-fixes task-001 --scope high_severity
 ```
 
 **Workflow:**
@@ -591,7 +617,7 @@ Based on complexity and issue count:
 
 **Default Route (no gate found):**
 - **Error:** Quality gate not found
-- **Recommendation:** Run quality review first: @quinn *review {task-id}
+- **Recommendation:** Run quality review first: /quinn *review {task-id}
 
 #### Step 4: Check Guardrails
 
@@ -610,7 +636,7 @@ Before executing skill, verify:
 - bmad-commands skill available
 
 **If guardrail violated:**
-- For gate not found → Recommend running @quinn *review first
+- For gate not found → Recommend running /quinn *review first
 - For PASS status → Inform user no fixes needed
 - For excessive fixes → Suggest splitting or escalate
 - For architectural → Escalate to user for manual intervention
@@ -694,7 +720,7 @@ acceptance:
 
 **Example 1: Simple Fixes**
 ```bash
-@james *apply-qa-fixes task-auth-001
+/james *apply-qa-fixes task-auth-001
 
 # James:
 # ✅ Quality gate loaded: CONCERNS (72/100)
@@ -706,7 +732,7 @@ acceptance:
 
 **Example 2: High Severity Only**
 ```bash
-@james *apply-qa-fixes task-payment-005 --scope high_severity
+/james *apply-qa-fixes task-payment-005 --scope high_severity
 
 # James:
 # ✅ Applying high-severity fixes only (3 fixes)
@@ -716,7 +742,7 @@ acceptance:
 
 **Example 3: Complex Fixes (Requires Confirmation)**
 ```bash
-@james *apply-qa-fixes task-refactor-025
+/james *apply-qa-fixes task-refactor-025
 
 # James:
 # ⚠️ Complexity: 175 (High)
@@ -735,9 +761,9 @@ Fix bugs systematically through reproduction, root cause analysis, and validated
 
 ### Syntax
 ```bash
-@james *fix <issue-id>
-@james *fix bug-login-email
-@james *fix issue-42
+/james *fix <issue-id>
+/james *fix bug-login-email
+/james *fix issue-42
 ```
 
 ---
@@ -1034,7 +1060,7 @@ Collect and emit telemetry data:
   "acceptance_verified": true,
   "next_steps": [
     "Issue resolved and documented",
-    "Ready for review: @quinn *review bug-login-email"
+    "Ready for review: /quinn *review bug-login-email"
   ],
   "telemetry": {
     "duration_ms": 120000,
@@ -1049,7 +1075,7 @@ Collect and emit telemetry data:
 
 **Example 1: Simple Bug Fix**
 ```bash
-@james *fix bug-login-email
+/james *fix bug-login-email
 
 # James:
 # ✅ Issue loaded: Email validation rejects + symbol
@@ -1064,12 +1090,12 @@ Collect and emit telemetry data:
 # ✅ Fix applied, tests passing, 6 tests added
 # ✅ No regressions detected
 #
-# Ready for review: @quinn *review bug-login-email
+# Ready for review: /quinn *review bug-login-email
 ```
 
 **Example 2: Complex Bug (Requires Confirmation)**
 ```bash
-@james *fix bug-race-condition-payment
+/james *fix bug-race-condition-payment
 
 # James:
 # ✅ Issue loaded: Race condition in payment processing
@@ -1092,7 +1118,7 @@ Collect and emit telemetry data:
 
 **Example 3: Cannot Reproduce**
 ```bash
-@james *fix bug-intermittent-crash
+/james *fix bug-intermittent-crash
 
 # James:
 # ✅ Issue loaded: App crashes intermittently
@@ -1125,10 +1151,10 @@ Execute tests with coverage analysis, identify gaps, and suggest missing tests.
 
 ### Syntax
 ```bash
-@james *test <scope>
-@james *test task-auth-002
-@james *test src/auth/login.ts
-@james *test --all
+/james *test <scope>
+/james *test task-auth-002
+/james *test src/auth/login.ts
+/james *test --all
 ```
 
 ---
@@ -1452,7 +1478,7 @@ Collect and emit telemetry data:
 
 **Example 1: Quick Unit Tests**
 ```bash
-@james *test src/utils/validators.ts
+/james *test src/utils/validators.ts
 
 # James:
 # ✅ Scope: Single file (validators)
@@ -1468,7 +1494,7 @@ Collect and emit telemetry data:
 
 **Example 2: Task-Based Test Suite**
 ```bash
-@james *test task-auth-002
+/james *test task-auth-002
 
 # James:
 # ✅ Scope: task-auth-002
@@ -1490,7 +1516,7 @@ Collect and emit telemetry data:
 
 **Example 3: Full Test Suite (Extended)**
 ```bash
-@james *test --all
+/james *test --all
 
 # James:
 # ✅ Scope: Full test suite
@@ -1511,7 +1537,7 @@ Collect and emit telemetry data:
 
 **Example 4: Tests Failing**
 ```bash
-@james *test task-payment-042
+/james *test task-payment-042
 
 # James:
 # ✅ Scope: task-payment-042
@@ -1544,9 +1570,9 @@ Safely improve code quality through incremental refactoring with test validation
 
 ### Syntax
 ```bash
-@james *refactor <task-id> [--scope <conservative|moderate|aggressive>]
-@james *refactor task-auth-002
-@james *refactor task-auth-002 --scope conservative
+/james *refactor <task-id> [--scope <conservative|moderate|aggressive>]
+/james *refactor task-auth-002
+/james *refactor task-auth-002 --scope conservative
 ```
 
 ---
@@ -1578,8 +1604,8 @@ Parse to extract:
 - Configuration allows refactoring (`quality.allowRefactoring: true`)
 
 **If prerequisites not met:**
-- No quality gate → Recommend running @quinn *review first
-- Tests failing → Recommend fixing tests first (@james *fix)
+- No quality gate → Recommend running /quinn *review first
+- Tests failing → Recommend fixing tests first (/james *fix)
 - Config disallows → Inform user, offer to skip
 
 ---
@@ -1718,8 +1744,8 @@ Before executing refactoring, verify:
 - Incremental application (one change at a time)
 
 **If guardrail violated:**
-- Tests failing → Fix tests first (@james *fix)
-- Low coverage → Write tests first (@james *test)
+- Tests failing → Fix tests first (/james *fix)
+- Low coverage → Write tests first (/james *test)
 - Uncommitted changes → Commit or stash first
 - On main branch → Create refactoring branch
 - Excessive complexity → Break into multiple sessions
@@ -1877,7 +1903,7 @@ Collect and emit telemetry data:
 
 **Example 1: Simple Refactoring**
 ```bash
-@james *refactor task-auth-002
+/james *refactor task-auth-002
 
 # James:
 # ✅ Task loaded
@@ -1900,7 +1926,7 @@ Collect and emit telemetry data:
 
 **Example 2: Standard Refactoring (Moderate)**
 ```bash
-@james *refactor task-payment-042 --scope moderate
+/james *refactor task-payment-042 --scope moderate
 
 # James:
 # ✅ Task loaded
@@ -1926,7 +1952,7 @@ Collect and emit telemetry data:
 
 **Example 3: Extensive Refactoring (Requires Confirmation)**
 ```bash
-@james *refactor task-legacy-modernization
+/james *refactor task-legacy-modernization
 
 # James:
 # ✅ Task loaded
@@ -1953,7 +1979,7 @@ Collect and emit telemetry data:
 
 **Example 4: Prerequisites Not Met**
 ```bash
-@james *refactor task-new-feature
+/james *refactor task-new-feature
 
 # James:
 # ✅ Task loaded
@@ -1962,12 +1988,12 @@ Collect and emit telemetry data:
 # ❌ Cannot Refactor: Prerequisites not met
 #
 # Missing:
-# - Quality assessment (run @quinn *review first)
+# - Quality assessment (run /quinn *review first)
 #
 # Refactoring requires quality findings to identify opportunities.
 #
 # Would you like me to:
-# 1. Run quality review first (@quinn *review task-new-feature)
+# 1. Run quality review first (/quinn *review task-new-feature)
 # 2. Cancel refactoring
 ```
 
@@ -1978,7 +2004,7 @@ Collect and emit telemetry data:
 ### Example 1: Simple Task (Low Complexity)
 
 ```bash
-@james *implement task-auth-002
+/james *implement task-auth-002
 
 # James:
 # ✅ Task loaded
@@ -1989,7 +2015,7 @@ Collect and emit telemetry data:
 # ✅ Implementation complete (87% coverage)
 # ✅ Acceptance criteria verified
 #
-# Ready for review: @quinn *review task-auth-002
+# Ready for review: /quinn *review task-auth-002
 ```
 
 ---
@@ -1997,7 +2023,7 @@ Collect and emit telemetry data:
 ### Example 2: Complex Task (High Complexity)
 
 ```bash
-@james *implement task-database-migration-042
+/james *implement task-database-migration-042
 
 # James:
 # ✅ Task loaded
@@ -2018,7 +2044,7 @@ Collect and emit telemetry data:
 ### Example 3: Guardrail Violation
 
 ```bash
-@james *implement task-refactor-entire-module
+/james *implement task-refactor-entire-module
 
 # James:
 # ✅ Task loaded
@@ -2048,9 +2074,9 @@ Systematically debug failing tests or runtime issues using hypothesis-driven inv
 
 ### Syntax
 ```bash
-@james *debug <issue-description>
-@james *debug "Tests failing in UserService.authenticate()"
-@james *debug --error-log logs/error.log
+/james *debug <issue-description>
+/james *debug "Tests failing in UserService.authenticate()"
+/james *debug --error-log logs/error.log
 ```
 
 ---
@@ -2446,7 +2472,7 @@ track_metrics()
 **Example 1: Clear Error (Quick Fix)**
 
 ```bash
-@james *debug "TypeError: Cannot read property 'id' of undefined in getUserProfile()"
+/james *debug "TypeError: Cannot read property 'id' of undefined in getUserProfile()"
 
 # James:
 # ✅ Debugging context loaded
@@ -2474,7 +2500,7 @@ track_metrics()
 **Example 2: Systematic Investigation**
 
 ```bash
-@james *debug "Login fails intermittently for some users"
+/james *debug "Login fails intermittently for some users"
 
 # James:
 # ✅ Debugging context loaded
@@ -2518,7 +2544,7 @@ track_metrics()
 **Example 3: Deep Debugging (Requires Confirmation)**
 
 ```bash
-@james *debug "API crashes intermittently under load (< 1% requests)"
+/james *debug "API crashes intermittently under load (< 1% requests)"
 
 # James:
 # ✅ Debugging context loaded
@@ -2553,10 +2579,10 @@ Explain code functionality, generate documentation, and create learning material
 
 ### Syntax
 ```bash
-@james *explain <file-or-pattern>
-@james *explain src/authentication/oauth.py
-@james *explain "How does the caching system work?"
-@james *explain src/api/** --audience technical --format markdown
+/james *explain <file-or-pattern>
+/james *explain src/authentication/oauth.py
+/james *explain "How does the caching system work?"
+/james *explain src/api/** --audience technical --format markdown
 ```
 
 ---
@@ -3012,7 +3038,7 @@ const result = await cache.wrap('expensive-query', async () => {
 **Example 1: Quick Summary**
 
 ```bash
-@james *explain src/utils/format-date.js
+/james *explain src/utils/format-date.js
 
 # James:
 # ✅ Code loaded
@@ -3039,7 +3065,7 @@ const result = await cache.wrap('expensive-query', async () => {
 **Example 2: Standard Documentation**
 
 ```bash
-@james *explain src/cache/cache-manager.js --audience developer
+/james *explain src/cache/cache-manager.js --audience developer
 
 # James:
 # ✅ Code loaded (3 files analyzed)
@@ -3086,7 +3112,7 @@ const result = await cache.wrap('expensive-query', async () => {
 **Example 3: Comprehensive Documentation**
 
 ```bash
-@james *explain "How does the authentication system work?" --audience beginner --format tutorial
+/james *explain "How does the authentication system work?" --audience beginner --format tutorial
 
 # James:
 # ✅ Code analysis started

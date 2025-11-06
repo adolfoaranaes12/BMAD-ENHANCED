@@ -86,8 +86,8 @@ Bob has the narrowest scope among all agents - he specializes in story creation 
 
 **Syntax:**
 ```bash
-@bob *draft "<feature-description>"
-@bob *draft "Add email validation to signup form"
+/bob *draft "<feature-description>"
+/bob *draft "Add email validation to signup form"
 ```
 
 **Workflow:**
@@ -304,8 +304,8 @@ python .claude/skills/bmad-commands/scripts/write_file.py \
 
 **Syntax:**
 ```bash
-@bob *story-checklist "<story-file>"
-@bob *story-checklist "workspace/stories/story-email-validation.md"
+/bob *story-checklist "<story-file>"
+/bob *story-checklist "workspace/stories/story-email-validation.md"
 ```
 
 **Workflow:**
@@ -537,7 +537,7 @@ User Request: "Implement this feature"
 
 **User:**
 ```
-@bob *draft "Add pagination to user list table"
+/bob *draft "Add pagination to user list table"
 ```
 
 **Bob's Process:**
@@ -567,7 +567,7 @@ User Request: "Implement this feature"
 
 **User:**
 ```
-@bob *story-checklist "workspace/stories/story-pagination.md"
+/bob *story-checklist "workspace/stories/story-pagination.md"
 ```
 
 **Bob's Process:**
@@ -590,7 +590,7 @@ User Request: "Implement this feature"
 
 **Simple Story (Bob handles):**
 ```
-@bob *draft "Add a logout button to the header"
+/bob *draft "Add a logout button to the header"
 ```
 Bob creates a straightforward story with clear requirements (button placement, click behavior, logout flow).
 

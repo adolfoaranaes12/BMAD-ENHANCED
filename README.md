@@ -22,6 +22,8 @@ Transform hours of AGILE ceremony into minutes of AI-assisted productivity.
 
 **See [Complete Documentation Index](./docs/DOCUMENTATION-INDEX.md) for all 60+ guides**
 
+**Installing BMAD Enhanced?** → [Installation Guide](./docs/INSTALLATION-GUIDE.md)
+
 ---
 
 ## What is BMAD Enhanced?

@@ -75,7 +75,7 @@ Perform comprehensive quality review including code quality, NFRs, and quality g
 
 ### Syntax
 ```
-@quinn *review <task-id>
+/quinn *review <task-id>
 ```
 
 ### Workflow
@@ -264,7 +264,7 @@ Assess non-functional requirements (performance, security, scalability, reliabil
 
 ### Syntax
 ```
-@quinn *assess-nfr <task-id>
+/quinn *assess-nfr <task-id>
 ```
 
 ### Workflow
@@ -418,7 +418,7 @@ Make final quality gate decision (PASS/CONCERNS/FAIL/WAIVED) based on all qualit
 
 ### Syntax
 ```
-@quinn *validate-quality-gate <task-id>
+/quinn *validate-quality-gate <task-id>
 ```
 
 ### Workflow
@@ -606,7 +606,7 @@ Trace requirements (acceptance criteria) to implementation and tests for complia
 
 ### Syntax
 ```
-@quinn *trace-requirements <task-id>
+/quinn *trace-requirements <task-id>
 ```
 
 ### Workflow
@@ -754,7 +754,7 @@ Assess implementation risks using P×I (Probability × Impact) methodology.
 
 ### Syntax
 ```
-@quinn *assess-risk <task-id>
+/quinn *assess-risk <task-id>
 ```
 
 ### Workflow
@@ -975,17 +975,17 @@ Quality is iterative:
 ### When to Invoke Quinn
 
 **Early (Planning/Design):**
-- `@quinn *assess-risk task-007` → Identify risks before implementation
+- `/quinn *assess-risk task-007` → Identify risks before implementation
 
 **During Development:**
-- `@quinn *trace-requirements task-007` → Verify ACs being addressed
+- `/quinn *trace-requirements task-007` → Verify ACs being addressed
 
 **After Implementation:**
-- `@quinn *review task-007` → Comprehensive quality review
-- `@quinn *assess-nfr task-007` → Validate quality attributes
+- `/quinn *review task-007` → Comprehensive quality review
+- `/quinn *assess-nfr task-007` → Validate quality attributes
 
 **Before Merge:**
-- `@quinn *validate-quality-gate task-007` → Final gate decision
+- `/quinn *validate-quality-gate task-007` → Final gate decision
 
 ### CI/CD Integration
 
@@ -996,7 +996,7 @@ Quinn's quality gate YAML output can be integrated into CI/CD pipelines:
 - name: Quality Gate Check
   run: |
     # Run Quinn's quality gate
-    claude-code "@quinn *validate-quality-gate task-${{ github.event.number }}"
+    claude-code "/quinn *validate-quality-gate task-${{ github.event.number }}"
 
     # Check decision
     GATE_STATUS=$(yq '.gate.decision.status' .claude/quality/gates/*.yaml)
@@ -1028,7 +1028,7 @@ Quinn doesn't gatekeep - Quinn provides the data teams need to make informed qua
 ### Example 1: Full Quality Review
 
 ```
-User: @quinn *review task-auth-001
+User: /quinn *review task-auth-001
 
 Quinn: I'll perform comprehensive quality review for task-auth-001.
 
@@ -1065,7 +1065,7 @@ See full report: .claude/quality/assessments/task-auth-001-review-20250131.md
 ### Example 2: Quality Gate Decision
 
 ```
-User: @quinn *validate-quality-gate task-auth-001
+User: /quinn *validate-quality-gate task-auth-001
 
 Quinn: I'll make quality gate decision for task-auth-001.
 
@@ -1100,7 +1100,7 @@ See full gate report:
 ### Example 3: NFR Assessment
 
 ```
-User: @quinn *assess-nfr task-payment-api
+User: /quinn *assess-nfr task-payment-api
 
 Quinn: I'll assess non-functional requirements for task-payment-api.
 

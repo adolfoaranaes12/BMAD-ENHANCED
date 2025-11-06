@@ -46,6 +46,9 @@
 ### Essential Reading
 
 - **[README.md](../README.md)** - Main project overview, features, and quick start
+- **[INSTALLATION-GUIDE.md](./INSTALLATION-GUIDE.md)** ⭐ - How to install BMAD Enhanced in your projects
+- **[HOW-TO-USE-AGENTS-CORRECTLY.md](./HOW-TO-USE-AGENTS-CORRECTLY.md)** ⭐ - Correct command syntax guide
+- **[PACKAGE-DOCUMENTATION-FETCHING-GUIDE.md](./PACKAGE-DOCUMENTATION-FETCHING-GUIDE.md)** ⭐ - Fetch package docs before implementing
 - **[WHY-BMAD-ENHANCED.md](./WHY-BMAD-ENHANCED.md)** - Project vision and goals
 - **[BROWNFIELD-GETTING-STARTED.md](./BROWNFIELD-GETTING-STARTED.md)** - Brownfield project onboarding
 - **[ESSENTIAL-DEVELOPMENT-DOCS.md](./ESSENTIAL-DEVELOPMENT-DOCS.md)** - Critical files for developers

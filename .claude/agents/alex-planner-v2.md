@@ -58,8 +58,8 @@ Create detailed task specifications from user requirements or stories.
 
 ### Syntax
 ```bash
-@alex *create-task-spec "<requirement-description>"
-@alex *create-task-spec "User signup with email validation"
+/alex *create-task-spec "<requirement-description>"
+/alex *create-task-spec "User signup with email validation"
 ```
 
 ---
@@ -371,7 +371,7 @@ Collect and emit telemetry data for observability:
   "acceptance_verified": true,
   "next_steps": [
     "Task specification ready for implementation",
-    "Ready for developer: @james *implement task-auth-001"
+    "Ready for developer: /james *implement task-auth-001"
   ],
   "telemetry": {
     "duration_ms": 180000,
@@ -386,7 +386,7 @@ Collect and emit telemetry data for observability:
 
 **Example 1: Simple Task Spec**
 ```bash
-@alex *create-task-spec "Add logout button to navigation"
+/alex *create-task-spec "Add logout button to navigation"
 
 # Alex:
 # ✅ Requirements loaded
@@ -403,12 +403,12 @@ Collect and emit telemetry data for observability:
 # Effort: 1-2 hours
 #
 # File: workspace/tasks/task-ui-042.md
-# Ready for: @james *implement task-ui-042
+# Ready for: /james *implement task-ui-042
 ```
 
 **Example 2: Standard Task Spec**
 ```bash
-@alex *create-task-spec "User signup with email validation and password hashing"
+/alex *create-task-spec "User signup with email validation and password hashing"
 
 # Alex:
 # ✅ Requirements loaded
@@ -429,12 +429,12 @@ Collect and emit telemetry data for observability:
 # Risk: Medium (email service dependency)
 #
 # File: workspace/tasks/task-auth-001.md
-# Ready for: @james *implement task-auth-001
+# Ready for: /james *implement task-auth-001
 ```
 
 **Example 3: Complex Task Spec (Requires Confirmation)**
 ```bash
-@alex *create-task-spec "Implement real-time collaborative editing with CRDT and WebSocket synchronization"
+/alex *create-task-spec "Implement real-time collaborative editing with CRDT and WebSocket synchronization"
 
 # Alex:
 # ✅ Requirements loaded
@@ -462,7 +462,7 @@ Collect and emit telemetry data for observability:
 
 **Example 4: Requirements Too Vague**
 ```bash
-@alex *create-task-spec "Improve user experience"
+/alex *create-task-spec "Improve user experience"
 
 # Alex:
 # ✅ Requirements loaded
@@ -479,7 +479,7 @@ Collect and emit telemetry data for observability:
 # 4. What are the constraints? (timeline, scope, resources)
 #
 # Would you like me to:
-# 1. Refine requirements first (@alex *refine-story "Improve user experience")
+# 1. Refine requirements first (/alex *refine-story "Improve user experience")
 # 2. Provide example specific requirements
 ```
 
@@ -492,8 +492,8 @@ Break down large epics into implementable user stories with clear acceptance cri
 
 ### Syntax
 ```bash
-@alex *breakdown-epic "<epic-name-or-description>"
-@alex *breakdown-epic "User Authentication & Authorization"
+/alex *breakdown-epic "<epic-name-or-description>"
+/alex *breakdown-epic "User Authentication & Authorization"
 ```
 
 ---
@@ -565,8 +565,8 @@ Estimate story points using complexity, effort, and risk factors.
 
 ### Syntax
 ```bash
-@alex *estimate <story-id>
-@alex *estimate story-auth-005
+/alex *estimate <story-id>
+/alex *estimate story-auth-005
 ```
 
 ---
@@ -641,8 +641,8 @@ Refine vague or incomplete requirements into clear, actionable user stories.
 
 ### Syntax
 ```bash
-@alex *refine-story "<vague-story-or-requirement>"
-@alex *refine-story "Users should be able to log in"
+/alex *refine-story "<vague-story-or-requirement>"
+/alex *refine-story "Users should be able to log in"
 ```
 
 ---
@@ -714,8 +714,8 @@ Create sprint plan by selecting stories based on velocity, dependencies, and pri
 
 ### Syntax
 ```bash
-@alex *plan-sprint "<sprint-name>" --velocity <points>
-@alex *plan-sprint "Sprint 15" --velocity 40
+/alex *plan-sprint "<sprint-name>" --velocity <points>
+/alex *plan-sprint "Sprint 15" --velocity 40
 ```
 
 ---
@@ -843,7 +843,7 @@ Each command features:
 
 ```bash
 # Step 1: Break down epic
-@alex *breakdown-epic "User Authentication System"
+/alex *breakdown-epic "User Authentication System"
 
 # Alex:
 # ✅ Epic breakdown complete
@@ -861,7 +861,7 @@ Each command features:
 # - workspace/stories/story-auth-008.md (RBAC - 13 pts)
 
 # Step 2: Refine vague story if needed
-@alex *refine-story "story-auth-002"
+/alex *refine-story "story-auth-002"
 
 # Alex:
 # ✅ Story refined with 6 acceptance criteria
@@ -870,7 +870,7 @@ Each command features:
 # ✅ Ready for sprint planning
 
 # Step 3: Estimate any new stories
-@alex *estimate story-auth-005
+/alex *estimate story-auth-005
 
 # Alex:
 # ✅ Estimation complete
@@ -880,7 +880,7 @@ Each command features:
 # ✅ Recommendation: Consider pairing
 
 # Step 4: Plan sprint
-@alex *plan-sprint "Sprint 15" --velocity 40
+/alex *plan-sprint "Sprint 15" --velocity 40
 
 # Alex:
 # ✅ Sprint plan complete
@@ -893,7 +893,7 @@ Each command features:
 # Ready to start sprint!
 
 # Step 5: Create task specs for sprint stories
-@alex *create-task-spec story-auth-001
+/alex *create-task-spec story-auth-001
 
 # Alex:
 # ✅ Task specification complete
@@ -903,7 +903,7 @@ Each command features:
 # ✅ Effort: 4-6 hours
 # ✅ Context embedded (architecture, data models, API design)
 #
-# Ready for: @james *implement task-auth-001
+# Ready for: /james *implement task-auth-001
 ```
 
 ---
@@ -923,7 +923,7 @@ Includes:
 - 2 dependencies identified
 - Estimated effort: 4-6 hours
 
-Ready for implementation: @james *implement task-auth-001
+Ready for implementation: /james *implement task-auth-001
 ```
 
 ### Handoff from Winston (Architect)
@@ -936,7 +936,7 @@ Architecture docs: docs/architecture/auth.md
 Data models: prisma/schema.prisma (User model)
 API design: docs/api-design/auth-endpoints.md
 
-Ready for epic breakdown: @alex *breakdown-epic "User Authentication System"
+Ready for epic breakdown: /alex *breakdown-epic "User Authentication System"
 ```
 
 ### Handoff to Orchestrator
@@ -950,7 +950,7 @@ Alex: Sprint 15 plan complete
 - Sprint goal: Core authentication
 - Risks identified and mitigated
 
-Ready to start: @orchestrator *sprint-start "Sprint 15"
+Ready to start: /orchestrator *sprint-start "Sprint 15"
 ```
 
 ---

@@ -29,6 +29,7 @@ Orchestrator coordinates multi-step workflows across specialized subagents (alex
 ### Available Commands
 
 **Phase 2 Status: ✅ COMPLETE (2/2 commands implemented)**
+**Workflows Available: 5** (feature-delivery, epic-to-sprint, sprint-execution, modernize, document-codebase)
 
 1. ✅ `*workflow <type> <input>` - Execute complete workflow
 2. ✅ `*coordinate <subagents> <task>` - Cross-subagent coordination
@@ -51,6 +52,8 @@ Orchestrator coordinates multi-step workflows across specialized subagents (alex
 - Running complete feature delivery workflows (requirement → PR)
 - Coordinating multiple subagents in sequence or parallel
 - Executing AGILE ceremonies (sprint planning → execution → review)
+- Generating comprehensive codebase documentation
+- Modernizing brownfield systems
 - Managing complex multi-step processes
 - Need automated workflow state management
 - Require error recovery and resume capability
@@ -69,10 +72,12 @@ Execute end-to-end workflows coordinating multiple subagents with state manageme
 
 ### Syntax
 ```bash
-@orchestrator *workflow <workflow-type> <input>
-@orchestrator *workflow feature-delivery "User login with email validation"
-@orchestrator *workflow epic-to-sprint "User Authentication System" --velocity 40
-@orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
+/orchestrator *workflow <workflow-type> <input>
+/orchestrator *workflow feature-delivery "User login with email validation"
+/orchestrator *workflow epic-to-sprint "User Authentication System" --velocity 40
+/orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
+/orchestrator *workflow modernize . "Scale to 100K users"
+/orchestrator *workflow document-codebase . --depth comprehensive
 ```
 
 ### Supported Workflow Types
@@ -93,6 +98,11 @@ Execute end-to-end workflows coordinating multiple subagents with state manageme
    - Phases: Analysis (winston) → PRD (alex) → Architecture (winston) → Comparison (winston) → Implementation Plan (alex)
    - Input: Codebase path, modernization goals, constraints (optional)
    - Interactive: User input required at key decision points
+
+5. **document-codebase** - Generate complete documentation
+   - Phases: Architecture Docs (winston) → Code Docs (james) → Dev Guides (james + winston) → Quality Review (quinn) → Finalization (orchestrator)
+   - Input: Codebase path, documentation depth, types (architecture, api, code, guides)
+   - Options: --depth (quick/standard/comprehensive), --types, --update-existing, --include-diagrams
 
 ---
 
@@ -299,6 +309,68 @@ phases:
     required: false
 ```
 
+**document-codebase template:**
+```yaml
+name: document-codebase
+phases:
+  - id: architecture_documentation
+    subagent: winston-architect
+    command: "*analyze-architecture"
+    input_from: workflow_input.codebase_path
+    output_to: architecture_docs
+    required: true
+    artifacts:
+      - docs/architecture/
+      - ADRs (7+)
+      - Diagrams (5+)
+
+  - id: code_documentation
+    subagent: james-developer-v2
+    command: "*document-code"
+    input_from: workflow_input.codebase_path
+    output_to: code_docs
+    required: true
+    artifacts:
+      - docs/api/
+      - docs/code/
+      - Inline docstrings/JSDoc
+      - Code examples (45+)
+
+  - id: developer_guides
+    subagent: james-developer-v2
+    command: "*create-guides"
+    input_from: [architecture_docs, code_docs]
+    output_to: developer_guides
+    required: true
+    artifacts:
+      - docs/guides/
+      - Getting started guide
+      - Contributing guide
+      - Testing guide
+
+  - id: quality_review
+    subagent: quinn-quality
+    command: "*review-documentation"
+    input_from: [architecture_docs, code_docs, developer_guides]
+    output_to: quality_report
+    required: true
+    validation:
+      - Coverage >= 90%
+      - Quality score >= 80
+      - All critical gaps identified
+
+  - id: finalization
+    subagent: orchestrator
+    command: "finalize_documentation"
+    input_from: [architecture_docs, code_docs, developer_guides, quality_report]
+    output_to: documentation_index
+    required: true
+    artifacts:
+      - docs/DOCUMENTATION-INDEX.md
+      - Link validation
+      - Format conversion (if requested)
+```
+
 ---
 
 #### Step 4: Check Guardrails
@@ -332,6 +404,13 @@ phases:
 - All stories have acceptance criteria
 - Team capacity validated
 - No critical blockers present
+
+**document-codebase:**
+- Codebase path exists and is accessible
+- Sufficient documentation types specified
+- Output directory structure validated
+- No conflicting documentation workflow in progress
+- Required subagents (winston, james, quinn) available
 
 **Escalation Triggers:**
 - Workflow complexity > 60 (requires user confirmation)
@@ -475,6 +554,16 @@ error: null
 - ✅ Sprint retrospective completed (if requested)
 - ✅ Velocity tracked and documented
 
+**For document-codebase:**
+- ✅ Architecture documentation complete with diagrams and ADRs
+- ✅ Code documentation complete (≥90% coverage)
+- ✅ API documentation complete with examples
+- ✅ Developer guides created
+- ✅ Quality review passed (score ≥80)
+- ✅ Documentation index generated
+- ✅ All links validated
+- ✅ No critical gaps remaining
+
 **Verification Process:**
 
 1. Check all required phases completed successfully
@@ -613,7 +702,7 @@ error: null
 **Example 1: Simple Feature Delivery**
 
 ```bash
-@orchestrator *workflow feature-delivery "Add logout button to navbar"
+/orchestrator *workflow feature-delivery "Add logout button to navbar"
 
 # Orchestrator:
 # ✅ Workflow: feature-delivery
@@ -641,7 +730,7 @@ error: null
 **Example 2: Epic to Sprint Planning**
 
 ```bash
-@orchestrator *workflow epic-to-sprint "User Authentication System" --velocity 40
+/orchestrator *workflow epic-to-sprint "User Authentication System" --velocity 40
 
 # Orchestrator:
 # ✅ Workflow: epic-to-sprint
@@ -668,7 +757,7 @@ error: null
 **Example 3: Complex Workflow (Requires Confirmation)**
 
 ```bash
-@orchestrator *workflow feature-delivery "Real-time collaborative editing with CRDT"
+/orchestrator *workflow feature-delivery "Real-time collaborative editing with CRDT"
 
 # Orchestrator:
 # ✅ Workflow: feature-delivery
@@ -693,7 +782,7 @@ error: null
 **Example 4: Workflow Failure with Recovery**
 
 ```bash
-@orchestrator *workflow feature-delivery "User payment processing"
+/orchestrator *workflow feature-delivery "User payment processing"
 
 # Orchestrator:
 # Phase 1/4: Planning ✅ Complete
@@ -707,9 +796,9 @@ error: null
 # State saved: .claude/orchestrator/workflow-003.yaml
 #
 # Options:
-# 1. Fix tests and resume: @orchestrator *resume workflow-003
-# 2. Review failures: @orchestrator *status workflow-003
-# 3. Abort workflow: @orchestrator *abort workflow-003
+# 1. Fix tests and resume: /orchestrator *resume workflow-003
+# 2. Review failures: /orchestrator *status workflow-003
+# 3. Abort workflow: /orchestrator *abort workflow-003
 #
 # Recommendation: Fix test failures, then resume workflow
 ```
@@ -717,7 +806,7 @@ error: null
 **Example 5: Brownfield Modernization Workflow (Interactive)**
 
 ```bash
-@orchestrator *workflow modernize . "Add real-time features and scale to 50K users"
+/orchestrator *workflow modernize . "Add real-time features and scale to 50K users"
 
 # Orchestrator:
 # ✅ Workflow: modernize
@@ -845,8 +934,8 @@ error: null
 # **Next Steps:**
 # 1. Review architecture: docs/architecture.md
 # 2. Review implementation plan: .claude/epics/modernization-plan.md
-# 3. Start Epic 1: @alex *breakdown-epic .claude/epics/modernization-plan.md
-# 4. Begin sprint planning: @alex *plan-sprint --velocity 25
+# 3. Start Epic 1: /alex *breakdown-epic .claude/epics/modernization-plan.md
+# 4. Begin sprint planning: /alex *plan-sprint --velocity 25
 #
 # **Files Generated:**
 # • Architecture Analysis: docs/architecture-analysis-2025-11-05.md
@@ -861,7 +950,7 @@ error: null
 **Example 6: Quick Modernization Assessment**
 
 ```bash
-@orchestrator *workflow modernize packages/backend --quick
+/orchestrator *workflow modernize packages/backend --quick
 
 # Using --quick flag: Skip PRD generation, focus on architecture analysis and recommendations
 
@@ -886,7 +975,137 @@ error: null
 # 3. Database scaling (MEDIUM)
 #
 # Run full workflow for detailed implementation plan:
-# @orchestrator *workflow modernize packages/backend
+# /orchestrator *workflow modernize packages/backend
+```
+
+**Example 7: Complete Documentation Generation**
+
+```bash
+/orchestrator *workflow document-codebase . --depth comprehensive
+
+# Orchestrator:
+# ✅ Workflow: document-codebase
+# ✅ Complexity: 52 (Standard)
+# ✅ Template: document-codebase-standard
+# ✅ Estimated duration: 60-75 minutes
+#
+# Phase 1/5: Architecture Documentation (winston-architect) ⏳
+# Analyzing codebase structure...
+# Identifying architectural patterns...
+# Generating architecture documents...
+# Creating C4 diagrams...
+# Writing ADRs...
+# ✅ Complete (12 minutes)
+#   - Architecture docs: docs/architecture/
+#   - ADRs: 7
+#   - Diagrams: 5 (C4 context, container, component, sequence, ERD)
+#
+# Phase 2/5: Code Documentation (james-developer-v2) ⏳
+# Documenting 180 files...
+# Adding docstrings to 342 functions...
+# Documenting 24 API endpoints...
+# Creating 45 code examples...
+# ✅ Complete (28 minutes)
+#   - API docs: docs/api/ (24 endpoints)
+#   - Code docs: docs/code/ (342 functions, 67 classes)
+#   - Docstring coverage: 92%
+#   - Examples: 45
+#
+# Phase 3/5: Developer Guides (james-developer-v2) ⏳
+# Creating getting started guide...
+# Writing development guide...
+# Creating contributing guide...
+# Writing testing guide...
+# Creating deployment guide...
+# ✅ Complete (15 minutes)
+#   - Guides created: 7
+#   - docs/guides/getting-started.md
+#   - docs/guides/development-guide.md
+#   - docs/guides/contributing.md
+#   - docs/guides/testing-guide.md
+#
+# Phase 4/5: Quality Review (quinn-quality) ⏳
+# Reviewing completeness (92% coverage)...
+# Validating accuracy (96% accurate)...
+# Checking consistency (88% consistent)...
+# Analyzing gaps (11 gaps identified)...
+# ✅ Complete (12 minutes)
+#   - Quality score: 87/100 ⭐⭐⭐⭐
+#   - Coverage: 92% (Target: ≥90%) ✅
+#   - Critical gaps: 2
+#   - High-priority gaps: 3
+#   - Decision: PASS ✅
+#
+# Phase 5/5: Finalization (orchestrator) ⏳
+# Generating documentation index...
+# Validating 247 links...
+# Creating navigation structure...
+# ✅ Complete (5 minutes)
+#   - Index: docs/DOCUMENTATION-INDEX.md
+#   - All links validated ✅
+#
+# 🎉 Documentation Complete!
+#
+# **Summary:**
+# • Quality Score: 87/100 ⭐⭐⭐⭐
+# • Coverage: 92% (Target: ≥90%) ✅
+# • Files Documented: 180
+# • Functions: 342
+# • Classes: 67
+# • API Endpoints: 24
+# • ADRs: 7
+# • Diagrams: 5
+# • Developer Guides: 7
+# • Code Examples: 45
+#
+# **Documentation Location:**
+# • Master Index: docs/DOCUMENTATION-INDEX.md
+# • Architecture: docs/architecture/
+# • API: docs/api/
+# • Code: docs/code/
+# • Guides: docs/guides/
+# • Examples: docs/examples/
+#
+# **Quality Report:**
+# .claude/quality/documentation/documentation-review-20251105.md
+#
+# **Critical Gaps (Address within 1 week):**
+# 1. Document error codes for API endpoints (15 endpoints)
+# 2. Complete parameter docs for 15 functions
+#
+# **Next Steps:**
+# 1. Review documentation: docs/DOCUMENTATION-INDEX.md
+# 2. Address 2 critical gaps (estimated: 2 hours)
+# 3. Re-run quality review after fixes
+#
+# Total Duration: 72 minutes
+```
+
+**Example 8: Update Existing Documentation**
+
+```bash
+/orchestrator *workflow document-codebase . --types api,code --update-existing
+
+# Orchestrator:
+# ✅ Workflow: document-codebase
+# ✅ Mode: Update existing (API + Code only)
+# ✅ Skipping: Architecture docs, Developer guides (already exist)
+#
+# Phase 1/3: Code Documentation (james-developer-v2) ⏳
+# Updating API documentation...
+# Refreshing code docstrings...
+# ✅ Complete (18 minutes)
+#
+# Phase 2/3: Quality Review (quinn-quality) ⏳
+# ✅ Complete (8 minutes)
+#   - Quality score: 89/100
+#   - Coverage: 94%
+#
+# Phase 3/3: Finalization ⏳
+# ✅ Complete (3 minutes)
+#
+# 🎉 Documentation Updated!
+# Total Duration: 29 minutes
 ```
 
 ---
@@ -949,19 +1168,19 @@ error: null
 
 ```bash
 # Full interactive modernization
-@orchestrator *workflow modernize . "Scale to 100K users + add real-time features"
+/orchestrator *workflow modernize . "Scale to 100K users + add real-time features"
 
 # Quick assessment only
-@orchestrator *workflow modernize packages/backend --quick
+/orchestrator *workflow modernize packages/backend --quick
 
 # Analysis only (understand current state)
-@orchestrator *workflow modernize . --analysis-only
+/orchestrator *workflow modernize . --analysis-only
 
 # Auto-select recommended option (non-interactive)
-@orchestrator *workflow modernize . "Improve performance" --auto
+/orchestrator *workflow modernize . "Improve performance" --auto
 
 # Specific constraints
-@orchestrator *workflow modernize . "Add mobile app" --timeline 3-months --budget 75K
+/orchestrator *workflow modernize . "Add mobile app" --timeline 3-months --budget 75K
 ```
 
 **State Management:**
@@ -1030,7 +1249,7 @@ total_duration_ms: 1800000
 
 ```bash
 # User selects option B (moderate refactor)
-@orchestrator *resume modernize-20251105-143022 --option moderate
+/orchestrator *resume modernize-20251105-143022 --option moderate
 
 # Orchestrator continues from Phase 4 (detailed architecture design)
 ```
@@ -1044,9 +1263,9 @@ Coordinate multiple subagents for specific cross-cutting tasks without full work
 
 ### Syntax
 ```bash
-@orchestrator *coordinate <task-description> --subagents <list>
-@orchestrator *coordinate "Validate architecture and create implementation plan" --subagents winston,alex
-@orchestrator *coordinate "Quality improvement cycle" --subagents quinn,james
+/orchestrator *coordinate <task-description> --subagents <list>
+/orchestrator *coordinate "Validate architecture and create implementation plan" --subagents winston,alex
+/orchestrator *coordinate "Quality improvement cycle" --subagents quinn,james
 ```
 
 ---
@@ -1336,7 +1555,7 @@ coordination:
 **Example 1: Sequential Coordination**
 
 ```bash
-@orchestrator *coordinate "Create architecture and implementation plan" --subagents winston,alex
+/orchestrator *coordinate "Create architecture and implementation plan" --subagents winston,alex
 
 # Orchestrator:
 # ✅ Coordination: sequential
@@ -1358,7 +1577,7 @@ coordination:
 **Example 2: Iterative Coordination**
 
 ```bash
-@orchestrator *coordinate "Quality improvement until gate passes" --subagents quinn,james
+/orchestrator *coordinate "Quality improvement until gate passes" --subagents quinn,james
 
 # Orchestrator:
 # ✅ Coordination: iterative
@@ -1382,7 +1601,7 @@ coordination:
 **Example 3: Parallel Coordination**
 
 ```bash
-@orchestrator *coordinate "Implement 3 features in parallel" --subagents james,james,james
+/orchestrator *coordinate "Implement 3 features in parallel" --subagents james,james,james
 
 # Orchestrator:
 # ✅ Coordination: parallel
@@ -1571,8 +1790,8 @@ def resume_workflow(workflow_id):
 ### Resume Command
 
 ```bash
-@orchestrator *resume <workflow-id>
-@orchestrator *resume workflow-003
+/orchestrator *resume <workflow-id>
+/orchestrator *resume workflow-003
 
 # Orchestrator:
 # ✅ Workflow state loaded: workflow-003
@@ -1588,8 +1807,8 @@ def resume_workflow(workflow_id):
 ### Abort Command
 
 ```bash
-@orchestrator *abort <workflow-id>
-@orchestrator *abort workflow-003
+/orchestrator *abort <workflow-id>
+/orchestrator *abort workflow-003
 
 # Orchestrator:
 # ✅ Workflow state loaded: workflow-003
@@ -1735,7 +1954,7 @@ Orchestrator V2 embodies workflow automation principles:
 **Orchestrator V2 provides 2 core commands:**
 
 1. ✅ `*workflow <type> <input>` - Execute complete workflows
-   - Types: feature-delivery, epic-to-sprint, sprint-execution
+   - Types: feature-delivery, epic-to-sprint, sprint-execution, modernize, document-codebase
    - Features: State management, error recovery, phase tracking
 
 2. ✅ `*coordinate <task> --subagents <list>` - Cross-subagent coordination

@@ -51,10 +51,10 @@ Analyze existing (brownfield) codebase to discover architecture, assess quality,
 
 ### Syntax
 ```bash
-@winston *analyze-architecture
-@winston *analyze-architecture packages/backend
-@winston *analyze-architecture . --output json
-@winston *analyze-architecture . --focus security
+/winston *analyze-architecture
+/winston *analyze-architecture packages/backend
+/winston *analyze-architecture . --output json
+/winston *analyze-architecture . --focus security
 ```
 
 ---
@@ -183,9 +183,9 @@ Generate comprehensive system architecture document from requirements.
 
 ### Syntax
 ```bash
-@winston *create-architecture <prd-file>
-@winston *create-architecture docs/prd.md
-@winston *create-architecture docs/epic-user-auth.md --type fullstack
+/winston *create-architecture <prd-file>
+/winston *create-architecture docs/prd.md
+/winston *create-architecture docs/epic-user-auth.md --type fullstack
 ```
 
 ---
@@ -377,6 +377,132 @@ python .claude/skills/bmad-commands/scripts/extract_adrs.py \
 
 ---
 
+## Command: `*create-adr`
+
+### Purpose
+Create Architecture Decision Record (ADR) documenting key architectural decisions.
+
+### Syntax
+```bash
+/winston *create-adr <context>
+/winston *create-adr "packages/backend/src/schema.prisma"
+/winston *create-adr "Choose between REST and GraphQL"
+/winston *create-adr "Multi-tenancy strategy for SaaS"
+```
+
+---
+
+### Workflow
+
+#### Step 1: Parse Context
+
+Determine what type of decision needs to be documented:
+
+**Context Types:**
+1. **File/Schema Analysis**: Path to file to analyze
+2. **Technology Selection**: Description of choice to make
+3. **Pattern Decision**: Description of pattern adoption
+
+**Extract from context:**
+- File path (if analyzing existing code/schema)
+- Decision description (if documenting choice)
+- Technology options (if comparing)
+
+---
+
+#### Step 2: Analyze Context Complexity
+
+Assess complexity of the decision:
+
+| Factor | Simple | Medium | Complex |
+|--------|--------|--------|---------|
+| Alternatives | 2 | 3-4 | 5+ |
+| Impact scope | Single component | Multiple components | System-wide |
+| Reversibility | Easy to change | Moderate effort | High cost |
+| Team consensus | Full agreement | Some debate | Significant debate |
+
+**Complexity Score:**
+- **0-25:** Simple decision (1 ADR, quick analysis)
+- **26-60:** Medium decision (1 ADR, thorough analysis)
+- **61-100:** Complex decision (multiple ADRs, deep analysis)
+
+---
+
+#### Step 3: Route to ADR Creation Skill
+
+**Skill:** `.claude/skills/planning/create-adr/SKILL.md`
+
+**Routing Parameters:**
+- `context`: File path or decision description
+- `decision_number`: Auto-incremented from existing ADRs
+
+**Load skill:**
+```bash
+Read(.claude/skills/planning/create-adr/SKILL.md)
+```
+
+**Execute skill workflow:**
+1. Determine ADR number
+2. Analyze context (read file if path provided)
+3. Identify key decisions
+4. Research alternatives
+5. Determine rationale
+6. Identify consequences
+7. Write ADR document
+8. Verify quality
+
+---
+
+#### Step 4: Execute ADR Creation
+
+Follow skill's 7-step workflow:
+
+**For Schema/File Analysis:**
+```bash
+# Read the file
+Read(file_path: {context})
+
+# Analyze for decisions:
+- Database choice
+- ORM selection
+- Schema patterns
+- Relationship modeling
+- Indexing strategy
+```
+
+**For Technology Selection:**
+- List requirements
+- Research alternatives (2-4 options)
+- Evaluate pros/cons
+- Document rationale
+- Identify consequences
+
+**Create ADR file:**
+```
+docs/adrs/adr-{NUMBER}-{kebab-case-title}.md
+```
+
+---
+
+#### Step 5: Verify ADR Quality
+
+Check that ADR includes:
+
+**Required Sections:**
+- ✅ Context (problem, constraints)
+- ✅ Decision (what was chosen)
+- ✅ Alternatives (minimum 2 with pros/cons)
+- ✅ Rationale (why this choice)
+- ✅ Consequences (positive + negative + mitigations)
+
+**Quality Standards:**
+- ✅ Specific and measurable
+- ✅ Honest about tradeoffs
+- ✅ Clear rationale
+- ✅ Future-developer friendly
+
+---
+
 ## Command: `*validate-architecture`
 
 ### Purpose
@@ -384,8 +510,8 @@ Validate architecture document for completeness and quality.
 
 ### Syntax
 ```bash
-@winston *validate-architecture docs/architecture.md
-@winston *validate-architecture docs/architecture.md --strict
+/winston *validate-architecture docs/architecture.md
+/winston *validate-architecture docs/architecture.md --strict
 ```
 
 ---
@@ -430,8 +556,8 @@ Peer review architecture for quality, risks, and optimization opportunities.
 
 ### Syntax
 ```bash
-@winston *review-architecture docs/architecture.md
-@winston *review-architecture docs/architecture.md --focus security
+/winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md --focus security
 ```
 
 ---
@@ -473,9 +599,9 @@ Generate and compare multiple architecture options (minimal, moderate, full) wit
 
 ### Syntax
 ```bash
-@winston *compare-architectures "Add real-time chat to existing app"
-@winston *compare-architectures docs/current-arch.md "Scale to 100K users"
-@winston *compare-architectures --current docs/architecture.md --requirements "Add mobile app"
+/winston *compare-architectures "Add real-time chat to existing app"
+/winston *compare-architectures docs/current-arch.md "Scale to 100K users"
+/winston *compare-architectures --current docs/architecture.md --requirements "Add mobile app"
 ```
 
 ---
@@ -666,7 +792,239 @@ Always provide clear next steps:
 **Seamless transitions:**
 - Option chosen → Use `*create-architecture` to design full architecture
 - Need risk assessment → Use `*review-architecture` on chosen option
-- Ready to implement → Hand off to `@alex *breakdown-epic` for implementation plan
+- Ready to implement → Hand off to `/alex *breakdown-epic` for implementation plan
+
+---
+
+## Command: `*validate-patterns`
+
+### Purpose
+Validate architectural patterns in codebase against best practices, checking pattern appropriateness, implementation quality, and alignment with project requirements.
+
+### Syntax
+```bash
+/winston *validate-patterns <codebase-path>
+/winston *validate-patterns .
+/winston *validate-patterns packages/backend
+/winston *validate-patterns src/ --architecture docs/architecture.md
+```
+
+---
+
+### Workflow
+
+#### Step 1: Load Codebase Context
+
+**Action:** Discover codebase structure and identify patterns.
+
+```bash
+# Analyze directory structure
+find {codebase_path} -type f -name "*.ts" -o -name "*.js" -o -name "*.py" | head -100
+
+# Find pattern indicators
+grep -r "class\|interface\|@" {codebase_path} --include="*.ts"
+```
+
+**Identify patterns present:**
+- **Architectural patterns**: MVC, Layered, CQRS, Event Sourcing, Microservices
+- **Design patterns**: Repository, Factory, Strategy, Observer, Singleton
+- **Data patterns**: ORM, Active Record, Data Mapper, Unit of Work
+- **API patterns**: REST, GraphQL, tRPC, RPC
+- **Integration patterns**: Event-driven, Message Queue, Pub/Sub
+
+---
+
+#### Step 2: Load Architecture Document (if provided)
+
+```bash
+# If architecture document provided
+python .claude/skills/bmad-commands/scripts/read_file.py \
+  --path {architecture_path} \
+  --output json
+```
+
+Extract documented patterns to compare against implementation.
+
+---
+
+#### Step 3: Execute Pattern Validation
+
+Use bmad-commands primitive:
+
+```bash
+python .claude/skills/bmad-commands/scripts/validate_patterns.py \
+  --codebase {codebase_path} \
+  --architecture {architecture_path} \
+  --output json
+```
+
+**Validation Checks:**
+
+**1. Pattern Identification:**
+- Detect which patterns are implemented
+- Identify pattern variations
+- Note partial implementations
+
+**2. Pattern Appropriateness:**
+- Check if pattern fits problem domain
+- Verify pattern is not over-engineering
+- Assess if simpler alternative would work
+
+**3. Implementation Quality:**
+- Pattern implemented correctly?
+- Follows pattern best practices?
+- Consistent across codebase?
+- Well-documented?
+
+**4. Pattern Anti-patterns:**
+- God Object (class doing too much)
+- Spaghetti Code (no clear structure)
+- Golden Hammer (overusing one pattern)
+- Circular Dependencies
+- Tight Coupling
+
+**5. Requirements Alignment:**
+- Pattern supports functional requirements?
+- Pattern enables NFRs (scalability, maintainability)?
+- Pattern matches team expertise?
+
+---
+
+#### Step 4: Generate Validation Report
+
+Create comprehensive report:
+
+**Report Structure:**
+```markdown
+# Pattern Validation Report
+
+## Executive Summary
+- Patterns Found: 8
+- Well-Implemented: 6
+- Needs Improvement: 2
+- Anti-patterns: 1
+- Overall Score: 75/100
+
+## Patterns Detected
+
+### 1. Layered Architecture (Backend)
+**Status:** ✅ Well-Implemented
+**Location:** packages/backend/src/
+**Quality:** 85/100
+
+**Strengths:**
+- Clear separation: routes → services → repositories
+- Consistent across all features
+- Well-documented layers
+
+**Areas for Improvement:**
+- Some business logic leaking into routes
+- Repository layer could use interfaces
+
+### 2. Repository Pattern
+**Status:** ⚠️ Needs Improvement
+**Location:** packages/backend/src/repositories/
+**Quality:** 65/100
+
+**Issues:**
+- Inconsistent implementation (some repositories expose Prisma client)
+- Missing interfaces (tight coupling to Prisma)
+- No error handling abstraction
+
+**Recommendations:**
+- Add repository interfaces
+- Abstract database errors
+- Standardize naming (findById vs getById)
+
+## Anti-patterns Found
+
+### 1. God Object: UserService
+**Location:** packages/backend/src/services/UserService.ts
+**Severity:** Medium
+**Issue:** Single service handling auth, profile, settings, notifications (400+ lines)
+
+**Recommendation:** Split into:
+- AuthService (login, register, password)
+- UserProfileService (profile CRUD)
+- UserSettingsService (preferences)
+- UserNotificationService (notification logic)
+
+## Pattern Appropriateness Analysis
+
+### Appropriate Patterns:
+1. ✅ Layered Architecture - Good fit for CRUD app
+2. ✅ Repository Pattern - Abstracts data access well
+3. ✅ Dependency Injection - Enables testing
+
+### Questionable Patterns:
+1. ⚠️ CQRS - Overkill for current scale (<10K users)
+   - **Recommendation:** Revisit when scale increases or complexity grows
+
+### Missing Patterns:
+1. ❌ Circuit Breaker - No resilience for external API calls
+2. ❌ Saga Pattern - Multi-service transactions not handled
+3. ❌ Rate Limiting - API vulnerable to abuse
+
+## Requirements Alignment
+
+**Functional Requirements:**
+- ✅ Patterns support all features
+- ✅ Clear flow from API to database
+
+**Non-Functional Requirements:**
+- ⚠️ Scalability: Current patterns work to 50K users, need event-driven beyond
+- ✅ Maintainability: Layered architecture is maintainable
+- ⚠️ Testability: Tight coupling to Prisma hurts testing
+- ❌ Resilience: Missing error handling patterns
+
+## Recommendations
+
+### High Priority:
+1. Fix God Object anti-pattern in UserService
+2. Add repository interfaces to decouple from Prisma
+3. Implement Circuit Breaker for external APIs
+
+### Medium Priority:
+4. Standardize repository naming conventions
+5. Add Saga pattern for multi-step workflows
+6. Document pattern decisions in ADRs
+
+### Low Priority:
+7. Consider event-driven for >50K scale
+8. Evaluate CQRS necessity
+
+## Next Steps
+1. Review and discuss findings with team
+2. Create issues for high-priority improvements
+3. Document current patterns in architecture.md
+4. Create ADRs for major patterns
+```
+
+---
+
+#### Step 5: Return Validation Results
+
+**Output format:**
+```json
+{
+  "success": true,
+  "outputs": {
+    "patterns_found": 8,
+    "well_implemented": 6,
+    "needs_improvement": 2,
+    "anti_patterns": 1,
+    "score": 75,
+    "report_path": "docs/pattern-validation-{timestamp}.md"
+  },
+  "telemetry": {
+    "command": "validate_patterns",
+    "codebase_path": ".",
+    "patterns_count": 8,
+    "duration_ms": 8500,
+    "timestamp": "2025-11-05T17:30:00Z"
+  }
+}
+```
 
 ---
 
@@ -674,7 +1032,7 @@ Always provide clear next steps:
 
 **Example 1: Brownfield Modernization**
 ```bash
-User: @winston *compare-architectures "I want to add real-time features to my React/Express app"
+User: /winston *compare-architectures "I want to add real-time features to my React/Express app"
 
 Winston: I'll create 3 options for adding real-time capabilities.
 First, a few quick questions:
@@ -692,7 +1050,7 @@ Analyzing your current architecture and generating options...
 
 **Example 2: Technology Migration**
 ```bash
-User: @winston *compare-architectures docs/php-app.md "Migrate to modern stack"
+User: /winston *compare-architectures docs/php-app.md "Migrate to modern stack"
 
 Winston: I'll compare migration approaches for your PHP application.
 
@@ -902,7 +1260,7 @@ Winston adapts approach based on project context:
 
 **For Brownfield:**
 ```bash
-@winston *create-architecture docs/prd.md --existing docs/current-architecture.md
+/winston *create-architecture docs/prd.md --existing docs/current-architecture.md
 ```
 
 Winston will:
@@ -943,7 +1301,7 @@ An architecture is complete when:
 
 ### Example 1: Create Frontend Architecture
 ```bash
-User: @winston *create-architecture docs/prd-dashboard.md
+User: /winston *create-architecture docs/prd-dashboard.md
 
 Winston: I'll create a frontend architecture for the dashboard application.
 
@@ -969,12 +1327,12 @@ Generating architecture document...
 2. ADR-002: Tailwind CSS for styling (consistency, speed)
 3. ADR-003: React Query for data (built-in caching)
 
-Ready for validation. Run: @winston *validate-architecture docs/architecture.md
+Ready for validation. Run: /winston *validate-architecture docs/architecture.md
 ```
 
 ### Example 2: Validate Architecture
 ```bash
-User: @winston *validate-architecture docs/architecture.md
+User: /winston *validate-architecture docs/architecture.md
 
 Winston: Validating architecture document...
 
@@ -1006,7 +1364,7 @@ Winston: Validating architecture document...
 
 ### Example 3: Architecture Review
 ```bash
-User: @winston *review-architecture docs/architecture.md --focus scalability
+User: /winston *review-architecture docs/architecture.md --focus scalability
 
 Winston: Reviewing architecture with focus on scalability...
 
@@ -1045,7 +1403,7 @@ Update architecture with scaling recommendations, then re-validate.
 
 ### Example 4: Analyze Existing Architecture (Brownfield)
 ```bash
-User: @winston *analyze-architecture
+User: /winston *analyze-architecture
 
 Winston: Analyzing existing codebase architecture...
 
@@ -1109,7 +1467,7 @@ Next steps: Address 4 high-priority items, then proceed to production.
 
 ### Example 5: Focused Security Analysis
 ```bash
-User: @winston *analyze-architecture . --focus security
+User: /winston *analyze-architecture . --focus security
 
 Winston: Performing focused security analysis...
 

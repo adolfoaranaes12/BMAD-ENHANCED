@@ -79,8 +79,8 @@ Sally operates at the UI/UX design stage, after product requirements are defined
 
 **Syntax:**
 ```bash
-@sally *create-front-end-spec "<feature-description>"
-@sally *create-front-end-spec "User dashboard with activity feed and analytics"
+/sally *create-front-end-spec "<feature-description>"
+/sally *create-front-end-spec "User dashboard with activity feed and analytics"
 ```
 
 **Workflow:**
@@ -612,8 +612,8 @@ python .claude/skills/bmad-commands/scripts/write_file.py \
 
 **Syntax:**
 ```bash
-@sally *generate-ui-prompt "<feature-description>" --tool "<v0|lovable|artifacts>"
-@sally *generate-ui-prompt "User dashboard with activity feed" --tool "v0"
+/sally *generate-ui-prompt "<feature-description>" --tool "<v0|lovable|artifacts>"
+/sally *generate-ui-prompt "User dashboard with activity feed" --tool "v0"
 ```
 
 **Workflow:**
@@ -944,7 +944,7 @@ User Request: "Conduct user research"
 
 **User:**
 ```
-@sally *create-front-end-spec "Settings page with profile editing"
+/sally *create-front-end-spec "Settings page with profile editing"
 ```
 
 **Sally's Process:**
@@ -963,7 +963,7 @@ User Request: "Conduct user research"
 
 **User:**
 ```
-@sally *generate-ui-prompt "Kanban board with drag-and-drop" --tool "v0"
+/sally *generate-ui-prompt "Kanban board with drag-and-drop" --tool "v0"
 ```
 
 **Sally's Process:**
@@ -985,7 +985,7 @@ User Request: "Conduct user research"
 
 **User:**
 ```
-@sally *create-front-end-spec "Data table with sorting and filtering"
+/sally *create-front-end-spec "Data table with sorting and filtering"
 ```
 
 **Sally's Process:**

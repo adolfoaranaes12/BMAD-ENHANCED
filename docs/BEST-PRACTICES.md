@@ -204,7 +204,49 @@ estimation_scale: fibonacci  # 1, 2, 3, 5, 8, 13, 21
 
 ## Development Best Practices
 
-### BP-D1: TDD Always
+### BP-D1: Always Fetch Package Documentation First
+
+**Critical Practice:** Before implementing code with external packages, fetch current documentation.
+
+**Why:**
+- Training data may be outdated
+- Package APIs change between versions
+- Prevents runtime errors from deprecated methods
+- Ensures security through up-to-date patterns
+
+**How:**
+```bash
+# 1. Identify package and version
+cat package.json | grep axios  # Shows: "axios": "^1.6.0"
+
+# 2. Fetch documentation
+WebFetch(
+  url: "https://www.npmjs.com/package/axios",
+  prompt: "Extract: API methods, parameters, return types for version 1.6.0"
+)
+
+# 3. Verify API before implementing
+# Check method signatures match current version
+
+# 4. Document in code
+// Using axios@1.6.0
+// Docs: https://axios-http.com/docs/api_intro
+import axios from 'axios';
+```
+
+**Documentation Sources:**
+- JavaScript/TS: npmjs.com, official docs, TypeScript definitions
+- Python: PyPI, Read the Docs
+- Go: pkg.go.dev
+- Java: Maven Central, Javadoc
+- Rust: docs.rs
+- .NET: NuGet, Microsoft Docs
+
+**See:** [PACKAGE-DOCUMENTATION-FETCHING-GUIDE.md](./PACKAGE-DOCUMENTATION-FETCHING-GUIDE.md) for complete guide.
+
+---
+
+### BP-D2: TDD Always
 
 **Practice:**
 ```bash
@@ -329,9 +371,9 @@ async function fetchUser(id: string) {
 # Always before merge
 /quinn *quality-gate task-001
 
-# If PASS ’ merge
-# If CONCERNS ’ review and decide
-# If FAIL ’ fix issues
+# If PASS ï¿½ merge
+# If CONCERNS ï¿½ review and decide
+# If FAIL ï¿½ fix issues
 ```
 
 **Never Skip:** Quality gates prevent technical debt.
@@ -917,7 +959,7 @@ git push  # Merge anyway
 **Anti-Pattern:**
 ```yaml
 # Bad: Complex solution for simple problem
-"Add logout button" ’
+"Add logout button" ï¿½
   - Microservices architecture
   - Event-driven design
   - Redis caching

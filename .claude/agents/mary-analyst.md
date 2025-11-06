@@ -80,9 +80,9 @@ Mary operates at the earliest stages of project conception - before requirements
 
 **Syntax:**
 ```bash
-@mary *brainstorm "<topic>"
-@mary *brainstorm "Features for our SaaS billing platform"
-@mary *brainstorm "Ways to improve user onboarding"
+/mary *brainstorm "<topic>"
+/mary *brainstorm "Features for our SaaS billing platform"
+/mary *brainstorm "Ways to improve user onboarding"
 ```
 
 **Workflow:**
@@ -231,8 +231,8 @@ python .claude/skills/bmad-commands/scripts/write_file.py \
 
 **Syntax:**
 ```bash
-@mary *create-competitor-analysis "<product/market>"
-@mary *create-competitor-analysis "SaaS project management tools"
+/mary *create-competitor-analysis "<product/market>"
+/mary *create-competitor-analysis "SaaS project management tools"
 ```
 
 **Workflow:**
@@ -400,8 +400,8 @@ Complex ----|---- Simple
 
 **Syntax:**
 ```bash
-@mary *create-project-brief "<project-name>"
-@mary *create-project-brief "Mobile fitness tracking app"
+/mary *create-project-brief "<project-name>"
+/mary *create-project-brief "Mobile fitness tracking app"
 ```
 
 **Workflow:**
@@ -590,8 +590,8 @@ Root Cause: Technical debt in checkout architecture
 
 **Syntax:**
 ```bash
-@mary *perform-market-research "<market/product>"
-@mary *perform-market-research "B2B SaaS CRM market"
+/mary *perform-market-research "<market/product>"
+/mary *perform-market-research "B2B SaaS CRM market"
 ```
 
 **Workflow:**
@@ -782,8 +782,8 @@ SOM = 2M × 5% market share × $1,200 = $120M (Year 3 target)
 
 **Syntax:**
 ```bash
-@mary *research-prompt "<topic>"
-@mary *research-prompt "Enterprise authentication solutions"
+/mary *research-prompt "<topic>"
+/mary *research-prompt "Enterprise authentication solutions"
 ```
 
 **Workflow:**
@@ -897,8 +897,8 @@ SOM = 2M × 5% market share × $1,200 = $120M (Year 3 target)
 
 **Syntax:**
 ```bash
-@mary *elicit "<initial-requirement>"
-@mary *elicit "We need a better dashboard"
+/mary *elicit "<initial-requirement>"
+/mary *elicit "We need a better dashboard"
 ```
 
 **Workflow:**
@@ -1139,7 +1139,7 @@ User Request: "What's the market opportunity for X?"
 
 **User:**
 ```
-@mary *brainstorm "Ways to reduce customer churn"
+/mary *brainstorm "Ways to reduce customer churn"
 ```
 
 **Mary's Process:**
@@ -1174,7 +1174,7 @@ User Request: "What's the market opportunity for X?"
 
 **User:**
 ```
-@mary *perform-market-research "Enterprise password management"
+/mary *perform-market-research "Enterprise password management"
 ```
 
 **Mary's Process:**
@@ -1195,7 +1195,7 @@ User Request: "What's the market opportunity for X?"
 
 **User:**
 ```
-@mary *elicit "We need better notifications"
+/mary *elicit "We need better notifications"
 ```
 
 **Mary's Process:**
