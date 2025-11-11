@@ -76,27 +76,46 @@ development:
 
 ---
 
-## Core Concepts
+## Core Concepts: Two Ways to Use BMAD Enhanced
 
-### Two Ways to Work: Skill-Direct vs Subagents
+### Approach 1: Direct Skills (Slash Commands)
 
-**BMAD Enhanced V2** offers two execution paths:
+```bash
+/create-task-spec "User authentication"
+/implement-feature task-001
+/quality-gate task-001
+```
 
-**Skill-Direct Commands** (Recommended for most tasks)
-- ✅ 100% reliable (skills always load)
-- ✅ Fast and context-efficient
-- ✅ Structured, predictable outputs
-- Use when: Task is clear and deterministic
+**When to use:**
+- ✅ You know exactly what needs to be done
+- ✅ Want fast, structured results
+- ✅ Repeatable workflows (planning, implementation, testing)
 
-**Subagent Commands** (For exploration and conversation)
-- 🗣️ Conversational and interactive
-- 🔍 Exploratory problem-solving
-- 🎯 Dynamic decision-making
-- Use when: Need guidance or debugging unknown issues
+**Think of it as:** Direct tool use - you pick the tool you need
 
-**Quick Decision:**
-- Clear task → Use `/command-name` (skill-direct)
-- Need help/guidance → Use `@agent-name` or `/agent-name` (subagent)
+### Approach 2: Subagents (Conversational)
+
+```bash
+@alex "I need authentication, but not sure how to plan it"
+@james "Help me debug this login error"
+@winston "Should I use REST or GraphQL?"
+```
+
+**When to use:**
+- 💬 You need guidance or advice
+- 🔍 You're exploring options
+- 🐛 You're debugging unknown issues
+- 🤝 You want conversational interaction
+
+**Think of it as:** Talking to an expert - they help you figure out what to do
+
+### Quick Decision Tree
+
+```
+Do you know EXACTLY what to do?
+├─ YES → Use /slash-commands (Direct Skills)
+└─ NO  → Use @subagents (Conversational)
+```
 
 ---
 
@@ -163,39 +182,22 @@ Layer 1: Primitives (Commands) → Atomic, testable operations
 
 ---
 
-## How Commands Work: Hybrid Architecture
+## Behind the Scenes: How It Works
 
-### Two Command Patterns
+Both approaches use the same **32 skills** underneath:
 
-**Pattern A: Skill-Direct** (New in V2, Recommended)
-```bash
-/command-name parameters
 ```
-- Invokes skill directly in main context
-- 100% reliable, fast, context-efficient
-- Examples: `/analyze-architecture`, `/create-task-spec`, `/implement-feature`
-
-**Pattern B: Subagent** (For exploration/conversation)
-```bash
-/agent-name *task parameters
-# OR
-@agent-name "conversational prompt"
+Direct:    /create-task-spec → Runs skill directly
+Subagent:  @alex → Routes to skill + adds guidance
 ```
-- Routes through subagent for orchestration/conversation
-- Flexible, interactive, exploratory
-- Examples: `/james debug "issue"`, `@winston-architect "help"`
 
-### When to Use Which Pattern
+**The difference:** Subagents add conversation and intelligent routing on top of skills.
 
-**Use Skill-Direct (/command-name) when:**
-- ✅ Task is clear and deterministic
-- ✅ Need structured output
-- ✅ Speed and reliability matter
+**Example:**
+- `/implement-feature task-001` → Direct skill execution (fast, structured)
+- `@james "implement task-001 with TDD guidance"` → Same skill + explanations
 
-**Use Subagent (/agent or @agent) when:**
-- 🗣️ Need conversation or guidance
-- 🔍 Debugging unknown issues
-- 🎯 Exploratory work
+**Remember:** Both do the same work, subagents just add conversation!
 
 ### Complete Execution Flow
 

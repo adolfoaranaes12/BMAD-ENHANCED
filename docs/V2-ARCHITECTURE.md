@@ -1034,7 +1034,7 @@ error: null
 - ✅ Parallel guardrails (36% faster)
 - ✅ Batch telemetry writes (amortized savings)
 
-**Learn more:** [Performance Optimization Report](./PHASE-3-PERFORMANCE-OPTIMIZATION-REPORT.md)
+**Learn more:** See ROADMAP.md for complete performance metrics
 
 ---
 
@@ -1111,8 +1111,8 @@ If a workflow fails, use `@orchestrator *resume <workflow-id>` to continue from 
 
 **Phase Documentation:**
 - [Phase 2 Completion](./PHASE-2-COMPLETION.md)
-- [Phase 3 Integration Test Report](./PHASE-3-INTEGRATION-TEST-REPORT.md)
-- [Phase 3 Performance Report](./PHASE-3-PERFORMANCE-OPTIMIZATION-REPORT.md)
+- See ROADMAP.md for complete test results and performance metrics
+- All 32 skills validated with 100% specification compliance
 
 **Project Status:**
 - [Roadmap](./ROADMAP.md)

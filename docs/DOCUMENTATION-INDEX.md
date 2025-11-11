@@ -1,8 +1,8 @@
 # BMAD Enhanced Documentation Index
 
-**Version:** 4.0 (Hybrid Architecture)
-**Last Updated:** 2025-11-06
-**Status:** Phase 4 Week 2 complete - Hybrid architecture implemented and documented
+**Version:** 5.0 (Simplified)
+**Last Updated:** 2025-11-10
+**Status:** Documentation simplified - unnecessary files removed
 
 ---
 
@@ -17,7 +17,6 @@
 7. [API Reference](#api-reference)
 8. [Workflow Guides](#workflow-guides)
 9. [Advanced Topics](#advanced-topics)
-10. [Archive](#archive)
 
 ---
 
@@ -30,6 +29,7 @@
 | Guide | Description | Read Time |
 |-------|-------------|-----------|
 | **[README.md](../README.md)** ⭐ | Project overview and quick start | 5 min |
+| **[CHOOSING-YOUR-APPROACH.md](./CHOOSING-YOUR-APPROACH.md)** ⭐ **NEW** | Which approach to use (Direct Skills vs Subagents) | 10 min |
 | **[QUICK-START.md](./QUICK-START.md)** ⭐ | Get started in 10 minutes | 10 min |
 | **[INSTALLATION-GUIDE.md](./INSTALLATION-GUIDE.md)** | Installation and setup | 15 min |
 | **[WHY-BMAD-ENHANCED.md](./WHY-BMAD-ENHANCED.md)** | Vision and benefits | 10 min |
@@ -252,61 +252,50 @@ Learn how to use each subagent with practical examples:
 
 ---
 
-## Archive
-
-Historical documentation has been moved to `docs/archive/` for reference:
-
-### Archived Documents (12 files)
-
-**Phase Completion Documents:**
-- PHASE-2-COMPLETION-CELEBRATION.md
-- PHASE-2-COMPLETION.md
-- PHASE-3-TASK-5-UX-IMPROVEMENTS-COMPLETE.md
-- PHASE-3-PERFORMANCE-ANALYSIS.md
-- PHASE-3-INTEGRATION-TEST-PLAN.md
-- PHASE-3-INTEGRATION-TEST-REPORT.md
-- PHASE-2-AND-3-PLAN.md
-- SESSION-14-PHASE-2-COMPLETION-SUMMARY.md
-- PHASE-4-WEEK-1-SUMMARY.md
-- PHASE-3-PERFORMANCE-OPTIMIZATION-REPORT.md
-
-**Reference Books:**
-- Full Layer Books.md
-- Skills Books.md
-
----
-
 ## Documentation Statistics
 
-### Current Documentation (40 files)
+### Current Documentation (38 files)
 
 | Category | Files | Total Lines |
 |----------|-------|-------------|
-| **Getting Started** | 5 | 2,000+ |
+| **Getting Started** | 5 | 2,100+ |
 | **Quick Start Guides** | 5 | 1,500+ |
-| **Core Documentation** | 7 | 9,994+ |
+| **Core Documentation** | 6 | 9,500+ |
 | **Architecture** | 3 | 2,500+ |
 | **Development Guides** | 5 | 4,000+ |
 | **Production Guides** | 5 | 3,500+ |
 | **API Reference** | 2 | 3,500+ |
 | **Workflow Guides** | 3 | 4,000+ |
 | **Advanced Topics** | 2 | 2,000+ |
-| **Other** | 3 | 1,000+ |
-| **TOTAL** | **40** | **34,000+** |
+| **Other** | 2 | 800+ |
+| **TOTAL** | **38** | **34,000+** |
 
-### Removed Documentation (30 files)
+### Recent Updates (2025-11-10)
 
-- **Archived:** 12 files (historical reference)
-- **Deleted:** 18 files (outdated, superseded, duplicates)
+**Cleanup:**
+- ✅ Removed `docs/archive/` folder (12 historical files)
+- ✅ Removed backup files (USER-GUIDE.md.backup)
+- ✅ Removed internal analysis files (2 files)
+- ✅ Removed historical phase completion docs (1 file)
+- ✅ Removed architecture analysis report from root
+- ✅ Simplified README.md from 1,230 to 398 lines (68% reduction)
+
+**Improvements:**
+- ✅ **NEW:** Created [CHOOSING-YOUR-APPROACH.md](./CHOOSING-YOUR-APPROACH.md) - Beginner-friendly guide
+- ✅ Updated README.md with clear two-approach explanation
+- ✅ Updated QUICK-START.md with simplified decision guide
+- ✅ Updated COMMAND-ROUTING-GUIDE.md with simpler introduction
+- ✅ All docs now clearly explain: Direct Skills vs Subagents
 
 ### Documentation Quality
 
 - ✅ **100% coverage** of all system features
 - ✅ **Production-ready** with comprehensive guides
-- ✅ **Up-to-date** as of 2025-11-05
+- ✅ **Up-to-date** as of 2025-11-10
 - ✅ **Well-organized** by audience and use case
 - ✅ **Cross-referenced** with internal links
 - ✅ **Examples-rich** with 100+ code examples
+- ✅ **Simplified** - Removed 20+ unnecessary files
 
 ---
 
@@ -386,12 +375,13 @@ Historical documentation has been moved to `docs/archive/` for reference:
 3. Update cross-references if structure changes
 4. Archive old version if major breaking changes
 
-### Archiving Old Documentation
+### Removing Old Documentation
 
-1. Move to `docs/archive/`
-2. Update this index to reflect archival
-3. Add note in archive directory README
-4. Keep for at least 6 months before deletion
+When documentation becomes obsolete:
+1. Remove the file from the repository
+2. Update this index to reflect removal
+3. Document the removal in the "Recent Cleanup" section
+4. Keep git history for reference if needed
 
 ---
 
@@ -402,7 +392,7 @@ See [standards.md](./standards.md) for documentation standards and [BEST-PRACTIC
 ---
 
 **Maintained by:** BMAD Enhanced Development Team
-**Last Review:** 2025-11-05
-**Next Review:** 2025-12-05
+**Last Review:** 2025-11-10
+**Next Review:** 2025-12-10
 
 **Documentation Repository:** All documentation is version-controlled alongside code.

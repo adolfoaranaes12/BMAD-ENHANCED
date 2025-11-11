@@ -252,7 +252,7 @@ This checklist ensures BMAD Enhanced V2 is ready for production deployment. Comp
 
 ### Integration Testing
 
-- [ ] **Integration test plan reviewed** (PHASE-3-INTEGRATION-TEST-PLAN.md)
+- [ ] **Integration test plan reviewed** (See ROADMAP.md for test results)
 - [ ] **Integration tests executed** (or specification validation completed)
 - [ ] **All test workflows passed** (6 workflows)
 - [ ] **All subagents validated** (4 subagents)
@@ -262,7 +262,7 @@ This checklist ensures BMAD Enhanced V2 is ready for production deployment. Comp
 
 ### Performance Testing
 
-- [ ] **Performance analysis reviewed** (PHASE-3-PERFORMANCE-ANALYSIS.md)
+- [ ] **Performance analysis reviewed** (See ROADMAP.md for performance metrics)
 - [ ] **Performance targets met** (51ms avg overhead vs 300ms target)
 - [ ] **Complexity assessment < 100ms**
 - [ ] **Guardrail validation < 150ms**

@@ -57,7 +57,7 @@ This guide helps you migrate from BMAD v4 to BMAD Enhanced. BMAD Enhanced introd
 - **Test Framework Support**: 7 frameworks with adapter pattern
 
 #### 4. **Better Developer Experience** 🎯
-- **Comprehensive Documentation**: 60+ guides and references
+- **Comprehensive Documentation**: 38+ guides and references
 - **Quickstart Guides**: Per-subagent getting started guides
 - **Error Codes Reference**: Structured error handling with remediation
 - **Example Workflows**: 11 copy-paste ready workflows

@@ -1,19 +1,35 @@
 # Command Routing Guide
 
-**BMAD Enhanced V2 - Hybrid Architecture**
+**BMAD Enhanced V2 - Understanding the Two Approaches**
 
-This guide helps you choose between **skill-direct commands** and **subagent commands** for optimal quality and efficiency.
+---
+
+## 📖 New to BMAD Enhanced?
+
+**Start here:** [Choosing Your Approach Guide](./CHOOSING-YOUR-APPROACH.md) - Simple, beginner-friendly explanation
+
+This guide provides technical details. For a simpler explanation with examples, see the guide above.
+
+---
+
+## The Two Approaches (Simple Version)
+
+### 1. Direct Skills - `/slash-commands`
+**When:** You know what you need
+**Example:** `/create-task-spec "Login feature"`
+
+### 2. Subagents - `@agent-name`
+**When:** You need help or guidance
+**Example:** `@alex "Help me plan this feature"`
 
 ---
 
 ## Quick Decision Tree
 
 ```
-Is your task clear and deterministic?
-  ├─ YES → Use skill-direct command (/analyze-architecture, /implement-feature, etc.)
-  └─ NO  → Is it exploratory or conversational?
-      ├─ YES → Use subagent (@winston-architect, @james-developer-v2, etc.)
-      └─ NO  → Use skill-direct command (when in doubt, start here)
+Do you know EXACTLY what to do?
+  ├─ YES → Use /slash-commands (Direct Skills)
+  └─ NO  → Use @subagents (Conversational)
 ```
 
 ---
