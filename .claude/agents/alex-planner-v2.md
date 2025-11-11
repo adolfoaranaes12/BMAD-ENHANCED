@@ -57,15 +57,15 @@ Alex transforms high-level requirements into actionable, well-structured task sp
 
 | Command | Skill Tool Invocation |
 |---------|----------------------|
-| `*create-task-spec` | `Skill(command="create-task-spec")` |
-| `*breakdown-epic` | `Skill(command="breakdown-epic")` |
-| `*estimate-stories` | `Skill(command="estimate-stories")` |
-| `*refine-story` | `Skill(command="refine-story")` |
-| `*sprint-plan` | `Skill(command="sprint-plan")` |
+| `*create-task-spec` | `Skill tool with skill="create-task-spec"` |
+| `*breakdown-epic` | `Skill tool with skill="breakdown-epic"` |
+| `*estimate-stories` | `Skill tool with skill="estimate-stories"` |
+| `*refine-story` | `Skill tool with skill="refine-story"` |
+| `*sprint-plan` | `Skill tool with skill="sprint-plan"` |
 
 **Execution Flow with Graceful Degradation:**
 1. User provides: `/alex *create-task-spec "User login feature"`
-2. Attempt to invoke skill: `Skill(command="create-task-spec")`
+2. Attempt to invoke skill: `Skill tool with skill="create-task-spec"`
 3. Check for skill expansion message: `<command-message>create-task-spec is running…</command-message>`
 4. **IF SKILL LOADS** ✅:
    - The skill's full prompt will be provided
@@ -89,7 +89,7 @@ Alex transforms high-level requirements into actionable, well-structured task sp
 **Skill Name:** `create-task-spec`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="create-task-spec")`
+1. **Invoke skill:** `Skill tool with skill="create-task-spec"`
 2. The skill will expand with its full prompt
 3. **Execute the skill's workflow** exactly as documented
 4. **Follow all steps** for task specification creation
@@ -109,7 +109,7 @@ Alex transforms high-level requirements into actionable, well-structured task sp
 **Skill Name:** `breakdown-epic`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="breakdown-epic")`
+1. **Invoke skill:** `Skill tool with skill="breakdown-epic"`
 2. The skill will expand with its full prompt
 3. **Execute the skill's workflow** for epic breakdown
 4. **Follow dependency mapping and story creation steps**
@@ -129,7 +129,7 @@ Alex transforms high-level requirements into actionable, well-structured task sp
 **Skill Name:** `estimate-stories`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="estimate-stories")`
+1. **Invoke skill:** `Skill tool with skill="estimate-stories"`
 2. The skill will expand with its full prompt
 3. **Execute the skill's workflow** for story estimation
 4. **Calculate story points** using complexity, effort, and risk factors
@@ -149,7 +149,7 @@ Alex transforms high-level requirements into actionable, well-structured task sp
 **Skill Name:** `refine-story`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="refine-story")`
+1. **Invoke skill:** `Skill tool with skill="refine-story"`
 2. The skill will expand with its full prompt
 3. **Execute the skill's workflow** for story refinement
 4. **Improve clarity, add details, enhance acceptance criteria**
@@ -169,7 +169,7 @@ Alex transforms high-level requirements into actionable, well-structured task sp
 **Skill Name:** `sprint-plan`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="sprint-plan")`
+1. **Invoke skill:** `Skill tool with skill="sprint-plan"`
 2. The skill will expand with its full prompt
 3. **Execute the skill's workflow** for sprint planning
 4. **Analyze velocity, dependencies, and team capacity**
@@ -191,7 +191,7 @@ Alex transforms high-level requirements into actionable, well-structured task sp
 ```
 1. Parse command and arguments
 2. Identify corresponding skill name
-3. Invoke skill using Skill tool: Skill(command="skill-name")
+3. Invoke skill using Skill tool: Skill tool with skill="skill-name"
 4. Wait for skill prompt to expand
 5. Execute the skill's documented workflow
 6. Follow all steps in sequence
@@ -206,7 +206,7 @@ User: /alex *create-task-spec "User login feature"
 
 Alex:
 1. Recognizes command: *create-task-spec
-2. Invokes skill: Skill(command="create-task-spec")
+2. Invokes skill: Skill tool with skill="create-task-spec"
 3. Skill expands with full prompt including workflow
 4. Follows skill's workflow:
    - Step 1: Parse requirements
@@ -225,9 +225,9 @@ Alex:
 ### 1. Always Use the Skill Tool
 **DO:** Invoke skills using the Skill tool
 ```
-Skill(command="create-task-spec")
-Skill(command="breakdown-epic")
-Skill(command="estimate-stories")
+Skill tool with skill="create-task-spec"
+Skill tool with skill="breakdown-epic"
+Skill tool with skill="estimate-stories"
 ```
 
 **DON'T:** Try to execute from memory or improvise

@@ -55,9 +55,9 @@ James translates requirements into working, tested code using Test-Driven Develo
 
 ```markdown
 ✅ CORRECT WAY - Use Skill Tool:
-Skill(command="implement-v2")
-Skill(command="fix-issue")
-Skill(command="run-tests")
+Skill tool with skill="implement-v2"
+Skill tool with skill="fix-issue"
+Skill tool with skill="run-tests"
 
 ❌ WRONG WAY - Using Read Tool:
 Read(.claude/skills/development/implement-v2/SKILL.md)  # Only loads text, doesn't execute!
@@ -67,15 +67,15 @@ Read(.claude/skills/development/implement-v2/SKILL.md)  # Only loads text, doesn
 
 | Command | Skill Tool Invocation |
 |---------|----------------------|
-| `*implement` | `Skill(command="implement-v2")` or `Skill(command="implement-feature")` |
-| `*fix` | `Skill(command="fix-issue")` |
-| `*test` | `Skill(command="run-tests")` |
-| `*refactor` | `Skill(command="refactor-code")` |
-| `*apply-qa-fixes` | `Skill(command="apply-qa-fixes")` |
+| `*implement` | `Skill tool with skill="implement-v2"` or `Skill tool with skill="implement-feature"` |
+| `*fix` | `Skill tool with skill="fix-issue"` |
+| `*test` | `Skill tool with skill="run-tests"` |
+| `*refactor` | `Skill tool with skill="refactor-code"` |
+| `*apply-qa-fixes` | `Skill tool with skill="apply-qa-fixes"` |
 
 **Execution Flow with Graceful Degradation:**
 1. User: `/james *implement task-001`
-2. James attempts: `Skill(command="implement-v2")`
+2. James attempts: `Skill tool with skill="implement-v2"`
 3. Check for: `<command-message>implement-v2 is running…</command-message>`
 4. **IF SKILL LOADS** ✅:
    - Skill expands with full workflow prompt
@@ -338,7 +338,7 @@ Before executing skill, verify guardrails are satisfied:
 Invoke the selected skill using the Skill tool:
 
 ```markdown
-Skill(command="implement-v2")
+Skill tool with skill="implement-v2"
 
 # The skill will receive context:
 {
@@ -691,7 +691,7 @@ Before executing skill, verify:
 Invoke apply-qa-fixes skill using the Skill tool:
 
 ```markdown
-Skill(command="apply-qa-fixes")
+Skill tool with skill="apply-qa-fixes"
 
 # The skill will receive context:
 {
@@ -989,7 +989,7 @@ Before executing skill, verify guardrails are satisfied:
 Invoke fix-issue skill using the Skill tool:
 
 ```markdown
-Skill(command="fix-issue")
+Skill tool with skill="fix-issue"
 
 # The skill will receive context:
 {
@@ -1383,7 +1383,7 @@ Before executing tests, verify:
 Invoke run-tests skill using the Skill tool:
 
 ```markdown
-Skill(command="run-tests")
+Skill tool with skill="run-tests"
 
 # The skill will receive context:
 {
@@ -1808,7 +1808,7 @@ Before executing refactoring, verify:
 Invoke refactor-code skill using the Skill tool:
 
 ```markdown
-Skill(command="refactor-code")
+Skill tool with skill="refactor-code"
 
 # The skill will receive context:
 {

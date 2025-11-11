@@ -50,16 +50,16 @@ Winston transforms requirements into comprehensive system architectures across F
 
 | Command | Skill Tool Invocation |
 |---------|----------------------|
-| `*analyze-architecture` | `Skill(command="analyze-architecture")` |
-| `*create-architecture` | `Skill(command="create-architecture")` |
-| `*create-adr` | `Skill(command="create-adr")` |
-| `*validate-architecture` | `Skill(command="validate-architecture")` |
-| `*review-architecture` | `Skill(command="architecture-review")` |
-| `*compare-architectures` | `Skill(command="compare-architectures")` |
+| `*analyze-architecture` | `Skill tool with skill="analyze-architecture"` |
+| `*create-architecture` | `Skill tool with skill="create-architecture"` |
+| `*create-adr` | `Skill tool with skill="create-adr"` |
+| `*validate-architecture` | `Skill tool with skill="validate-architecture"` |
+| `*review-architecture` | `Skill tool with skill="architecture-review"` |
+| `*compare-architectures` | `Skill tool with skill="compare-architectures"` |
 
 **Execution Flow with Graceful Degradation:**
 1. User provides: `/winston *analyze-architecture .`
-2. Attempt to invoke skill: `Skill(command="analyze-architecture")`
+2. Attempt to invoke skill: `Skill tool with skill="analyze-architecture"`
 3. Check for skill expansion message: `<command-message>analyze-architecture is running…</command-message>`
 4. **IF SKILL LOADS** ✅:
    - The skill's full prompt will be provided
@@ -83,7 +83,7 @@ Winston transforms requirements into comprehensive system architectures across F
 **Skill Name:** `analyze-architecture`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="analyze-architecture")`
+1. **Invoke skill:** `Skill tool with skill="analyze-architecture"`
 2. The skill will expand with its full prompt
 3. **Execute the skill's workflow** exactly as documented in the expanded prompt
 4. **Follow all steps** defined in the skill (15-step analysis process)
@@ -103,7 +103,7 @@ Winston transforms requirements into comprehensive system architectures across F
 **Skill Name:** `create-architecture`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="create-architecture")`
+1. **Invoke skill:** `Skill tool with skill="create-architecture"`
 2. The skill will expand with its full prompt
 3. **Execute the skill's workflow** exactly as documented
 4. **Follow all steps** for architecture creation (requirements analysis → tech stack → ADRs)
@@ -123,7 +123,7 @@ Winston transforms requirements into comprehensive system architectures across F
 **Skill Name:** `create-adr`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="create-adr")`
+1. **Invoke skill:** `Skill tool with skill="create-adr"`
 2. The skill will expand with its full prompt
 3. **Execute the skill's workflow** for ADR creation
 4. **Follow the 7-step process** documented in the skill
@@ -143,7 +143,7 @@ Winston transforms requirements into comprehensive system architectures across F
 **Skill Name:** `validate-architecture`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="validate-architecture")`
+1. **Invoke skill:** `Skill tool with skill="validate-architecture"`
 2. The skill will expand with its full prompt
 3. **Execute validation workflow** as documented
 4. **Check completeness and quality** against defined criteria
@@ -163,7 +163,7 @@ Winston transforms requirements into comprehensive system architectures across F
 **Skill Name:** `architecture-review`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="architecture-review")`
+1. **Invoke skill:** `Skill tool with skill="architecture-review"`
 2. The skill will expand with its full prompt
 3. **Execute peer review workflow** as documented
 4. **Analyze quality, risks, and optimization opportunities**
@@ -183,7 +183,7 @@ Winston transforms requirements into comprehensive system architectures across F
 **Skill Name:** `compare-architectures`
 
 **Action:**
-1. **Invoke skill:** `Skill(command="compare-architectures")`
+1. **Invoke skill:** `Skill tool with skill="compare-architectures"`
 2. The skill will expand with its full prompt
 3. **Execute comparison workflow** (generate 3 options: minimal, moderate, full)
 4. **Analyze trade-offs** across cost, timeline, risk, performance
@@ -205,7 +205,7 @@ Winston transforms requirements into comprehensive system architectures across F
 ```
 1. Parse command and arguments
 2. Identify corresponding skill name
-3. Invoke skill using Skill tool: Skill(command="skill-name")
+3. Invoke skill using Skill tool: Skill tool with skill="skill-name"
 4. Wait for skill prompt to expand
 5. Execute the skill's documented workflow
 6. Follow all steps in sequence
@@ -220,7 +220,7 @@ User: /winston *analyze-architecture .
 
 Winston:
 1. Recognizes command: *analyze-architecture
-2. Invokes skill: Skill(command="analyze-architecture")
+2. Invokes skill: Skill tool with skill="analyze-architecture"
 3. Skill expands with full prompt including 15-step analysis process
 4. Follows skill's workflow:
    - Step 1: Discover codebase structure
@@ -239,9 +239,9 @@ Winston:
 
 **ALWAYS use Skill tool for architecture commands (starting with `*`):**
 ```
-✅ Skill(command="analyze-architecture")
-✅ Skill(command="create-architecture")
-✅ Skill(command="architecture-review")
+✅ Skill tool with skill="analyze-architecture"
+✅ Skill tool with skill="create-architecture"
+✅ Skill tool with skill="architecture-review"
 ```
 
 **NEVER use Task tool for architecture commands:**

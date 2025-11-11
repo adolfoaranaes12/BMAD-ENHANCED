@@ -204,9 +204,9 @@ graph TD
     K --> N
     K --> O
 
-    style L3 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style L2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style L1 fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style L3 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style L2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style L1 fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000
 ```
 
 **Layer 1: Primitives** - Atomic, testable operations
@@ -295,13 +295,13 @@ graph LR
     E --> F[6. VERIFY<br/>Acceptance]
     F --> G[7. TELEMETRY<br/>Observability]
 
-    style A fill:#e3f2fd
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
-    style D fill:#ffd54f
-    style E fill:#c8e6c9
-    style F fill:#b3e5fc
-    style G fill:#d7ccc8
+    style A fill:#e3f2fd,color:#000
+    style B fill:#fff3e0,color:#000
+    style C fill:#f3e5f5,color:#000
+    style D fill:#ffd54f,color:#000
+    style E fill:#c8e6c9,color:#000
+    style F fill:#b3e5fc,color:#000
+    style G fill:#d7ccc8,color:#000
 ```
 
 **Step Breakdown:**
@@ -376,10 +376,10 @@ graph TD
     Q3 --> Done
     J4 --> J3
 
-    style Start fill:#e3f2fd,stroke:#1976d2
-    style Plan fill:#fff3e0,stroke:#f57c00
-    style Q2 fill:#ffd54f,stroke:#f57c00
-    style Done fill:#c8e6c9,stroke:#388e3c
+    style Start fill:#e3f2fd,stroke:#1976d2,color:#000
+    style Plan fill:#fff3e0,stroke:#f57c00,color:#000
+    style Q2 fill:#ffd54f,stroke:#f57c00,color:#000
+    style Done fill:#c8e6c9,stroke:#388e3c,color:#000
     style A1 fill:#f9ab00,color:#000
     style A3 fill:#f9ab00,color:#000
     style A4 fill:#f9ab00,color:#000
@@ -421,12 +421,12 @@ graph TD
     Verify --> Telemetry[Emit Telemetry]
     Telemetry --> Result([Result + Recommendations])
 
-    style User fill:#e3f2fd
-    style Type fill:#fff3e0
-    style Route fill:#f3e5f5
-    style Execute fill:#c8e6c9
-    style Result fill:#b3e5fc
-    style Abort fill:#ffcdd2
+    style User fill:#e3f2fd,color:#000
+    style Type fill:#fff3e0,color:#000
+    style Route fill:#f3e5f5,color:#000
+    style Execute fill:#c8e6c9,color:#000
+    style Result fill:#b3e5fc,color:#000
+    style Abort fill:#ffcdd2,color:#000
 ```
 
 ### 4.3 Quality Gate Decision Tree
@@ -462,19 +462,19 @@ graph TD
     Pass --> Production([Deploy to Production])
     Waive --> Production
 
-    style Coverage fill:#fff3e0
-    style Quality fill:#fff3e0
-    style NFR fill:#fff3e0
-    style Decision fill:#fff3e0
-    style Fail1 fill:#ffcdd2
-    style Fail2 fill:#ffcdd2
-    style Fail3 fill:#ffcdd2
-    style Concern1 fill:#ffe0b2
-    style Concern2 fill:#ffe0b2
-    style Concern3 fill:#ffe0b2
-    style Pass fill:#c8e6c9
-    style Waive fill:#fff9c4
-    style Production fill:#b3e5fc
+    style Coverage fill:#fff3e0,color:#000
+    style Quality fill:#fff3e0,color:#000
+    style NFR fill:#fff3e0,color:#000
+    style Decision fill:#fff3e0,color:#000
+    style Fail1 fill:#ffcdd2,color:#000
+    style Fail2 fill:#ffcdd2,color:#000
+    style Fail3 fill:#ffcdd2,color:#000
+    style Concern1 fill:#ffe0b2,color:#000
+    style Concern2 fill:#ffe0b2,color:#000
+    style Concern3 fill:#ffe0b2,color:#000
+    style Pass fill:#c8e6c9,color:#000
+    style Waive fill:#fff9c4,color:#000
+    style Production fill:#b3e5fc,color:#000
 ```
 
 ### 4.4 Agent Interaction Patterns
@@ -1124,10 +1124,10 @@ graph TD
     Subagent --> Example2[Example: Implement feature, review code]
     Orchestrator --> Example3[Example: Complete feature delivery]
 
-    style Start fill:#e3f2fd
-    style Skill fill:#c8e6c9
-    style Subagent fill:#fff9c4
-    style Orchestrator fill:#f3e5f5
+    style Start fill:#e3f2fd,color:#000
+    style Skill fill:#c8e6c9,color:#000
+    style Subagent fill:#fff9c4,color:#000
+    style Orchestrator fill:#f3e5f5,color:#000
 ```
 
 **Decision Tree:**
