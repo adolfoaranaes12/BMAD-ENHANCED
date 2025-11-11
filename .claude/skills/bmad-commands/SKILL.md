@@ -583,3 +583,137 @@ By keeping commands deterministic and testable, we enable:
 - Reliable skill composition
 - Observable workflows
 - Production-ready operations
+
+---
+
+## Utility Scripts
+
+In addition to command primitives, this skill includes utility scripts for UX and system management:
+
+### bmad-wizard.py
+
+Interactive command wizard to help users find the right command for their task.
+
+**Usage:**
+```bash
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --list-all
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --subagent alex
+```
+
+**Features:**
+- Goal-based recommendations
+- Interactive command selection
+- Browse all commands
+- Filter by subagent
+
+**Documentation:** See `docs/UX-IMPROVEMENTS-GUIDE.md`
+
+---
+
+### error-handler.py
+
+Professional error handling system with structured errors and remediation guidance.
+
+**Usage:**
+```bash
+python .claude/skills/bmad-commands/scripts/error-handler.py
+```
+
+**Features:**
+- 10 predefined error templates
+- Structured error format
+- Remediation steps
+- Color-coded severity levels
+- JSON output support
+
+**Documentation:** See `docs/UX-IMPROVEMENTS-GUIDE.md`
+
+---
+
+### progress-visualizer.py
+
+Real-time progress tracking for workflows with multiple visualization styles.
+
+**Usage:**
+```bash
+python .claude/skills/bmad-commands/scripts/progress-visualizer.py
+```
+
+**Features:**
+- 7-step workflow tracking
+- 4 visualization styles (bar, spinner, dots, minimal)
+- ETA calculation
+- Elapsed time tracking
+- Real-time updates
+
+**Documentation:** See `docs/UX-IMPROVEMENTS-GUIDE.md`
+
+---
+
+### monitor-skills.py
+
+Skill validation and monitoring tool for ensuring all skills are properly loaded.
+
+**Usage:**
+```bash
+python .claude/skills/bmad-commands/scripts/monitor-skills.py
+python .claude/skills/bmad-commands/scripts/monitor-skills.py --validate-only
+python .claude/skills/bmad-commands/scripts/monitor-skills.py --category planning
+python .claude/skills/bmad-commands/scripts/monitor-skills.py --skill implement-feature
+python .claude/skills/bmad-commands/scripts/monitor-skills.py --json output.json
+```
+
+**Features:**
+- Discover and validate all skills
+- Check YAML frontmatter
+- Verify workflow steps
+- Export to JSON
+- Category filtering
+
+**Documentation:** See `docs/SKILL-LOADING-MONITORING.md`
+
+---
+
+### health-check.sh
+
+Quick health check to validate system configuration and skill loading.
+
+**Usage:**
+```bash
+./.claude/skills/bmad-commands/scripts/health-check.sh
+```
+
+**Features:**
+- Check project structure
+- Validate skills by category
+- Check Python environment
+- Validate required packages
+- Check configuration
+- Disk space check
+
+**Documentation:** See `docs/SKILL-LOADING-MONITORING.md`
+
+---
+
+### deploy-to-project.sh
+
+Smart deployment script for deploying BMAD Enhanced to other projects.
+
+**Usage:**
+```bash
+./.claude/skills/bmad-commands/scripts/deploy-to-project.sh <target-directory>
+./.claude/skills/bmad-commands/scripts/deploy-to-project.sh --full <target-directory>
+./.claude/skills/bmad-commands/scripts/deploy-to-project.sh --dry-run <target-directory>
+```
+
+**Features:**
+- Minimal or full deployment modes
+- Dry-run mode
+- Force overwrite option
+- Symlink support for full mode
+- Post-deployment instructions
+
+**Documentation:** See `docs/DEPLOYMENT-TO-PROJECTS.md`
+
+---

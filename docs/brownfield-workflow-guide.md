@@ -46,7 +46,7 @@ This guide shows you how to analyze, improve, and modernize your existing (brown
 
 1. **Conversational Entry** - Start with `/winston-consult`
 2. **Direct Analysis** - Use individual Winston commands
-3. **Complete Workflow** - Run `@orchestrator *workflow modernize`
+3. **Complete Workflow** - Run `/orchestrator *workflow modernize`
 
 ---
 
@@ -176,7 +176,7 @@ Winston: Excellent! Starting Phase 1: Architecture Analysis...
 #### Command 1: Analyze Current Architecture
 
 ```bash
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 ```
 
 **Duration:** 10-15 minutes
@@ -228,7 +228,7 @@ Winston: Excellent! Starting Phase 1: Architecture Analysis...
 #### Command 2: Compare Architecture Options
 
 ```bash
-@winston *compare-architectures "Add real-time features and scale to 50K users"
+/winston *compare-architectures "Add real-time features and scale to 50K users"
 ```
 
 **Duration:** 8-12 minutes
@@ -336,7 +336,7 @@ Complete rebuild with Next.js 15 + tRPC + Serverless
 #### Command 3: Create Detailed Architecture
 
 ```bash
-@winston *create-architecture docs/brownfield-prd.md --option moderate
+/winston *create-architecture docs/brownfield-prd.md --option moderate
 ```
 
 **Duration:** 12-18 minutes
@@ -355,7 +355,7 @@ Complete rebuild with Next.js 15 + tRPC + Serverless
 #### Command 4: Validate Architecture
 
 ```bash
-@winston *validate-architecture docs/architecture.md
+/winston *validate-architecture docs/architecture.md
 ```
 
 **Duration:** 3-5 minutes
@@ -372,7 +372,7 @@ Complete rebuild with Next.js 15 + tRPC + Serverless
 #### Command 5: Peer Review
 
 ```bash
-@winston *review-architecture docs/architecture.md --focus scalability
+/winston *review-architecture docs/architecture.md --focus scalability
 ```
 
 **Duration:** 5-8 minutes
@@ -398,7 +398,7 @@ Complete rebuild with Next.js 15 + tRPC + Serverless
 
 **Single Command:**
 ```bash
-@orchestrator *workflow modernize . "Add real-time features and scale to 50K users"
+/orchestrator *workflow modernize . "Add real-time features and scale to 50K users"
 ```
 
 **What Happens:**
@@ -549,8 +549,8 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 **Next Steps:**
 1. Review architecture: docs/architecture.md
 2. Review implementation plan: .claude/epics/modernization-plan.md
-3. Start Epic 1: @alex *breakdown-epic .claude/epics/modernization-plan.md
-4. Begin sprint planning: @alex *plan-sprint --velocity 25
+3. Start Epic 1: /alex *breakdown-epic .claude/epics/modernization-plan.md
+4. Begin sprint planning: /alex *plan-sprint --velocity 25
 
 **Files Generated:**
 • Architecture Analysis: docs/architecture-analysis-2025-11-05.md
@@ -570,7 +570,7 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 **Use when:** You want fast recommendations without full analysis
 
 ```bash
-@orchestrator *workflow modernize packages/backend --quick
+/orchestrator *workflow modernize packages/backend --quick
 ```
 
 **Phases (3 instead of 5):**
@@ -593,7 +593,7 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 **Use when:** You just want to understand current state
 
 ```bash
-@orchestrator *workflow modernize . --analysis-only
+/orchestrator *workflow modernize . --analysis-only
 ```
 
 **Phases (1 only):**
@@ -614,7 +614,7 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 **Use when:** Trust the recommendation, no interactive input needed
 
 ```bash
-@orchestrator *workflow modernize . "Your goals" --auto
+/orchestrator *workflow modernize . "Your goals" --auto
 ```
 
 **Phases (5, but no interruption):**
@@ -639,7 +639,7 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 
 **Workflow Used:**
 ```bash
-@orchestrator *workflow modernize . "Scale to 50K users + add mobile app + modern SPA"
+/orchestrator *workflow modernize . "Scale to 50K users + add mobile app + modern SPA"
 ```
 
 **Result:**
@@ -669,7 +669,7 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 
 [After conversation]
 
-@orchestrator *workflow modernize packages/dashboard "Real-time + performance"
+/orchestrator *workflow modernize packages/dashboard "Real-time + performance"
 ```
 
 **Result:**
@@ -694,7 +694,7 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 
 **Workflow Used:**
 ```bash
-@winston *analyze-architecture . --depth comprehensive
+/winston *analyze-architecture . --depth comprehensive
 ```
 
 **Result:**
@@ -718,11 +718,11 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 | Situation | Recommended Approach | Command |
 |-----------|---------------------|---------|
 | **Don't know where to start** | Conversational | `/winston-consult` |
-| **Just want to understand current state** | Direct Analysis | `@winston *analyze-architecture` |
-| **Need to compare options** | Direct Comparison | `@winston *compare-architectures` |
-| **Want complete package** | Full Workflow | `@orchestrator *workflow modernize` |
-| **Time-constrained (18 min)** | Quick Workflow | `@orchestrator *workflow modernize --quick` |
-| **Already know what option you want** | Auto Workflow | `@orchestrator *workflow modernize --auto` |
+| **Just want to understand current state** | Direct Analysis | `/winston *analyze-architecture` |
+| **Need to compare options** | Direct Comparison | `/winston *compare-architectures` |
+| **Want complete package** | Full Workflow | `/orchestrator *workflow modernize` |
+| **Time-constrained (18 min)** | Quick Workflow | `/orchestrator *workflow modernize --quick` |
+| **Already know what option you want** | Auto Workflow | `/orchestrator *workflow modernize --auto` |
 | **Experienced, want control** | Direct Commands | Individual Winston commands |
 | **Beginner, want guidance** | Conversational | `/winston-consult` |
 
@@ -735,12 +735,12 @@ Total: 68 story points (~3 sprints at 20-25 velocity)
 Don't skip analysis:
 ```bash
 # ❌ BAD: Jumping to design without understanding current state
-@winston *create-architecture "Add real-time features"
+/winston *create-architecture "Add real-time features"
 
 # ✅ GOOD: Analyze first, then design
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 # [Review results]
-@winston *compare-architectures "Add real-time features"
+/winston *compare-architectures "Add real-time features"
 ```
 
 ### 2. Get Options Before Committing
@@ -748,7 +748,7 @@ Don't skip analysis:
 Don't assume one approach is best:
 ```bash
 # ✅ GOOD: Compare options with trade-offs
-@winston *compare-architectures "Your goals"
+/winston *compare-architectures "Your goals"
 # [Review 3 options]
 # [Choose based on your constraints]
 ```
@@ -758,7 +758,7 @@ Don't assume one approach is best:
 Catch issues early:
 ```bash
 # After Winston creates architecture
-@winston *validate-architecture docs/architecture.md
+/winston *validate-architecture docs/architecture.md
 # [Fix any gaps before implementation]
 ```
 
@@ -767,10 +767,10 @@ Catch issues early:
 Don't auto-select for major changes:
 ```bash
 # ✅ GOOD: Interactive (you choose option)
-@orchestrator *workflow modernize . "Goals" --interactive
+/orchestrator *workflow modernize . "Goals" --interactive
 
 # ❌ RISKY: Auto-select for major modernization
-@orchestrator *workflow modernize . "Goals" --auto
+/orchestrator *workflow modernize . "Goals" --auto
 ```
 
 ### 5. Document Your Decision
@@ -801,7 +801,7 @@ After choosing an option, document why:
 
 **Solution:** Use quick mode
 ```bash
-@winston *analyze-architecture . --depth quick
+/winston *analyze-architecture . --depth quick
 ```
 
 ### Issue: "Not sure which option is best"
@@ -815,14 +815,14 @@ After choosing an option, document why:
 
 **Solution:** Resume workflow
 ```bash
-@orchestrator *resume <workflow-id>
+/orchestrator *resume <workflow-id>
 ```
 
 ### Issue: "Architecture validation failed"
 
 **Solution:** Check specific gaps and fix
 ```bash
-@winston *validate-architecture docs/architecture.md --strict
+/winston *validate-architecture docs/architecture.md --strict
 # Address missing sections identified
 # Re-validate after fixes
 ```
@@ -831,7 +831,7 @@ After choosing an option, document why:
 
 **Solution:** Re-run Phase 4 with different option
 ```bash
-@winston *create-architecture docs/brownfield-prd.md --option full
+/winston *create-architecture docs/brownfield-prd.md --option full
 ```
 
 ---
@@ -849,27 +849,27 @@ After choosing an option, document why:
 
 2. **Validate Architecture**
    ```bash
-   @winston *validate-architecture docs/architecture.md
+   /winston *validate-architecture docs/architecture.md
    ```
 
 3. **Get Peer Review**
    ```bash
-   @winston *review-architecture docs/architecture.md
+   /winston *review-architecture docs/architecture.md
    ```
 
 4. **Create Implementation Plan**
    ```bash
-   @alex *breakdown-epic docs/architecture.md
+   /alex *breakdown-epic docs/architecture.md
    ```
 
 5. **Start Implementation**
    ```bash
-   @james *implement task-001
+   /james *implement task-001
    ```
 
 6. **Quality Review**
    ```bash
-   @quinn *review task-001
+   /quinn *review task-001
    ```
 
 ---

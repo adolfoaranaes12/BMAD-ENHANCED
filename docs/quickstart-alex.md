@@ -36,14 +36,14 @@
 
 **Syntax:**
 ```bash
-@alex *create-task-spec "<requirement-description>"
+/alex *create-task-spec "<requirement-description>"
 ```
 
 **Examples:**
 ```bash
-@alex *create-task-spec "User login with email validation"
-@alex *create-task-spec "Add shopping cart checkout flow"
-@alex *create-task-spec "Implement password reset feature"
+/alex *create-task-spec "User login with email validation"
+/alex *create-task-spec "Add shopping cart checkout flow"
+/alex *create-task-spec "Implement password reset feature"
 ```
 
 **What You Get:**
@@ -67,15 +67,15 @@
 
 **Syntax:**
 ```bash
-@alex *breakdown-epic "<epic-description>"
-@alex *breakdown-epic docs/epics/epic-name.md
+/alex *breakdown-epic "<epic-description>"
+/alex *breakdown-epic docs/epics/epic-name.md
 ```
 
 **Examples:**
 ```bash
-@alex *breakdown-epic "User Authentication System"
-@alex *breakdown-epic "E-commerce Shopping Cart"
-@alex *breakdown-epic docs/epics/epic-payment-processing.md
+/alex *breakdown-epic "User Authentication System"
+/alex *breakdown-epic "E-commerce Shopping Cart"
+/alex *breakdown-epic docs/epics/epic-payment-processing.md
 ```
 
 **What You Get:**
@@ -98,15 +98,15 @@
 
 **Syntax:**
 ```bash
-@alex *estimate "<story-id-or-description>"
-@alex *estimate workspace/stories/story-*.md
+/alex *estimate "<story-id-or-description>"
+/alex *estimate workspace/stories/story-*.md
 ```
 
 **Examples:**
 ```bash
-@alex *estimate story-login-001
-@alex *estimate "Implement user profile editing"
-@alex *estimate workspace/stories/story-*.md
+/alex *estimate story-login-001
+/alex *estimate "Implement user profile editing"
+/alex *estimate workspace/stories/story-*.md
 ```
 
 **What You Get:**
@@ -129,15 +129,15 @@
 
 **Syntax:**
 ```bash
-@alex *refine-story "<vague-requirement>"
-@alex *refine-story workspace/stories/story-draft.md
+/alex *refine-story "<vague-requirement>"
+/alex *refine-story workspace/stories/story-draft.md
 ```
 
 **Examples:**
 ```bash
-@alex *refine-story "Users need better security"
-@alex *refine-story "Improve performance"
-@alex *refine-story workspace/stories/story-vague-001.md
+/alex *refine-story "Users need better security"
+/alex *refine-story "Improve performance"
+/alex *refine-story workspace/stories/story-vague-001.md
 ```
 
 **What You Get:**
@@ -160,14 +160,14 @@
 
 **Syntax:**
 ```bash
-@alex *plan-sprint --velocity <points> --duration <days>
-@alex *plan-sprint --velocity 40
+/alex *plan-sprint --velocity <points> --duration <days>
+/alex *plan-sprint --velocity 40
 ```
 
 **Examples:**
 ```bash
-@alex *plan-sprint --velocity 40 --duration 14
-@alex *plan-sprint --velocity 25
+/alex *plan-sprint --velocity 40 --duration 14
+/alex *plan-sprint --velocity 25
 ```
 
 **What You Get:**
@@ -193,10 +193,10 @@
 
 ```bash
 # Step 1: Refine the idea
-@alex *refine-story "Add user notifications"
+/alex *refine-story "Add user notifications"
 
 # Step 2: Create detailed spec
-@alex *create-task-spec "Send email notifications for important events"
+/alex *create-task-spec "Send email notifications for important events"
 
 # Step 3: Ready for James to implement
 ```
@@ -212,15 +212,15 @@
 
 ```bash
 # Step 1: Break down epic
-@alex *breakdown-epic "User Authentication System"
+/alex *breakdown-epic "User Authentication System"
 # Output: story-001 through story-008
 
 # Step 2: Estimate each story
-@alex *estimate workspace/stories/story-auth-*.md
+/alex *estimate workspace/stories/story-auth-*.md
 # Output: All stories with estimates
 
 # Step 3: Create sprint plan
-@alex *plan-sprint --velocity 40
+/alex *plan-sprint --velocity 40
 # Output: Sprint plan with allocated stories
 ```
 
@@ -235,10 +235,10 @@
 
 ```bash
 # Step 1: Estimate all stories
-@alex *estimate workspace/stories/*.md
+/alex *estimate workspace/stories/*.md
 
 # Step 2: Create sprint plan
-@alex *plan-sprint --velocity 40 --duration 14
+/alex *plan-sprint --velocity 40 --duration 14
 
 # Output: Sprint plan document ready for team review
 ```
@@ -312,8 +312,8 @@ Customize templates in `.claude/templates/`:
 
 **Solution:** Use `*refine-story` first
 ```bash
-@alex *refine-story "Your vague requirement"
-# Then: @alex *create-task-spec with refined output
+/alex *refine-story "Your vague requirement"
+# Then: /alex *create-task-spec with refined output
 ```
 
 ### Issue: "Epic Too Large"
@@ -321,8 +321,8 @@ Customize templates in `.claude/templates/`:
 **Solution:** Break into smaller epics
 ```bash
 # Instead of one massive epic:
-@alex *breakdown-epic "Phase 1: Core Authentication"
-@alex *breakdown-epic "Phase 2: Social Login"
+/alex *breakdown-epic "Phase 1: Core Authentication"
+/alex *breakdown-epic "Phase 2: Social Login"
 ```
 
 ### Issue: "Estimates Inconsistent"

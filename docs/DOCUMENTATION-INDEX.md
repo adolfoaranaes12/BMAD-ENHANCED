@@ -1,8 +1,8 @@
 # BMAD Enhanced Documentation Index
 
-**Version:** 3.0 (Production Ready)
-**Last Updated:** 2025-11-05
-**Status:** All phases complete, production-ready documentation
+**Version:** 4.0 (Hybrid Architecture)
+**Last Updated:** 2025-11-06
+**Status:** Phase 4 Week 2 complete - Hybrid architecture implemented and documented
 
 ---
 
@@ -90,10 +90,31 @@ Learn how to use each subagent with practical examples:
 
 ## Architecture & Design
 
-### V2 Architecture Documentation
+### V2 Hybrid Architecture Documentation ⭐ **NEW**
+
+**Essential Reading:**
+- **[COMMAND-ROUTING-GUIDE.md](./COMMAND-ROUTING-GUIDE.md)** ⭐ **Start Here** - Complete routing guide (300+ lines)
+  - When to use skill-direct vs subagent commands
+  - Decision trees and examples
+  - Command reference (50+ commands)
+  - Troubleshooting guide
+
+- **[HYBRID-ARCHITECTURE-IMPLEMENTATION.md](./HYBRID-ARCHITECTURE-IMPLEMENTATION.md)** - Implementation summary
+  - Problem statement and solution
+  - Implementation details
+  - Testing results
+  - Files created/modified
+
+- **[COMMAND-AUDIT.md](./COMMAND-AUDIT.md)** - Complete command audit
+  - Categorization (skill-direct vs subagent)
+  - Migration strategy
+  - Action items
+
+### V2 Core Architecture
 
 - **[V2-ARCHITECTURE.md](./V2-ARCHITECTURE.md)** ⭐ **Master Reference** - Complete V2 architecture
   - 3-layer architecture (Primitives → Skills → Subagents)
+  - Hybrid execution paths (skill-direct + subagent)
   - Intelligent routing and complexity assessment
   - Guardrails framework
   - Quality gates
@@ -129,6 +150,14 @@ Learn how to use each subagent with practical examples:
   - Custom subagent development
   - Integration with external tools
   - Real-world examples
+
+### Subagent Development
+
+- **[SUBAGENT-SKILL-LOADING-FIX.md](./SUBAGENT-SKILL-LOADING-FIX.md)** ⚠️ **CRITICAL** - How subagents must load skills
+  - Common mistake: Using Read() instead of Skill() tool
+  - Correct skill invocation patterns
+  - Fix templates for agent files
+  - Command-to-skill mapping examples
 
 ### Brownfield Projects
 

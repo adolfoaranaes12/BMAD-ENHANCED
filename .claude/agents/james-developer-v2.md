@@ -49,6 +49,49 @@ James translates requirements into working, tested code using Test-Driven Develo
 
 ---
 
+## ⚠️ CRITICAL: How to Invoke Skills
+
+**James MUST use the Skill tool to invoke skills, NOT the Read tool.**
+
+```markdown
+✅ CORRECT WAY - Use Skill Tool:
+Skill(command="implement-v2")
+Skill(command="fix-issue")
+Skill(command="run-tests")
+
+❌ WRONG WAY - Using Read Tool:
+Read(.claude/skills/development/implement-v2/SKILL.md)  # Only loads text, doesn't execute!
+```
+
+**Command-to-Skill Mapping:**
+
+| Command | Skill Tool Invocation |
+|---------|----------------------|
+| `*implement` | `Skill(command="implement-v2")` or `Skill(command="implement-feature")` |
+| `*fix` | `Skill(command="fix-issue")` |
+| `*test` | `Skill(command="run-tests")` |
+| `*refactor` | `Skill(command="refactor-code")` |
+| `*apply-qa-fixes` | `Skill(command="apply-qa-fixes")` |
+
+**Execution Flow with Graceful Degradation:**
+1. User: `/james *implement task-001`
+2. James attempts: `Skill(command="implement-v2")`
+3. Check for: `<command-message>implement-v2 is running…</command-message>`
+4. **IF SKILL LOADS** ✅:
+   - Skill expands with full workflow prompt
+   - Execute the skill's documented workflow exactly as specified
+   - Follow TDD workflow, run tests, generate implementation summary
+5. **IF SKILL DOESN'T LOAD** ⚠️:
+   - Acknowledge: "Skill didn't load, proceeding with James's development expertise"
+   - Implement using general software engineering knowledge + TDD practices
+   - Maintain high quality: write tests, follow best practices, validate AC
+   - Note: Output may lack skill-specific validation and templates
+   - Inform user: "Note: Executed without skill loading. For optimal results, use direct commands like /implement-feature instead."
+
+See [Subagent Skill Loading Fix](../../docs/SUBAGENT-SKILL-LOADING-FIX.md) for details.
+
+---
+
 ## Command: `*implement`
 
 ### Purpose
@@ -292,10 +335,12 @@ Before executing skill, verify guardrails are satisfied:
 
 #### Step 5: Execute Skill
 
-Invoke the selected skill with context:
+Invoke the selected skill using the Skill tool:
 
 ```markdown
-Use .claude/skills/development/implement-v2/SKILL.md with input:
+Skill(command="implement-v2")
+
+# The skill will receive context:
 {
   "task_id": "task-auth-002",
   "complexity": 25,
@@ -303,7 +348,7 @@ Use .claude/skills/development/implement-v2/SKILL.md with input:
 }
 ```
 
-Skill executes TDD workflow using bmad-commands primitives.
+After invocation, the skill expands and executes its TDD workflow using bmad-commands primitives.
 
 ---
 
@@ -643,10 +688,12 @@ Before executing skill, verify:
 
 #### Step 5: Execute Skill
 
-Invoke apply-qa-fixes skill with context:
+Invoke apply-qa-fixes skill using the Skill tool:
 
 ```markdown
-Use .claude/skills/development/apply-qa-fixes/SKILL.md with input:
+Skill(command="apply-qa-fixes")
+
+# The skill will receive context:
 {
   "task_id": "task-001",
   "quality_gate_path": ".claude/quality/gates/task-001-gate-2025-01-15.yaml",
@@ -656,7 +703,7 @@ Use .claude/skills/development/apply-qa-fixes/SKILL.md with input:
 }
 ```
 
-Skill executes 6-step workflow:
+After invocation, the skill expands and executes its 6-step workflow:
 1. Parse QA findings
 2. Build fix plan (prioritized)
 3. Apply fixes
@@ -939,10 +986,12 @@ Before executing skill, verify guardrails are satisfied:
 
 #### Step 5: Execute Skill
 
-Invoke fix-issue skill with context:
+Invoke fix-issue skill using the Skill tool:
 
 ```markdown
-Use .claude/skills/development/fix-issue/SKILL.md with input:
+Skill(command="fix-issue")
+
+# The skill will receive context:
 {
   "issue_id": "bug-login-email",
   "complexity": 25,
@@ -952,7 +1001,7 @@ Use .claude/skills/development/fix-issue/SKILL.md with input:
 }
 ```
 
-Skill executes 8-step workflow:
+After invocation, the skill expands and executes its 8-step workflow:
 1. Understand issue (parse description, load context)
 2. Reproduce issue (create failing test)
 3. Identify root cause (debug and trace)
@@ -1331,10 +1380,12 @@ Before executing tests, verify:
 
 #### Step 5: Execute Skill
 
-Invoke run-tests skill with context:
+Invoke run-tests skill using the Skill tool:
 
 ```markdown
-Use .claude/skills/development/run-tests/SKILL.md with input:
+Skill(command="run-tests")
+
+# The skill will receive context:
 {
   "scope": "task-auth-002",
   "coverage": true,
@@ -1344,7 +1395,7 @@ Use .claude/skills/development/run-tests/SKILL.md with input:
 }
 ```
 
-Skill executes 5-step workflow:
+After invocation, the skill expands and executes its 5-step workflow:
 1. Determine test scope (find test files)
 2. Execute tests (via bmad-commands)
 3. Generate coverage report
@@ -1754,10 +1805,12 @@ Before executing refactoring, verify:
 
 #### Step 5: Execute Skill
 
-Invoke refactor-code skill with context:
+Invoke refactor-code skill using the Skill tool:
 
 ```markdown
-Use .claude/skills/quality/refactor-code/SKILL.md with input:
+Skill(command="refactor-code")
+
+# The skill will receive context:
 {
   "task_file": "workspace/tasks/task-auth-002.md",
   "aggressiveness": "moderate",
@@ -3194,3 +3247,56 @@ Each command features:
 - Full observability with telemetry
 - Automated escalation paths
 - 7-step workflow (Load → Assess → Route → Guard → Execute → Verify → Telemetry)
+
+---
+
+## When to Use James (Subagent) vs Direct Commands
+
+**Use James Subagent (@james-developer-v2 or /james) when:**
+- 🐛 **Debugging unknown issues** - "Tests are failing but I don't know why"
+- 🔍 **Exploratory work** - Need to investigate before implementing
+- ❓ **Unclear problem** - "Something is broken, help me find it"
+- 🔄 **Trial-and-error** - May need multiple attempts to fix
+- 🗣️ **Code explanation needed** - "Explain how this works"
+- 🎯 **Multi-step workflow with decisions** - Path depends on what's discovered
+
+**Use Direct Commands (/implement-feature, /fix-issue, /run-tests, etc.) when:**
+- ✅ **Clear task specification** - "Implement task-006"
+- 🐛 **Known bug with task ID** - "Fix issue task-012"
+- 📊 **Structured process** - Run tests, refactor specific code
+- ⚡ **Speed matters** - Direct skill invocation is faster and more reliable
+- 🔁 **Repeatable workflow** - Same implementation pattern
+- 📝 **Formal deliverables** - Need implementation summary, test reports
+
+**Example Decision Tree:**
+```
+User: "Implement task-006"
+  → Use: /implement-feature task-006 (deterministic, clear task)
+
+User: "The login is broken but I'm not sure why"
+  → Use: /james debug "Login issue" (exploratory, needs investigation)
+
+User: "Fix the authentication bug (task-012)"
+  → Use: /fix-issue task-012 (deterministic, known bug)
+
+User: "Help me figure out why tests are failing"
+  → Use: @james-developer-v2 (exploration, conversational)
+
+User: "Run all tests and show coverage"
+  → Use: /run-tests --coverage (deterministic, structured)
+```
+
+**Special Case - Debugging:**
+Debugging ALWAYS uses James subagent because:
+- Unknown state requires exploration
+- May need multiple investigation rounds
+- Dynamic decisions based on findings
+- Trial-and-error approach
+- Can invoke skills after diagnosis
+
+**Recommendation for Users:**
+- For **best reliability**: Use direct commands (/implement-feature, /run-tests, etc.)
+- For **debugging and exploration**: Use James subagent (@james-developer-v2)
+- For **known tasks**: Use direct commands
+- For **unknown problems**: Use James subagent
+- When in doubt: Start with direct command if task is clear, use James if exploratory

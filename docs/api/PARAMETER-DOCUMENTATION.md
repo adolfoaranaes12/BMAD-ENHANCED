@@ -722,7 +722,7 @@ except SystemExit:
 
 Main error handler for BMAD operations.
 
-**Location:** `scripts/error-handler.py`
+**Location:** `.claude/skills/bmad-commands/scripts/error-handler.py`
 
 #### `__init__(log_file)`
 
@@ -890,7 +890,7 @@ json_str = error.to_json()
 
 Interactive command wizard for BMAD Enhanced.
 
-**Location:** `scripts/bmad-wizard.py`
+**Location:** `.claude/skills/bmad-commands/scripts/bmad-wizard.py`
 
 #### `run_wizard(goal, subagent_filter)`
 
@@ -949,7 +949,7 @@ result = run_wizard(goal="Review code quality", subagent_filter="quinn")
 
 Real-time progress visualization for workflows.
 
-**Location:** `scripts/progress-visualizer.py`
+**Location:** `.claude/skills/bmad-commands/scripts/progress-visualizer.py`
 
 #### `create_tracker(workflow_name, total_steps, style)`
 

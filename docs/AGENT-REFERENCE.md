@@ -377,9 +377,10 @@ sprint_goal: string          # Sprint objective
 
 **Syntax:**
 ```bash
-/james *implement <task-id>
+/james *implement <task-id> [--subtask <subtask-id>] [--framework <framework>]
 /james *implement task-auth-001
 /james *implement task-auth-001 --framework pytest
+/james *implement task-auth-001 --subtask subtask-1
 ```
 
 **Input Contract:**
@@ -388,6 +389,11 @@ task_id:
   type: string
   required: true
   description: "Task specification identifier"
+subtask_id:
+  type: string
+  required: false
+  description: "Optional subtask identifier (e.g., subtask-1)"
+  validation: "Must match pattern: subtask-{number}"
 framework:
   type: string
   required: false
@@ -434,6 +440,7 @@ duration_ms: number
 
 **Example:**
 ```bash
+# Implement full task
 /james *implement task-login-001
 
 # Output:
@@ -447,6 +454,22 @@ duration_ms: number
   - tests/auth/login.test.ts (180 lines)
   Coverage: 95%
   Duration: 18 minutes
+
+# Implement specific subtask (for incremental development)
+/james *implement task-auth-002 --subtask subtask-1
+
+# Output:
+✓ Subtask implementation complete
+  Subtask: subtask-1 (Implement data model)
+  TDD Cycle:
+  - RED: 5 tests written (all failing)
+  - GREEN: Implementation complete (all passing)
+  - REFACTOR: Code optimized
+  Files:
+  - src/auth/models.ts (60 lines)
+  - tests/auth/models.test.ts (90 lines)
+  Coverage: 92%
+  Duration: 8 minutes
 ```
 
 ---

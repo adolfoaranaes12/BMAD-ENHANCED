@@ -722,7 +722,7 @@
 
 **Usage:**
 ```bash
-python scripts/bmad-wizard.py
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py
 ```
 
 ### 2. progress-visualizer.py
@@ -736,7 +736,7 @@ python scripts/bmad-wizard.py
 
 **Usage:**
 ```bash
-python scripts/progress-visualizer.py --workflow-id workflow-001
+python .claude/skills/bmad-commands/scripts/progress-visualizer.py --workflow-id workflow-001
 ```
 
 ### 3. error-handler.py
@@ -750,7 +750,7 @@ python scripts/progress-visualizer.py --workflow-id workflow-001
 
 **Usage:**
 ```bash
-python scripts/error-handler.py --error-log <log-file>
+python .claude/skills/bmad-commands/scripts/error-handler.py --error-log <log-file>
 ```
 
 ---

@@ -176,6 +176,34 @@ telemetry:
 - Emit telemetry
 - Coordinate with other subagents
 
+**⚠️ CRITICAL: How Subagents Load Skills**
+
+Subagents MUST use the **Skill tool** to invoke skills, NOT the Read tool:
+
+```markdown
+✅ CORRECT:
+Skill(command="create-task-spec")
+Skill(command="analyze-architecture")
+
+❌ WRONG:
+Read(.claude/skills/create-task-spec/SKILL.md)  # Loads text, doesn't execute
+```
+
+**Why This Matters:**
+- **Skill tool** → Invokes the skill and expands its full prompt for execution
+- **Read tool** → Only loads the skill file as text documentation
+- Using Read() causes skills to never actually execute
+
+**Execution Flow:**
+1. User: `/alex *create-task-spec "Feature"`
+2. Subagent calls: `Skill(command="create-task-spec")`
+3. System shows: `<command-message>create-task-spec is running…</command-message>`
+4. Skill expands with full workflow prompt
+5. Subagent executes the expanded workflow
+6. Output generated correctly
+
+See [Subagent Skill Loading Fix](./SUBAGENT-SKILL-LOADING-FIX.md) for complete details.
+
 ---
 
 ## V2 Pattern: 7-Step Workflow

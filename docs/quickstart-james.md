@@ -39,37 +39,42 @@
 
 **Syntax:**
 ```bash
-@james *implement <task-id>
-@james *implement task-auth-002
-@james *implement task-payment-001
+/james *implement <task-id> [--subtask <subtask-id>]
+/james *implement task-auth-002
+/james *implement task-payment-001
+/james *implement task-auth-002 --subtask subtask-1
 ```
 
 **🌍 NEW: Works with ANY test framework!**
 ```bash
 # Auto-detects your test framework
-@james *implement task-login-001      # Jest, Pytest, JUnit, GTest, Cargo, Go
-@james *implement task-api-001        # Tests written in your framework
+/james *implement task-login-001      # Jest, Pytest, JUnit, GTest, Cargo, Go
+/james *implement task-api-001        # Tests written in your framework
 ```
 
 **Examples:**
 ```bash
 # TypeScript/Next.js project (auto-detects Jest)
-@james *implement task-login-001
+/james *implement task-login-001
 
 # Python/Flask project (auto-detects Pytest)
-@james *implement task-api-auth
+/james *implement task-api-auth
 
 # Java/Spring project (auto-detects JUnit)
-@james *implement task-checkout-flow
+/james *implement task-checkout-flow
 
 # C++ project (auto-detects Google Test)
-@james *implement task-sorting-algorithm
+/james *implement task-sorting-algorithm
 
 # Rust project (auto-detects Cargo test)
-@james *implement task-http-server
+/james *implement task-http-server
 
 # Go project (auto-detects Go test)
-@james *implement task-grpc-service
+/james *implement task-grpc-service
+
+# Implement only a specific subtask
+/james *implement task-auth-002 --subtask subtask-1
+/james *implement task-payment-001 --subtask subtask-2
 ```
 
 **What You Get:**
@@ -90,6 +95,7 @@
 - Implementing features from task specifications
 - Building new functionality
 - After Alex creates task spec
+- Use `--subtask` flag when task has multiple independent subtasks for incremental development
 
 **Framework Support:**
 See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENSION-GUIDE.md) to add custom frameworks
@@ -102,16 +108,16 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 **Syntax:**
 ```bash
-@james *fix <issue-id>
-@james *fix bug-login-email
-@james *fix issue-42
+/james *fix <issue-id>
+/james *fix bug-login-email
+/james *fix issue-42
 ```
 
 **Examples:**
 ```bash
-@james *fix bug-auth-timeout
-@james *fix issue-checkout-error
-@james *fix bug-payment-validation
+/james *fix bug-auth-timeout
+/james *fix issue-checkout-error
+/james *fix bug-payment-validation
 ```
 
 **What You Get:**
@@ -141,28 +147,28 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 **Syntax:**
 ```bash
-@james *test <scope>
-@james *test task-auth-002
-@james *test src/auth/login.ts
-@james *test --all
+/james *test <scope>
+/james *test task-auth-002
+/james *test src/auth/login.ts
+/james *test --all
 ```
 
 **🌍 NEW: Auto-detects test framework!**
 ```bash
-@james *test task-login-001  # Auto-detects: Jest, Pytest, JUnit, GTest, Cargo, Go
+/james *test task-login-001  # Auto-detects: Jest, Pytest, JUnit, GTest, Cargo, Go
 ```
 
 **Examples:**
 ```bash
 # Auto-detection (recommended)
-@james *test task-login-001       # Detects Jest (JS/TS)
-@james *test task-api-001         # Detects Pytest (Python)
-@james *test task-service-001     # Detects JUnit (Java)
-@james *test task-algorithm-001   # Detects GTest (C++)
+/james *test task-login-001       # Detects Jest (JS/TS)
+/james *test task-api-001         # Detects Pytest (Python)
+/james *test task-service-001     # Detects JUnit (Java)
+/james *test task-algorithm-001   # Detects GTest (C++)
 
 # Explicit framework
-@james *test task-auth-001 --framework pytest
-@james *test task-checkout --framework junit
+/james *test task-auth-001 --framework pytest
+/james *test task-checkout --framework junit
 ```
 
 **Supported Frameworks:**
@@ -205,16 +211,16 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 **Syntax:**
 ```bash
-@james *refactor <task-id> [--scope <conservative|moderate|aggressive>]
-@james *refactor task-auth-002
-@james *refactor task-auth-002 --scope conservative
+/james *refactor <task-id> [--scope <conservative|moderate|aggressive>]
+/james *refactor task-auth-002
+/james *refactor task-auth-002 --scope conservative
 ```
 
 **Examples:**
 ```bash
-@james *refactor task-login-001
-@james *refactor task-payment-001 --scope moderate
-@james *refactor task-api-endpoints --scope conservative
+/james *refactor task-login-001
+/james *refactor task-payment-001 --scope moderate
+/james *refactor task-api-endpoints --scope conservative
 ```
 
 **What You Get:**
@@ -250,15 +256,15 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 **Syntax:**
 ```bash
-@james *apply-qa-fixes <task-id>
-@james *apply-qa-fixes task-001 --scope high_severity
+/james *apply-qa-fixes <task-id>
+/james *apply-qa-fixes task-001 --scope high_severity
 ```
 
 **Examples:**
 ```bash
-@james *apply-qa-fixes task-login-001
-@james *apply-qa-fixes task-payment-001 --scope high_severity
-@james *apply-qa-fixes task-api-001
+/james *apply-qa-fixes task-login-001
+/james *apply-qa-fixes task-payment-001 --scope high_severity
+/james *apply-qa-fixes task-api-001
 ```
 
 **What You Get:**
@@ -289,16 +295,16 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 **Syntax:**
 ```bash
-@james *debug <issue-description>
-@james *debug "Tests failing in UserService.authenticate()"
-@james *debug --error-log logs/error.log
+/james *debug <issue-description>
+/james *debug "Tests failing in UserService.authenticate()"
+/james *debug --error-log logs/error.log
 ```
 
 **Examples:**
 ```bash
-@james *debug "Login tests failing intermittently"
-@james *debug "Payment API returns 500 error"
-@james *debug --error-log logs/production-error.log
+/james *debug "Login tests failing intermittently"
+/james *debug "Payment API returns 500 error"
+/james *debug --error-log logs/production-error.log
 ```
 
 **What You Get:**
@@ -329,17 +335,17 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 **Syntax:**
 ```bash
-@james *explain <file-or-pattern>
-@james *explain src/authentication/oauth.py
-@james *explain "How does the caching system work?"
-@james *explain src/api/** --audience technical --format markdown
+/james *explain <file-or-pattern>
+/james *explain src/authentication/oauth.py
+/james *explain "How does the caching system work?"
+/james *explain src/api/** --audience technical --format markdown
 ```
 
 **Examples:**
 ```bash
-@james *explain src/auth/login.ts
-@james *explain "How does authentication work?"
-@james *explain src/payment/** --audience non-technical
+/james *explain src/auth/login.ts
+/james *explain "How does authentication work?"
+/james *explain src/payment/** --audience non-technical
 ```
 
 **What You Get:**
@@ -378,15 +384,15 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 ```bash
 # Step 1: Implement feature with TDD
-@james *implement task-login-001
+/james *implement task-login-001
 # Output: Working implementation with tests
 
 # Step 2: Run full test suite
-@james *test --all
+/james *test --all
 # Output: All tests passing, 85% coverage
 
 # Step 3: Ready for Quinn to review
-@quinn *review task-login-001
+/quinn *review task-login-001
 ```
 
 **Duration:** 20-60 minutes depending on complexity
@@ -400,15 +406,15 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 ```bash
 # Step 1: Fix bug systematically
-@james *fix bug-checkout-error
+/james *fix bug-checkout-error
 # Output: Bug fixed with regression test
 
 # Step 2: Run tests to verify
-@james *test src/checkout/**
+/james *test src/checkout/**
 # Output: All tests passing, bug verified fixed
 
 # Step 3: Review for quality
-@quinn *review bug-checkout-error
+/quinn *review bug-checkout-error
 ```
 
 **Duration:** 15-45 minutes depending on complexity
@@ -422,19 +428,19 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 ```bash
 # Step 1: Quinn identifies issues
-@quinn *review task-payment-001
+/quinn *review task-payment-001
 # Output: Quality gate CONCERNS - 5 issues found
 
 # Step 2: Apply QA fixes
-@james *apply-qa-fixes task-payment-001
+/james *apply-qa-fixes task-payment-001
 # Output: Issues resolved
 
 # Step 3: Refactor if needed
-@james *refactor task-payment-001 --scope moderate
+/james *refactor task-payment-001 --scope moderate
 # Output: Code quality improved
 
 # Step 4: Re-review
-@quinn *review task-payment-001
+/quinn *review task-payment-001
 # Output: Quality gate PASS
 ```
 
@@ -449,19 +455,19 @@ See [Framework Extension Guide](../.claude/skills/bmad-commands/FRAMEWORK-EXTENS
 
 ```bash
 # Step 1: Implement with TDD (Red → Green)
-@james *implement task-new-feature
+/james *implement task-new-feature
 # Output: Tests written first, implementation follows
 
 # Step 2: Verify tests pass
-@james *test task-new-feature
+/james *test task-new-feature
 # Output: All tests green
 
 # Step 3: Refactor (if quality issues)
-@james *refactor task-new-feature --scope conservative
+/james *refactor task-new-feature --scope conservative
 # Output: Clean, maintainable code
 
 # Step 4: Final verification
-@james *test --all
+/james *test --all
 # Output: Full suite passing
 ```
 
@@ -601,10 +607,10 @@ guardrails:
 **Solution:** Create task spec first
 ```bash
 # Use Alex to create task spec
-@alex *create-task-spec "Your feature description"
+/alex *create-task-spec "Your feature description"
 
 # Then implement
-@james *implement task-generated-id
+/james *implement task-generated-id
 ```
 
 ### Issue: "Complexity Too High - Requires Approval"
@@ -615,7 +621,7 @@ guardrails:
 # James will prompt for confirmation
 
 # Option 2: Break down into smaller tasks
-@alex *breakdown-epic "Your large feature"
+/alex *breakdown-epic "Your large feature"
 # Then implement each smaller task individually
 ```
 
@@ -624,13 +630,13 @@ guardrails:
 **Solution:** Add missing tests
 ```bash
 # Run tests to see gaps
-@james *test task-id
+/james *test task-id
 
 # Review coverage report
 # Add tests for uncovered code paths
 
 # Re-run tests
-@james *test task-id
+/james *test task-id
 ```
 
 ### Issue: "Guardrail Violation - Too Many Files"
@@ -639,11 +645,11 @@ guardrails:
 ```bash
 # Option 1: Review and reduce implementation scope
 # Option 2: Split into multiple related tasks
-@alex *breakdown-epic "Your large feature"
+/alex *breakdown-epic "Your large feature"
 
 # Implement each task separately
-@james *implement task-part-1
-@james *implement task-part-2
+/james *implement task-part-1
+/james *implement task-part-2
 ```
 
 ---

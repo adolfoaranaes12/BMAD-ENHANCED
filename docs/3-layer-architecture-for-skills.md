@@ -550,6 +550,54 @@ Provide **intelligent routing and orchestration**:
 
 ---
 
+### ⚠️ CRITICAL: How Subagents Must Invoke Skills
+
+**Subagents MUST use the Skill tool to invoke skills, NOT the Read tool.**
+
+This is the most common mistake when creating subagents:
+
+```markdown
+✅ CORRECT WAY - Use Skill Tool:
+Skill(command="create-task-spec")
+Skill(command="implement-v2")
+Skill(command="analyze-architecture")
+
+❌ WRONG WAY - Using Read Tool:
+Read(.claude/skills/create-task-spec/SKILL.md)      # Loads text, doesn't execute!
+Read(.claude/skills/implement-v2/SKILL.md)          # Skill never runs!
+Read(.claude/skills/analyze-architecture/SKILL.md)  # Only documentation shown!
+```
+
+**Why This Matters:**
+
+| Tool | What It Does | Result |
+|------|--------------|--------|
+| `Skill(command="skill-name")` | Invokes the skill and expands its full prompt | ✅ Skill executes correctly |
+| `Read(.claude/skills/skill-name/SKILL.md)` | Loads the skill file as text | ❌ Only shows documentation, skill never runs |
+
+**Correct Execution Flow:**
+
+```
+1. User: /alex *create-task-spec "User login"
+2. Subagent recognizes: *create-task-spec
+3. Subagent calls: Skill(command="create-task-spec")
+4. System shows: <command-message>create-task-spec is running…</command-message>
+5. Skill expands with full workflow prompt
+6. Subagent executes the expanded workflow
+7. Output generated correctly
+```
+
+**Required in Agent Files:**
+
+Every subagent file MUST include:
+1. **Command-to-Skill Mapping Table** showing which Skill() command to use
+2. **Execution instructions** using `Skill(command="...")` syntax
+3. **DO/DON'T examples** showing Skill tool (correct) vs Read tool (wrong)
+
+See [Subagent Skill Loading Fix](./SUBAGENT-SKILL-LOADING-FIX.md) for complete implementation details.
+
+---
+
 ### Example: james-developer-v2 Subagent
 
 **File:** `.claude/agents/james-developer-v2.md` (single file)

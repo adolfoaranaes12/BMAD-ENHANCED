@@ -15,6 +15,7 @@
 
 **Development Workflows:**
 4. [Implement Feature with TDD](#4-implement-feature-with-test-driven-development)
+4a. [Incremental Implementation with Subtasks](#4a-incremental-implementation-with-subtasks)
 5. [Fix Production Bug with Root Cause Analysis](#5-fix-production-bug-with-root-cause-analysis)
 6. [Refactor Legacy Code Safely](#6-refactor-legacy-code-safely)
 
@@ -142,6 +143,9 @@ Estimated Effort: 5 story points
 ```bash
 # Option A: Implement immediately
 /james *implement task-sec-001
+
+# Option A2: Implement specific subtask (if task has multiple subtasks)
+/james *implement task-sec-001 --subtask subtask-1
 
 # Option B: Get estimate first
 /alex *estimate task-sec-001
@@ -446,7 +450,11 @@ All tasks ready for implementation.
 **Step 1: Implement with TDD**
 
 ```bash
+# Implement entire task
 /james *implement task-auth-003
+
+# OR implement specific subtask (for large tasks with multiple subtasks)
+/james *implement task-auth-003 --subtask subtask-1
 ```
 
 **What Happens:**
@@ -610,6 +618,124 @@ No issues found. Ready for quality review.
 
 # Final validation
 /quinn *validate-quality-gate task-auth-003
+```
+
+---
+
+### 4a. Incremental Implementation with Subtasks
+
+**Goal:** Implement large tasks incrementally by breaking into subtasks
+
+**When to Use:**
+- Task has multiple independent subtasks
+- Want incremental code reviews
+- Prefer smaller, focused commits
+- Large task complexity needs breaking down
+
+**Duration:** Variable (each subtask: 15-30 minutes)
+
+**Complexity:** Variable per subtask (typically lower than full task)
+
+---
+
+#### Steps:
+
+**Step 1: Review Task Specification**
+
+Review the task spec to identify subtasks:
+
+```bash
+# Task spec should have subtasks defined like:
+# ## Subtasks
+# - subtask-1: Implement data model
+# - subtask-2: Implement API endpoints
+# - subtask-3: Implement frontend components
+```
+
+**Step 2: Implement First Subtask**
+
+```bash
+/james *implement task-auth-003 --subtask subtask-1
+```
+
+**What Happens:**
+- James loads full task spec
+- Filters acceptance criteria to subtask-1 only
+- Implements only code related to subtask-1
+- Tests only cover subtask-1 requirements
+- Smaller, focused implementation
+
+**Step 3: Review and Commit**
+
+```bash
+# Review subtask
+/quinn *review task-auth-003
+
+# Commit changes for this subtask
+git add .
+git commit -m "feat(auth): Implement MFA data model (subtask-1)"
+```
+
+**Step 4: Implement Next Subtask**
+
+```bash
+/james *implement task-auth-003 --subtask subtask-2
+```
+
+**Step 5: Repeat Until Complete**
+
+```bash
+# Continue for each subtask
+/james *implement task-auth-003 --subtask subtask-3
+
+# Final review of complete task
+/quinn *review task-auth-003
+/quinn *validate-quality-gate task-auth-003
+```
+
+---
+
+#### Benefits:
+
+- **Smaller Code Reviews:** Each subtask is easier to review
+- **Incremental Progress:** Working features delivered incrementally
+- **Easier Debugging:** Smaller changes = easier to identify issues
+- **Better Git History:** Clear, focused commits per subtask
+- **Reduced Risk:** Smaller changes reduce merge conflict risk
+
+---
+
+#### Example Task Structure:
+
+```markdown
+# Task: task-auth-003
+
+## Objective
+Implement multi-factor authentication system
+
+## Subtasks
+- subtask-1: Implement MFA data models and database schema
+- subtask-2: Implement TOTP generation and validation
+- subtask-3: Implement MFA API endpoints
+- subtask-4: Implement frontend MFA setup flow
+
+## Acceptance Criteria
+AC-1 (subtask-1): User can enable MFA in profile
+AC-2 (subtask-1,subtask-2): System generates valid TOTP codes
+AC-3 (subtask-2,subtask-3): User can validate TOTP codes
+AC-4 (subtask-3,subtask-4): API returns proper MFA status
+```
+
+---
+
+#### Next Steps:
+
+```bash
+# After all subtasks complete
+/quinn *validate-quality-gate task-auth-003
+
+# Create pull request
+git push origin feature/task-auth-003
 ```
 
 ---

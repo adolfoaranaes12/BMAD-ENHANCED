@@ -78,26 +78,74 @@ development:
 
 ## Core Concepts
 
-### The Team: 5 Core Agents
+### Two Ways to Work: Skill-Direct vs Subagents
+
+**BMAD Enhanced V2** offers two execution paths:
+
+**Skill-Direct Commands** (Recommended for most tasks)
+- ✅ 100% reliable (skills always load)
+- ✅ Fast and context-efficient
+- ✅ Structured, predictable outputs
+- Use when: Task is clear and deterministic
+
+**Subagent Commands** (For exploration and conversation)
+- 🗣️ Conversational and interactive
+- 🔍 Exploratory problem-solving
+- 🎯 Dynamic decision-making
+- Use when: Need guidance or debugging unknown issues
+
+**Quick Decision:**
+- Clear task → Use `/command-name` (skill-direct)
+- Need help/guidance → Use `@agent-name` or `/agent-name` (subagent)
+
+---
+
+### The Team: 4 Core Agents
 
 **1. Alex (Planner)** - Planning & Requirements
 ```bash
-/alex *create-task-spec "User login feature"
+# Skill-direct (deterministic)
+/create-task-spec "User login feature"
+/breakdown-epic docs/epic-auth.md
+/estimate-stories docs/stories/
+
+# Subagent (conversational)
+@alex-planner-v2 "Help me plan this vague feature"
 ```
 
 **2. James (Developer)** - Implementation with TDD
 ```bash
-/james *implement task-auth-001
+# Skill-direct (deterministic)
+/implement-feature task-auth-001
+/run-tests --coverage
+/fix-issue task-012
+
+# Subagent (exploratory)
+/james debug "Login is failing"
+@james-developer-v2 "Help me understand this error"
 ```
 
 **3. Quinn (Quality)** - Quality Assurance & Review
 ```bash
-/quinn *review task-auth-001
+# Skill-direct (deterministic)
+/quality-gate task-auth-001
+/nfr-assess docs/prd.md
+/test-design docs/requirements.md
+
+# Subagent (conversational)
+@quinn-quality-v2 "Review my architecture for security"
 ```
 
 **4. Winston (Architect)** - System Architecture & Design
 ```bash
-/winston *analyze-architecture .
+# Skill-direct (deterministic)
+/analyze-architecture .
+/create-architecture docs/prd.md
+/validate-architecture docs/architecture.md
+
+# Subagent (conversational)
+/winston-consult "Should I use microservices?"
+@winston-architect "Help me modernize this app"
 ```
 
 **5. Orchestrator** - Workflow Coordination
@@ -115,19 +163,39 @@ Layer 1: Primitives (Commands) → Atomic, testable operations
 
 ---
 
-## How Commands Work: Complete Flow
+## How Commands Work: Hybrid Architecture
 
-### Command Syntax
+### Two Command Patterns
 
-**General Form:**
+**Pattern A: Skill-Direct** (New in V2, Recommended)
 ```bash
-/agent *task parameters
+/command-name parameters
 ```
+- Invokes skill directly in main context
+- 100% reliable, fast, context-efficient
+- Examples: `/analyze-architecture`, `/create-task-spec`, `/implement-feature`
 
-**Components:**
-- `/agent` - Slash command that routes to subagent (e.g., `/alex`, `/james`, `/quinn`)
-- `*task` - Skill command (starts with asterisk, e.g., `*create-task-spec`, `*implement`)
-- `parameters` - Arguments passed to the skill (files, descriptions, flags)
+**Pattern B: Subagent** (For exploration/conversation)
+```bash
+/agent-name *task parameters
+# OR
+@agent-name "conversational prompt"
+```
+- Routes through subagent for orchestration/conversation
+- Flexible, interactive, exploratory
+- Examples: `/james debug "issue"`, `@winston-architect "help"`
+
+### When to Use Which Pattern
+
+**Use Skill-Direct (/command-name) when:**
+- ✅ Task is clear and deterministic
+- ✅ Need structured output
+- ✅ Speed and reliability matter
+
+**Use Subagent (/agent or @agent) when:**
+- 🗣️ Need conversation or guidance
+- 🔍 Debugging unknown issues
+- 🎯 Exploratory work
 
 ### Complete Execution Flow
 
@@ -251,14 +319,84 @@ This is conversational - no `*task` needed. It starts an interactive dialogue.
 
 ---
 
-## Your First Task: Complete Feature Delivery
+## Your First Tasks: Getting Started
+
+Let's start with simple examples using the **Hybrid Architecture**.
+
+### Example 1: Analyze Your Codebase (Skill-Direct)
+
+**Deterministic task - use skill-direct:**
+```bash
+# Quick analysis (5-7 minutes)
+/analyze-architecture . --depth quick
+
+# Comprehensive analysis (15-20 minutes)
+/analyze-architecture . --depth comprehensive
+```
+
+**What you'll get:**
+- Complete architecture analysis report
+- Quality scores across 8 dimensions
+- Production readiness score (0-100)
+- Technical debt identification
+- Actionable recommendations
+
+### Example 2: Get Architecture Advice (Subagent)
+
+**Conversational task - use subagent:**
+```bash
+/winston-consult "Should I use microservices or monolith for my app?"
+
+# OR
+@winston-architect "Help me understand my architecture options"
+```
+
+**What happens:**
+- Winston asks clarifying questions
+- Discusses trade-offs
+- Provides recommendations
+- Can invoke skills when appropriate
+
+### Example 3: Create a Task Specification (Skill-Direct)
+
+**Deterministic task - use skill-direct:**
+```bash
+/create-task-spec "User authentication with email and password"
+```
+
+**What you'll get:**
+- Detailed task specification file
+- Context embedded (no lookup needed)
+- 3-15 sequential tasks with validation
+- Ready for implementation
+
+### Example 4: Debug an Issue (Subagent)
+
+**Exploratory task - use subagent:**
+```bash
+/james debug "Login endpoint returning 500 errors"
+
+# OR
+@james-developer-v2 "Tests are failing but I don't know why"
+```
+
+**What happens:**
+- James investigates the issue
+- Reads logs and code
+- Identifies root cause
+- May invoke fix-issue skill
+- Tests the fix
+
+---
+
+## Complete Feature Delivery Workflow
 
 Let's build a complete feature from scratch in **10 minutes**.
 
 ### Option A: Fully Automated (Fastest)
 
 ```bash
-# One command for complete feature delivery
+# One command for complete workflow (orchestrator)
 /orchestrator *workflow feature-delivery "Add logout button to user dashboard"
 ```
 
@@ -597,6 +735,19 @@ alex *create-task-spec  # Missing @
 # Then implement each smaller task
 ```
 
+### "Skill documentation showing but not executing"
+
+**Issue:** When using `/winston *analyze-architecture .` or similar commands, you see the skill documentation but the skill doesn't execute.
+
+**Solution:** This is a known issue with how subagents were loading skills. The fix has been applied to winston-architect and alex-planner-v2. Subagents must use the Skill tool, not Read:
+
+```markdown
+✅ Correct: Skill(command="analyze-architecture")
+❌ Wrong: Read(.claude/skills/analyze-architecture/SKILL.md)
+```
+
+If you encounter this with other agents, see [Subagent Skill Loading Fix](./SUBAGENT-SKILL-LOADING-FIX.md).
+
 ---
 
 ## Tips for Success
@@ -622,7 +773,7 @@ alex *create-task-spec  # Missing @
 
 ## Get Help
 
-- **Interactive Wizard:** Run `python scripts/bmad-wizard.py`
+- **Interactive Wizard:** Run `python .claude/skills/bmad-commands/scripts/bmad-wizard.py`
 - **Documentation:** Browse `docs/` directory
 - **Examples:** See `docs/WORKFLOW-GUIDE.md` for detailed scenarios
 - **Architecture:** Read `docs/V2-ARCHITECTURE.md` for system design

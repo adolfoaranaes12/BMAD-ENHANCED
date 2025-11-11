@@ -20,9 +20,9 @@ BMAD Enhanced V2 includes four major UX improvements to make the system more acc
 
 | Component | Purpose | Location |
 |-----------|---------|----------|
-| **Command Wizard** | Interactive tool to find the right command | `scripts/bmad-wizard.py` |
-| **Progress Visualization** | Real-time progress tracking for operations | `scripts/progress-visualizer.py` |
-| **Error Handler** | Helpful error messages with remediation | `scripts/error-handler.py` |
+| **Command Wizard** | Interactive tool to find the right command | `.claude/skills/bmad-commands/scripts/bmad-wizard.py` |
+| **Progress Visualization** | Real-time progress tracking for operations | `.claude/skills/bmad-commands/scripts/progress-visualizer.py` |
+| **Error Handler** | Helpful error messages with remediation | `.claude/skills/bmad-commands/scripts/error-handler.py` |
 | **Example Workflows** | Practical, copy-paste ready examples | `docs/EXAMPLE-WORKFLOWS.md` |
 
 ---
@@ -41,25 +41,25 @@ The command wizard helps you navigate BMAD's 19 commands across 4 subagents by:
 
 ```bash
 # Run interactive wizard
-python scripts/bmad-wizard.py
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py
 
 # List all commands
-python scripts/bmad-wizard.py --list-all
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --list-all
 
 # Show commands for specific subagent
-python scripts/bmad-wizard.py --subagent alex
-python scripts/bmad-wizard.py --subagent james
-python scripts/bmad-wizard.py --subagent quinn
-python scripts/bmad-wizard.py --subagent orchestrator
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --subagent alex
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --subagent james
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --subagent quinn
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --subagent orchestrator
 
 # Show help
-python scripts/bmad-wizard.py --help
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --help
 ```
 
 ### Interactive Mode Example
 
 ```
-$ python scripts/bmad-wizard.py
+$ python .claude/skills/bmad-commands/scripts/bmad-wizard.py
 
 ======================================================================
                   BMAD Enhanced - Command Wizard
@@ -604,7 +604,7 @@ from scripts.error_handler import ErrorHandler
 def main():
     parser = argparse.ArgumentParser(
         description="BMAD Enhanced - User-Friendly Interface",
-        epilog="For help choosing a command, run: python scripts/bmad-wizard.py"
+        epilog="For help choosing a command, run: python .claude/skills/bmad-commands/scripts/bmad-wizard.py"
     )
 
     parser.add_argument("goal", help="What you want to do (e.g., 'implement feature')")
@@ -619,7 +619,7 @@ def main():
     # Suggest using wizard for first-time users
     if not args.goal:
         print("💡 Not sure which command to use?")
-        print("   Run: python scripts/bmad-wizard.py")
+        print("   Run: python .claude/skills/bmad-commands/scripts/bmad-wizard.py")
         print()
         parser.print_help()
         sys.exit(0)
@@ -646,7 +646,7 @@ if __name__ == "__main__":
 
 ```bash
 # First time using BMAD? Start here:
-python scripts/bmad-wizard.py
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py
 ```
 
 ### 2. Enable Progress Tracking for Long Operations
@@ -706,20 +706,20 @@ handler = ErrorHandler(log_file=".claude/logs/errors.log")
 
 ```bash
 # Test interactive mode
-python scripts/bmad-wizard.py
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py
 
 # Test list mode
-python scripts/bmad-wizard.py --list-all
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --list-all
 
 # Test subagent filtering
-python scripts/bmad-wizard.py --subagent james
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --subagent james
 ```
 
 ### Test Progress Visualization
 
 ```bash
 # Run demo
-python scripts/progress-visualizer.py
+python .claude/skills/bmad-commands/scripts/progress-visualizer.py
 
 # Expected output: Multiple demos showing different progress styles
 ```
@@ -728,7 +728,7 @@ python scripts/progress-visualizer.py
 
 ```bash
 # Run demo
-python scripts/error-handler.py
+python .claude/skills/bmad-commands/scripts/error-handler.py
 
 # Expected output: 4 different error examples with full formatting
 ```
@@ -752,13 +752,13 @@ head -50 docs/EXAMPLE-WORKFLOWS.md
 
 ```bash
 # Ensure script is executable
-chmod +x scripts/bmad-wizard.py
+chmod +x .claude/skills/bmad-commands/scripts/bmad-wizard.py
 
 # Test Python version
 python --version  # Should be 3.8+
 
 # Run directly
-python3 scripts/bmad-wizard.py
+python3 .claude/skills/bmad-commands/scripts/bmad-wizard.py
 ```
 
 ### Progress Not Displaying
