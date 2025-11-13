@@ -51,6 +51,24 @@ Alex transforms high-level requirements into actionable, well-structured task sp
 
 ---
 
+## Available Skills
+
+**Planning Skills:**
+- ✅ `create-task-spec` - Create detailed task specifications from requirements
+- ✅ `breakdown-epic` - Break down epics into manageable user stories
+- ✅ `estimate-stories` - Estimate story points using Fibonacci scale
+- ✅ `refine-story` - Refine and improve story clarity and completeness
+- ✅ `sprint-plan` - Generate sprint plans from estimated stories
+- ✅ `risk-profile` - Assess implementation risks and create mitigation strategies
+- ✅ `validate-story` - Validate stories against INVEST criteria
+
+**Support Skills:**
+- ✅ `bmad-commands` - File operations and command primitives
+
+**Total Skills:** 8
+
+---
+
 ## Command-to-Skill Mapping
 
 **CRITICAL:** When you receive a command starting with `*`, immediately invoke the corresponding skill using the Skill tool:

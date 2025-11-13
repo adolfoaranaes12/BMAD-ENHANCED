@@ -8,15 +8,15 @@ Transform hours of AGILE ceremony into minutes of AI-assisted productivity.
 
 ## 📚 Quick Navigation
 
-| Guide | Description | Read Time |
-|-------|-------------|-----------|
-| **[Quick Start](./docs/QUICK-START.md)** ⭐ | Get started in 10 minutes | 10 min |
-| **[User Guide](./docs/USER-GUIDE.md)** | Complete user manual | 45 min |
-| **[Workflow Guide](./docs/WORKFLOW-GUIDE.md)** | 15+ practical examples | 30 min |
-| **[Command Reference](./docs/COMMAND-REFERENCE-SUMMARY.md)** | All 50+ commands | 5 min |
-| **[Troubleshooting](./docs/TROUBLESHOOTING.md)** | Common issues & solutions | 15 min |
+**New to BMAD Enhanced?** Start here:
 
-**See [Complete Documentation Index](./docs/DOCUMENTATION-INDEX.md) for all guides**
+- **[Quick Start](./docs/QUICK-START.md)** ⭐ - Get started fast
+- **[Choosing Your Approach](./docs/CHOOSING-YOUR-APPROACH.md)** ⭐ - Direct Skills or Subagents?
+- **[User Guide](./docs/USER-GUIDE.md)** - Complete guide
+- **[Workflow Guide](./docs/WORKFLOW-GUIDE.md)** - Practical examples
+- **[Troubleshooting](./docs/TROUBLESHOOTING.md)** - Fix common issues
+
+**See [Documentation Index](./docs/DOCUMENTATION-INDEX.md) for all guides**
 
 ---
 
@@ -204,17 +204,15 @@ Let the orchestrator handle everything:
 
 ---
 
-## Behind the Scenes: Skills + Subagents
+## Behind the Scenes
 
-BMAD Enhanced combines:
-- **32 Skills** - Reusable workflows (planning, implementation, testing, quality, architecture, etc.)
-- **10 Subagents** - Conversational coordinators (5 core + 5 specialized personas)
+**How it works:** BMAD Enhanced has reusable skills (like building blocks) and conversational agents that help you use them.
 
-Both approaches use the same skills underneath:
-- `/create-task-spec` → Runs the `create-task-spec` skill directly
-- `@alex *create-task-spec` → Alex routes to the `create-task-spec` skill
+Both approaches use the same skills:
+- `/create-task-spec` → Runs the skill directly
+- `@alex *create-task-spec` → Alex helps you run the skill
 
-**The difference:** Subagents add conversation, guidance, and intelligent routing on top of skills.
+**The difference:** Subagents add conversation and guidance.
 
 **Core 5 Subagents (Most Common):**
 
@@ -236,52 +234,32 @@ Both approaches use the same skills underneath:
 
 ## Documentation
 
-### Essential Guides
-- **[Quick Start Guide](./docs/QUICK-START.md)** - Get started in 10 minutes
-- **[User Guide](./docs/USER-GUIDE.md)** - Comprehensive manual (1,878 lines)
-- **[Workflow Guide](./docs/WORKFLOW-GUIDE.md)** - 15+ practical workflows
-- **[Command Reference](./docs/COMMAND-REFERENCE-SUMMARY.md)** - All 50+ commands
-- **[Troubleshooting](./docs/TROUBLESHOOTING.md)** - Common issues & solutions
+### Getting Started
+- **[Quick Start](./docs/QUICK-START.md)** - Get started fast
+- **[Choosing Your Approach](./docs/CHOOSING-YOUR-APPROACH.md)** - Which way to work
+- **[User Guide](./docs/USER-GUIDE.md)** - Complete guide
+- **[Workflow Examples](./docs/WORKFLOW-GUIDE.md)** - Real-world examples
+- **[Troubleshooting](./docs/TROUBLESHOOTING.md)** - Fix issues
 
-### Architecture & Development
-- **[V2 Architecture](./docs/V2-ARCHITECTURE.md)** - System architecture overview
-- **[3-Layer Architecture](./docs/3-layer-architecture-for-skills.md)** - Architecture deep dive
-- **[Command Routing Guide](./docs/COMMAND-ROUTING-GUIDE.md)** - Skill-direct vs subagent
-- **[Best Practices](./docs/BEST-PRACTICES.md)** - World-class patterns
+### For Developers
+- **[Best Practices](./docs/BEST-PRACTICES.md)** - How to use effectively
+- **[Command Reference](./docs/COMMAND-REFERENCE-SUMMARY.md)** - All commands
 
-### Production
-- **[Production Deployment](./docs/PRODUCTION-DEPLOYMENT-GUIDE.md)** - Deployment procedures
-- **[Production Monitoring](./docs/PRODUCTION-MONITORING-GUIDE.md)** - Observability setup
-- **[Security Review](./docs/PRODUCTION-SECURITY-REVIEW.md)** - Security hardening
-- **[Readiness Checklist](./docs/PRODUCTION-READINESS-CHECKLIST.md)** - 209-item checklist
+### For Teams
+- **[Production Deployment](./docs/PRODUCTION-DEPLOYMENT-GUIDE.md)** - Deploy to production
+- **[Security Review](./docs/PRODUCTION-SECURITY-REVIEW.md)** - Security checklist
 
-**See [Documentation Index](./docs/DOCUMENTATION-INDEX.md) for complete list**
+**[Complete Documentation Index](./docs/DOCUMENTATION-INDEX.md)** - All guides
 
 ---
 
 ## Project Status
 
-**Version:** 2.0.0
 **Status:** Production Ready ✅
-**Last Updated:** November 2025
 
-### Achievements
+BMAD Enhanced is ready to use for real projects. It's been thoroughly tested and includes everything you need to start building software faster.
 
-✅ **Phase 1:** Architecture migration complete (100%)
-✅ **Phase 2:** V2 architecture with 26 skills (100%)
-✅ **Phase 3:** Integration & production readiness (100%)
-✅ **Phase 4:** Hybrid architecture & brownfield workflows (100%)
-
-### Key Metrics
-
-- **Skills:** 32 production-ready skills with V2 contracts
-- **Commands:** 50+ commands (skill-direct + subagent)
-- **Performance:** 51ms average overhead (83% better than target)
-- **Testing:** 100% specification validation (74/74 passing)
-- **Token Efficiency:** 52% reduction through progressive disclosure
-- **Production Readiness Score:** 92/100
-
-**See [Roadmap](./docs/ROADMAP.md) for future plans**
+**See [Roadmap](./docs/ROADMAP.md) for what's next**
 
 ---
 
@@ -339,7 +317,7 @@ Both approaches use the same skills underneath:
 # Does all three steps automatically
 ```
 
-**See [Example Workflows](./docs/EXAMPLE-WORKFLOWS.md) for 11 copy-paste examples**
+**See [Example Workflows](./docs/EXAMPLE-WORKFLOWS.md) for more copy-paste examples**
 
 ---
 

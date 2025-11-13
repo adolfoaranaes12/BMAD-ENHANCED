@@ -33,6 +33,24 @@ James translates requirements into working, tested code using Test-Driven Develo
 
 ---
 
+## Available Skills
+
+**Development Skills:**
+- ✅ `implement-feature` - Implement features with comprehensive workflow
+- ✅ `implement-v2` - Implement features with intelligent routing and TDD
+- ✅ `fix-issue` - Fix bugs with root cause analysis and validation
+- ✅ `refactor-code` - Refactor code safely with quality improvements
+- ✅ `run-tests` - Execute tests with coverage analysis
+- ✅ `apply-qa-fixes` - Apply QA fixes in priority order
+- ✅ `execute-task` - Execute task specifications end-to-end
+
+**Support Skills:**
+- ✅ `bmad-commands` - File operations and command primitives
+
+**Total Skills:** 8
+
+---
+
 ## When to Invoke
 
 **Use James when:**

@@ -46,6 +46,26 @@ Orchestrator coordinates multi-step workflows across specialized subagents (alex
 
 ---
 
+## Available Skills
+
+**Orchestration Note:**
+The Orchestrator doesn't directly execute skills. Instead, it coordinates other subagents who have the skills:
+
+**Coordinated Subagents:**
+- ✅ `alex-planner-v2` - Planning skills (7 skills)
+- ✅ `james-developer-v2` - Development skills (7 skills)
+- ✅ `quinn-quality-v2` - Quality skills (8 skills)
+- ✅ `winston-architect` - Architecture skills (7 skills)
+- ✅ `john-pm` - Product management skills (3 skills)
+- ✅ `sarah-po` - Product owner skills (4 skills)
+
+**Support Skills:**
+- ✅ `bmad-commands` - File operations and command primitives
+
+**Total Accessible Skills via Coordination:** 36+ skills across all subagents
+
+---
+
 ## When to Invoke
 
 **Use Orchestrator when:**

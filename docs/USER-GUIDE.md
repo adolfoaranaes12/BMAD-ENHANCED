@@ -51,16 +51,17 @@ The name reflects the core mission: break down complex AGILE ceremonies (sprint 
 - **Observable Workflows:** Full telemetry tracks every operation
 - **Portable Skills:** Reusable capabilities across projects
 
-### 1.3 Core Metrics
+### 1.3 What You'll Achieve
 
-| Metric | Before BMAD | After BMAD | Improvement |
-|--------|-------------|------------|-------------|
-| **Planning Time** | 2-4 hours | 8-12 minutes | 83% reduction |
-| **Implementation Time** | 4-8 hours | 20-30 minutes | 87% reduction |
-| **Review Time** | 2-3 hours | 10-15 minutes | 83% reduction |
-| **Total Feature Time** | 10-17 hours | 48-63 minutes | 85-90% reduction |
-| **Test Coverage** | 40-60% | 80-95% | 2x improvement |
-| **Quality Score** | Variable | Consistent 80+ | Standardized |
+**Time Savings:**
+- **Planning:** Hours → Minutes
+- **Implementation:** Hours → Minutes
+- **Review:** Hours → Minutes
+- **Total:** 10-17 hours → Under 1 hour (85-90% faster)
+
+**Quality Improvements:**
+- **Test Coverage:** 80%+ guaranteed (vs 40-60% typical)
+- **Consistency:** Every feature follows same high standards
 
 ### 1.4 Use Cases
 

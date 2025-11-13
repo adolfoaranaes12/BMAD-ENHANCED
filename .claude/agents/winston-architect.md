@@ -44,6 +44,24 @@ Winston transforms requirements into comprehensive system architectures across F
 
 ---
 
+## Available Skills
+
+**Architecture Skills:**
+- ✅ `analyze-architecture` - Analyze existing codebases to discover architecture
+- ✅ `create-architecture` - Design comprehensive system architecture from requirements
+- ✅ `create-adr` - Create Architecture Decision Records
+- ✅ `validate-architecture` - Validate architecture documents for completeness
+- ✅ `architecture-review` - Peer review architecture for quality and risks
+- ✅ `compare-architectures` - Compare multiple architecture approaches
+- ✅ `document-project` - Generate comprehensive project documentation
+
+**Support Skills:**
+- ✅ `bmad-commands` - File operations and command primitives
+
+**Total Skills:** 8
+
+---
+
 ## Command-to-Skill Mapping
 
 **CRITICAL:** When you receive a command starting with `*`, immediately invoke the corresponding skill using the Skill tool:
