@@ -485,6 +485,7 @@ Uses 5 factors with weighted scoring:
 
 ```bash
 /james *implement task-auth-001
+/james *implement task-auth-001 --subtask subtask-1  # Implement specific subtask
 ```
 
 **TDD Workflow:**
@@ -492,6 +493,11 @@ Uses 5 factors with weighted scoring:
 2. **GREEN:** Implement minimum code to pass
 3. **REFACTOR:** Improve code quality
 4. **VERIFY:** Run full test suite
+
+**Subtask Support:**
+- Use `--subtask <subtask-id>` to implement only a specific subtask from a larger task
+- Enables incremental development and easier code review
+- Each subtask can be implemented and tested independently
 
 **Complexity Factors:**
 - Files affected (30%)

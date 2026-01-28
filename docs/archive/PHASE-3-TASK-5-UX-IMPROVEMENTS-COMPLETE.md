@@ -28,7 +28,7 @@ Task 5 successfully delivers comprehensive UX improvements that make BMAD Enhanc
 
 ## What Was Delivered
 
-### 1. Interactive Command Wizard (`scripts/bmad-wizard.py`)
+### 1. Interactive Command Wizard (`.claude/skills/bmad-commands/scripts/bmad-wizard.py`)
 
 **Purpose:** Help users navigate 19 commands across 4 subagents
 
@@ -42,16 +42,16 @@ Task 5 successfully delivers comprehensive UX improvements that make BMAD Enhanc
 **Usage:**
 ```bash
 # Interactive mode
-python scripts/bmad-wizard.py
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py
 
 # List all commands
-python scripts/bmad-wizard.py --list-all
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --list-all
 
 # Filter by subagent
-python scripts/bmad-wizard.py --subagent james
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --subagent james
 
 # Help
-python scripts/bmad-wizard.py --help
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --help
 ```
 
 **Goal Recognition:**
@@ -72,7 +72,7 @@ Recommended Commands:
 
 ---
 
-### 2. Progress Visualization System (`scripts/progress-visualizer.py`)
+### 2. Progress Visualization System (`.claude/skills/bmad-commands/scripts/progress-visualizer.py`)
 
 **Purpose:** Provide real-time feedback during long-running operations
 
@@ -120,7 +120,7 @@ Starting: james - *implement
 
 ---
 
-### 3. Improved Error Handler (`scripts/error-handler.py`)
+### 3. Improved Error Handler (`.claude/skills/bmad-commands/scripts/error-handler.py`)
 
 **Purpose:** Provide helpful, actionable error messages
 

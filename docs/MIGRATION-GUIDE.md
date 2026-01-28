@@ -163,7 +163,7 @@ Use this checklist to track your migration progress:
 - [ ] Verify system prerequisites
 - [ ] Clone repository to new location
 - [ ] Install Python dependencies
-- [ ] Verify installation with `python scripts/bmad-wizard.py --version`
+- [ ] Verify installation with `python .claude/skills/bmad-commands/scripts/bmad-wizard.py --version`
 
 ### Configuration
 - [ ] Migrate `.bmad/config.yml` to `.claude/config.yaml`
@@ -216,7 +216,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Verify installation
-python scripts/bmad-wizard.py --version
+python .claude/skills/bmad-commands/scripts/bmad-wizard.py --version
 ```
 
 Expected output:
@@ -604,7 +604,7 @@ cat > .claude/QUICK-REFERENCE.md << 'EOF'
 
 ## Interactive Tools
 
-- Command wizard: `python scripts/bmad-wizard.py`
+- Command wizard: `python .claude/skills/bmad-commands/scripts/bmad-wizard.py`
 - Progress tracker: Automatic in workflows
 - Error help: Built into all commands
 
@@ -992,7 +992,7 @@ A: Use workflow orchestration: `/orchestrator *workflow deploy-staging` or creat
 A: Yes, plus many new ones. See [V2-ARCHITECTURE.md](V2-ARCHITECTURE.md) for the complete feature list.
 
 **Q: How do I use the new UX tools?**
-A: Run `python scripts/bmad-wizard.py` for the interactive wizard, or see [docs/UX-IMPROVEMENTS-GUIDE.md](UX-IMPROVEMENTS-GUIDE.md).
+A: Run `python .claude/skills/bmad-commands/scripts/bmad-wizard.py` for the interactive wizard, or see [docs/UX-IMPROVEMENTS-GUIDE.md](UX-IMPROVEMENTS-GUIDE.md).
 
 ---
 

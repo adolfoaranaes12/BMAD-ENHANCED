@@ -39,17 +39,17 @@
 
 **Syntax:**
 ```bash
-@orchestrator *workflow <workflow-type> <input>
-@orchestrator *workflow feature-delivery "User login with email validation"
-@orchestrator *workflow epic-to-sprint "User Authentication System" --velocity 40
-@orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
+/orchestrator *workflow <workflow-type> <input>
+/orchestrator *workflow feature-delivery "User login with email validation"
+/orchestrator *workflow epic-to-sprint "User Authentication System" --velocity 40
+/orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
 ```
 
 **Examples:**
 ```bash
-@orchestrator *workflow feature-delivery "Add shopping cart checkout flow"
-@orchestrator *workflow epic-to-sprint "Payment Processing System" --velocity 35
-@orchestrator *workflow sprint-execution "Sprint Q1-2025-Sprint-3" --velocity 40
+/orchestrator *workflow feature-delivery "Add shopping cart checkout flow"
+/orchestrator *workflow epic-to-sprint "Payment Processing System" --velocity 35
+/orchestrator *workflow sprint-execution "Sprint Q1-2025-Sprint-3" --velocity 40
 ```
 
 **What You Get:**
@@ -92,7 +92,7 @@
 
 **Example:**
 ```bash
-@orchestrator *workflow feature-delivery "User login with OAuth integration"
+/orchestrator *workflow feature-delivery "User login with OAuth integration"
 
 # Output:
 # Phase 1: Task spec created (.claude/tasks/task-001.md)
@@ -119,7 +119,7 @@
 
 **Example:**
 ```bash
-@orchestrator *workflow epic-to-sprint "E-commerce Shopping Cart" --velocity 40
+/orchestrator *workflow epic-to-sprint "E-commerce Shopping Cart" --velocity 40
 
 # Output:
 # Phase 1: 8 user stories created (workspace/stories/story-cart-*.md)
@@ -145,7 +145,7 @@
 
 **Example:**
 ```bash
-@orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
+/orchestrator *workflow sprint-execution "Sprint 15" --velocity 40
 
 # Output:
 # Phase 1: All sprint stories implemented and reviewed
@@ -164,16 +164,16 @@
 
 **Syntax:**
 ```bash
-@orchestrator *coordinate <task-description> --subagents <list>
-@orchestrator *coordinate "Validate architecture and create implementation plan" --subagents winston,alex
-@orchestrator *coordinate "Quality improvement cycle" --subagents quinn,james
+/orchestrator *coordinate <task-description> --subagents <list>
+/orchestrator *coordinate "Validate architecture and create implementation plan" --subagents winston,alex
+/orchestrator *coordinate "Quality improvement cycle" --subagents quinn,james
 ```
 
 **Examples:**
 ```bash
-@orchestrator *coordinate "Architecture review + planning" --subagents winston,alex
-@orchestrator *coordinate "Fix quality issues and re-review" --subagents james,quinn
-@orchestrator *coordinate "Design API + implement + validate" --subagents winston,james,quinn
+/orchestrator *coordinate "Architecture review + planning" --subagents winston,alex
+/orchestrator *coordinate "Fix quality issues and re-review" --subagents james,quinn
+/orchestrator *coordinate "Design API + implement + validate" --subagents winston,james,quinn
 ```
 
 **What You Get:**
@@ -214,7 +214,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 **Example:**
 ```bash
 # Winston designs architecture → Alex creates tasks → James implements
-@orchestrator *coordinate "Full-stack feature" --subagents winston,alex,james
+/orchestrator *coordinate "Full-stack feature" --subagents winston,alex,james
 ```
 
 **Use When:** Clear sequential dependencies exist
@@ -233,7 +233,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 **Example:**
 ```bash
 # Multiple features implemented in parallel
-@orchestrator *coordinate "Parallel feature implementation" --subagents james,james,james
+/orchestrator *coordinate "Parallel feature implementation" --subagents james,james,james
 # (3 separate James instances for 3 independent features)
 ```
 
@@ -253,7 +253,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 **Example:**
 ```bash
 # Quinn reviews → James fixes → Quinn validates (repeat until PASS)
-@orchestrator *coordinate "Quality improvement cycle" --subagents quinn,james
+/orchestrator *coordinate "Quality improvement cycle" --subagents quinn,james
 ```
 
 **Use When:** Iterative refinement needed
@@ -272,7 +272,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 **Example:**
 ```bash
 # Winston and Alex collaborate on complex system design
-@orchestrator *coordinate "Complex system architecture + planning" --subagents winston,alex
+/orchestrator *coordinate "Complex system architecture + planning" --subagents winston,alex
 ```
 
 **Use When:** Complex decisions requiring collaboration
@@ -287,7 +287,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 
 ```bash
 # Single command executes entire workflow
-@orchestrator *workflow feature-delivery "Add user profile editing"
+/orchestrator *workflow feature-delivery "Add user profile editing"
 
 # Orchestrator handles:
 # 1. Alex creates task spec
@@ -307,7 +307,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 
 ```bash
 # Step 1: Break down epic and plan sprint
-@orchestrator *workflow epic-to-sprint "Mobile App MVP" --velocity 40
+/orchestrator *workflow epic-to-sprint "Mobile App MVP" --velocity 40
 
 # Output:
 # - 12 user stories with estimates
@@ -315,7 +315,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 # - Remaining stories in backlog
 
 # Step 2: Execute sprint
-@orchestrator *workflow sprint-execution "Sprint 16" --velocity 40
+/orchestrator *workflow sprint-execution "Sprint 16" --velocity 40
 ```
 
 **Duration:** Planning: 30 min, Execution: Full sprint
@@ -329,7 +329,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 
 ```bash
 # Coordinate Quinn and James in feedback loop
-@orchestrator *coordinate "Fix all quality issues" --subagents quinn,james
+/orchestrator *coordinate "Fix all quality issues" --subagents quinn,james
 
 # Orchestrator executes:
 # 1. Quinn reviews (finds 5 issues)
@@ -350,7 +350,7 @@ Orchestrator uses 4 coordination patterns based on task characteristics:
 
 ```bash
 # Coordinate Winston, Alex, and James sequentially
-@orchestrator *coordinate "Full system design and implementation" --subagents winston,alex,james
+/orchestrator *coordinate "Full system design and implementation" --subagents winston,alex,james
 
 # Orchestrator executes:
 # 1. Winston creates architecture design
@@ -396,12 +396,12 @@ If workflow is interrupted, resume with:
 
 ```bash
 # Orchestrator detects incomplete workflow and prompts
-@orchestrator *workflow feature-delivery "User login"
+/orchestrator *workflow feature-delivery "User login"
 # > Found incomplete workflow wf-feature-login-20250203
 # > Resume from last checkpoint? (y/n)
 
 # Or explicitly resume
-@orchestrator *resume wf-feature-login-20250203
+/orchestrator *resume wf-feature-login-20250203
 ```
 
 **Benefits:**
@@ -548,10 +548,10 @@ orchestrator:
 cat .claude/workflows/wf-feature-*.yaml
 
 # If phase failed, retry
-@orchestrator *retry-phase wf-feature-login-20250203 implementation
+/orchestrator *retry-phase wf-feature-login-20250203 implementation
 
 # Or skip phase (with confirmation)
-@orchestrator *skip-phase wf-feature-login-20250203 implementation
+/orchestrator *skip-phase wf-feature-login-20250203 implementation
 ```
 
 ### Issue: "Quality Gate Blocks PR Creation"
@@ -562,10 +562,10 @@ cat .claude/workflows/wf-feature-*.yaml
 # Phase: quality_review - Status: FAIL
 
 # Step 1: Apply QA fixes
-@james *apply-qa-fixes task-id
+/james *apply-qa-fixes task-id
 
 # Step 2: Resume workflow (will re-run Quinn review)
-@orchestrator *resume wf-feature-login-20250203
+/orchestrator *resume wf-feature-login-20250203
 ```
 
 ### Issue: "Coordination Pattern Unclear"
@@ -573,10 +573,10 @@ cat .claude/workflows/wf-feature-*.yaml
 **Solution:** Be explicit about coordination needs
 ```bash
 # Instead of vague coordination
-@orchestrator *coordinate "Do planning and implementation"
+/orchestrator *coordinate "Do planning and implementation"
 
 # Be explicit about pattern
-@orchestrator *coordinate "Sequential: Architecture (winston) → Planning (alex) → Implementation (james)" --subagents winston,alex,james
+/orchestrator *coordinate "Sequential: Architecture (winston) → Planning (alex) → Implementation (james)" --subagents winston,alex,james
 ```
 
 ### Issue: "Workflow Complexity Too High"
@@ -584,12 +584,12 @@ cat .claude/workflows/wf-feature-*.yaml
 **Solution:** Break down into smaller workflows
 ```bash
 # Instead of one massive workflow
-@orchestrator *workflow feature-delivery "Entire Payment System"
+/orchestrator *workflow feature-delivery "Entire Payment System"
 
 # Break into multiple features
-@orchestrator *workflow feature-delivery "Payment Gateway Integration"
-@orchestrator *workflow feature-delivery "Payment History View"
-@orchestrator *workflow feature-delivery "Refund Processing"
+/orchestrator *workflow feature-delivery "Payment Gateway Integration"
+/orchestrator *workflow feature-delivery "Payment History View"
+/orchestrator *workflow feature-delivery "Refund Processing"
 ```
 
 ---
@@ -623,7 +623,7 @@ phases:
 
 **Usage:**
 ```bash
-@orchestrator *workflow ci-cd-pipeline task-001
+/orchestrator *workflow ci-cd-pipeline task-001
 ```
 
 ---

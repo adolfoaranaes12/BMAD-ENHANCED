@@ -38,16 +38,16 @@
 
 **Syntax:**
 ```bash
-@quinn *review <task-id>
-@quinn *review task-auth-002
-@quinn *review task-payment-001
+/quinn *review <task-id>
+/quinn *review task-auth-002
+/quinn *review task-payment-001
 ```
 
 **Examples:**
 ```bash
-@quinn *review task-login-001
-@quinn *review task-checkout-flow
-@quinn *review task-api-auth
+/quinn *review task-login-001
+/quinn *review task-checkout-flow
+/quinn *review task-api-auth
 ```
 
 **What You Get:**
@@ -80,15 +80,15 @@
 
 **Syntax:**
 ```bash
-@quinn *assess-nfr <task-id>
-@quinn *assess-nfr task-auth-002
+/quinn *assess-nfr <task-id>
+/quinn *assess-nfr task-auth-002
 ```
 
 **Examples:**
 ```bash
-@quinn *assess-nfr task-login-001
-@quinn *assess-nfr task-payment-gateway
-@quinn *assess-nfr task-api-performance
+/quinn *assess-nfr task-login-001
+/quinn *assess-nfr task-payment-gateway
+/quinn *assess-nfr task-api-performance
 ```
 
 **What You Get:**
@@ -129,14 +129,14 @@
 
 **Syntax:**
 ```bash
-@quinn *validate-quality-gate <task-id>
-@quinn *validate-quality-gate task-auth-002
+/quinn *validate-quality-gate <task-id>
+/quinn *validate-quality-gate task-auth-002
 ```
 
 **Examples:**
 ```bash
-@quinn *validate-quality-gate task-login-001
-@quinn *validate-quality-gate task-checkout-flow
+/quinn *validate-quality-gate task-login-001
+/quinn *validate-quality-gate task-checkout-flow
 ```
 
 **What You Get:**
@@ -196,14 +196,14 @@
 
 **Syntax:**
 ```bash
-@quinn *trace-requirements <task-id>
-@quinn *trace-requirements task-auth-002
+/quinn *trace-requirements <task-id>
+/quinn *trace-requirements task-auth-002
 ```
 
 **Examples:**
 ```bash
-@quinn *trace-requirements task-login-001
-@quinn *trace-requirements task-payment-001
+/quinn *trace-requirements task-login-001
+/quinn *trace-requirements task-payment-001
 ```
 
 **What You Get:**
@@ -248,15 +248,15 @@ AC-2: Invalid credentials show error
 
 **Syntax:**
 ```bash
-@quinn *assess-risk <task-id>
-@quinn *assess-risk task-auth-002
+/quinn *assess-risk <task-id>
+/quinn *assess-risk task-auth-002
 ```
 
 **Examples:**
 ```bash
-@quinn *assess-risk task-new-payment-gateway
-@quinn *assess-risk task-database-migration
-@quinn *assess-risk task-third-party-api
+/quinn *assess-risk task-new-payment-gateway
+/quinn *assess-risk task-database-migration
+/quinn *assess-risk task-third-party-api
 ```
 
 **What You Get:**
@@ -310,7 +310,7 @@ AC-2: Invalid credentials show error
 
 ```bash
 # Step 1: Comprehensive review
-@quinn *review task-login-001
+/quinn *review task-login-001
 # Output: Quality gate with PASS/CONCERNS/FAIL
 
 # If PASS → Deploy
@@ -318,10 +318,10 @@ AC-2: Invalid credentials show error
 # If FAIL → Fix critical issues first
 
 # Step 2 (if needed): Apply fixes
-@james *apply-qa-fixes task-login-001
+/james *apply-qa-fixes task-login-001
 
 # Step 3: Re-review
-@quinn *review task-login-001
+/quinn *review task-login-001
 # Output: Quality gate PASS
 ```
 
@@ -336,15 +336,15 @@ AC-2: Invalid credentials show error
 
 ```bash
 # Step 1: Assess NFRs
-@quinn *assess-nfr task-api-endpoint
+/quinn *assess-nfr task-api-endpoint
 # Output: NFR report with 6 categories assessed
 
 # Step 2: Trace requirements
-@quinn *trace-requirements task-api-endpoint
+/quinn *trace-requirements task-api-endpoint
 # Output: Traceability matrix
 
 # Step 3: Validate quality gate
-@quinn *validate-quality-gate task-api-endpoint
+/quinn *validate-quality-gate task-api-endpoint
 # Output: Final PASS/CONCERNS/FAIL decision
 ```
 
@@ -359,19 +359,19 @@ AC-2: Invalid credentials show error
 
 ```bash
 # Step 1: Assess risk BEFORE implementation
-@quinn *assess-risk task-payment-gateway
+/quinn *assess-risk task-payment-gateway
 # Output: Risk profile with mitigation strategies
 
 # Step 2: Implement with mitigations
-@james *implement task-payment-gateway
+/james *implement task-payment-gateway
 # (James follows mitigation strategies)
 
 # Step 3: Review with risk focus
-@quinn *review task-payment-gateway
+/quinn *review task-payment-gateway
 # Output: Quality gate with risk verification
 
 # Step 4: Validate all risks mitigated
-@quinn *assess-risk task-payment-gateway
+/quinn *assess-risk task-payment-gateway
 # Output: Updated risk profile (should show lower risks)
 ```
 
@@ -386,15 +386,15 @@ AC-2: Invalid credentials show error
 
 ```bash
 # Step 1: Trace all requirements
-@quinn *trace-requirements task-feature-001
+/quinn *trace-requirements task-feature-001
 # Output: Traceability matrix with gaps
 
 # Step 2: Assess NFRs
-@quinn *assess-nfr task-feature-001
+/quinn *assess-nfr task-feature-001
 # Output: NFR compliance report
 
 # Step 3: Final quality gate
-@quinn *validate-quality-gate task-feature-001
+/quinn *validate-quality-gate task-feature-001
 # Output: PASS (if compliant)
 ```
 
@@ -586,18 +586,18 @@ quality:
 **Solution:** Add tests to increase coverage
 ```bash
 # Step 1: Review coverage report
-@quinn *review task-id
+/quinn *review task-id
 # See which files/functions lack coverage
 
 # Step 2: Add missing tests
-@james *test task-id
+/james *test task-id
 # James will identify gaps and suggest tests
 
 # Step 3: Implement missing tests
 # Add tests for uncovered code paths
 
 # Step 4: Re-review
-@quinn *review task-id
+/quinn *review task-id
 # Should now PASS with sufficient coverage
 ```
 
@@ -606,15 +606,15 @@ quality:
 **Solution:** Address security concerns immediately
 ```bash
 # Step 1: Review NFR details
-@quinn *assess-nfr task-id
+/quinn *assess-nfr task-id
 # See specific security findings
 
 # Step 2: Apply fixes
-@james *apply-qa-fixes task-id --scope high_severity
+/james *apply-qa-fixes task-id --scope high_severity
 # Focus on security issues
 
 # Step 3: Re-assess
-@quinn *assess-nfr task-id
+/quinn *assess-nfr task-id
 # Verify security NFRs now PASS
 ```
 
@@ -623,14 +623,14 @@ quality:
 **Solution:** Add tests for uncovered acceptance criteria
 ```bash
 # Step 1: Identify gaps
-@quinn *trace-requirements task-id
+/quinn *trace-requirements task-id
 # See which ACs lack test coverage
 
 # Step 2: Add tests for missing ACs
 # Write tests that specifically verify each AC
 
 # Step 3: Re-trace
-@quinn *trace-requirements task-id
+/quinn *trace-requirements task-id
 # Should show 100% coverage
 ```
 
@@ -639,18 +639,18 @@ quality:
 **Solution:** Mitigate risks before proceeding
 ```bash
 # Step 1: Assess risks
-@quinn *assess-risk task-id
+/quinn *assess-risk task-id
 # Identify critical/high risks
 
 # Step 2: Create mitigation plan
 # Document how each risk will be addressed
 
 # Step 3: Implement with mitigations
-@james *implement task-id
+/james *implement task-id
 # Follow mitigation strategies
 
 # Step 4: Verify risks mitigated
-@quinn *assess-risk task-id
+/quinn *assess-risk task-id
 # Risks should now be lower
 ```
 

@@ -47,7 +47,7 @@
 
 **Step 1: Analyze Your Current Architecture**
 ```bash
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 ```
 
 **What you get:**
@@ -64,7 +64,7 @@
 
 **Step 2: Get Architecture Options**
 ```bash
-@winston *compare-architectures "Scale to 100K users + add real-time features"
+/winston *compare-architectures "Scale to 100K users + add real-time features"
 ```
 
 **What you get:**
@@ -80,7 +80,7 @@
 
 **Step 3: Get Complete Modernization Plan**
 ```bash
-@orchestrator *workflow modernize . "Your modernization goals"
+/orchestrator *workflow modernize . "Your modernization goals"
 ```
 
 **What you get:**
@@ -98,7 +98,7 @@
 
 **Step 1: Create Architecture from Requirements**
 ```bash
-@winston *create-architecture docs/prd.md
+/winston *create-architecture docs/prd.md
 ```
 
 **What you get:**
@@ -115,7 +115,7 @@
 
 **Step 2: Validate Architecture**
 ```bash
-@winston *validate-architecture docs/architecture.md
+/winston *validate-architecture docs/architecture.md
 ```
 
 **What you get:**
@@ -131,7 +131,7 @@
 
 **Step 3: Peer Review**
 ```bash
-@winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md
 ```
 
 **What you get:**
@@ -197,7 +197,7 @@ Shall I proceed?
 
 ```bash
 # Step 1: Analyze codebase
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 
 # What you get:
 # - Production Readiness: 78/100 ⭐⭐⭐⭐
@@ -207,7 +207,7 @@ Shall I proceed?
 # - Top 3 Modernization Opportunities
 
 # Step 2 (Optional): Review specific area
-@winston *review-architecture docs/architecture-analysis-*.md --focus security
+/winston *review-architecture docs/architecture-analysis-*.md --focus security
 ```
 
 **Use when:** You inherited a codebase and need to understand its current state.
@@ -218,7 +218,7 @@ Shall I proceed?
 
 ```bash
 # Step 1: Get options with trade-offs
-@winston *compare-architectures "Your modernization goals"
+/winston *compare-architectures "Your modernization goals"
 
 # What you get:
 # - Option A: Modernize current stack (4-6 weeks, $25K-$40K)
@@ -226,7 +226,7 @@ Shall I proceed?
 # - Option C: Complete rewrite (4-6 months, $150K-$200K)
 
 # Step 2: Design chosen option
-@winston *create-architecture docs/brownfield-prd.md --option moderate
+/winston *create-architecture docs/brownfield-prd.md --option moderate
 ```
 
 **Use when:** You know you need to improve but don't know the best approach.
@@ -237,7 +237,7 @@ Shall I proceed?
 
 ```bash
 # Run complete workflow (51 minutes)
-@orchestrator *workflow modernize . "Scale to 100K users + add real-time"
+/orchestrator *workflow modernize . "Scale to 100K users + add real-time"
 
 # Phases:
 # 1. Architecture Analysis (winston) ✅
@@ -262,16 +262,16 @@ Shall I proceed?
 
 ```bash
 # Step 1: Create architecture
-@winston *create-architecture docs/prd.md
+/winston *create-architecture docs/prd.md
 
 # Step 2: Validate
-@winston *validate-architecture docs/architecture.md
+/winston *validate-architecture docs/architecture.md
 
 # Step 3: Peer review
-@winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md
 
 # Step 4: Create implementation plan
-@alex *breakdown-epic docs/architecture.md
+/alex *breakdown-epic docs/architecture.md
 ```
 
 **Use when:** Starting a new project and need solid architecture foundation.
@@ -286,10 +286,10 @@ Shall I proceed?
 
 **Syntax:**
 ```bash
-@winston *analyze-architecture [codebase-path]
-@winston *analyze-architecture . --depth comprehensive
-@winston *analyze-architecture packages/backend --focus security
-@winston *analyze-architecture . --output json
+/winston *analyze-architecture [codebase-path]
+/winston *analyze-architecture . --depth comprehensive
+/winston *analyze-architecture packages/backend --focus security
+/winston *analyze-architecture . --output json
 ```
 
 **Parameters:**
@@ -334,9 +334,9 @@ Shall I proceed?
 
 **Syntax:**
 ```bash
-@winston *compare-architectures "<requirements or goals>"
-@winston *compare-architectures "Add real-time features and scale to 50K users"
-@winston *compare-architectures docs/current-arch.md "Modernize stack"
+/winston *compare-architectures "<requirements or goals>"
+/winston *compare-architectures "Add real-time features and scale to 50K users"
+/winston *compare-architectures docs/current-arch.md "Modernize stack"
 ```
 
 **Parameters:**
@@ -392,9 +392,9 @@ Shall I proceed?
 
 **Syntax:**
 ```bash
-@winston *create-architecture <requirements-file>
-@winston *create-architecture docs/prd.md
-@winston *create-architecture docs/epic-auth.md --type fullstack
+/winston *create-architecture <requirements-file>
+/winston *create-architecture docs/prd.md
+/winston *create-architecture docs/epic-auth.md --type fullstack
 ```
 
 **Parameters:**
@@ -442,8 +442,8 @@ Shall I proceed?
 
 **Syntax:**
 ```bash
-@winston *validate-architecture docs/architecture.md
-@winston *validate-architecture docs/architecture.md --strict
+/winston *validate-architecture docs/architecture.md
+/winston *validate-architecture docs/architecture.md --strict
 ```
 
 **Parameters:**
@@ -479,8 +479,8 @@ Shall I proceed?
 
 **Syntax:**
 ```bash
-@winston *review-architecture docs/architecture.md
-@winston *review-architecture docs/architecture.md --focus scalability
+/winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md --focus scalability
 ```
 
 **Parameters:**
@@ -516,25 +516,25 @@ Shall I proceed?
 ### Winston → Alex (Planner)
 ```bash
 # Winston creates architecture
-@winston *create-architecture docs/prd.md
+/winston *create-architecture docs/prd.md
 
 # Hand off to Alex for implementation plan
-@alex *breakdown-epic docs/architecture.md
+/alex *breakdown-epic docs/architecture.md
 ```
 
 ### Winston → Quinn (Quality)
 ```bash
 # Winston creates architecture
-@winston *create-architecture docs/prd.md
+/winston *create-architecture docs/prd.md
 
 # Quinn validates architecture quality
-@quinn *review docs/architecture.md
+/quinn *review docs/architecture.md
 ```
 
 ### Winston → Orchestrator
 ```bash
 # Complete workflow with Winston + Alex + Quinn
-@orchestrator *workflow modernize . "Your goals"
+/orchestrator *workflow modernize . "Your goals"
 ```
 
 ---
@@ -546,7 +546,7 @@ Shall I proceed?
 Always analyze before designing:
 ```bash
 # Step 1: Understand current state
-@winston *analyze-architecture .
+/winston *analyze-architecture .
 
 # Step 2: Based on analysis, decide next steps
 # - If score >80: Targeted improvements
@@ -559,7 +559,7 @@ Always analyze before designing:
 Don't assume one approach is best:
 ```bash
 # Get 3 options with trade-offs
-@winston *compare-architectures "Your goals"
+/winston *compare-architectures "Your goals"
 
 # Choose based on your constraints (timeline, budget, risk)
 ```
@@ -569,10 +569,10 @@ Don't assume one approach is best:
 Catch issues early:
 ```bash
 # Create architecture
-@winston *create-architecture docs/prd.md
+/winston *create-architecture docs/prd.md
 
 # Validate immediately
-@winston *validate-architecture docs/architecture.md
+/winston *validate-architecture docs/architecture.md
 
 # Fix gaps before implementation starts
 ```
@@ -592,7 +592,7 @@ When unsure, start with conversation:
 Get peer review before going live:
 ```bash
 # Review architecture
-@winston *review-architecture docs/architecture.md
+/winston *review-architecture docs/architecture.md
 
 # Address critical and major risks
 # Then proceed to implementation
@@ -605,13 +605,13 @@ Get peer review before going live:
 ### "Analysis taking too long"
 Use quick mode:
 ```bash
-@winston *analyze-architecture . --depth quick
+/winston *analyze-architecture . --depth quick
 ```
 
 ### "Not sure which option to choose"
 Use complete workflow with interactive checkpoints:
 ```bash
-@orchestrator *workflow modernize . "Your goals" --interactive
+/orchestrator *workflow modernize . "Your goals" --interactive
 ```
 
 ### "Need help understanding current architecture"
@@ -623,7 +623,7 @@ Start conversationally:
 ### "Architecture validation failed"
 Check specific gaps:
 ```bash
-@winston *validate-architecture docs/architecture.md --strict
+/winston *validate-architecture docs/architecture.md --strict
 
 # Address missing sections identified in report
 ```

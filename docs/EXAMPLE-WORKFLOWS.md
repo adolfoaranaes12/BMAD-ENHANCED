@@ -754,7 +754,7 @@ Overall Risk Score: 72/100 (HIGH)
 
 ## Getting Help
 
-- **Interactive Wizard:** `python scripts/bmad-wizard.py`
+- **Interactive Wizard:** `python .claude/skills/bmad-commands/scripts/bmad-wizard.py`
 - **Command Help:** Use `--help` flag with any command
 - **Documentation:** `docs/DOCUMENTATION-INDEX.md`
 - **Quick Starts:** `docs/quickstart-*.md`
